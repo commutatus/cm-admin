@@ -2,6 +2,16 @@ module CmAdmin
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path('templates', __dir__)
 
+    desc <<-DESC.strip_heredoc
+      Generates layout for the entire admin panel
+
+      For example:
+        rails g cm_admin:install
+
+      It copies the respectively layout files and the necessary asset files.
+
+    DESC
+
     def copy_layout_file
       copy_file "layouts/_side_navbar.html.slim", "app/views/layouts/_side_navbar.html.slim"
       copy_file "layouts/_navbar.html.slim", "app/views/layouts/_navbar.html.slim"

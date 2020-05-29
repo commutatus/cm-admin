@@ -14,6 +14,7 @@ module CmAdmin
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
     end
   end
+  
   class ViewGenerator < Rails::Generators::NamedBase
     include ViewActionTemplate
     desc <<-DESC.strip_heredoc
@@ -29,7 +30,7 @@ module CmAdmin
       page_type is the page you want to copy files. It can be the following
       index, show, form.
 
-      This will create a files respectively at app/views/admin/#{name}/xxx.html.slim
+      This will create a files respectively at app/views/admin/#{name}/***.html.slim
 
     DESC
 
@@ -37,7 +38,8 @@ module CmAdmin
 
     argument :page_type, required: true, default: nil,
                          desc: "The scope to copy views to"
-    class_option :column_names, aliases: "-c", type: :array, desc: "Select specific view directories to generate (confirmations, passwords, registrations, sessions, unlocks, mailer)"
+    class_option :column_names, aliases: "-c", type: :array,
+                  desc: "Select specific columns in the files to be be added."
 
     def create_new_file
       if page_type == 'index'
