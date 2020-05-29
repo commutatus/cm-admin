@@ -1,0 +1,14 @@
+table.table-hover
+  thead
+    tr.border-bottom.border-top
+    <% options[:column_names].each do |column_name| %>
+      th.p-3 <%= column_name.titleize %>
+    <% end %>
+  tbody
+    - @filtered_result.data.each do |<%= name.singularize %>|
+      tr.border-bottom
+      <% options[:column_names].each do |column_name| %>
+        td.p-3 = <%= name.singularize %>.<%= column_name %>
+      <% end %>
+
+= cm_paginate(@filtered_result.facets)

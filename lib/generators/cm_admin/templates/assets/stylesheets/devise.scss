@@ -1,0 +1,98 @@
+
+@import '_variable.scss';
+.main {
+	background-color:$background;
+	height: 100vh;
+.heading{
+	position: absolute;
+	display: flex;
+	left: 50%;
+	top: 160px;
+	transform: translate(-50%,-50%);
+	h3{
+      color: $heading-color
+	}
+}
+
+.devise-form-container {
+	
+	  color: white;
+	  background-color: $background;
+	  width: 50%;
+	  position: absolute;
+	  top: 50%;
+	  left: 50%;
+	  -ms-transform: translateX(-50%) translateY(-50%);
+	  -webkit-transform: translate(-50%,-50%);
+	  transform: translate(-50%,-50%);
+
+
+	  .container{
+		padding: 0 !important;
+		background-color: $background;
+	   }
+	   .row{
+			padding: 0 !important;
+	    }
+	  .form-control:focus {
+	  	padding: 6px 12px;
+	  	background-image: none;
+	  }
+
+	  .form-control {
+	  	background-color: $form-control-background;
+		  border: none;
+		  padding-left: 10px;
+	  	color: #FFF;
+	  }
+
+	  select.form-control {
+	  	border-radius: 0.3rem;
+	  }
+
+	  .nav-link, .nav-link:hover, .nav-link:visited {
+			text-decoration: none;
+			cursor: pointer;
+		}
+  }
+}
+.dropdown-icon{
+	margin-left: 150px;
+	margin-top: -15px;
+	.dropbtn {
+		position: relative;
+		background-color: #4CAF50;
+		color: white;
+		border-radius: 50%;
+		height: 50px;
+		width: 50px;
+		font-size: 16px;
+		border: none;
+		p {
+			position: absolute;
+			line-height: 50px;
+			display: inline;
+			left: 25%;
+		}
+	}
+	.dropdown-content {
+		display: none;
+		border-radius: 7px;
+		position: absolute;
+		background-color: #ffffff;
+		min-width: 160px;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		z-index: 1;
+		height: 30px;
+		p{
+			line-height: 30px;
+			padding-left: 10px;
+			height: 10p;
+		}
+	  }
+}
+.dropdown-icon:hover  {
+	.dropdown-content{
+		display: block;
+	}
+}

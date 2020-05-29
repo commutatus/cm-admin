@@ -1,0 +1,16 @@
+.side-navbar
+
+    .logo-section
+      .tw-logo = image_tag('same-logo.png', alt: 'logo image', width: '24px', height: '24px')
+
+
+    .nav-tabs-section
+      = link_to '/', class: 'nav-link'
+        .nav-item class="#{(controller_name == 'users') ? 'active' : ''}"
+            span.p-4.nav-heading.f14 Users
+
+
+    .sidenav-footer-section
+      = link_to '/sign-out', method: :delete, class: 'nav-link'
+        .nav-item
+            span.p-4.nav-heading.f14 Logout
