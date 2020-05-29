@@ -1,0 +1,38 @@
+.form-container
+  = simple_form_for(@template,:url => admin_product_templates_path(@product), html: { class: "new product_template-form", autocomplete: "off"  }) do |f|
+    = f.error_notification
+    .custom-validations.error-color
+    <% options[:column_names].each do |column_name| %>
+      <% column_name_arr = column_name.split(':') %>
+      <% case 'string'
+        when 'integer' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'string' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'select_multiple' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'select_single' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'checkbox' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'datetime' %>
+        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+        .<%= column_name_arr[0] %>.error-color.hidden
+            p Please fill height
+      <% when 'file' %>
+        = f.label :file, "Upload .pdf or .ai "
+        = f.file_field :file, input_html: {}
+      <% end %>
+    <% end  %>
+
+    = f.button :submit, "Create new Template", class: "float-right", data: {class_name: 'product_template-form',path_name: "admin/products/#{@product.id}/templates", button_name: 'Create new template'}
