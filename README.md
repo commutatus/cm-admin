@@ -2,6 +2,12 @@
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cm_admin`. To experiment with that code, run `bin/console` for an interactive prompt.
 
+First create a new rails project with the following command. If you are adding to existing project skip this
+
+```
+rails new blog -m https://raw.githubusercontent.com/commutatus/cm-rails-template/devise_integration/template.rb
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,6 +24,11 @@ Or install it yourself as:
 
     $ gem install cm_admin
 
+Assuming we have a model created already or we can create one
+
+    $ rails g user first_name:string last_name:string
+
+
 ## Usage
 
 For copying layout such as CSS and the layout files
@@ -27,6 +38,10 @@ For copying layout such as CSS and the layout files
 For generating the index page views
 
     $ rails g cm_admin:view products index title description
+
+For generating the show page views
+
+    $ rails g cm_admin:view products show title description
 
 For generating the index page views
 

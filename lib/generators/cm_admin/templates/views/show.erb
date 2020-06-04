@@ -1,0 +1,8 @@
+.container
+  h2 Coupon
+
+  .d-flex.flex-column
+    <% options[:column_names].each do |column_name| %>
+      .attribute.mr-4 <%= name.singularize.titleize %>
+      .value = @<%= name.singularize %>.<%= column_name %>
+    <% end %>

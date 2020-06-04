@@ -7,14 +7,14 @@ module CmAdmin
     end
 
     def copy_show_files
-      # puts "came here"
+      template "views/show.erb", "app/views/admin/#{name}/show.html.slim"
     end
 
     def copy_form_files
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
     end
   end
-  
+
   class ViewGenerator < Rails::Generators::NamedBase
     include ViewActionTemplate
     desc <<-DESC.strip_heredoc
@@ -46,6 +46,8 @@ module CmAdmin
         copy_index_files
       elsif page_type == 'form'
         copy_form_files
+      elsif page_type == 'show'
+        copy_show_files
       else
         puts "Wrong page_type provided. It can be either index or show"
       end
