@@ -12,6 +12,13 @@ module CmAdmin
 
     DESC
 
+    def add_required_gems
+      gem 'slim'
+      system("yarn add bootstrap")
+      system("yarn add font-awesome")
+      system("yarn add select2")
+    end
+
     def copy_layout_file
       copy_file "layouts/_side_navbar.html.slim", "app/views/layouts/_side_navbar.html.slim"
       copy_file "layouts/_navbar.html.slim", "app/views/layouts/_navbar.html.slim"
