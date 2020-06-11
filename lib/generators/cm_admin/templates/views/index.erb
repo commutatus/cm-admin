@@ -4,8 +4,8 @@
     '/
     span.active = link_to  "<%= name.titleize %>", admin_<%= name %>_path
 
-.admin-table
-	== render 'filters'
-
-	.table-container
-		== render 'table'
+.main-body.<%= name %>-table
+  .top-bar
+  	== render 'filters'
+  .table-container
+    == render 'table'

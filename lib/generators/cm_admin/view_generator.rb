@@ -3,7 +3,13 @@ module CmAdmin
     def copy_index_files
       template "views/index.erb", "app/views/admin/#{name}/index.html.slim"
       template "views/_table.erb", "app/views/admin/#{name}/_table.html.slim"
-      copy_file "views/_filters.html.slim", "app/views/admin/#{name}/_filters.html.slim"
+      puts "
+      -------------------------------------------------------------------
+      # Important
+      Run the spotlight filter generator which will generate the filter
+      partial and controller file. Run the following with required filter option.
+      rails g spotlight_search:filter #{name} --filters scope:datatype
+      -------------------------------------------------------------------------"
     end
 
     def copy_show_files
@@ -11,6 +17,7 @@ module CmAdmin
     end
 
     def copy_form_files
+      template "views/new.erb", "app/views/admin/#{name}/new.html.slim"
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
     end
   end
@@ -38,7 +45,7 @@ module CmAdmin
 
     argument :page_type, required: true, default: nil,
                          desc: "The scope to copy views to"
-    class_option :column_names, aliases: "-c", type: :array,
+    class_option :column_names, aliases: "-c", type: :array, required: true,
                   desc: "Select specific columns in the files to be be added."
 
     def create_new_file

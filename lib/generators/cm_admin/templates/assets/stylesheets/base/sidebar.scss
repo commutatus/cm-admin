@@ -1,0 +1,69 @@
+@import "_variable.scss";
+
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: $elephant-black;
+  overflow: hidden;
+  z-index: 1;
+
+  &__logo-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    padding: 8px;
+    background-color: $active-bg;
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__tabs-wrapper {
+    height: calc(100vh - 115px);
+    padding: 20px 0;
+    overflow-y: auto;
+
+    .tab-link {
+      padding: 0;
+      text-decoration: none;
+      color: $nav-text-color;
+      cursor: pointer;
+      .tab-item {
+        position: relative;
+        padding: 10px 0;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        &:hover {
+          background-color: #4b4b4b;
+        }
+        &.active {
+          background-color: $active-bg;
+          border-left: $nav-active-border;
+        }
+        .tab-name {
+          color: $nav-text-color;
+        }
+      }
+    }
+  }
+
+  &__footer {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    .auth-link {
+      display: block;
+      color: $white;
+      padding: 10px 0;
+      transition: all 0.2s linear;
+      &:hover {
+        background-color: #000000;
+      }
+    }
+  }
+}
