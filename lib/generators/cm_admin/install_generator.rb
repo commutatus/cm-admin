@@ -15,7 +15,7 @@ module CmAdmin
     def add_required_gems
       gem 'slim'
       system("yarn add bootstrap")
-      system("yarn add font-awesome")
+      system("yarn add @fortawesome/fontawesome-free")
       system("yarn add select2")
     end
 
