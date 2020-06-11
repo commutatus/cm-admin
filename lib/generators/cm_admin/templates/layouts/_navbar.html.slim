@@ -1,9 +1,8 @@
-.heading-container
-  .row.container-header
-    .col-md-8
-    	= yield :bread_crumb
-	.dropdown-icon  
-		.dropbtn
-			p.text-light AM
-		.dropdown-content
+.main-nav
+  .main-nav__lhs
+    = yield :bread_crumb
+  .main-nav__rhs
+	.profile-avatar
+		span CM
+		.auth-popup
 			p = link_to  "Log out", '/sign-out', method: :delete 

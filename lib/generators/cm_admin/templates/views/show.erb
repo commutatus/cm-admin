@@ -1,8 +1,16 @@
-.container
-  h2 Coupon
-
-  .d-flex.flex-column
-    <% options[:column_names].each do |column_name| %>
-      .attribute.mr-4 <%= name.singularize.titleize %>
-      .value = @<%= name.singularize %>.<%= column_name %>
-    <% end %>
+.show-wrapper
+  .show-wrapper__tab-bar
+    .tab-menu
+      .tab-item.active OVERVIEW
+      .tab-item COMMUTATUS
+    .edit-btn
+      i.fa.fa-pencil
+  .show-wrapper__info-inner
+    .paper
+      <% options[:column_names].each do |column_name| %>
+        .info-flex
+          .info-flex__lhs
+            p <%= column_name.titleize %>
+          .info-flex__rhs
+            p = @<%= name.singularize %>.<%= column_name %>
+      <% end %>

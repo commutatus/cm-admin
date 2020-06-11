@@ -10,7 +10,12 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
+ *= require 'base/table'
+ *= require 'base/main-nav'
+ *= require 'base/sidebar'
+ *= require 'base/show'
+ *= require 'base/form'
+ *= require 'base/scaffold'
  *= require_self
  *= require font-awesome
  *= require 'select2'

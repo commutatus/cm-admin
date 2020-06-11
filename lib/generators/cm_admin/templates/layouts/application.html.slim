@@ -2,7 +2,7 @@ doctype html
 html
   head
     title
-      | TishWish
+      | CM Admin panel
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag   'application', media: 'all', 'data-turbolinks-track': 'reload'
@@ -10,7 +10,7 @@ html
 
   body
     - unless controller_path.include?('devise')
-      .layout-container
+      .admin-panel
         = render 'layouts/side_navbar'
         .main
           .main-container

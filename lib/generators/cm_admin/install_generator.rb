@@ -27,7 +27,7 @@ module CmAdmin
     end
 
     def copy_asset_file
-      copy_file "assets/images/same-logo.png", "app/assets/images/same-logo.png"
+      copy_file "assets/images/cm.png", "app/assets/images/cm.png"
       directory "assets/stylesheets/", "app/assets/stylesheets/"
       remove_file "app/assets/stylesheets/application.css"
     end
