@@ -14,7 +14,7 @@
           .form-label
             | <%= column_name_arr[0].titleize %>
           .form-input
-            = f.input :<%= column_name_arr[0] %>, label: false input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }
+            = f.input :<%= column_name_arr[0] %>, label: false, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }
             .<%= column_name_arr[0] %>.error-color.hidden
                 p Please fill height
       <% when 'select_multiple' %>
