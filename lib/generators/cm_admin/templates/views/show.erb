@@ -3,8 +3,10 @@
     .tab-menu
       .tab-item.active OVERVIEW
       .tab-item COMMUTATUS
-    .edit-btn
-      i.fa.fa-pencil
+
+    = link_to edit_admin_<%= name.singularize %>_path(@<%= name.singularize %>) do
+      .edit-btn
+        i.fa.fa-pencil
   .show-wrapper__info-inner
     .paper
       <% options[:column_names].each do |column_name| %>
