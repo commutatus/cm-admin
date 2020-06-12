@@ -18,6 +18,7 @@ module CmAdmin
 
     def copy_form_files
       template "views/new.erb", "app/views/admin/#{name}/new.html.slim"
+      template "views/edit.erb", "app/views/admin/#{name}/edit.html.slim"
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
     end
   end

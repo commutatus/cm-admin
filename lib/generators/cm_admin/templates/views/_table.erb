@@ -1,6 +1,6 @@
 .admin-table
   .record-found
-    | <%= @filtered_result.facets.total_count %> companies found
+    | #{@filtered_result.facets.total_count} companies found
 
   table.cm-table
     thead.cm-table__header
@@ -16,5 +16,6 @@
           td = <%= name.singularize %>.<%= column_name %>
           <% end %>
           td
-            i.fa.fa-pencil.edit-icon
+            = link_to edit_admin_<%= name.singularize %>_path(<%= name.singularize %>) do
+              i.fa.fa-pencil.edit-icon
 = cm_paginate(@filtered_result.facets)

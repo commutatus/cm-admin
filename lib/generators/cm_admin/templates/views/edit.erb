@@ -1,6 +1,6 @@
 .form-wrapper
   .form-wrapper__top-bar
-    = link_to admin_<%= name %>_path do
+    = link_to admin_<%= name.singularize %>_path(@<%= name.singularize %>) do
       .back-btn
         span
           i.fa.fa-arrow-left aria-hidden="true"
