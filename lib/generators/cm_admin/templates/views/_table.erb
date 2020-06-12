@@ -16,6 +16,6 @@
           td = <%= name.singularize %>.<%= column_name %>
           <% end %>
           td
-            = link_to edit_admin_<%= name.singularize %>_path(@<%= name.singularize %>) do
+            = link_to edit_admin_<%= name.singularize %>_path(<%= name.singularize %>) do
               i.fa.fa-pencil.edit-icon
 = cm_paginate(@filtered_result.facets)
