@@ -4,12 +4,13 @@
   margin-top: 60px;
 
   &__tab-bar {
-    position: sticky;
+    position: fixed;
     top: 60px;
+    left: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 250px);
     height: 60px;
     padding: 0 20px;
     background-color: $white;
@@ -46,6 +47,7 @@
   }
 
   &__info-inner {
+    margin-top: 120px;
     padding: 20px;
 
     .paper {

@@ -19,6 +19,8 @@
  *= require_self
  *= require 'select2'
  *= require bootstrap/dist/css/bootstrap
+ *= require bootstrap-datepicker/dist/css/bootstrap-datepicker3
+ *= require daterangepicker
  */
 
  $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
@@ -27,15 +29,3 @@
  @import '@fortawesome/fontawesome-free/scss/regular';
  @import '@fortawesome/fontawesome-free/scss/brands';
  @import '@fortawesome/fontawesome-free/scss/v4-shims';
-
-.error-color {
-  color: red;
-}
-
-.select2.select2-container {
-  width: 100% !important;
-}
-
-.select2-selection {
-  height: 40px !important;
-}

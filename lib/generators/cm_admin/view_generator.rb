@@ -21,6 +21,11 @@ module CmAdmin
       template "views/edit.erb", "app/views/admin/#{name}/edit.html.slim"
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
     end
+
+    def copy_devise_files
+      template "views/reset_password.erb", "app/views/devise/passwords/new.html.slim"
+      template "views/sign_in.erb", "app/views/devise/sessions/new.html.slim"
+    end
   end
 
   class ViewGenerator < Rails::Generators::NamedBase
@@ -56,6 +61,8 @@ module CmAdmin
         copy_form_files
       elsif page_type == 'show'
         copy_show_files
+      elsif page_type == 'devise'
+        copy_devise_files
       else
         puts "Wrong page_type provided. It can be either index or show"
       end
