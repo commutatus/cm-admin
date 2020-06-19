@@ -4,38 +4,61 @@
     .custom-validations.error-color
     <% options[:column_names].each do |column_name| %>
       <% column_name_arr = column_name.split(':') %>
-      <% case 'string'
-        when 'integer' %>
-        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
-        .<%= column_name_arr[0] %>.error-color.hidden
-            p Please fill height
-      <% when 'string' %>
+      <% case column_name_arr[1]
+      when 'input-integer' %>
         .form-field
           .form-label
             | <%= column_name_arr[0].titleize %>
           .form-input
-            = f.input :<%= column_name_arr[0] %>, label: false, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }
+            = f.input :<%= column_name_arr[0] %>, label: false, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, placeholder: '<%= column_name_arr[0].gsub('_', ' ').titleize %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
             .<%= column_name_arr[0] %>.error-color.hidden
                 p Please fill height
-      <% when 'select_multiple' %>
-        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
-        .<%= column_name_arr[0] %>.error-color.hidden
-            p Please fill height
-      <% when 'select_single' %>
-        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
-        .<%= column_name_arr[0] %>.error-color.hidden
-            p Please fill height
+      <% when 'input-string' %>
+        .form-field
+          .form-label
+            | <%= column_name_arr[0].titleize %>
+          .form-input
+            = f.input :<%= column_name_arr[0] %>, label: false, input_html: { data: {class_name: '<%= column_name_arr[0] %>'}, placeholder: '<%= column_name_arr[0].gsub('_', ' ').titleize %>' }
+            .<%= column_name_arr[0] %>.error-color.hidden
+                p Please fill height
+      <% when 'single-select' %>
+        .form-field
+          .form-label
+            | <%= column_name_arr[0].titleize %>
+          .form-input
+            = f.input :<%= column_name_arr[0] %>, as: :select, label: false, collection: [], input_html: { class: "select2-single"}, include_blank: "Select <%= column_name_arr[0].gsub('_', ' ').titleize %>"
+            .<%= column_name_arr[0] %>.error-color.hidden
+                p Please fill height
+      <% when 'multi-select' %>
+        .form-field
+          .form-label
+            | <%= column_name_arr[0].titleize %>
+          .form-input
+            = f.input :<%= column_name_arr[0] %>, as: :select, label: false, collection: [], input_html: { class: "select2-single"}, include_blank: "Select <%= column_name_arr[0].gsub('_', ' ').titleize %>", multiple: true
+            .<%= column_name_arr[0] %>.error-color.hidden
+                p Please fill height
       <% when 'checkbox' %>
-        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
-        .<%= column_name_arr[0] %>.error-color.hidden
-            p Please fill height
-      <% when 'datetime' %>
-        = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, wrapper: :form_string_custom, placeholder: '<%= column_name_arr[0] %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
-        .<%= column_name_arr[0] %>.error-color.hidden
-            p Please fill height
+        .form-field
+          = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, placeholder: '<%= column_name_arr[0].gsub('_', ' ').titleize %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+          label.radio-label for="male"  Male
+      <% when 'radio' %>
+        .form-field
+          = f.input :<%= column_name_arr[0] %>, input_html: { data: {class_name: '<%= column_name_arr[0] %>'} }, placeholder: '<%= column_name_arr[0].gsub('_', ' ').titleize %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+          label.radio-label for="male"  Male
+      <% when 'datepicker' %>
+        .form-field
+          .form-label
+            | <%= column_name_arr[0].titleize %>
+          .form-input
+            = f.input :<%= column_name_arr[0] %>, as: :string, label: false, input_html: { data: {class_name: '<%= column_name_arr[0] %>'}, class: 'datepicker', value: @<%= name.singularize %>.<%= column_name_arr[0] %>&.strftime('%d/%m/%Y') }, placeholder: '<%= column_name_arr[0].gsub('_', ' ').titleize %>', required: true, error_message_html: {class: "<%= column_name_arr[0] %>"}
+            .<%= column_name_arr[0] %>.error-color.hidden
+                p Please fill height
       <% when 'file' %>
-        = f.label :file, "Upload .pdf or .ai "
-        = f.file_field :file, input_html: {}
+        .form-field
+          .form-label
+            | Upload file
+          .file-upload
+            = f.file_field :<%= column_name_arr[0] %>, input_html: {}
       <% end %>
     <% end  %>
 
