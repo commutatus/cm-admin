@@ -16,6 +16,8 @@
  *= require 'base/show'
  *= require 'base/form'
  *= require 'base/scaffold'
+ *= require 'base/input-styles'
+ *= require 'base/auth'
  *= require_self
  *= require 'select2'
  *= require bootstrap/dist/css/bootstrap
