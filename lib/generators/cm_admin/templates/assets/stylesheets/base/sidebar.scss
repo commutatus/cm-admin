@@ -43,7 +43,7 @@
         }
         &.active {
           background-color: $active-bg;
-          border-left: $nav-active-border;
+          border-left: 4px solid #0099ff;
         }
         .tab-name {
           color: $nav-text-color;

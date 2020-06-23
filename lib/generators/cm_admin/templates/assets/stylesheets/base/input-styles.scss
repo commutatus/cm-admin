@@ -37,7 +37,7 @@ input.cm-checkbox[type='checkbox'] {
   }
 }
 
-//Radio button styles
+//Radio button styles 
 input.cm-radio[type='radio'] {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeSpeed;
@@ -63,7 +63,7 @@ input.cm-radio[type='radio'] {
   }
   &:checked:after {
     background-color: #0099ff;
-    content: "\25CF";
+    content: "\25CF"; 
     color: $white;
     font-size: 12px;
     line-height: 20px;
