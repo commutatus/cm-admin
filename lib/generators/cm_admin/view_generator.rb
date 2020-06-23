@@ -3,6 +3,12 @@ module CmAdmin
     def copy_index_files
       template "views/index.erb", "app/views/admin/#{name}/index.html.slim"
       template "views/_table.erb", "app/views/admin/#{name}/_table.html.slim"
+      inject_into_file 'app/views/layouts/_side_navbar.html.slim', after: ".sidebar-menu__tabs-wrapper" do
+        "\n
+      = link_to '/admin/#{name}', class: 'tab-link'
+        .tab-item class=\"\#{(controller_name == '#{name}' ) ? 'active' : ''}\"
+          span.p-4.tab-name.f14 #{name.titleize}\n"
+      end
       puts "
       -------------------------------------------------------------------
       # Important

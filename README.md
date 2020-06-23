@@ -43,9 +43,19 @@ For generating the show page views
 
     $ rails g cm_admin:view products show title description
 
-For generating the index page views
-
+For generating the form page views
+    $ rails g cm_admin:view products form column_name:field_type
     $ rails g cm_admin:view products form title:string description:string
+
+Following field types are acceted
+
+* input-integer
+* input-string
+* single-select
+* multi-select
+* checkbox
+* radio
+
 
 ## Development
 

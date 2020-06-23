@@ -1,6 +1,6 @@
 .admin-table
   .record-found
-    | #{@filtered_result.facets.total_count} companies found
+    | #{@filtered_result.facets.total_count} <%= name %> found
 
   table.cm-table
     thead.cm-table__header
@@ -8,6 +8,7 @@
         <% options[:column_names].each do |column_name| %>
         th <%= column_name.titleize %>
         <% end %>
+        th
 
     tbody.cm-table__body
       - @filtered_result.data.each do |<%= name.singularize %>|
