@@ -56,6 +56,9 @@ Following field types are acceted
 * checkbox
 * radio
 
+## Usage
+
+For demo check [here](http://cm-admin.labs.commutatus.com/admin/users/)
 
 ## Development
 
