@@ -45,9 +45,9 @@ plus point: reference array can also be made custom.
 ### Forms
 
 ```
-model: #{@user}
+instance_name: #{@instance_name}
 input_field: #{input_field}
-input_type: [select, multi_select, single_select, number, text, checkbox, date, date_range, radio_button]
+input_type: (options: [select, multi_select, single_select, number, text, checkbox, date, date_range, radio_button])
 label: #{label}
 placeholder: #{placeholder}
 error_message: #{error_message}
