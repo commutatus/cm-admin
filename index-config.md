@@ -7,7 +7,7 @@ This config file breaks down the index page into *configurable* entity with diff
 ### Filters
 
 ```
-CmAdmin.filters do
+CmAdminFilter do
 	Model.new(:model_name, :parent_directory_path) do
 		Filter.new(:filter_name) do
 			placeholder: #filter input box placeholder
@@ -26,7 +26,7 @@ end
 Proposed ideas here - 
 1. Have a block for each data element. 
 ```
-CmAdmin.tables do
+CmAdminTable do
 	Model.new(:model_name, :parent_directory_path) do
 		TableColumn.new(:header_name) do
 			type: [:string, :date, :datetime, :integer, :float, :link, :tag, :range]
@@ -55,7 +55,7 @@ plus point: reference array can also be made custom.
 ### Forms
 
 ```
-CmAdmin.forms do
+CmAdminForm do
 	Model.new(:model_name, :parent_directory_path) do
 		Input.new(:input_field_name) do
 			instance_name: #{@instance_name}
@@ -73,7 +73,7 @@ end
 ### Exports
 
 ```
-CmAdmin.exports do
+CmAdminExport do
 	Model.new(:model_name) do
 		file_format: [csv, xml]
 		model: #{model name} (example: User)
