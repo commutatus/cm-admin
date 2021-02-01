@@ -7,13 +7,18 @@ This config file breaks down the index page into *configurable* entity with diff
 ### Filters
 
 ```
-name: #{filter_name}
-placeholder: #filter input box placeholder
-scope: #{scope_name}
-type: [:select/ :multiselect/ :checkbox/ :number/ :string/ :checkbox/ :date/ :daterange, :datetimerange]
-format: #input format for date types
-options: #for select and multiselect type, default: []
-onscreen: true/false
+CmAdmin.filters do
+	Model.new(:model_name, :parent_directory_path) do
+		Filter.new(:filter_name) do
+			placeholder: #filter input box placeholder
+			scope: #{scope_name}
+			type: [:select/ :multiselect/ :checkbox/ :number/ :string/ :checkbox/ :date/ :daterange, :datetimerange]
+			format: #input format for date types
+			options: #for select and multiselect type, default: []
+			onscreen: true/false
+		end
+	end
+end
 ```
 
 ### Table (index)
@@ -21,16 +26,21 @@ onscreen: true/false
 Proposed ideas here - 
 1. Have a block for each data element. 
 ```
-header: #{header_name}
-type: [:string, :date, :datetime, :integer, :float, :link, :tag, :range]
-block_html: #html code for tag type
-value: #{table_data_value}
-url: #url for link type, default: #
-css_class: #any additional css class for non tag type
-format: #display format for date types
-locked: true/false
-min: #min value for range
-max: #max value for range
+CmAdmin.tables do
+	Model.new(:model_name, :parent_directory_path) do
+		TableColumn.new(:header_name) do
+			type: [:string, :date, :datetime, :integer, :float, :link, :tag, :range]
+			block_html: #html code for tag type
+			value: #{table_data_value}
+			url: #url for link type, default: #
+			css_class: #any additional css class for non tag type
+			format: #display format for date types
+			locked: true/false
+			min: #min value for range
+			max: #max value for range
+		end
+	end
+end
 ```
 caveats: long config file size, redundant expressions.
 
@@ -45,22 +55,31 @@ plus point: reference array can also be made custom.
 ### Forms
 
 ```
-instance_name: #{@instance_name}
-input_field: #{input_field}
-input_type: (options: [select, multi_select, single_select, number, text, checkbox, date, date_range, radio_button])
-label: #{label}
-placeholder: #{placeholder}
-error_message: #{error_message}
-error_message_class: #{error_message_class}
-hint: #{hint}
+CmAdmin.forms do
+	Model.new(:model_name, :parent_directory_path) do
+		Input.new(:input_field_name) do
+			instance_name: #{@instance_name}
+			input_type: (options: [select, multi_select, single_select, number, text, checkbox, date, date_range, radio_button])
+			label: #{label}
+			placeholder: #{placeholder}
+			error_message: #{error_message}
+			error_message_class: #{error_message_class}
+			hint: #{hint}
+		end
+	end
+end
 ```
 
 ### Exports
 
 ```
-file_format: [csv, xml]
-model: #{model name} (example: User)
-headers_array: [name, age, email, phone, total orders]
-row_values: [full_name, age, email, phone, orders.count]
+CmAdmin.exports do
+	Model.new(:model_name) do
+		file_format: [csv, xml]
+		model: #{model name} (example: User)
+		headers_array: [name, age, email, phone, total orders]
+		row_values: [full_name, age, email, phone, orders.count]
+	end
+end
 
 ```
