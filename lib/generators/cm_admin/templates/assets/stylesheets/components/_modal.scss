@@ -1,0 +1,37 @@
+@import "../helpers/index.scss";
+
+// Confirm modal styles
+.confirm-modal {
+  .modal-dialog {
+    max-width: 520px;
+    .modal-content {
+      padding: 32px 32px 16px;
+      box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+      border: none;
+      .modal-header {
+        margin: 0 0 24px;
+        padding: 0;
+        border: none;
+        .modal-title {
+          font-size: 24px;
+          font-weight: 600;
+          line-height: 32px;
+          color: #1d2129;
+        }
+      }
+      .modal-body {
+        padding: 0 0 16px;
+        .body-content {
+          font-size: $t4-text;
+          line-height: 22px;
+          margin: 0;
+          color: #0d102b;
+        }
+      }
+      .modal-footer {
+        padding: 16px 0 0;
+        border: none;
+      }
+    }
+  }
+}

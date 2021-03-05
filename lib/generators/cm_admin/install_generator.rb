@@ -17,6 +17,8 @@ module CmAdmin
       system("yarn add bootstrap")
       system("yarn add @fortawesome/fontawesome-free")
       system("yarn add select2")
+      system("yarn add daterangepicker")
+      system("yarn add jgrowl")
     end
 
     def copy_layout_file

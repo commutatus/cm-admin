@@ -1,17 +1,37 @@
-.sidebar-menu
+.sidebar
+  .sidebar__logo-header
+    = image_tag('cm.png', alt: 'logo image')
 
-    .sidebar-menu__logo-header
-      = image_tag('cm.png', alt: 'logo image')
+  .sidebar__quick-search
+    span
+      i.fa.fa-search
+    input type="text" placeholder="Quick Links"
+
+  .sidebar__menu-wrapper
+    = link_to '/admin/users', class: 'menu-link'
+      .menu-item class="#{(controller_name == 'users') ? 'active' : ''}"
+        span.menu-icon
+          i.fa.fa-th-large
+        | Users
 
 
-    .sidebar-menu__tabs-wrapper
-      = link_to '/', class: 'tab-link'
-        .tab-item class="#{(controller_name == 'users') ? 'active' : ''}"
-            span.p-4.tab-name.f14 Users
-        .tab-item 
-            span.p-4.tab-name.f14 Admin
 
+  .sidebar__footer
+    .profile-name
+      span.profile-avatar J
+      | John Doe
+    .profile-popup.hidden
+      .profile-info
+        .profile-info__left
+          p.name-text John Doe
+          p.email-text johndoe@commutatus.com
+        .profile-info__right J   
+      .page-options 
+        = link_to '/', class: 'page-link'
+          | Profile
+        = link_to '/', class: 'page-link'
+          | Settings
+      .auth-option
+        = link_to '/sign-out', method: :delete, class: 'auth-link'
+          | Logout
 
-    .sidebar-menu__footer
-      = link_to '/sign-out', method: :delete, class: 'auth-link'
-          span.p-4.f14 Logout

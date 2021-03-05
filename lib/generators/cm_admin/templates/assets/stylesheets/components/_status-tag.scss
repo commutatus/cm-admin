@@ -1,0 +1,27 @@
+@import "../helpers/index.scss";
+
+.status-tag {
+  font-size: $t4-text;
+  line-height: 22px;
+  padding: 4px;
+  &.default-tag {
+    color: #1D2129;
+    background: #F3F4F6;
+  }
+  &.green-tag {
+    color: #30C39E;
+    background: #EEFAF7;
+  }
+  &.yellow-tag {
+    color: #FFC845;
+    background: #FFF8E9;
+  }
+  &.red-tag {
+    color: #F83636;
+    background: #FEEFEF;
+  }
+  &.blue-tag {
+    color: #2F80ED;
+    background: #EEF5FE;
+  }
+}
