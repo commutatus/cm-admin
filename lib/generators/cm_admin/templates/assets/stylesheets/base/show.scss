@@ -1,15 +1,16 @@
-@import "_variable.scss";
+@import "../helpers/index.scss";
 
 .show-wrapper {
   margin-top: 60px;
 
   &__tab-bar {
-    position: sticky;
+    position: fixed;
     top: 60px;
+    left: 250px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 250px);
     height: 60px;
     padding: 0 20px;
     background-color: $white;
@@ -45,7 +46,24 @@
     }
   }
 
+  &__filter-bar {
+    position: fixed;
+    top: 140px;
+    left: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 250px);
+    min-height: 60px;
+    padding: 10px 20px;
+    background-color: $white;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    z-index: 9;
+  }
+
   &__info-inner {
+    margin-top: 140px;
     padding: 20px;
 
     .paper {

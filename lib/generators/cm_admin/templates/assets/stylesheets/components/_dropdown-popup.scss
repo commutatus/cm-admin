@@ -1,0 +1,104 @@
+@import "../helpers/index.scss";
+
+.dropdown-popup {
+  width: 256px;
+  .popup-base {
+    position: absolute;
+    width: 256px;
+    height: 56px;
+    padding: 8px;
+    background: $white;
+    border: 1px solid #f3f4f6;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+  }
+  .popup-inner {
+    position: relative;
+    width: 240px;
+    margin: 0 auto;
+    background-color: $white;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+    .search-area {
+      input {
+        width: 100%;
+        min-height: 40px;
+        padding: 9px 16px 9px 16px;
+        font-size: $t4-text;
+        border: none;
+        &::placeholder {
+          color: #9ca7ae;
+        }
+        &:focus {
+          outline: 3px auto rgba(47, 128, 237, 0.3);
+        }
+      }
+    }
+    .search-with-chips {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px 16px;
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        margin: 2px;
+        padding: 0 4px;
+        background: #f3f4f6;
+        border-radius: $radius-4;
+        span:nth-child(1) {
+          font-size: $t4-text;
+          line-height: 22px;
+          color: #1d2129;
+        }
+        span:nth-child(2) {
+          font-size: 10px;
+          color: #9ca7ae;
+          margin-left: 4px;
+          cursor: pointer;
+        }
+      }
+      input {
+        border: none;
+        font-size: $t4-text;
+        margin: 2px;
+        &:focus {
+          outline: 3px auto rgba(47, 128, 237, 0.3);
+        }
+      }
+    }
+    .list-area {
+      max-height: 240px;
+      overflow-y: auto;
+      border-top: 1px solid #e0e0e0;
+      .list-item {
+        display: flex;
+        align-items: center;
+        padding: 9px 16px;
+        label {
+          font-size: $t4-text;
+          line-height: 22px;
+          color: #1d2129;
+          margin: 0 0 0 8px;
+        }
+      }
+    }
+    .apply-area {
+      font-size: $t4-text;
+      line-height: 22px;
+      font-weight: 600;
+      color: #9ca7ae;
+      text-align: center;
+      padding: 9px 16px;
+      box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
+      cursor: pointer;
+      &.active {
+        color: #2f80ed;
+      }
+    }
+  }
+}
+
+.applied-select {
+  margin-left: 20rem;
+}

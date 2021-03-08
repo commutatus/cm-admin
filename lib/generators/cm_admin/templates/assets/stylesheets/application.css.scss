@@ -16,26 +16,20 @@
  *= require 'base/show'
  *= require 'base/form'
  *= require 'base/scaffold'
+ *= require 'base/input-styles'
+ *= require 'base/auth'
+ *= require 'base/filters'
+ *= require 'components/index'
  *= require_self
  *= require 'select2'
+ *= require jgrowl 
  *= require bootstrap/dist/css/bootstrap
+ *= require daterangepicker 
  */
 
  $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
  @import '@fortawesome/fontawesome-free/scss/fontawesome';
- @import '@fortawesome/fontawesome-free/scss/solid';
  @import '@fortawesome/fontawesome-free/scss/regular';
  @import '@fortawesome/fontawesome-free/scss/brands';
  @import '@fortawesome/fontawesome-free/scss/v4-shims';
 
-.error-color {
-  color: red;
-}
-
-.select2.select2-container {
-  width: 100% !important;
-}
-
-.select2-selection {
-  height: 40px !important;
-}
