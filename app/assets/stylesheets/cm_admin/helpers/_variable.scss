@@ -1,0 +1,86 @@
+/* ==== Color Variables ==== */
+
+/* Brand Color */
+$brand-color: #6554E0;
+
+/* Semantic Color */
+$informative-clr: #2F80ED;
+$error-clr: #F83636;
+$warning-clr: #FFC845;
+$positive-clr: #30C39E;
+$disabled-clr: #9CA7AE;
+
+/* Blue Colors */
+$blue-regular-clr: #2F80ED;
+$blue-light-clr: #CDE1FB;
+$blue-lightest-clr: #EEF5FE;
+
+/* Red Colors */
+$red-regular-clr: #F83636;
+$red-light-clr: #FDCFCF;
+$red-lightest-clr: #FEEFEF;
+
+/* Yellow Colors */
+$yellow-regular-clr: #FFC845;
+$yellow-light-clr: #FFEFC7;
+$yellow-lightest-clr: #FFF8E9;
+
+/* Green Colors */
+$green-regular-clr: #30C39E;
+$green-light-clr: #C1EDE2;
+$green-lightest-clr: #EEFAF7;
+
+/* Grey Colors */
+$grey-regular-clr: #C7CED5;
+$grey-light-clr: #D9DEE3;
+$grey-lighter-clr: #F3F4F6;
+$grey-lightest-clr: #F8F9FA;
+
+/* Ink Colors */
+$ink-regular-clr: #1D2129;
+$ink-light-clr: #3B4352;
+$ink-lighter-clr: #6B7586;
+$ink-lightest-clr: #9CA7AE;
+
+/* Text Colors */
+$primary-text-clr: #1D2129;
+$subdued-text-clr: #D9DEE3;
+
+/* Common Colors */
+$white: #FFFFFF;
+$black: #000000;
+
+/* Typography */
+$primary-font: 'Lato', sans-serif;
+$font-size: (
+  24: 24px,
+  18: 18px,
+  16: 16px,
+  14: 14px,
+  12: 12px
+);
+$t1-text: 20px;
+$t2-text: 18px;
+$t3-text: 16px;
+$t4-text: 14px;
+$t5-text: 13px;
+$t6-text: 12px;
+
+/* font weights */
+$font-weight: (
+  "regular": 400,
+  "medium": 500,
+  "bold": 600,
+  "bolder": 900
+);
+
+/* Border-radius */
+$radius-0: 0;
+$radius-1: 1px;
+$radius-2: 2px;
+$radius-3: 3px;
+$radius-4: 4px;
+$radius-5: 5px;
+$radius-6: 6px;
+$radius-8: 8px;
+$circle: 50%;

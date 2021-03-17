@@ -1,0 +1,192 @@
+@import '../helpers/index.scss';
+
+@function size($size) {
+  @return map-get($font-size, $size);
+}
+
+@function weight($weight) {
+  @return map-get($font-weight, $weight);
+}
+
+/* text alignment styles */
+.text-right {
+	text-align: right;
+}
+
+.text-center {
+	text-align: center !important;
+}
+
+.text-left {
+	text-align: left;
+}
+
+/* typography styles */
+.f12 {
+  font-size: size(12);
+}
+.f14 {
+  font-size: size(14);
+}
+.f16 {
+  font-size: size(16);
+}
+.f20 {
+  font-size: size(20);
+}
+.f24 {
+  font-size: size(24);
+}
+.bold {
+  font-weight: weight(bold);
+}
+.bolder {
+  font-weight: weight(bolder) !important;
+}
+
+/* padding styles */
+
+// @for $i from 1 to 39 {
+// 	.p-#{$i} {
+// 		padding: #{$i}px !important;
+// 	}
+// 	.pb-#{$i} {
+// 		padding-bottom: #{$i}px !important;
+// 	}
+// 	.pt-#{$i} {
+// 		padding-top: #{$i}px !important;
+// 	}
+// }
+
+
+
+// @for $i from 1 to 21 {
+// 	.pr-#{$i*2} {
+// 		padding-right: #{$i*2}px !important;
+// 	}
+// 	.pl-#{$i*2} {
+// 		padding-left: #{$i*2}px !important;
+// 	}
+// }
+
+/* margin styles */
+.m-auto {
+	margin: auto;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+.mt-20 {
+	margin-top: 20px;
+}
+.mt-50 {
+	margin-top: 50px;
+}
+.mb-10 {
+	margin-bottom: 20px;
+}
+.mb-24 {
+	margin-bottom: 24px;
+}
+
+.mr-10 {
+	margin-right: 10px;
+}
+.mr-20 {
+	margin-right: 20px;
+}
+
+.ml-10 {
+	margin-left: 10px;
+}
+.ml-20 {
+	margin-left: 20px;
+}
+.ml-35 {
+	margin-left: 35px;
+}
+
+/* width styles in pixel */
+.w-120 {
+	width: 120px;
+}
+.w-130 {
+	width: 130px;
+}
+.w-160 {
+	width: 160px;
+}
+.w-400 {
+	width: 400px;
+}
+.w-500 {
+	width: 500px;
+}
+.w-600 {
+	width: 600px;
+}
+
+/* width styles in % */
+.w100 {
+	width: 100% !important;
+}
+
+/* border styles */
+.circular-border {
+  border-radius: $circle;
+}
+.border-top {
+  border-top: 1px solid #ccc;
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+
+
+//common styles gose here
+.active {
+  a {
+    color: white !important;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.error-text {
+  font-size: 14px;
+  color: $error-clr;
+  margin: 5px 0;
+  animation: shakeError 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.required-symbol {
+  color: $brand-color;
+  margin-left: 2px;
+}
+
+@keyframes shakeError {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
