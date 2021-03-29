@@ -20,9 +20,20 @@ module CmAdmin
       end
     end
 
+    # Custom actions
+    # eg
+    # class User < ApplicationRecord
+    #   cm_admin do
+    #     custom_action 'submit', 'post' do
+    #       def user_submit
+    #         Code for action here...
+    #       end
+    #     end
+    #   end
+    # end
     def custom_action(name, verb, &block)
       @available_actions << {action: name, verb: verb}
-      self.class.instance_eval(&block)
+      self.class.class_eval(&block)
     end
 
     private
