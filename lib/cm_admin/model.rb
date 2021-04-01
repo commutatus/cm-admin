@@ -6,7 +6,7 @@ module CmAdmin
       @name = entity.name
       @parent_record = entity
       @available_actions ||= []
-      yield(&block)
+      yield
       define_controller
     end
 
