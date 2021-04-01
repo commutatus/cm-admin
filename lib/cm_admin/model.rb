@@ -16,7 +16,7 @@ module CmAdmin
       acts = acts & only if only.present?
       acts = acts - except if except.present?
       acts.each do |act|
-        @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb])
+        @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb]}
       end
     end
 
