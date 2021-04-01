@@ -1,25 +1,34 @@
 module CmAdmin
-  DEFAULT_ACTIONS = {
-    index: {
-      verb: :get
+  DEFAULT_ACTIONS = [
+    {
+      action_name: :index,
+      http_method: :get,
+      route_fragment: '/'
     },
-    show: {
-      verb: :get
+    {
+      action_name: :show,
+      http_method: :get,
+      route_fragment: '/:id'
     },
-    new: {
-      verb: :get
+    {
+      action_name: :new,
+      http_method: :get,
+      route_fragment: '/new'
     },
-    create: {
-      verb: :post
+    {
+      action_name: :create,
+      http_method: :post,
+      route_fragment: '/'
     },
-    edit: {
-      verb: :get
+    {
+      action_name: :update,
+      http_method: :put,
+      route_fragment: '/:id/update'
     },
-    update: {
-      verb: :put
-    },
-    destroy: {
-      verb: :delete
+    {
+      action_name: :destroy,
+      http_method: :delete,
+      route_fragment: '/:id/destroy'
     }
-  }
+  ]
 end

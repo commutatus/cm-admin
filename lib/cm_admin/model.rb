@@ -1,13 +1,16 @@
 require 'cm_admin/constants'
+require 'cm_admin/config/actions'
 
 module CmAdmin
   class Model
-    def initializer(entity, &block)
+    attr_accessor :available_actions
+
+    def initialize(entity, &block)
       @name = entity.name
       @parent_record = entity
       @available_actions ||= []
-      yield(&block)
-      define_controller
+      yield
+      # define_controller
     end
 
     # Insert into actions according to config block
@@ -16,7 +19,7 @@ module CmAdmin
       acts = acts & only if only.present?
       acts = acts - except if except.present?
       acts.each do |act|
-        @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb])
+        @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb]}
       end
     end
 
