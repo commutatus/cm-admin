@@ -3,13 +3,12 @@ require 'cm_admin/config/actions'
 
 module CmAdmin
   class Model
-    attr_accessor :available_actions
+    attr_accessor :available_actions, :name
 
     def initialize(entity, &block)
       @name = entity.name
       @parent_record = entity
       @available_actions ||= []
-      yield
       # define_controller
     end
 
