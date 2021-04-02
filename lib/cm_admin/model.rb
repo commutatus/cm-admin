@@ -3,12 +3,15 @@ require 'cm_admin/config/actions'
 
 module CmAdmin
   class Model
-    attr_accessor :available_actions, :name
+    attr_accessor :available_actions, :name, :parent_record
 
     def initialize(entity, &block)
       @name = entity.name
       @parent_record = entity
       @available_actions ||= []
+      # yield_self
+      # actions unless @actions_set
+      # $available_actions = @available_actions
       # define_controller
     end
 
@@ -20,6 +23,7 @@ module CmAdmin
       acts.each do |act|
         @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb]}
       end
+      @actions_set = true
     end
 
     # Custom actions
@@ -44,14 +48,15 @@ module CmAdmin
     # If model is User, controller will be UsersController
     def define_controller
       klass = Class.new(CmAdmin::ApplicationController) do
-        @available_actions.each do |action|
+
+        $available_actions.each do |action|
           define_method action[:action].to_sym do
             model = CmAdmin::Model.find_by(name: controller_name.classify)
             model.send(action_name, params)
           end
         end
-      end
-      Object.const_set "CmAdmin::#{@name}Controller", klass
+      end if $available_actions.present?
+      CmAdmin.const_set "#{@name}Controller", klass
     end
   end
 end

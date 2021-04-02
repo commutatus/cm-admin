@@ -7,6 +7,9 @@ module CmAdmin
   class Error < StandardError; end
 
   mattr_accessor :layout
+  # mattr_accessor :included_models, :cm_admin_models
+  # @@included_models ||= []
+  # @@cm_admin_models ||= []
 
   class << self
     attr_accessor :configuration
@@ -29,6 +32,12 @@ module CmAdmin
     def model(entity)
       CmAdmin::Model.new(entity)
     end
+
+    # def self.config(entity, &block)
+    #   if entity.is_a?(Class)
+    #     @@cm_admin_models << CmAdmin::Model.new(entity, &block)
+    #   end
+    # end
   end
 
 end
