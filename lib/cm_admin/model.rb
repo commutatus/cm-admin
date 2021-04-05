@@ -9,7 +9,7 @@ module CmAdmin
       @name = entity.name
       @parent_record = entity
       @available_actions ||= []
-      yield_self
+      instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions
       define_controller
@@ -18,8 +18,8 @@ module CmAdmin
     # Insert into actions according to config block
     def actions(only: [], except: [])
       acts = CmAdmin::DEFAULT_ACTIONS.keys
-      acts = acts & only if only.present?
-      acts = acts - except if except.present?
+      acts = acts & (Array.new << only).flatten if only.present?
+      acts = acts - (Array.new << except).flatten if except.present?
       acts.each do |act|
         @available_actions << {action: act, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb]}
       end
@@ -40,7 +40,7 @@ module CmAdmin
     def custom_action(name, verb, &block)
       @available_actions << {action: name, verb: verb}
       self.class.class_eval(&block)
-    end
+    end 
 
     private
 
