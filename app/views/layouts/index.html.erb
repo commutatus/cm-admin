@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Admin</title>
+    <title><%= page_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'cm_admin/cm_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= stylesheet_link_tag 'cm_admin/cm_admin', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
@@ -15,5 +15,6 @@
         <%= msg %>
       </div>
     <% end %>
+    <%= yield %>
   </body>
 </html>
