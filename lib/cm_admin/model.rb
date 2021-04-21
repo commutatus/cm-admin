@@ -5,7 +5,7 @@ require_relative 'models/blocks'
 module CmAdmin
   class Model
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set
+    attr_accessor :available_actions, :actions_set, :available_fields
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -16,6 +16,7 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @available_actions ||= []
+      @available_fields ||= []
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -40,9 +41,11 @@ module CmAdmin
       @actions_set = true
     end
 
-    def cm_show
+    def cm_show(&block)
       puts "Top of the line"
+      action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
+      # action.instance_eval(&block)
       puts "End of the line"
     end
 
@@ -52,7 +55,7 @@ module CmAdmin
     end
 
     def show(params)
-      puts "Params is #{params}"
+      @ar_object = self.ar_model.find(1)
     end
 
     def index(params)
@@ -61,6 +64,7 @@ module CmAdmin
 
     def field(field_name)
       puts "For printing field #{field_name}"
+      @available_fields << field_name
     end
 
     def self.find_by(search_hash)
@@ -96,13 +100,14 @@ module CmAdmin
             # controller_name & action_name from ActionController
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
-            @model.send(action_name, params)
-            # respond_to do |format|
+            @ar_object = @model.send(action_name, params)
+            respond_to do |format|
             #   if %w(show index create new edit destroy update).include?(action_name)
             #     if action.partial.present?
             #       render partial: action.partial
             #     else
-                  render 'layouts/index', layout: false
+                  # render 'layouts/index', layout: false
+                  format.html { render '/cm_admin/main/'+action_name }
             #     end
             #   elsif action.layout.present?
             #     if action.partial.present?
@@ -111,7 +116,7 @@ module CmAdmin
             #       render layout: action.layout
             #     end
             #   end
-            # end
+            end
           end
         end
       end if $available_actions.present?

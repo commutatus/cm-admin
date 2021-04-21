@@ -3,5 +3,6 @@ module CmAdmin
     Dir[File.expand_path("view_helpers", __dir__) + "/*.rb"].each  { |f| require f }
 
     include PageInfoHelper
+    include NavigationHelper
   end
 end

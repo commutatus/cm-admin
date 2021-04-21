@@ -1,0 +1,11 @@
+.show-page
+  .show-page__info-section
+    p.section-heading   
+      | Section heading
+    .paper
+      - @model.available_fields.each do |field|
+        .info-split
+          .info-split__lhs
+            p = field.to_s.titleize
+          .info-split__rhs
+            p = @ar_object.send(field)
