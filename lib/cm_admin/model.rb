@@ -16,7 +16,7 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @available_actions ||= []
-      @available_fields ||= []
+      @available_fields ||= {index: [], show: []}
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -43,15 +43,16 @@ module CmAdmin
 
     def cm_show(&block)
       puts "Top of the line"
-      action = CmAdmin::Models::Action.find_by(self, name: 'index')
+      # action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
       puts "End of the line"
     end
 
     def cm_index(&block)
-      action = CmAdmin::Models::Action.find_by(self, name: 'index')
-      action.instance_eval(&block)
+      yield
+      # action = CmAdmin::Models::Action.find_by(self, name: 'index')
+      # action.instance_eval(&block)
     end
 
     def show(params)
@@ -59,12 +60,18 @@ module CmAdmin
     end
 
     def index(params)
-      puts "Index page"
+      # Based on the params the filter and pagination object to be set
+      @ar_object = self.ar_model.all
     end
 
     def field(field_name)
       puts "For printing field #{field_name}"
-      @available_fields << field_name
+      @available_fields[:show] << field_name
+    end
+
+    def column(field_name)
+      puts "For printing field #{field_name}"
+      @available_fields[:index] << field_name
     end
 
     def self.find_by(search_hash)

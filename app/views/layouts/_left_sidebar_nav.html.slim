@@ -8,32 +8,7 @@
     input type="text" placeholder="Quick Links"
 
   .sidebar__menu-wrapper
-    = link_to '/', class: 'menu-link'
-      .menu-item
-        span.menu-icon
-          i.fa.fa-th-large
-        | Dashboard
     = sidebar_navigation
-    .menu-list
-      .menu-item
-        span.menu-icon
-          i.fa.fa-th-large
-        | Static pages
-        span.list-arrow 
-          i.fa.fa-chevron-up
-      .menu-sub-list
-        = link_to '/static_pages/index', class: 'menu-link'
-          .menu-sub-item 
-            | Index
-        = link_to '/static_pages/new', class: 'menu-link'
-          .menu-sub-item 
-            | Create
-        = link_to '/static_pages/show', class: 'menu-link'
-          .menu-sub-item 
-            | Show
-        = link_to '/static_pages/components', class: 'menu-link'
-          .menu-sub-item 
-            | Components
 
   .sidebar__footer
     .profile-name

@@ -1,0 +1,30 @@
+.admin-table-index
+  .table-top  
+    p.table-top__total-count 104 users found
+    .table-top__column-action
+      button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
+        span 
+          i.fa.fa-columns.bolder
+        span 
+          i.fa.fa-angle-down
+
+.admin-table.mt-5
+  .record-found
+    | 115 companies found
+
+  table.cm-table
+    thead.cm-table__header
+      tr
+        - @model.available_fields[:index].each do |column|
+          th = column.to_s.titleize
+
+    tbody.cm-table__body
+      - @ar_object.each do |ar_object|
+        tr
+          - @model.available_fields[:index].each do |column|
+            td = ar_object.send(column)
+ 
+.cm-pagination
+  .cm-pagination__item Showing 1 of 4 pages
+  .cm-pagination__item Next
+  / cm_paginate(@filtered_result.facets)

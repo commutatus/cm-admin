@@ -1,26 +1,10 @@
-.show-page
-  .show-page__info-section
-    p.section-heading   
-      | Section heading
-    .paper
-      .info-split
-        .info-split__lhs
-          p Name
-        .info-split__rhs
-          p Commutatus
-      .info-split
-        .info-split__lhs
-          p Name
-        .info-split__rhs
-          p Commutatus
-      .info-split
-        .info-split__lhs
-          p Name
-        .info-split__rhs
-          p Commutatus
-      .info-split
-        .info-split__lhs
-          p Name
-        .info-split__rhs
-          span.status-tag.green-tag
-            | STATUS GREEN
+- content_for :bread_crumb do
+  p.breadcrumb-text
+    = link_to  "Home ", admin_users_path
+    '/
+    span.active = link_to  "Users", admin_users_path
+
+.main-body
+
+	.main-body__table-container
+		== render 'cm_admin/main/table'

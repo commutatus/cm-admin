@@ -1,0 +1,35 @@
+.filters
+  .filters__lhs
+    .filter-field 
+      input.field-area type="text" placeholder="search"
+      span.fa.fa-search.search-icon
+    / .filter-field
+    /   = select_tag 'user_id', options_for_select(User.all.collect{ |u| [u.first_name, u.id] })
+    .filter-field 
+      select.single-select
+        option value="one"  First
+        option value="two"  Second 
+        option value="three"  Third
+    .filter-field 
+      select.single-select
+        option value="one"  First
+        option value="two"  Second 
+        option value="three"  Third
+    .filter-field 
+      select.single-select
+        option value="one"  First
+        option value="two"  Second 
+        option value="three"  Third
+    .filter-field
+      input.filter-rangepicker name="daterange" type="text"
+    .filter-field
+      select.multi-select multiple="multiple" name="states[]" data-placeholder="Multi select"
+        option value="D@"  Duke 200
+        option value="RC"  Rc 200
+        option value="D3"  Duke 390
+        option value="RC3" Rc 390
+  .filters__rhs
+    button.filter-btn
+      span
+        i.fa.fa-plus
+      | ADD
