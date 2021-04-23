@@ -10,10 +10,14 @@
   </head>
 
   <body>
+    <h1>Edit</h1>
+    <br><br>
     <% flash.each do |type, msg| %>
       <div class="alert alert-<%= type %>">
         <%= msg %>
       </div>
     <% end %>
+    <br>
+    <%= generate_edit_form(@ar_object, @model) %>
   </body>
 </html>
