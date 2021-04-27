@@ -1,5 +1,6 @@
 require_relative 'constants'
 require_relative 'models/action'
+require_relative 'models/field'
 require_relative 'models/blocks'
 
 module CmAdmin
@@ -64,9 +65,9 @@ module CmAdmin
       @ar_object = self.ar_model.all
     end
 
-    def field(field_name)
+    def field(field_name, options={})
       puts "For printing field #{field_name}"
-      @available_fields[:show] << field_name
+      @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
     def column(field_name)
