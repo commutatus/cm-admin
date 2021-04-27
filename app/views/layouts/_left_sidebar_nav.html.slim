@@ -1,0 +1,30 @@
+.sidebar
+  .sidebar__logo-header
+    = image_tag('c.png', alt: 'logo image')
+
+  .sidebar__quick-search
+    span
+      i.fa.fa-search
+    input type="text" placeholder="Quick Links"
+
+  .sidebar__menu-wrapper
+    = sidebar_navigation
+
+  .sidebar__footer
+    .profile-name
+      span.profile-avatar J
+      | John Doe
+    .profile-popup.hidden
+      .profile-info
+        .profile-info__left
+          p.name-text John Doe
+          p.email-text johndoe@commutatus.com
+        .profile-info__right J   
+      .page-options 
+        = link_to '/', class: 'page-link'
+          | Profile
+        = link_to '', class: 'page-link'
+          | Settings
+      .auth-option
+        = link_to '/sign-out', method: :delete, class: 'auth-link'
+          | Logout

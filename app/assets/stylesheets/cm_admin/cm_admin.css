@@ -19,6 +19,6 @@
  *= require 'base/auth'
  *= require 'base/filters'
  *= require 'base/common'
- *=require 'components/index'
+ *= require 'components/index'
  *= require_self
  */

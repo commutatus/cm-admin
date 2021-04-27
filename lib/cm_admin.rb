@@ -1,6 +1,7 @@
 require 'cm_admin/version'
 require 'cm_admin/engine'
 require 'cm_admin/model'
+require 'cm_admin/view_helpers'
 
 module CmAdmin
   class Error < StandardError; end
