@@ -1,25 +1,32 @@
 module CmAdmin
   DEFAULT_ACTIONS = {
     index: {
-      verb: :get
+      verb: :get,
+      path: 'index'
     },
     show: {
-      verb: :get
+      verb: :get,
+      path: ':id'
     },
     new: {
-      verb: :get
+      verb: :get,
+      path: 'new'
     },
     create: {
-      verb: :post
+      verb: :post,
     },
     edit: {
-      verb: :get
+      verb: :get,
+      path: ':id/edit'
     },
     update: {
-      verb: :put
+      verb: :patch,
+      path: ':id'
     },
     destroy: {
-      verb: :delete
+      verb: :delete,
+      path: ':id'
     }
   }
+  REJECTABLE_FIELDS = %w(id created_at updated_at)
 end
