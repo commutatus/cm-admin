@@ -1,11 +1,12 @@
 require_relative 'constants'
 require_relative 'models/action'
+require_relative 'models/field'
 require_relative 'models/blocks'
 
 module CmAdmin
   class Model
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -16,7 +17,7 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @available_actions ||= []
-      @available_fields ||= {index: [], show: []}
+      @available_fields ||= {index: [], show: [], edit: []}
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -36,7 +37,8 @@ module CmAdmin
       acts = acts & (Array.new << only).flatten if only.present?
       acts = acts - (Array.new << except).flatten if except.present?
       acts.each do |act|
-        @available_actions << CmAdmin::Models::Action.new(name: act.to_s, verb: CmAdmin::DEFAULT_ACTIONS[act][:verb])
+        action_defaults = CmAdmin::DEFAULT_ACTIONS[act]
+        @available_actions << CmAdmin::Models::Action.new(name: act.to_s, verb: action_defaults[:verb], path: action_defaults[:path])
       end
       @actions_set = true
     end
@@ -55,18 +57,37 @@ module CmAdmin
       # action.instance_eval(&block)
     end
 
+    def cm_edit(&block)
+      action = CmAdmin::Models::Action.find_by(self, name: 'edit')
+      action.instance_eval(&block)
+    end
+
     def show(params)
-      @ar_object = self.ar_model.find(1)
+      @ar_object = @ar_model.find(1)
     end
 
     def index(params)
       # Based on the params the filter and pagination object to be set
-      @ar_object = self.ar_model.all
+      @ar_object = @ar_model.all
     end
 
-    def field(field_name)
+    def edit(params)
+      @ar_object = @ar_model.find(params[:id])
+    end
+
+    def update(params)
+      @ar_object = @ar_model.find(params[:id])
+      @ar_object.update(resource_params(params))
+    end
+
+    def resource_params(params)
+      permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+      params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+    end
+
+    def field(field_name, options={})
       puts "For printing field #{field_name}"
-      @available_fields[:show] << field_name
+      @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
     def column(field_name)
@@ -82,15 +103,15 @@ module CmAdmin
     # eg
     # class User < ApplicationRecord
     #   cm_admin do
-    #     custom_action name: 'submit', verb: 'post' do
+    #     custom_action name: 'submit', verb: 'post', path: ':id/submit' do
     #       def user_submit
     #         Code for action here...
     #       end
     #     end
     #   end
     # end
-    def custom_action(name: nil, verb: nil, layout: nil, partial: nil, &block)
-      @available_actions << CmAdmin::Models::Action.new(name: name, verb: verb, layout: layout, partial: partial)
+    def custom_action(name: nil, verb: nil, layout: nil, partial: nil, path: nil, &block)
+      @available_actions << CmAdmin::Models::Action.new(name: name, verb: verb, layout: layout, partial: partial, path: path)
       self.class.class_eval(&block)
     end
 
@@ -108,22 +129,23 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
-            respond_to do |format|
-            #   if %w(show index create new edit destroy update).include?(action_name)
-            #     if action.partial.present?
-            #       render partial: action.partial
-            #     else
-                  # render 'layouts/index', layout: false
-                  format.html { render '/cm_admin/main/'+action_name }
-            #     end
-            #   elsif action.layout.present?
-            #     if action.partial.present?
-            #       render partial: action.partial, layout: action.layout
-            #     else
-            #       render layout: action.layout
-            #     end
-            #   end
-            end
+            redirect_to "/admin/#{@model.name.underscore.pluralize}/index" if %w(create update destroy).include?(action_name)
+            # respond_to do |format|
+              if %w(show index new edit).include?(action_name)
+                if action.partial.present?
+                  render partial: action.partial
+                else
+                  render "layouts/#{action_name}", layout: false
+                # format.html { render '/cm_admin/main/'+action_name }
+                end
+              elsif action.layout.present?
+                if action.partial.present?
+                  render partial: action.partial, layout: action.layout
+                else
+                  render layout: action.layout
+                end
+              end
+            # end
           end
         end
       end if $available_actions.present?
