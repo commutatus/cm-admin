@@ -26,6 +26,26 @@ module CmAdmin
       @actions_set = true
     end
 
+    def cm_show
+      puts "Top of the line"
+      yield
+      puts "End of the line"
+    end
+
+    def show(params)
+      puts "Params is #{params}"
+
+
+    end
+
+    def field(field_name)
+      puts "For printing field #{field_name}"
+    end
+
+    def self.find_by(search_hash)
+      CmAdmin.cm_admin_models.select{|x| x.name == search_hash[:name]}.first
+    end
+
     # Custom actions
     # eg
     # class User < ApplicationRecord
@@ -40,7 +60,7 @@ module CmAdmin
     def custom_action(name, verb, &block)
       @available_actions << {action: name, verb: verb}
       self.class.class_eval(&block)
-    end 
+    end
 
     private
 
@@ -53,6 +73,9 @@ module CmAdmin
           define_method action[:action].to_sym do
             model = CmAdmin::Model.find_by(name: controller_name.classify)
             model.send(action_name, params)
+            respond_to do |format|
+              format.html {render partial: '/cm_admin/main/'+action_name}
+            end
           end
         end
       end if $available_actions.present?
