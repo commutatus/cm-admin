@@ -6,7 +6,7 @@ require_relative 'models/blocks'
 module CmAdmin
   class Model
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -17,6 +17,7 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @available_actions ||= []
+      @current_action = nil
       @available_fields ||= {index: [], show: [], edit: []}
       instance_eval(&block) if block_given?
       actions unless @actions_set
@@ -44,16 +45,17 @@ module CmAdmin
     end
 
     def cm_show(&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
       puts "Top of the line"
-      # action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
       puts "End of the line"
     end
 
     def cm_index(&block)
+
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
-      # action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # action.instance_eval(&block)
     end
 
@@ -63,10 +65,12 @@ module CmAdmin
     end
 
     def show(params)
-      @ar_object = @ar_model.find(1)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+      @ar_object = @ar_model.find(params[:id])
     end
 
     def index(params)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
       @ar_object = @ar_model.all
     end
@@ -83,6 +87,18 @@ module CmAdmin
     def resource_params(params)
       permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+    end
+
+    def page_title(title)
+      if @current_action
+        @current_action.page_title = title
+      end
+    end
+
+    def page_description(description)
+      if @current_action
+        @current_action.page_description = description
+      end
     end
 
     def field(field_name, options={})
@@ -130,14 +146,9 @@ module CmAdmin
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
             redirect_to "/admin/#{@model.name.underscore.pluralize}/index" if %w(create update destroy).include?(action_name)
-            # respond_to do |format|
+            respond_to do |format|
               if %w(show index new edit).include?(action_name)
-                if action.partial.present?
-                  render partial: action.partial
-                else
-                  render "layouts/#{action_name}", layout: false
-                # format.html { render '/cm_admin/main/'+action_name }
-                end
+                format.html { render '/cm_admin/main/'+action_name }
               elsif action.layout.present?
                 if action.partial.present?
                   render partial: action.partial, layout: action.layout
@@ -145,7 +156,7 @@ module CmAdmin
                   render layout: action.layout
                 end
               end
-            # end
+            end
           end
         end
       end if $available_actions.present?

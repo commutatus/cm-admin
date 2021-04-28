@@ -1,3 +1,16 @@
+.main-nav
+  .main-nav__lhs
+    .bread-crumb-area
+      = yield :bread_crumb
+    .nav-title-area   
+      p.title-text = @model.current_action.page_title
+      p.title-sub-text = @model.current_action.page_description
+  .main-nav__rhs
+    button.secondary-btn type="button"
+      span
+        i.fa.fa-edit 
+      span 
+        | Edit
 .show-page
   .show-page__info-section
     p.section-heading   

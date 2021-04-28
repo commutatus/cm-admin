@@ -1,3 +1,4 @@
+require_relative 'form_field_helper'
 module CmAdmin
   module ViewHelpers
     module FormHelper
