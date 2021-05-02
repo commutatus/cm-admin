@@ -5,7 +5,7 @@ require_relative 'models/blocks'
 module CmAdmin
   class Model
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :export_enabled
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -16,7 +16,8 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @available_actions ||= []
-      @available_fields ||= {index: [], show: [], edit: []}
+      @available_fields ||= {index: [], show: [], edit: [], export: []}
+      @export_enabled = false
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -32,9 +33,10 @@ module CmAdmin
 
     # Insert into actions according to config block
     def actions(only: [], except: [])
-      acts = CmAdmin::DEFAULT_ACTIONS.keys
+      acts = CmAdmin::DEFAULT_ACTIONS.except(:export).keys
       acts = acts & (Array.new << only).flatten if only.present?
       acts = acts - (Array.new << except).flatten if except.present?
+      acts << :export if @export_enabled
       acts.each do |act|
         action_defaults = CmAdmin::DEFAULT_ACTIONS[act]
         @available_actions << CmAdmin::Models::Action.new(name: act.to_s, verb: action_defaults[:verb], path: action_defaults[:path])
@@ -61,6 +63,10 @@ module CmAdmin
       action.instance_eval(&block)
     end
 
+    def cm_export
+      @export_enabled = true
+    end
+
     def show(params)
       @ar_object = @ar_model.find(1)
     end
@@ -79,11 +85,20 @@ module CmAdmin
       @ar_object.update(resource_params(params))
     end
 
+    # Column validation can be added here
+    # Currently its done in the job
+    def export(params)
+      CmAdmin::ExportJob.perform_later(self, params)
+    end
+
     def resource_params(params)
       permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
     end
 
+    # Generalize and move to action
+    # All 3 are having same function. Combine to one method and move to action.
+    # The instance eval from edit should give an idea.
     def field(field_name)
       puts "For printing field #{field_name}"
       @available_fields[:show] << field_name
@@ -92,6 +107,19 @@ module CmAdmin
     def column(field_name)
       puts "For printing field #{field_name}"
       @available_fields[:index] << field_name
+    end
+
+    # Example
+    # belongs_to :user
+    # cm_admin do
+    #   cm_export do
+    #     attrib :title
+    #     attrib :created_at, name: 'Creation time'
+    #     attrib :creator, methods: [:user, :name]
+    #   end
+    # end
+    def attrib(field_name, options = {})
+      @available_fields[:export] << {field_name: field_name}.merge(options)
     end
 
     def self.find_by(search_hash)
@@ -128,7 +156,7 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
-            redirect_to "/admin/#{@model.name.underscore.pluralize}/index" if %w(create update destroy).include?(action_name)
+            redirect_to "/admin/#{@model.name.underscore.pluralize}/index" if %w(create update destroy export).include?(action_name)
             # respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if action.partial.present?

@@ -15,5 +15,9 @@
         <%= msg %>
       </div>
     <% end %>
+    <% if @model.export_enabled %>
+      <%= exportable %>
+      <%= column_pop_up %>
+    <% end %>
   </body>
 </html>

@@ -26,6 +26,10 @@ module CmAdmin
     destroy: {
       verb: :delete,
       path: ':id'
+    },
+    export: {
+      verb: :get,
+      path: 'export'
     }
   }
   REJECTABLE_FIELDS = %w(id created_at updated_at)

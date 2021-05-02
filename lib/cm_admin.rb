@@ -7,7 +7,7 @@ module CmAdmin
   class Error < StandardError; end
 
   mattr_accessor :layout
-  mattr_accessor :included_models, :cm_admin_models
+  mattr_accessor :included_models, :cm_admin_models, :admin_email
   @@included_models ||= []
   @@cm_admin_models ||= []
 
