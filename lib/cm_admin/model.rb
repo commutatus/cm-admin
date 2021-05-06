@@ -72,8 +72,44 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = @ar_model.all
+      @ar_object = filter_by(1)
     end
+
+    def filter_by(page, filter_params={}, sort_params={})
+      filtered_result = OpenStruct.new
+      sort_column = "users.created_at"
+      sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
+      sort_params = {sort_column: sort_column, sort_direction: sort_direction}
+      raw_data = @ar_model.all
+      filtered_result.data = raw_data.page(page).per(30)
+      # filtered_result.facets = paginate(page, raw_data.size)
+      # filtered_result.sort = sort_params
+      # filtered_result.facets.sort = sort_params
+      return filtered_result
+    end
+
+    # def paginate(page, total_count)
+    #   page = page.presence || 1
+    #   per_page = 30
+    #   facets = OpenStruct.new # initializing OpenStruct instance
+    #   facets.total_count = total_count
+    #   facets.filtered_count = total_count
+    #   facets.total_pages = (total_count/per_page.to_f).ceil
+    #   facets.current_page = page.to_i
+    #   # Previous Page
+    #   if facets.current_page - 1 == 0
+    #     facets.previous_page = false
+    #   else
+    #     facets.previous_page = true
+    #   end
+    #   # Next Page
+    #   if facets.current_page + 1 > facets.total_pages
+    #     facets.next_page = false
+    #   else
+    #     facets.next_page = true
+    #   end
+    #   return facets
+    # end
 
     def edit(params)
       @ar_object = @ar_model.find(params[:id])

@@ -3,20 +3,9 @@
     = link_to  "Home ", admin_users_path
     '/
     span.active = link_to  "Users", admin_users_path
-
-.main-nav
-  .main-nav__lhs
-    .bread-crumb-area
-      = yield :bread_crumb
-    .nav-title-area   
-      p.title-text = @model.current_action.page_title
-      p.title-sub-text = @model.current_action.page_description
-  .main-nav__rhs
-    button.secondary-btn type="button"
-      span
-        i.fa.fa-edit 
-      span 
-        | Edit
-.main-body
-	.main-body__table-container
-		== render 'cm_admin/main/table'
+== render 'cm_admin/main/top_navbar'
+.index-page
+  .index-page__filters
+    == render 'cm_admin/main/filters'
+  .index-page__table-container
+    == render 'cm_admin/main/table'

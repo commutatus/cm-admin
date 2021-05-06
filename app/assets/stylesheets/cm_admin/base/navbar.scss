@@ -1,0 +1,67 @@
+@import "../helpers/index.scss";
+
+.cm-navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 225px;
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 225px);
+  height: 140px;
+  padding: 24px 24px 16px;
+  background-color: $white;
+  z-index: 2;
+  &__lhs {
+    .bread-crumb-area {
+      .breadcrumb-text {
+        @include font($size: $t4-text, $color: $ink-lighter-clr);
+        line-height: 22px;
+        margin: 0 0 16px;
+        a {
+          color: inherit;
+        }
+      }
+    }
+    .nav-title-area {
+      .title-text {
+        @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
+        line-height: 32px;
+        margin: 0 0 8px;
+      }
+      .title-sub-text {
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
+        margin: 0;
+      }
+    }
+  }
+
+  &__rhs {
+    display: flex;
+    align-items: center;
+
+    .export-container {
+      position: relative;
+      .export-popup {
+        top: 45px;
+        width: 156px;
+        padding: 8px 0;
+        animation: fadeIn .2s ease-in-out;
+        .popup-option {
+          padding: 8px 16px;
+          @include font($size: $t4-text, $color: $primary-text-clr);
+          line-height: 22px;
+          transition: all .2s linear;
+          cursor: pointer;
+          &:hover {
+            background-color: $grey-lighter-clr;
+          }
+          span {
+            margin-right: 8px;
+          }
+        }
+      }
+    }
+  }
+}

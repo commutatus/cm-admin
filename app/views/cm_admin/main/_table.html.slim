@@ -19,12 +19,10 @@
           th = column.to_s.titleize
 
     tbody.cm-table__body
-      - @ar_object.each do |ar_object|
+      - @ar_object.data.each do |ar_object|
         tr
           - @model.available_fields[:index].each do |column|
             td = ar_object.send(column)
- 
-.cm-pagination
-  .cm-pagination__item Showing 1 of 4 pages
-  .cm-pagination__item Next
-  / cm_paginate(@filtered_result.facets)
+/ = paginate User.all.page(1)
+/ = cm_paginate(@ar_object.facets)
+= pagy_nav(@pagy).html_safe

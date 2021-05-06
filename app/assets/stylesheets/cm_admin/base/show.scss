@@ -1,53 +1,52 @@
 @import "../helpers/index.scss";
 
-.show-page-tabs {
-  .cm-tabs-bar {
-    // If you want to overwrite tabs styles, add styles here
-  }
-}
-
 .show-page {
   margin-top: 194px;
-  padding: 24px;
+  
+  &__tabs {
+    .cm-tabs-bar {
+      // If you want to overwrite tabs styles ---> add styles here
+    }
+  }
 
-  &__info-section {
-    margin-bottom: 32px;
-    .section-heading {
-      font-size: 16px;
-      font-weight: 600;
-      line-height: 24px;
-      color: $primary-text-clr;
-      margin: 0 0 16px;
-    }
-    .paper {
-      max-width: 752px;
-      padding: 24px;
-      background-color: $white;
-      border: 1px solid $grey-light-clr;
-      border-radius: $radius-4;
-    }
-    .info-split {
-      display: flex;
-      margin-bottom: 24px;
-      &:nth-last-child(1) {
-        margin-bottom: 0;
+  &__inner {
+    padding: 24px;
+    .info-section {
+      margin-bottom: 32px;
+
+      .section-heading {
+        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
+        line-height: 24px;
+        margin: 0 0 16px;
       }
-      &__lhs {
-        width: 20%;
-        p {
-          font-size: 14px;
-          line-height: 22px;
-          color: $ink-lighter-clr;
-          margin: 0;
+      .paper {
+        max-width: 752px;
+        padding: 24px;
+        background-color: $white;
+        border: 1px solid $grey-light-clr;
+        border-radius: $radius-4;
+      }
+      .info-split {
+        display: flex;
+        margin-bottom: 24px;
+        &:nth-last-child(1) {
+          margin-bottom: 0;
         }
-      }
-      &__rhs {
-        width: 80%;
-        p {
-          color: #172b4d;
-          font-size: 14px;
-          line-height: 19px;
-          margin: 0;
+        &__lhs {
+          width: 20%;
+          p {
+            @include font($size: $t4-text, $color: $ink-lighter-clr);
+            line-height: 22px;
+            margin: 0;
+          }
+        }
+        &__rhs {
+          width: 80%;
+          p {
+            @include font($size: $t4-text, $color: #172b4d);
+            line-height: 19px;
+            margin: 0;
+          }
         }
       }
     }

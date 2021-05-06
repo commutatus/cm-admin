@@ -25,3 +25,43 @@
     background: $blue-lightest-clr;
   }
 }
+
+.filter-chip {
+  display: inline-block;
+  position: relative;
+  padding: 5px 16px;
+  font-size: $t4-text;
+  font-weight: 600;
+  line-height: 22px;
+  border: 1px solid $ink-regular-clr;
+  border-radius: $radius-4;
+  @include transition-linear;
+  cursor: pointer;
+  &:hover {
+    background-color: #F3F4F6;
+    .filter-chip-remove {
+      display: block;
+    }
+  }
+  span:nth-child(1) {
+    color: $ink-lighter-clr;
+  }
+  span:nth-child(2) {
+    color: $ink-regular-clr;
+  }
+  .filter-chip-remove {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 16px;
+    background: linear-gradient(270deg, #F3F4F6 81.75%, rgba(243, 244, 246, 0) 100%);
+    border-radius: $radius-4;
+    i {
+      font-size: 10px;
+      line-height: 12px;
+      text-align: center;
+      color: $ink-lighter-clr;
+    }
+  }
+}

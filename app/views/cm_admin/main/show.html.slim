@@ -1,24 +1,13 @@
-.main-nav
-  .main-nav__lhs
-    .bread-crumb-area
-      = yield :bread_crumb
-    .nav-title-area   
-      p.title-text = @model.current_action.page_title
-      p.title-sub-text = @model.current_action.page_description
-  .main-nav__rhs
-    button.secondary-btn type="button"
-      span
-        i.fa.fa-edit 
-      span 
-        | Edit
+== render 'cm_admin/main/top_navbar'
 .show-page
-  .show-page__info-section
-    p.section-heading   
-      | Section heading
-    .paper
-      - @model.available_fields[:show].each do |field|
-        .info-split
-          .info-split__lhs
-            p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
-          .info-split__rhs
-            p = @ar_object.send(field.field_name)
+  .show-page__inner
+    .info-section
+      p.section-heading   
+        | Section heading
+      .paper
+        - @model.available_fields[:show].each do |field|
+          .info-split
+            .info-split__lhs
+              p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
+            .info-split__rhs
+              p = @ar_object.send(field.field_name)

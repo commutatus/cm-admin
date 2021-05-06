@@ -1,19 +1,11 @@
 @import "../helpers/index.scss";
 
-.main-body {
-  margin-top: 280px;
+.index-page {
+  margin-top: 204px;
+  background-color: $white;
 
-  &__filter-bar {
-    position: fixed;
-    top: 140px;
-    // left: 250px;
-    // width: calc(100% - 250px);
-    width: 100%;
-    min-height: 60px;
-    padding: 10px 20px;
-    background-color: $white;
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.06);
-    z-index: 9;
+  &__filters {
+    // If you want to overwrite filters styles ---> add styles here
   }
 
   &__table-container {
@@ -72,11 +64,110 @@
     }
   }
 
+  .new-admin-table {
+    overflow: auto;
+    .cm-table {
+      table-layout: fixed;
+      position: relative;
+      min-width: fit-content;
+      border-collapse: collapse;
+      white-space: nowrap;
+      border: 1px solid $grey-lighter-clr;
+      border-radius: $radius-8;
+      &__header {
+        .header-row {
+          display: block;
+          position: relative;
+          width: 100%;
+          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+          th {
+            @include font($size: $t6-text, $color: $ink-lighter-clr, $weight: bold);
+            text-transform: uppercase;
+            min-width: 200px;
+            max-width: 200px;
+            padding: 12px 16px 12px 16px;
+          }
+          .check-box-space {
+            min-width: fit-content;
+            max-width: fit-content;
+            padding: 12px 8px 12px 16px;
+            span {
+              vertical-align: text-top;
+            }
+          }
+        }
+      }
+      &__body {
+        display: block;
+        overflow: auto;
+        overflow-x: hidden;
+        position: relative;
+        width: 100%;
+        height: 335px;
+        .body-row {
+          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+          transition: all .2s linear;
+          &:nth-last-child(1) {
+            box-shadow: none;
+          }
+          &:hover {
+            background-color: $grey-lighter-clr;
+            .row-action-cell {
+              opacity: 1;
+            }
+          }
+          .check-box-space {
+            min-width: fit-content;
+            max-width: fit-content;
+            padding: 16px 8px 16px 16px;
+            span {
+              vertical-align: text-top;
+            }
+          }
+          td {
+            @include font($size: $t4-text, $color: $primary-text-clr);
+            min-width: 200px;
+            max-width: 200px;
+            padding: 16px;
+          }
+          .row-action-cell {
+            position: absolute;
+            // left: 1225px;
+            right: 0;
+            width: 88px;
+            max-width: inherit;
+            min-width: inherit;
+            height: 56px;
+            padding: 0;
+            background: linear-gradient(270deg, #F3F4F6 81.75%, rgba(243, 244, 246, 0) 100%);
+            opacity: 0;
+            transition: all .1s linear;
+            .row-action-tool {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 100%;
+              .tool-btn {
+                background-color: transparent;
+                border: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   .admin-table-index {
+    .table-sticky-top {
+      position: sticky;
+      top: 254px;
+    }
     .table-top  {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 16px;
       &__total-count {
         font-size: $t4-text;
         line-height: 22px;
@@ -106,10 +197,8 @@
           border: none;
           box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
           .modal-title {
-            font-size: 24px;
-            font-weight: 600;
+            @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
             line-height: 32px;
-            color: $primary-text-clr;
           }
           .close {
             position: absolute;
@@ -134,8 +223,9 @@
       .column-item  {
         position: relative;
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        padding: 13px 24px;
+        padding: 8px 24px;
         box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
         &:hover {
           .dragger {
@@ -143,14 +233,17 @@
           }
         }
         &__name {
-          font-size: 14px;
+          font-size: $t4-text;
           line-height: 22px;
           margin-left: 4px;
           color: $primary-text-clr;
+          p {
+            margin: 0;
+          }
         }
         &__action {
           padding: 5px 8px;
-          font-size: 14px;
+          font-size: $t4-text;
           color: $ink-lightest-clr;
         }
         .dragger {
@@ -161,6 +254,7 @@
           padding: 5px;
           color: $ink-lightest-clr;
           border-radius: $radius-4;
+          animation: fadeIn .1s ease-in-out;
           cursor: grab;
           &:hover {
             background: $grey-lighter-clr;
@@ -172,20 +266,36 @@
 
   .cm-pagination {
     display: flex;
-    justify-content: center;
-    margin: 30px 0;
-    &__item {
-      padding: 5px 10px;
-      font-size: 16px;
-      background-color: $white;
-      border: 1px solid #cbdcde;
-      border-radius: $radius-4;
-      &:nth-child(2) {
-        margin-left: 16px;
-        transition: all 0.2s linear;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border: 1px solid $grey-lighter-clr;
+    &__lhs {
+      @include font($size: $t4-text, $color: $ink-lightest-clr, $weight: bold);
+      line-height: 22px;
+    }
+    &__rhs {
+      display: inline-flex;
+      align-items: center;
+      .page-move-btn {
+        font-size: 10px;
+        line-height: 12px;
+        color: $primary-text-clr;
+        padding: 10px 11px;
         cursor: pointer;
-        &:hover {
-          box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        &.disabled {
+          color: #9CA7AE;
+        }
+      }
+      .page-num-btn {
+        @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
+        margin: 0 8px;
+        padding: 5px 11px;
+        cursor: pointer;
+        &.active {
+          background-color: $grey-lightest-clr;
+          border: 1px solid $grey-light-clr;
+          border-radius: $radius-4;
         }
       }
     }
