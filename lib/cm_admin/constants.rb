@@ -2,7 +2,7 @@ module CmAdmin
   DEFAULT_ACTIONS = {
     index: {
       verb: :get,
-      path: 'index'
+      path: '/'
     },
     show: {
       verb: :get,

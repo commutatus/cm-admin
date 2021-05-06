@@ -11,16 +11,15 @@
 .form-page {
   margin-top: 140px;
   padding: 24px;
+  background-color: $white;
   &__inner {
     max-width: 752px;
   }
   .form-wrapper {
     .form-container {
       .form-title {
-        font-size: size(16);
-        font-weight: weight(bold);
+        @include font($size: $t3-text, $color: $primary-text-clr, $weight: bold);
         line-height: 24px;
-        color: $primary-text-clr;
         margin: 0 0 16px;
       }
       &__inner {
@@ -52,8 +51,7 @@
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.06);
     z-index: 9;
     .back-btn {
-      color: #091e42;
-      font-size: 20px;
+      @include font($size: $t1-text, $color: #091e42);
       cursor: pointer;
       span {
         color: #0099ff;
@@ -86,9 +84,7 @@
       }
       .form-input {
         label {
-          font-weight: weight(bold);
-          color: #172b4d;
-          font-size: 14px;
+          @include font($size: $t4-text, $color: #172b4d, $weight: bold);
         }
         input {
           width: 100%;
@@ -200,14 +196,14 @@
 
       .radio-label {
         color: #172b4d;
-        font-size: 16px;
+        font-size: size(16);
         font-weight: weight(bold);
         margin-left: 8px;
       }
 
       .checkbox-label {
         color: #172b4d;
-        font-size: 16px;
+        font-size: size(16);
         font-weight: weight(bold);
         margin-left: 8px;
       }
@@ -233,9 +229,7 @@
   .field-item {
     margin: 0 5px;
     label {
-      color: #172b4d;
-      font-size: 14px;
-      font-weight: weight(bold);
+      @include font($size: $t4-text, $color: #172b4d, $weight: bold);
       margin-bottom: 4px;
     }
     input {
@@ -253,8 +247,7 @@
   .field-remove {
     margin-top: 25px;
     a {
-      font-size: 20px;
-      color: #ff5656;
+      @include font($size: $t1-text, $color: #ff5656);
       @include transition-linear;
       &:hover {
         transform: scale(1.1);

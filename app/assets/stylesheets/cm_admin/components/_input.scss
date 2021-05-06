@@ -1,19 +1,10 @@
 @import "../helpers/index.scss";
 
-@function size($size) {
-  @return map-get($font-size, $size);
-}
-
-@function weight($weight) {
-  @return map-get($font-weight, $weight);
-}
-
 .form-field {
   .field-label-wrapper {
     .field-label {
-      font-size: size(14);
+      @include font($size: $t4-text, $color: $primary-text-clr);
       line-height: 22px;
-      color: $primary-text-clr;
       margin: 0 0 4px;
       span {
         color: $ink-lightest-clr;
@@ -21,18 +12,16 @@
       }
     }
     .field-helper-text {
-      font-size: size(14);
+      @include font($size: $t4-text, $color: $ink-lighter-clr);
       line-height: 22px;
-      color: $ink-lighter-clr;
       margin: 0 0 4px;
     }
   }
   .field-input-wrapper {
     position: relative;
     .error-msg {
-      font-size: size(14);
+      @include font($size: $t4-text, $color: $error-clr);
       line-height: 22px;
-      color: $error-clr;
       margin: 4px 0 0;
       animation: shakeError 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
       transform: translate3d(0, 0, 0);
@@ -50,9 +39,8 @@
   position: relative;
   width: 100%;
   padding: 8px 0 8px 40px;
-  font-size: size(14);
+  @include font($size: $t4-text, $color: $primary-text-clr);
   line-height: 22px;
-  color: $primary-text-clr;
   background-color: $white;
   border: 1px solid $grey-light-clr;
   border-radius: $radius-4;
@@ -67,17 +55,15 @@
   position: absolute;
   top: 8px;
   left: 16px;
-  color: $ink-lightest-clr;
-  font-size: size(14);
+  @include font($size: $t4-text, $color: $ink-lightest-clr);
 }
 
 //Normal input styles
 .normal-input {
   width: 100%;
   padding: 8px 16px;
-  font-size: size(14);
+  @include font($size: $t4-text, $color: $primary-text-clr);
   line-height: 22px;
-  color: $primary-text-clr;
   background-color: $white;
   border: 1px solid $grey-light-clr;
   border-radius: $radius-4;
@@ -92,6 +78,47 @@
     &:focus {
       outline: 3px auto rgba(248, 54, 54, 0.3);
     }
+  }
+}
+
+.file-upload-wrapper {
+  display: inline-flex;
+  align-items: center;
+  .file-upload-input {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 16px;
+    border: 1px solid $primary-text-clr;
+    border-radius: $radius-4;
+    cursor: pointer;
+    input[type="file"] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      &::-webkit-file-upload-button {
+        cursor: pointer;
+      }
+    }
+    
+    .upload-placeholder-1 { 
+      @include font($size: $t4-text, $color: $ink-lighter-clr, $weight: 600);
+    }
+    .upload-placeholder-2 {
+      @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
+      margin-left: 4px;
+    }
+  }
+  .file-name {
+    @include font($size: $t4-text, $color: $primary-text-clr);
+    margin: 0 0 0 8px;
   }
 }
 

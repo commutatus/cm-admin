@@ -11,14 +11,16 @@
  * It is generally better to create a new file per style scope.
  *
  *= require 'base/table'
- *= require 'base/main-nav'
+ *= require 'base/navbar'
  *= require 'base/sidebar'
  *= require 'base/show'
  *= require 'base/form'
+ *= require 'base/quicksearch'
  *= require 'base/scaffold'
  *= require 'base/auth'
  *= require 'base/filters'
  *= require 'base/common'
- *= require 'components/index'
+ *=require 'components/index'
+ *= require bootstrap/dist/css/bootstrap
  *= require_self
  */

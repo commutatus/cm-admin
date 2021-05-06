@@ -11,8 +11,7 @@ html
     - flash.each do |type, msg|
       .alert class="alert-#{type}"
         = msg
-    .admin-panel.cm-admin
+    .cm-admin
       = render 'layouts/left_sidebar_nav'
-      .main
-        .main-container
-          = yield
+      .panel-area
+        = yield

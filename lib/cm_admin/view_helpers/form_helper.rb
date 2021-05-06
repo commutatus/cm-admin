@@ -1,3 +1,4 @@
+require_relative 'form_field_helper'
 module CmAdmin
   module ViewHelpers
     module FormHelper
@@ -29,14 +30,14 @@ module CmAdmin
       def set_form_for_fields(resource, columns, url, method)
         form_for(resource, url: url, method: method) do |f|
           columns.each do |field|
-            concat f.label field.name
+            concat f.label field.name, class: 'field-label'
             concat tag.br
             concat input_field_for_column(f, field)
             concat tag.br
             concat tag.br
           end
           concat tag.br
-          concat f.submit 'Save'
+          concat f.submit 'Save', class: 'cta-btn mt-3'
         end
       end
     end

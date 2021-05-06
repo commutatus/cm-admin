@@ -1,6 +1,6 @@
 @import "../helpers/index.scss";
 
-.sidebar {
+.cm-sidebar {
   position: fixed;
   top: 0;
   left: 0;
@@ -28,9 +28,8 @@
     input {
       width: 100%;
       position: relative;
-      font-size: $t4-text;
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
       line-height: 22px;
-      color: $ink-lightest-clr;
       padding-left: 34px;
       background-color: transparent;
       border: none;
@@ -156,7 +155,7 @@
       background-color: $white;
       box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
       border-radius: $radius-4;
-      animation: fadeIn .2s linear;
+      animation: fadeIn 0.2s linear;
       .profile-info {
         display: grid;
         grid-template-columns: 1fr 32px;
@@ -183,9 +182,7 @@
           justify-content: center;
           width: 32px;
           height: 32px;
-          color: $white;
-          font-size: $t3-text;
-          font-weight: 600;
+          @include font($size: $t3-text, $color: $white, $weight: 600);
           background-color: $brand-color;
           border-radius: $circle;
           vertical-align: middle;
@@ -225,8 +222,4 @@
   }
 }
 
-@keyframes fadeIn {
-  from {opacity: 0};
-  to {opacity: 1};
-}
 
