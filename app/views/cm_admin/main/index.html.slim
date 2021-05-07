@@ -1,8 +1,8 @@
 - content_for :bread_crumb do
   p.breadcrumb-text
-    = link_to  "Home ", admin_users_path
+    = link_to  "Home ", '/cm_admin/dashboard'
     '/
-    span.active = link_to  "Users", admin_users_path
+    span.active = link_to  "Users", '/cm_admin/users'
 == render 'cm_admin/main/top_navbar'
 .index-page
   .index-page__filters

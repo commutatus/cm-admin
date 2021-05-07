@@ -4,16 +4,17 @@ module CmAdmin
       verb: :get,
       path: '/'
     },
-    show: {
-      verb: :get,
-      path: ':id'
-    },
     new: {
       verb: :get,
       path: 'new'
     },
+    show: {
+      verb: :get,
+      path: ':id'
+    },
     create: {
       verb: :post,
+      path: '/'
     },
     edit: {
       verb: :get,

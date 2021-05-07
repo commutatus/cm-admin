@@ -5,25 +5,34 @@ module CmAdmin
       include FormFieldHelper
       REJECTABLE = %w(id created_at updated_at)
 
-      def generate_edit_form(resource, cm_model)
-        if cm_model.available_fields[:edit].empty?
-          return edit_form_with_all_fields(resource)
+      def generate_form(resource, cm_model)
+        if resource.new_record?
+          action = :new
+          method = :post
         else
-          return edit_form_with_mentioned_fields(resource, cm_model.available_fields[:edit])
+          action = :edit
+          method = :patch
+        end
+        if cm_model.available_fields[action].empty?
+          return form_with_all_fields(resource, method)
+        else
+          return form_with_mentioned_fields(resource, cm_model.available_fields[:edit], method)
         end
       end
 
-      def edit_form_with_all_fields(resource)
+      def form_with_all_fields(resource, method)
         columns = resource.class.columns.dup
+        table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
-        url, method = ["/admin/blogs/#{resource.id}", :patch]
+        url = CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}"
         set_form_for_fields(resource, columns, url, method)
       end
 
-      def edit_form_with_mentioned_fields(resource, available_fields)
+      def form_with_mentioned_fields(resource, available_fields, method)
         columns = resource.class.columns.select { |i| available_fields.include?(i.name.to_sym) }
+        table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
-        url, method = ["/admin/blogs/#{resource.id}", :patch]
+        url = CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}"
         set_form_for_fields(resource, columns, url, method)
       end
 

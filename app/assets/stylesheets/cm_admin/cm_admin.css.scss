@@ -10,17 +10,17 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require 'base/table'
- *= require 'base/navbar'
- *= require 'base/sidebar'
- *= require 'base/show'
- *= require 'base/form'
- *= require 'base/quicksearch'
- *= require 'base/scaffold'
- *= require 'base/auth'
- *= require 'base/filters'
- *= require 'base/common'
- *=require 'components/index'
+ *= require 'cm_admin/base/table'
+ *= require 'cm_admin/base/navbar'
+ *= require 'cm_admin/base/sidebar'
+ *= require 'cm_admin/base/show'
+ *= require 'cm_admin/base/form'
+ *= require 'cm_admin/base/quicksearch'
+ *= require 'cm_admin/base/scaffold'
+ *= require 'cm_admin/base/auth'
+ *= require 'cm_admin/base/filters'
+ *= require 'cm_admin/base/common'
+ *=require 'cm_admin/components/index'
  *= require bootstrap/dist/css/bootstrap
  *= require_self
  */
