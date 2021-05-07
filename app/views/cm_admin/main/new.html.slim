@@ -1,0 +1,19 @@
+== render 'cm_admin/main/top_navbar'
+.form-page
+  .form-page__inner
+    .form-wrapper
+      .flag-alert.mb-4
+        p.alert-header
+            span
+              i.fa.fa-exclamation-triangle
+            | Attention
+        .alert-body
+          p.body-title 
+            | Error heading
+          p.body-info 
+            | The details of the error would be explained in this line. It could also be listed out as points on below the other if there are multiple reasons.
+      .form-container
+        p.form-title 
+          | Section heading
+        .form-container__inner
+          = generate_edit_form(@ar_object, @model)

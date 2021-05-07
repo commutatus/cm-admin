@@ -18,7 +18,7 @@ module CmAdmin
       @ar_model = entity
       @available_actions ||= []
       @current_action = nil
-      @available_fields ||= {index: [], show: [], edit: []}
+      @available_fields ||= {index: [], show: [], edit: [], new: []}
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -110,6 +110,9 @@ module CmAdmin
     #   end
     #   return facets
     # end
+    def new(params)
+      @ar_object = @ar_model.new
+    end
 
     def edit(params)
       @ar_object = @ar_model.find(params[:id])
@@ -118,6 +121,11 @@ module CmAdmin
     def update(params)
       @ar_object = @ar_model.find(params[:id])
       @ar_object.update(resource_params(params))
+    end
+
+    def create(params)
+      @ar_object = @ar_model.new(resource_params(params))
+      @ar_object.save
     end
 
     def resource_params(params)
