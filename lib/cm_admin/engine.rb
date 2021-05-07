@@ -9,5 +9,9 @@ module CmAdmin
       )
     end
 
+    def mount_path
+      CmAdmin::Engine.routes.find_script_name({})
+    end
+
   end
 end

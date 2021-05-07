@@ -81,7 +81,7 @@ module CmAdmin
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
       raw_data = @ar_model.all
-      filtered_result.data = raw_data.page(page).per(30)
+      filtered_result.data = raw_data
       # filtered_result.facets = paginate(page, raw_data.size)
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
@@ -181,10 +181,11 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
-            redirect_to "/admin/#{@model.name.underscore.pluralize}/index" if %w(create update destroy).include?(action_name)
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 format.html { render '/cm_admin/main/'+action_name }
+              elsif %w(create update destroy).include?(action_name)
+                format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
               elsif action.layout.present?
                 if action.partial.present?
                   render partial: action.partial, layout: action.layout

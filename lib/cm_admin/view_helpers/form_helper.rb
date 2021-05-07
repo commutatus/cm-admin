@@ -15,15 +15,17 @@ module CmAdmin
 
       def edit_form_with_all_fields(resource)
         columns = resource.class.columns.dup
+        table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
-        url, method = ["/admin/blogs/#{resource.id}", :patch]
+        url, method = [CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}", :patch]
         set_form_for_fields(resource, columns, url, method)
       end
 
       def edit_form_with_mentioned_fields(resource, available_fields)
         columns = resource.class.columns.select { |i| available_fields.include?(i.name.to_sym) }
+        table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
-        url, method = ["/admin/blogs/#{resource.id}", :patch]
+        url, method = [CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}", :patch]
         set_form_for_fields(resource, columns, url, method)
       end
 
