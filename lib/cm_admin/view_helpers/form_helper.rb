@@ -5,7 +5,7 @@ module CmAdmin
       include FormFieldHelper
       REJECTABLE = %w(id created_at updated_at)
 
-      def generate_edit_form(resource, cm_model)
+      def generate_form(resource, cm_model)
         if resource.new_record?
           action = :new
           method = :post
@@ -14,13 +14,13 @@ module CmAdmin
           method = :patch
         end
         if cm_model.available_fields[action].empty?
-          return edit_form_with_all_fields(resource, method)
+          return form_with_all_fields(resource, method)
         else
-          return edit_form_with_mentioned_fields(resource, cm_model.available_fields[:edit], method)
+          return form_with_mentioned_fields(resource, cm_model.available_fields[:edit], method)
         end
       end
 
-      def edit_form_with_all_fields(resource, method)
+      def form_with_all_fields(resource, method)
         columns = resource.class.columns.dup
         table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
@@ -28,7 +28,7 @@ module CmAdmin
         set_form_for_fields(resource, columns, url, method)
       end
 
-      def edit_form_with_mentioned_fields(resource, available_fields, method)
+      def form_with_mentioned_fields(resource, available_fields, method)
         columns = resource.class.columns.select { |i| available_fields.include?(i.name.to_sym) }
         table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
