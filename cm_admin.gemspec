@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   spec.add_runtime_dependency 'pagy', '~> 3.13'
+  spec.add_runtime_dependency 'slim', '~> 4.1.0'
 end

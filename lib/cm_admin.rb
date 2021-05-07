@@ -1,3 +1,4 @@
+require 'slim'
 require 'cm_admin/version'
 require 'cm_admin/engine'
 require 'cm_admin/model'
