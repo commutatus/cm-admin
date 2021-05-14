@@ -10,7 +10,7 @@ module CmAdmin
             <span class='menu-icon'><i class='fa fa-th-large'></i></span>
             #{model.name}
           </div></a>".html_safe
-        }.join.html_safe
+        }.uniq.join.html_safe
       end
 
       def cm_paginate(facets)
