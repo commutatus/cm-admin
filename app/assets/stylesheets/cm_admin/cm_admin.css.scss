@@ -20,7 +20,7 @@
  *= require 'cm_admin/base/auth'
  *= require 'cm_admin/base/filters'
  *= require 'cm_admin/base/common'
- *=require 'cm_admin/components/index'
- *= require bootstrap/dist/css/bootstrap
+ *= require 'cm_admin/components/index'
+ *= require 'cm_admin/dependency/bootstrap.min'
  *= require_self
  */
