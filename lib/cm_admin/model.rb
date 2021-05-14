@@ -2,11 +2,12 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
-
+require 'pagy'
 module CmAdmin
   class Model
+    include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -19,6 +20,7 @@ module CmAdmin
       @available_actions ||= []
       @current_action = nil
       @available_fields ||= {index: [], show: [], edit: [], new: []}
+      @params = nil
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -72,16 +74,17 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(1)
+      @ar_object = filter_by(params)
     end
 
-    def filter_by(page, filter_params={}, sort_params={})
+    def filter_by(params, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      raw_data = @ar_model.all
-      filtered_result.data = raw_data
+      pagy, records = pagy(User.all)
+      filtered_result.data = records
+      filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
@@ -187,6 +190,7 @@ module CmAdmin
 
             # controller_name & action_name from ActionController
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
+            @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
             respond_to do |format|

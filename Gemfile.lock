@@ -2,6 +2,8 @@ PATH
   remote: .
   specs:
     cm_admin (0.1.0)
+      pagy (~> 3.13)
+      slim (~> 4.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -22,6 +24,11 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
+    slim (4.1.0)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 2.0.6, < 2.1)
+    temple (0.8.2)
+    tilt (2.0.10)
 
 PLATFORMS
   ruby
@@ -31,6 +38,7 @@ DEPENDENCIES
   pagy
   rake (~> 12.0)
   rspec (~> 3.0)
+  slim
 
 BUNDLED WITH
    2.1.4
