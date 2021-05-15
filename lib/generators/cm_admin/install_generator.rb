@@ -7,7 +7,7 @@ module CmAdmin
 
       def copy_initializer
         copy_file 'cm_admin_initializer.rb', 'config/initializers/cm_admin.rb'
-        route 'mount CmAdmin::Engine => "/admin"'
+        route 'mount CmAdmin::Engine => "/cm_admin"'
       end
     end
   end
