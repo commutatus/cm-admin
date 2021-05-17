@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.add_runtime_dependency 'pagy', '~> 3.13'
   spec.add_runtime_dependency 'slim', '~> 4.1.0'
+  spec.add_runtime_dependency 'font-awesome-rails', '~> 4.7.0'
 end

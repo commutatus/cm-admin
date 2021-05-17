@@ -17,7 +17,6 @@
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
           th = column.to_s.titleize
-
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
@@ -26,6 +25,13 @@
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each do |column|
             td = ar_object.send(column)
+          td.row-action-cell
+            .row-action-tool
+              button.secondary-btn.tool-btn type="button" 
+                span
+                  i.fa.fa-bars.bolder
+                span
+                  i.fa.fa-angle-down
 / .cm-pagination
 /   .cm-pagination__lhs Showing 1 to 15 out of 104 
 /   .cm-pagination__rhs 

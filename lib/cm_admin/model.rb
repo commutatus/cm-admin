@@ -3,6 +3,7 @@ require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
 require 'pagy'
+require "font-awesome-rails"
 module CmAdmin
   class Model
     include Pagy::Backend
@@ -55,7 +56,6 @@ module CmAdmin
     end
 
     def cm_index(&block)
-
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
