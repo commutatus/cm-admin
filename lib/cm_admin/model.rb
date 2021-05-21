@@ -155,7 +155,7 @@ module CmAdmin
 
     def column(field_name)
       puts "For printing field #{field_name}"
-      @available_fields[:index] << field_name
+      @available_fields[:index] << field_name unless @available_fields[:index].include?(field_name)
     end
 
     def all_columns(options={})
@@ -167,6 +167,7 @@ module CmAdmin
       current_action_name = @current_action.name.to_sym
       @available_fields[current_action_name] |= field_names if field_names
     end
+
     def self.find_by(search_hash)
       CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
     end
