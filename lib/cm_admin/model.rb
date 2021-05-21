@@ -159,7 +159,7 @@ module CmAdmin
     end
 
     def all_columns(options={})
-      field_names = self.instance_variable_get(:@ar_masdaodel)&.columns&.map{|x| x.name.to_sym}
+      field_names = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
       if options.include?(:exclude) && field_names
         excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
         field_names -= excluded_fields
