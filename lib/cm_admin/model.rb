@@ -158,6 +158,11 @@ module CmAdmin
       @available_fields[:index] << field_name
     end
 
+    def all_columns
+      field_names = self.instance_variable_get(:@ar_masdaodel)&.columns&.map{|x| x.name.to_sym}
+      current_action_name = @current_action.name.to_sym
+      @available_fields[current_action_name] |= field_names if field_names
+    end
     def self.find_by(search_hash)
       CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
     end
