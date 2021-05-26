@@ -158,7 +158,7 @@ module CmAdmin
       @available_fields[:index] << field_name unless @available_fields[:index].include?(field_name)
     end
 
-    def all_columns(options={})
+    def all_db_columns(options={})
       field_names = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
       if options.include?(:exclude) && field_names
         excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
