@@ -1,11 +1,11 @@
 .admin-table-index
-  .table-top  
+  .table-top
     p.table-top__total-count = "#{@ar_object.pagy.count} #{@model.ar_model.table_name} found"
     .table-top__column-action
       button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
-        span 
+        span
           i.fa.fa-columns.bolder
-        span 
+        span
           i.fa.fa-angle-down
 
 .new-admin-table
@@ -16,31 +16,31 @@
           span
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
-          th = column.to_s.titleize
+          th = column.header.present? ? column.header.to_s.titleize : column.db_column_name.to_s.titleize
 
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
           td.check-box-space
-            span 
+            span
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each do |column|
-            td = ar_object.send(column)
+            td = column_for_field_helper(ar_object, column)
 / .cm-pagination
-/   .cm-pagination__lhs Showing 1 to 15 out of 104 
-/   .cm-pagination__rhs 
-/     span.page-move-btn.disabled   
+/   .cm-pagination__lhs Showing 1 to 15 out of 104
+/   .cm-pagination__rhs
+/     span.page-move-btn.disabled
 /       i.fa.fa-angle-double-left.bolder.f14
-/     span.page-move-btn.disabled 
+/     span.page-move-btn.disabled
 /       i.fa.fa-chevron-left.bolder
 /     span.page-num-btn.active 1
 /     span.page-num-btn 2
 /     span.page-num-btn 3
 /     span.page-num-btn 4
 /     span.page-num-btn 5
-/     span.page-move-btn   
+/     span.page-move-btn
 /       i.fa.fa-chevron-right.bolder
-/     span.page-move-btn   
+/     span.page-move-btn
 /       i.fa.fa-angle-double-right.bolder.f14
 
 .cm-pagination
