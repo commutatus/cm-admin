@@ -155,7 +155,17 @@ module CmAdmin
 
     def column(field_name)
       puts "For printing field #{field_name}"
-      @available_fields[:index] << field_name
+      @available_fields[:index] << field_name unless @available_fields[:index].include?(field_name)
+    end
+
+    def all_db_columns(options={})
+      field_names = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
+      if options.include?(:exclude) && field_names
+        excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
+        field_names -= excluded_fields
+      end
+      current_action_name = @current_action.name.to_sym
+      @available_fields[current_action_name] |= field_names if field_names
     end
 
     def self.find_by(search_hash)
