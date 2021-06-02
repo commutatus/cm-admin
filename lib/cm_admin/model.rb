@@ -2,7 +2,10 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
+require_relative 'models/filter'
+
 require 'pagy'
+
 module CmAdmin
   class Model
     include Pagy::Backend
@@ -188,6 +191,9 @@ module CmAdmin
       self.class.class_eval(&block)
     end
 
+    def filter(db_column_name, filter_type, options: {})
+      test_var = CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+    end
     private
 
     # Controller defined for each model
