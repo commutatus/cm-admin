@@ -3,6 +3,9 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("jquery")
 
+import "@fortawesome/fontawesome-free/css/all"
+
+
 $(document).on('click', '.row-action-tool', function(e) {
   e.stopPropagation();
   if ($('.export-popup').hasClass('hidden')) {
