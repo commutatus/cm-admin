@@ -6,9 +6,9 @@ module CmAdmin
       VALID_FILTER_TYPES = Set[:checkbox, :date, :dropdown, :range, :search].freeze
 
       def initialize(db_column_name:, filter_type:, options: {})
-        raise ArgumentError, "Kindly select a valid filter type like #{VALID_FILTER_TYPES.to_sentence} instead of #{filter_type} for column #{db_column_name}" unless VALID_FILTER_TYPES.include?(filter_type.to_sym)
         @name = db_column_name
         @type = filter_type.to_sym
+        raise ArgumentError, "Kindly select a valid filter type like #{VALID_FILTER_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{filter_type} for column #{db_column_name}" unless VALID_FILTER_TYPES.include?(filter_type.to_sym)
         options.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
