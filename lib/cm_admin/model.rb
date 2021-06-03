@@ -192,7 +192,6 @@ module CmAdmin
       self.class.class_eval(&block)
     end
 
-      raise TypeError, "Can't have array of multiple columns for #{filter_type} filter" if db_column_name.is_a?(Array) && db_column_name.size > 1 && !filter_type.to_sym.eql?(:search)
     def filter(db_column_name, filter_type, options={})
         @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
     end
