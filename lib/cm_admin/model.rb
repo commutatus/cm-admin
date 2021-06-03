@@ -10,7 +10,7 @@ module CmAdmin
   class Model
     include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
