@@ -24,7 +24,7 @@ module CmAdmin
       @current_action = nil
       @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
-      @filters = Set.new
+      @filters ||= []
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
