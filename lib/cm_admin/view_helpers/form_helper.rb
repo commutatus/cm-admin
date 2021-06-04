@@ -42,6 +42,7 @@ module CmAdmin
             concat f.label field.name, class: 'field-label'
             concat tag.br
             concat input_field_for_column(f, field)
+            concat tag.p resource.errors[field.name].first if resource.errors[field.name].present?
             concat tag.br
             concat tag.br
           end

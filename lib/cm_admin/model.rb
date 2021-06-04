@@ -128,7 +128,6 @@ module CmAdmin
 
     def create(params)
       @ar_object = @ar_model.new(resource_params(params))
-      @ar_object.save
     end
 
     def resource_params(params)
@@ -207,7 +206,11 @@ module CmAdmin
               if %w(show index new edit).include?(action_name)
                 format.html { render '/cm_admin/main/'+action_name }
               elsif %w(create update destroy).include?(action_name)
-                format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                if @ar_object.save
+                  format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                else
+                  format.html { render '/cm_admin/main/new' }
+                end
               elsif action.layout.present?
                 if action.partial.present?
                   render partial: action.partial, layout: action.layout
