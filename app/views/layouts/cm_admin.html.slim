@@ -7,6 +7,7 @@ html
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'cm_admin/cm_admin', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
   body
     - flash.each do |type, msg|
       .alert class="alert-#{type}"

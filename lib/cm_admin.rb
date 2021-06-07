@@ -13,13 +13,23 @@ module CmAdmin
   @@included_models ||= []
   @@cm_admin_models ||= []
 
-  def self.setup
-    yield self
-  end
+  class << self
+    def webpacker
+      @webpacker ||= ::Webpacker::Instance.new(
+        root_path: CmAdmin::Engine.root,
+        config_path: CmAdmin::Engine.root.join('config', 'webpacker.yml')
+      )
+    end
 
-  def self.config(entity, &block)
-    if entity.is_a?(Class)
-      @@cm_admin_models << CmAdmin::Model.new(entity, &block)
+    def setup
+      yield self
+    end
+
+    def config(entity, &block)
+      if entity.is_a?(Class)
+        @@cm_admin_models << CmAdmin::Model.new(entity, &block)
+      end
     end
   end
+
 end

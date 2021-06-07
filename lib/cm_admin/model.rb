@@ -3,12 +3,14 @@ require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
 require_relative 'models/column'
+require_relative 'models/filter'
 require 'pagy'
+
 module CmAdmin
   class Model
     include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -22,6 +24,7 @@ module CmAdmin
       @current_action = nil
       @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
+      @filters ||= []
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -56,7 +59,6 @@ module CmAdmin
     end
 
     def cm_index(&block)
-
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
@@ -86,7 +88,7 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      pagy, records = pagy(User.all)
+      pagy, records = pagy(self.name.constantize.all)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
@@ -132,7 +134,6 @@ module CmAdmin
 
     def create(params)
       @ar_object = @ar_model.new(resource_params(params))
-      @ar_object.save
     end
 
     def resource_params(params)
@@ -162,6 +163,16 @@ module CmAdmin
       @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
     end
 
+    def all_db_columns(options={})
+      field_names = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
+      if options.include?(:exclude) && field_names
+        excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
+        field_names -= excluded_fields
+      end
+      current_action_name = @current_action.name.to_sym
+      @available_fields[current_action_name] |= field_names if field_names
+    end
+
     def self.find_by(search_hash)
       CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
     end
@@ -182,6 +193,9 @@ module CmAdmin
       self.class.class_eval(&block)
     end
 
+    def filter(db_column_name, filter_type, options={})
+        @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+    end
     private
 
     # Controller defined for each model
@@ -201,7 +215,11 @@ module CmAdmin
               if %w(show index new edit).include?(action_name)
                 format.html { render '/cm_admin/main/'+action_name }
               elsif %w(create update destroy).include?(action_name)
-                format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                if @ar_object.save
+                  format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                else
+                  format.html { render '/cm_admin/main/new' }
+                end
               elsif action.layout.present?
                 if action.partial.present?
                   render partial: action.partial, layout: action.layout

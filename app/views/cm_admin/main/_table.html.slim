@@ -16,8 +16,7 @@
           span
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
-          th = column.header.present? ? column.header.to_s.titleize : column.db_column_name.to_s.titleize
-
+          th = column.to_s.titleize
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
@@ -26,6 +25,23 @@
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each do |column|
             td = column_for_field_helper(ar_object, column)
+          td.row-action-cell
+            .row-action-tool
+              button.secondary-btn.tool-btn type="button" 
+                span
+                  i.fa.fa-bars.bolder
+                span
+                  i.fa.fa-angle-down
+              .popup-card.export-popup.hidden
+                .popup-option
+                  span
+                    i.fa.fa-file-pdf-o
+                  | Export PDF
+                .popup-option
+                  span
+                    i.fa.fa-file-text
+                  | Export CSV
+
 / .cm-pagination
 /   .cm-pagination__lhs Showing 1 to 15 out of 104
 /   .cm-pagination__rhs

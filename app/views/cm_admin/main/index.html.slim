@@ -1,7 +1,8 @@
 == render 'cm_admin/main/top_navbar'
 .index-page
-  .index-page__filters
-    == render 'cm_admin/main/filters'
+  - if @model.filters.present?
+    .index-page__filters
+      == render 'cm_admin/main/filters'
   .index-page__table-container
     == render 'cm_admin/main/table'
 
