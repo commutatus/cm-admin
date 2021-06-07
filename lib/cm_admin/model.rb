@@ -55,7 +55,6 @@ module CmAdmin
     end
 
     def cm_index(&block)
-
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
@@ -82,7 +81,7 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      pagy, records = pagy(User.all)
+      pagy, records = pagy(self.name.constantize.all)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
