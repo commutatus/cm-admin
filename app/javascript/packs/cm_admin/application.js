@@ -4,7 +4,7 @@ require("@rails/activestorage").start()
 require("jquery")
 
 import "@fortawesome/fontawesome-free/css/all"
-
+import "bootstrap/dist/js/bootstrap"
 
 $(document).on('click', '.row-action-tool', function(e) {
   e.stopPropagation();
