@@ -1,7 +1,7 @@
 module CmAdmin
   module Models
     class Field
-      attr_accessor :field_name, :label, :type
+      attr_accessor :field_name, :label, :header
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
