@@ -2,27 +2,11 @@
   .cm-navbar__lhs
     .bread-crumb-area
       = yield :bread_crumb
-    .nav-title-area   
+    .nav-title-area
       p.title-text = @model.current_action.page_title
       p.title-sub-text = @model.current_action.page_description
   .cm-navbar__rhs
     .export-container
-      button.secondary-btn type="button"
-        span
-          i.fa.fa-arrow-down 
-        span 
-          | Export
-        span 
-          i.fa.fa-angle-down
-      .popup-card.export-popup.hidden  
-        .popup-option
-          span 
-            i.fa.fa-file-pdf-o
-          | Export PDF
-        .popup-option
-          span 
-            i.fa.fa-file-text
-          | Export CSV
-
-    button.primary-btn.ml-2 type="button" 
+      = exportable(@model)
+    button.primary-btn.ml-2 type="button"
       | Action

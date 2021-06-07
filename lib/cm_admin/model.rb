@@ -67,6 +67,9 @@ module CmAdmin
       action.instance_eval(&block)
     end
 
+    def export
+    end
+
     def show(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
       @ar_object = @ar_model.find(params[:id])
