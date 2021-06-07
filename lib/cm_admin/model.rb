@@ -2,12 +2,15 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
+require_relative 'models/filter'
+
 require 'pagy'
+
 module CmAdmin
   class Model
     include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -21,6 +24,7 @@ module CmAdmin
       @current_action = nil
       @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
+      @filters ||= []
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
@@ -186,6 +190,9 @@ module CmAdmin
       self.class.class_eval(&block)
     end
 
+    def filter(db_column_name, filter_type, options={})
+        @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+    end
     private
 
     # Controller defined for each model
