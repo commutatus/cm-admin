@@ -12,7 +12,7 @@ module CmAdmin
     def exportable(klass, html_class: [])
       tag.a "Export as excel", class: html_class.append("filter-btn modal-btn mr-2"), data: {toggle: "modal", target: "#exportmodal"} do
         concat tag.i class: 'fa fa-download'
-        concat tag.span " Excel"
+        concat tag.span " Export"
       end
     end
 
@@ -45,7 +45,7 @@ module CmAdmin
     def pop_up_body(klass, required_filters)
       tag.div class: "modal-body" do
         form_tag '/cm_admin/export_to_file', id: 'export-to-file-form', style: "width: 100%;", class:"cm-admin-csv-export-form" do
-          concat hidden_field_tag 'class_name', klass.to_s, id: 'export-to-file-klass'
+          concat hidden_field_tag 'class_name', klass.name.to_s, id: 'export-to-file-klass'
           concat checkbox_row_v2(klass)
           concat tag.hr
           concat submit_tag 'Export', class: 'btn btn-primary btn-bordered export-to-file-btn'
@@ -55,7 +55,7 @@ module CmAdmin
 
     def checkbox_row_v2(klass)
       tag.div class: "row" do
-        CmAdmin::Utils.serialize_csv_columns(:first_name).each do |column_path|
+        klass.available_fields[:index].map{|x| x.exportable ? x.db_column_name : ""}.reject { |c| c.empty? }.each do |column_path|
           concat create_checkbox_v2(column_path)
         end
       end

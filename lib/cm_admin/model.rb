@@ -4,6 +4,7 @@ require_relative 'models/field'
 require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
+require_relative 'models/export'
 require 'pagy'
 
 module CmAdmin
