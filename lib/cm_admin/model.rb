@@ -187,9 +187,7 @@ module CmAdmin
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
-            # byebug
             respond_to do |format|
-              # format.xlsx { response.headers['Content-Disposition'] = "attachment; filename='users_file.xlsx'" }
               if %w(show index new edit).include?(action_name)
                 format.html { render '/cm_admin/main/'+action_name }
               elsif %w(create update destroy).include?(action_name)

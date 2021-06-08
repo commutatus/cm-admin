@@ -3,8 +3,10 @@ CmAdmin::Engine.routes.draw do
     get '/', action: 'dashboard'
   end
 
-  post '/export_to_file', to: '/cm_admin/exports#export'
-  get '/ajax_download', to: 'cm_admin/exports#ajax_download'
+  controller 'exports' do
+    get '/ajax_download', action: 'ajax_download'
+    post '/export_to_file', action: 'export'
+  end
 
   # Defining action routes for each model
   CmAdmin.cm_admin_models.each do |model|
