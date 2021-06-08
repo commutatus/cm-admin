@@ -15,6 +15,26 @@
   filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16));
   border-radius: $radius-4;
   z-index: 1;
+  &.table-export-popup {
+    top: 50px;
+    right: 10px;
+    width: 156px;
+    padding: 8px 0;
+    animation: fadeIn .2s ease-in-out;
+    .popup-option {
+      padding: 8px 16px;
+      @include font($size: $t4-text, $color: $primary-text-clr);
+      line-height: 22px;
+      transition: all .2s linear;
+      cursor: pointer;
+      &:hover {
+        background-color: $grey-lighter-clr;
+      }
+      span {
+        margin-right: 8px;
+      }
+    }
+  }
 }
 
 /* text alignment styles */
