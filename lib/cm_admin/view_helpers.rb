@@ -46,22 +46,22 @@ module CmAdmin
       tag.div class: "modal-body" do
         form_tag '/cm_admin/export_to_file.js', id: 'export-to-file-form', style: "width: 100%;", class:"cm-admin-csv-export-form" do
           concat hidden_field_tag 'class_name', klass.name.to_s, id: 'export-to-file-klass'
-          concat checkbox_row_v2(klass)
+          concat checkbox_row(klass)
           concat tag.hr
           concat submit_tag 'Export', class: 'btn btn-primary btn-bordered export-to-file-btn'
         end
       end
     end
 
-    def checkbox_row_v2(klass)
+    def checkbox_row(klass)
       tag.div class: "row" do
-        klass.available_fields[:index].map{|x| x.exportable ? x.db_column_name : ""}.reject { |c| c.empty? }.each do |column_path|
-          concat create_checkbox_v2(column_path)
+        CmAdmin::Models::Export.exportable_columns(klass).each do |column_path|
+          concat create_checkbox(column_path)
         end
       end
     end
 
-    def create_checkbox_v2(column_path)
+    def create_checkbox(column_path)
       tag.div class: "col-md-4" do
         concat check_box_tag "columns[]", column_path, id: column_path.to_s.gsub('/', '-')
         concat " " + column_path.to_s.gsub('/', '_').humanize

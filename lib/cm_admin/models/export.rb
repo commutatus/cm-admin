@@ -5,8 +5,8 @@ module CmAdmin
         def generate_excel(klass_name, columns = [], file_path)
           klass = klass_name.constantize
           records = get_records(klass, columns)
-          file_path = "#{Rails.root}/tmp/Test_data_#{DateTime.now.strftime("%Y-%m-%d_%H-%M-%S")}.xlsx"
-          create_excel(records, columns, file_path)
+          file_path = "#{Rails.root}/tmp/#{klass}_data_#{DateTime.now.strftime("%Y-%m-%d_%H-%M-%S")}.xlsx"
+          create_workbook(records, columns, file_path)
           return file_path
         end
 
@@ -17,7 +17,7 @@ module CmAdmin
           records.includes(deserialized_columns[:include].keys).find_each.as_json(deserialized_columns)
         end
 
-        def create_excel(records, class_name, file_path)
+        def create_workbook(records, class_name, file_path)
           flattened_records = records.map { |record| CmAdmin::Utils.flatten_hash(record) }
           columns = flattened_records.map{|x| x.keys}.flatten.uniq.sort
           size_arr = []
@@ -32,6 +32,11 @@ module CmAdmin
           end
           xl.serialize(file_path)
         end
+
+        def exportable_columns(klass)
+          klass.available_fields[:index].map{|x| x.exportable ? x.db_column_name : ""}.reject { |c| c.empty? }
+        end
+
       end
     end
   end
