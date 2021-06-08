@@ -2,16 +2,19 @@
 .form-page
   .form-page__inner
     .form-wrapper
-      .flag-alert.mb-4
-        p.alert-header
-            span
-              i.fa.fa-exclamation-triangle
-            | Attention
-        .alert-body
-          p.body-title 
-            | Error heading
-          p.body-info 
-            | The details of the error would be explained in this line. It could also be listed out as points on below the other if there are multiple reasons.
+      - if @ar_object.errors.present?
+        .flag-alert.mb-4
+          p.alert-header
+              span
+                i.fa.fa-exclamation-triangle
+              | Attention
+          .alert-body
+            p.body-title 
+              | Error saving #{@ar_object.class}
+            p.body-info
+              ul
+                - @ar_object.errors.full_messages.each do |error_message|
+                  li = error_message
       .form-container
         p.form-title 
           | Section heading
