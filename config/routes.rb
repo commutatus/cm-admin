@@ -4,7 +4,6 @@ CmAdmin::Engine.routes.draw do
   end
 
   controller 'exports' do
-    get '/ajax_download', action: 'ajax_download'
     post '/export_to_file', action: 'export'
   end
 
