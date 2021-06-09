@@ -2,7 +2,7 @@ module CmAdmin
   module Models
     class Export
       class << self
-        def generate_excel(klass_name, columns = [], file_path)
+        def generate_excel(klass_name, columns = [])
           klass = klass_name.constantize
           records = get_records(klass, columns)
           file_path = "#{Rails.root}/tmp/#{klass}_data_#{DateTime.now.strftime("%Y-%m-%d_%H-%M-%S")}.xlsx"

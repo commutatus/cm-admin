@@ -8,11 +8,8 @@ module CmAdmin
   class ExportsController < ApplicationController
 
     def export
-      file_data = CmAdmin::Models::Export.generate_excel(params[:class_name], params[:columns])
-      respond_to do |format|
-        @url = "/cm_admin/ajax_download?file_path=#{file_data}"
-        format.js {render :partial => "exports"}
-      end
+      file_path = CmAdmin::Models::Export.generate_excel(params[:class_name], params[:columns])
+      send_file file_path, :disposition => 'attachment'
     end
 
     def ajax_download
