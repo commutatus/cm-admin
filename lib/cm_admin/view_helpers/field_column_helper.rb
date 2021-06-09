@@ -1,6 +1,6 @@
 module CmAdmin
   module ViewHelpers
-    module FieldColumnHelper
+    module ColumnFieldHelper
 
       def column_for_field_helper(ar_object, column)
         value = ar_object.send(column.db_column_name)
