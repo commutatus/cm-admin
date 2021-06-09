@@ -8,6 +8,18 @@
   - if @model.current_action.name == 'index'
     .cm-navbar__rhs
       .export-container
-        = exportable(@model)
+        .dropdown
+          button.secondary-btn type="button" data-toggle="dropdown"
+            span
+              i.fa.fa-arrow-down
+            span
+              | Export
+            span
+              i.fa.fa-angle-down
+          ul.dropdown-menu.export-popup
+            li
+              .popup-option.pointer data-toggle="modal" data-target="#exportmodal"
+                span Export
+
       a.primary-btn.ml-2 href="#{page_url('new')}"
         | Add
