@@ -2,8 +2,8 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
 require_relative 'models/blocks'
+require_relative 'models/column'
 require_relative 'models/filter'
-
 require 'pagy'
 
 module CmAdmin
@@ -155,9 +155,9 @@ module CmAdmin
       @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
-    def column(field_name)
-      puts "For printing field #{field_name}"
-      @available_fields[:index] << field_name unless @available_fields[:index].include?(field_name)
+    def column(field_name, options={})
+      puts "For printing column #{field_name}"
+      @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
     end
 
     def all_db_columns(options={})
