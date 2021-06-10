@@ -8,6 +8,5 @@
 /tmp/
 node_modules/
 public/cm-admin-packs/
-
 # rspec failure tracking
 .rspec_status

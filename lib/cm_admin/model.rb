@@ -4,7 +4,10 @@ require_relative 'models/field'
 require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
+require_relative 'models/export'
 require 'pagy'
+require 'axlsx'
+
 
 module CmAdmin
   class Model
@@ -94,28 +97,6 @@ module CmAdmin
       return filtered_result
     end
 
-    # def paginate(page, total_count)
-    #   page = page.presence || 1
-    #   per_page = 30
-    #   facets = OpenStruct.new # initializing OpenStruct instance
-    #   facets.total_count = total_count
-    #   facets.filtered_count = total_count
-    #   facets.total_pages = (total_count/per_page.to_f).ceil
-    #   facets.current_page = page.to_i
-    #   # Previous Page
-    #   if facets.current_page - 1 == 0
-    #     facets.previous_page = false
-    #   else
-    #     facets.previous_page = true
-    #   end
-    #   # Next Page
-    #   if facets.current_page + 1 > facets.total_pages
-    #     facets.next_page = false
-    #   else
-    #     facets.next_page = true
-    #   end
-    #   return facets
-    # end
     def new(params)
       @ar_object = @ar_model.new
     end
