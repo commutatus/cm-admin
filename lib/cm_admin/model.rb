@@ -88,7 +88,9 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      pagy, records = pagy(self.name.constantize.all)
+      x = self.name.constantize.where(nil)
+      x = x.where('users.email ILIKE :search', search: '%' + params.dig(:filters, :search) + '%') if params.dig(:filters, :search)
+      pagy, records = pagy(x)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
