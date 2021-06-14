@@ -191,7 +191,11 @@ module CmAdmin
             @ar_object = @model.send(action_name, params)
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
-                format.html { render '/cm_admin/main/'+action_name }
+                if request.xhr? && action_name.eql?('index')
+                  format.html { render partial: '/cm_admin/main/table' }
+                else
+                  format.html { render '/cm_admin/main/'+action_name }
+                end
               elsif %w(create update destroy).include?(action_name)
                 if @ar_object.save
                   format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
