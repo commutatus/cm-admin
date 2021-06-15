@@ -102,13 +102,13 @@ module CmAdmin
       records = self.name.constantize.where(nil)
       if filter_params
         filter_params.each do |scope, scope_value|
-          records = self.send(scope, scope_value, records)
+          records = self.send("cm_#{scope}", scope_value, records)
         end
       end
       records
     end
 
-    def search(scope_value, records)
+    def cm_search(scope_value, records)
       table_name = records.table_name
       records.where("#{table_name}.email ILIKE :search OR #{table_name}.first_name ILIKE :search OR #{table_name}.last_name ILIKE :search", search: '%' + scope_value + '%')
     end
