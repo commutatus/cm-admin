@@ -109,8 +109,28 @@ module CmAdmin
     end
 
     def cm_search(scope_value, records)
+      return nil if scope_value.blank?
       table_name = records.table_name
-      records.where("#{table_name}.email ILIKE :search OR #{table_name}.first_name ILIKE :search OR #{table_name}.last_name ILIKE :search", search: '%' + scope_value + '%')
+
+      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+        terms = scope_value.downcase.split(/\s+/)
+        terms = terms.map { |e|
+          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
+        }
+        sql = ""
+        filter.db_column_name.each.with_index do |column, i|
+          sql.concat("#{table_name}.#{column} ILIKE ?")
+          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+        end
+
+        records = records.where(
+          terms.map { |term|
+            sql
+          }.join(' AND '),
+          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+        )
+      end
+      records
     end
 
     def new(params)
