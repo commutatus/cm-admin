@@ -91,6 +91,8 @@ module CmAdmin
       model = self.name.downcase.pluralize
       x = self.name.constantize.where(nil)
       x = x.where("#{model}.email ILIKE :search OR #{model}.first_name ILIKE :search OR #{model}.last_name ILIKE :search", search: '%' + params.dig(:filters, :search) + '%') if params.dig(:filters, :search)
+      # x = CmAdmin::Models::Filter.filter_result(filter_params, self.name.constantize)
+
       pagy, records = pagy(x)
       filtered_result.data = records
       filtered_result.pagy = pagy
