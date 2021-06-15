@@ -80,7 +80,7 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params, filter_params)
+      @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
     def filter_by(params, filter_params={}, sort_params={})
@@ -88,18 +88,29 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      model = self.name.downcase.pluralize
-      x = self.name.constantize.where(nil)
-      x = x.where("#{model}.email ILIKE :search OR #{model}.first_name ILIKE :search OR #{model}.last_name ILIKE :search", search: '%' + params.dig(:filters, :search) + '%') if params.dig(:filters, :search)
-      # x = CmAdmin::Models::Filter.filter_result(filter_params, self.name.constantize)
-
-      pagy, records = pagy(x)
+      final_data = filtered_data(filter_params)
+      pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
+    end
+
+    def filtered_data(filter_params)
+      records = self.name.constantize.where(nil)
+      if filter_params
+        filter_params.each do |scope, scope_value|
+          records = self.send(scope, scope_value, records)
+        end
+      end
+      records
+    end
+
+    def search(scope_value, records)
+      table_name = records.table_name
+      records.where("#{table_name}.email ILIKE :search OR #{table_name}.first_name ILIKE :search OR #{table_name}.last_name ILIKE :search", search: '%' + scope_value + '%')
     end
 
     def new(params)
@@ -177,7 +188,7 @@ module CmAdmin
     end
 
     def filter(db_column_name, filter_type, options={})
-        @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+      @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
     end
     private
 
@@ -221,7 +232,7 @@ module CmAdmin
       CmAdmin.const_set "#{@name}Controller", klass
     end
 
-    def filter_params
+    def filter_params(params)
       params.require(:filters).permit(:search) if params[:filters]
     end
   end
