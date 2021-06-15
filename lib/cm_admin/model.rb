@@ -80,7 +80,7 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params)
+      @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
     def filter_by(params, filter_params={}, sort_params={})
@@ -88,13 +88,49 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      pagy, records = pagy(self.name.constantize.all)
+      final_data = filtered_data(filter_params)
+      pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
+    end
+
+    def filtered_data(filter_params)
+      records = self.name.constantize.where(nil)
+      if filter_params
+        filter_params.each do |scope, scope_value|
+          records = self.send("cm_#{scope}", scope_value, records)
+        end
+      end
+      records
+    end
+
+    def cm_search(scope_value, records)
+      return nil if scope_value.blank?
+      table_name = records.table_name
+
+      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+        terms = scope_value.downcase.split(/\s+/)
+        terms = terms.map { |e|
+          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
+        }
+        sql = ""
+        filter.db_column_name.each.with_index do |column, i|
+          sql.concat("#{table_name}.#{column} ILIKE ?")
+          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+        end
+
+        records = records.where(
+          terms.map { |term|
+            sql
+          }.join(' AND '),
+          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+        )
+      end
+      records
     end
 
     def new(params)
@@ -172,7 +208,7 @@ module CmAdmin
     end
 
     def filter(db_column_name, filter_type, options={})
-        @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+      @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
     end
     private
 
@@ -191,7 +227,11 @@ module CmAdmin
             @ar_object = @model.send(action_name, params)
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
-                format.html { render '/cm_admin/main/'+action_name }
+                if request.xhr? && action_name.eql?('index')
+                  format.html { render partial: '/cm_admin/main/table' }
+                else
+                  format.html { render '/cm_admin/main/'+action_name }
+                end
               elsif %w(create update destroy).include?(action_name)
                 if @ar_object.save
                   format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
@@ -210,6 +250,10 @@ module CmAdmin
         end
       end if $available_actions.present?
       CmAdmin.const_set "#{@name}Controller", klass
+    end
+
+    def filter_params(params)
+      params.require(:filters).permit(:search) if params[:filters]
     end
   end
 end
