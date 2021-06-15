@@ -88,8 +88,9 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
+      model = self.name.downcase.pluralize
       x = self.name.constantize.where(nil)
-      x = x.where('users.email ILIKE :search', search: '%' + params.dig(:filters, :search) + '%') if params.dig(:filters, :search)
+      x = x.where("#{model}.email ILIKE :search OR #{model}.first_name ILIKE :search OR #{model}.last_name ILIKE :search", search: '%' + params.dig(:filters, :search) + '%') if params.dig(:filters, :search)
       pagy, records = pagy(x)
       filtered_result.data = records
       filtered_result.pagy = pagy
