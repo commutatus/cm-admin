@@ -14,17 +14,6 @@ module CmAdmin
           self.send("#{key.to_s}=", value)
         end
       end
-
-      class << self
-
-        def filter_result(filtering_params, model)
-          results = model.where(nil)
-          filtering_params.each do |key, value|
-            results = results.public_send("filter_by_#{key}", value) if value.present?
-          end
-          results
-        end
-      end
     end
   end
 end
