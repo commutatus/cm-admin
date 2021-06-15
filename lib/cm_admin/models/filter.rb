@@ -19,7 +19,6 @@ module CmAdmin
 
         case filter_type
         when :search
-          byebug
           db_column_name = (Array.new << db_column_name).flatten.map(&:to_sym)
         else
           db_column_name = db_column_name.is_a?(Array) ? db_column_name[0].to_sym : db_column_name.to_sym
