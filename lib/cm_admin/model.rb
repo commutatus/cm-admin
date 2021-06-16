@@ -173,8 +173,10 @@ module CmAdmin
     end
 
     def column(field_name, options={})
-      puts "For printing column #{field_name}"
-      @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+      unless @available_fields[:index].map{|x| x.db_column_name.to_sym}.include?(field_name)
+        puts "For printing column #{field_name}"
+        @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+      end
     end
 
     def all_db_columns(options={})
@@ -183,8 +185,9 @@ module CmAdmin
         excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
         field_names -= excluded_fields
       end
-      current_action_name = @current_action.name.to_sym
-      @available_fields[current_action_name] |= field_names if field_names
+      field_names.each do |field_name|
+        column field_name
+      end
     end
 
     def self.find_by(search_hash)
