@@ -8,6 +8,7 @@ module CmAdmin
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
+        @exportable = true if attributes[:exportable].nil?
       end
 
     end
