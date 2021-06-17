@@ -1,10 +1,14 @@
 require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
+require_relative 'models/form_field'
 require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
+require_relative 'models/export'
 require 'pagy'
+require 'axlsx'
+
 
 module CmAdmin
   class Model
@@ -52,21 +56,23 @@ module CmAdmin
 
     def cm_show(&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-      puts "Top of the line"
       yield
-      # action.instance_eval(&block)
-      puts "End of the line"
+    end
+
+    def cm_edit(&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
+      yield
+    end
+
+    def cm_new(&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
+      yield
     end
 
     def cm_index(&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
-    end
-
-    def cm_edit(&block)
-      action = CmAdmin::Models::Action.find_by(self, name: 'edit')
-      action.instance_eval(&block)
     end
 
     def show(params)
@@ -77,7 +83,7 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params)
+      @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
     def filter_by(params, filter_params={}, sort_params={})
@@ -85,7 +91,8 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      pagy, records = pagy(self.name.constantize.all)
+      final_data = filtered_data(filter_params)
+      pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
       # filtered_result.facets = paginate(page, raw_data.size)
@@ -94,28 +101,41 @@ module CmAdmin
       return filtered_result
     end
 
-    # def paginate(page, total_count)
-    #   page = page.presence || 1
-    #   per_page = 30
-    #   facets = OpenStruct.new # initializing OpenStruct instance
-    #   facets.total_count = total_count
-    #   facets.filtered_count = total_count
-    #   facets.total_pages = (total_count/per_page.to_f).ceil
-    #   facets.current_page = page.to_i
-    #   # Previous Page
-    #   if facets.current_page - 1 == 0
-    #     facets.previous_page = false
-    #   else
-    #     facets.previous_page = true
-    #   end
-    #   # Next Page
-    #   if facets.current_page + 1 > facets.total_pages
-    #     facets.next_page = false
-    #   else
-    #     facets.next_page = true
-    #   end
-    #   return facets
-    # end
+    def filtered_data(filter_params)
+      records = self.name.constantize.where(nil)
+      if filter_params
+        filter_params.each do |scope, scope_value|
+          records = self.send("cm_#{scope}", scope_value, records)
+        end
+      end
+      records
+    end
+
+    def cm_search(scope_value, records)
+      return nil if scope_value.blank?
+      table_name = records.table_name
+
+      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+        terms = scope_value.downcase.split(/\s+/)
+        terms = terms.map { |e|
+          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
+        }
+        sql = ""
+        filter.db_column_name.each.with_index do |column, i|
+          sql.concat("#{table_name}.#{column} ILIKE ?")
+          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+        end
+
+        records = records.where(
+          terms.map { |term|
+            sql
+          }.join(' AND '),
+          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+        )
+      end
+      records
+    end
+
     def new(params)
       @ar_object = @ar_model.new
     end
@@ -126,7 +146,8 @@ module CmAdmin
 
     def update(params)
       @ar_object = @ar_model.find(params[:id])
-      @ar_object.update(resource_params(params))
+      @ar_object.assign_attributes(resource_params(params))
+      @ar_object
     end
 
     def create(params)
@@ -155,9 +176,15 @@ module CmAdmin
       @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
+    def form_field(field_name, options={})
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options)
+    end
+
     def column(field_name, options={})
-      puts "For printing column #{field_name}"
-      @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+      unless @available_fields[:index].map{|x| x.db_column_name.to_sym}.include?(field_name)
+        puts "For printing column #{field_name}"
+        @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+      end
     end
 
     def all_db_columns(options={})
@@ -166,8 +193,9 @@ module CmAdmin
         excluded_fields = (Array.new << options[:exclude]).flatten.map(&:to_sym)
         field_names -= excluded_fields
       end
-      current_action_name = @current_action.name.to_sym
-      @available_fields[current_action_name] |= field_names if field_names
+      field_names.each do |field_name|
+        column field_name
+      end
     end
 
     def self.find_by(search_hash)
@@ -191,7 +219,7 @@ module CmAdmin
     end
 
     def filter(db_column_name, filter_type, options={})
-        @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
+      @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
     end
     private
 
@@ -210,7 +238,11 @@ module CmAdmin
             @ar_object = @model.send(action_name, params)
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
-                format.html { render '/cm_admin/main/'+action_name }
+                if request.xhr? && action_name.eql?('index')
+                  format.html { render partial: '/cm_admin/main/table' }
+                else
+                  format.html { render '/cm_admin/main/'+action_name }
+                end
               elsif %w(create update destroy).include?(action_name)
                 if @ar_object.save
                   format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
@@ -229,6 +261,10 @@ module CmAdmin
         end
       end if $available_actions.present?
       CmAdmin.const_set "#{@name}Controller", klass
+    end
+
+    def filter_params(params)
+      params.require(:filters).permit(:search) if params[:filters]
     end
   end
 end

@@ -3,6 +3,8 @@
     .filter-search
       .form-field
         .field-input-wrapper
-          input.search-input type="text" placeholder="Search"
-          span.search-input-icon
-            i.fa.fa-search
+          - filters.each do |filter|
+            - if filter.filter_type.eql?(:search)
+              input.search-input value="#{params.dig(:filters, :search)}" placeholder="#{filter.placeholder}"
+              span.search-input-icon
+                i.fa.fa-search

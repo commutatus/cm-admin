@@ -1,7 +1,7 @@
 require_relative 'lib/cm_admin/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "cm_admin"
+  spec.name          = "cm-admin"
   spec.version       = CmAdmin::VERSION
   spec.authors       = ["sajinmp", "anbublacky", "manikandan0603"]
   spec.email         = ["sajinprasadkm@gmail.com", "anbublacky@gmail.com"]
@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'pagy', '~> 3.13'
   spec.add_runtime_dependency 'slim', '~> 4.1.0'
   spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
+  spec.add_runtime_dependency 'axlsx_rails', '~> 0.6.1'
 end

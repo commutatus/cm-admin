@@ -2,6 +2,8 @@
 .index-page
   - if @model.filters.present?
     .index-page__filters
-      == render 'cm_admin/main/filters'
+      == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
   .index-page__table-container
     == render 'cm_admin/main/table'
+
+= column_pop_up(@model)

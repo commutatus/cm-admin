@@ -3,7 +3,11 @@ CmAdmin::Engine.routes.draw do
     get '/', action: 'dashboard'
   end
 
-    # Defining action routes for each model
+  controller 'exports' do
+    post '/export_to_file', action: 'export'
+  end
+
+  # Defining action routes for each model
   CmAdmin.cm_admin_models.each do |model|
     model.available_actions.each do |act|
       scope model.name.tableize do

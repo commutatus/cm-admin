@@ -1,6 +1,6 @@
 module CmAdmin
   module Models
-    class Field
+    class FormField
       attr_accessor :field_name, :label, :header
 
       def initialize(field_name, attributes = {})

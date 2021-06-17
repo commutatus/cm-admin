@@ -2,45 +2,24 @@
   .cm-navbar__lhs
     .bread-crumb-area
       = yield :bread_crumb
-    .nav-title-area   
+    .nav-title-area
       p.title-text = @model.current_action.page_title
       p.title-sub-text = @model.current_action.page_description
   - if @model.current_action.name == 'index'
     .cm-navbar__rhs
       .export-container
-        button.secondary-btn type="button"
-          span
-            i.fa.fa-arrow-down 
-          span 
-            | Export
-          span 
-            i.fa.fa-angle-down
-        .popup-card.export-popup.hidden  
-          .popup-option
-            span 
-              i.fa.fa-file-pdf-o
-            | Export PDF
-          .popup-option
-            span 
-              i.fa.fa-file-text
-            | Export CSV
+        .dropdown
+          button.secondary-btn type="button" data-toggle="dropdown"
+            span
+              i.fa.fa-arrow-down
+            span
+              | Export
+            span
+              i.fa.fa-angle-down
+          ul.dropdown-menu.export-popup
+            li
+              .popup-option.pointer data-toggle="modal" data-target="#exportmodal"
+                span Export
 
       a.primary-btn.ml-2 href="#{page_url('new')}"
         | Add
-
-      button.btn.btn-primary data-target="#exampleModal" data-toggle="modal" type="button" 
-        | Launch demo modal
-#exampleModal.modal.fade aria-hidden="true" aria-labelledby="exampleModalLabel" role="dialog" tabindex="-1" 
-  .modal-dialog role="document" 
-    .modal-content
-      .modal-header
-        h5#exampleModalLabel.modal-title Modal title
-        button.close aria-label="Close" data-dismiss="modal" type="button" 
-          span aria-hidden="true"  &times;
-      .modal-body
-        | \...
-      .modal-footer
-        button.btn.btn-secondary data-dismiss="modal" type="button"  Close
-        button.btn.btn-primary type="button"  Save changes
-
-
