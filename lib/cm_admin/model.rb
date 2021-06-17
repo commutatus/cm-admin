@@ -146,7 +146,8 @@ module CmAdmin
 
     def update(params)
       @ar_object = @ar_model.find(params[:id])
-      @ar_object.update(resource_params(params))
+      @ar_object.assign_attributes(resource_params(params))
+      @ar_object
     end
 
     def create(params)
