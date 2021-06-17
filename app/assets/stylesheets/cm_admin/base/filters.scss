@@ -1,10 +1,6 @@
 @import "../helpers/index.scss";
 
 .cm-filters-v2 {
-  position: fixed;
-  top: 140px;
-  left: 225px;
-  width: calc(100% - 225px);
   min-height: 64px;
   padding: 16px 24px;
   background-color: $white;

@@ -1,9 +1,10 @@
-== render 'cm_admin/main/top_navbar'
-.index-page
-  - if @model.filters.present?
-    .index-page__filters
-      == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
-  .index-page__table-container
-    == render 'cm_admin/main/table'
+.index-page.page-container
+	.sticky-container
+		== render 'cm_admin/main/top_navbar'
+		- if @model.filters.present?
+		  .index-page__filters
+		    == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
+	.index-page__table-container
+		== render 'cm_admin/main/table'
 
-= column_pop_up(@model)
+	= column_pop_up(@model)

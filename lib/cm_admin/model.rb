@@ -5,6 +5,8 @@ require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
 require_relative 'models/export'
+require_relative 'models/cm_show_section'
+require_relative 'models/nav_item'
 require 'pagy'
 require 'axlsx'
 
@@ -55,6 +57,7 @@ module CmAdmin
 
     def cm_show(&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+      @available_fields[:show] = {sections: [], nav_items: []}
       puts "Top of the line"
       yield
       # action.instance_eval(&block)
@@ -167,9 +170,14 @@ module CmAdmin
       end
     end
 
-    def field(field_name, options={})
-      puts "For printing field #{field_name}"
-      @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
+    def cm_show_section(section_name, &block)
+      puts "For printing section"
+      @available_fields[:show][:sections] << CmAdmin::Models::CmShowSection.new(section_name, &block)
+    end
+
+    def nav_item(nav_item_name, redirection_url, is_active)
+      puts "For printing nav item #{nav_item_name}"
+      @available_fields[:show][:nav_items] << CmAdmin::Models::NavItem.new(nav_item_name, redirection_url, is_active)
     end
 
     def column(field_name, options={})
