@@ -16,8 +16,7 @@
           span
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
-          th = column.header.present? ? column.header.to_s.titleize : column.db_column_name.to_s.titleize
-
+          th = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
