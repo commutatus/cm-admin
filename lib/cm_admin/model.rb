@@ -1,6 +1,7 @@
 require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/field'
+require_relative 'models/form_field'
 require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
@@ -55,21 +56,23 @@ module CmAdmin
 
     def cm_show(&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-      puts "Top of the line"
       yield
-      # action.instance_eval(&block)
-      puts "End of the line"
+    end
+
+    def cm_edit(&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
+      yield
+    end
+
+    def cm_new(&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
+      yield
     end
 
     def cm_index(&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       yield
       # action.instance_eval(&block)
-    end
-
-    def cm_edit(&block)
-      action = CmAdmin::Models::Action.find_by(self, name: 'edit')
-      action.instance_eval(&block)
     end
 
     def show(params)
@@ -143,7 +146,8 @@ module CmAdmin
 
     def update(params)
       @ar_object = @ar_model.find(params[:id])
-      @ar_object.update(resource_params(params))
+      @ar_object.assign_attributes(resource_params(params))
+      @ar_object
     end
 
     def create(params)
@@ -170,6 +174,10 @@ module CmAdmin
     def field(field_name, options={})
       puts "For printing field #{field_name}"
       @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
+    end
+
+    def form_field(field_name, options={})
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options)
     end
 
     def column(field_name, options={})
