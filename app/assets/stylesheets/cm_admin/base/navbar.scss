@@ -1,14 +1,12 @@
 @import "../helpers/index.scss";
 
 .cm-navbar {
-  position: fixed;
   top: 0;
   right: 0;
   left: 225px;
   display: flex;
   justify-content: space-between;
-  width: calc(100% - 225px);
-  height: 140px;
+  min-height: 140px;
   padding: 24px 24px 16px;
   background-color: $white;
   z-index: 2;

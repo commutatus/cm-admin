@@ -1,16 +1,16 @@
 @import "../helpers/index.scss";
 
 .index-page {
-  margin-top: 204px;
   background-color: $white;
+  overflow: auto;
 
   &__filters {
     // If you want to overwrite filters styles ---> add styles here
   }
 
   &__table-container {
-    margin-top: 174px; //This should be height of the filters + navbar height
     padding: 20px;
+    height: 100%;
   }
 
   .admin-table {
@@ -66,6 +66,8 @@
 
   .new-admin-table {
     overflow: auto;
+    margin-top: 40px;
+    margin-bottom: 50px;
     .cm-table {
       table-layout: fixed;
       position: relative;
@@ -99,12 +101,8 @@
       }
       &__body {
         display: block;
-        overflow: auto;
-        overflow-x: hidden;
         position: relative;
-        width: 100%;
-        height: 335px;
-        .body-row {
+        width: 100%;        .body-row {
           box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
           transition: all .2s linear;
           &:nth-last-child(1) {
@@ -159,6 +157,12 @@
   }
 
   .admin-table-index {
+
+    position: fixed;
+    width: calc(100% - 285px);
+    left: 245px;
+    background-color: #fff;
+    z-index: 1;
     .table-sticky-top {
       position: sticky;
       top: 254px;
@@ -265,6 +269,10 @@
   }
 
   .cm-pagination {
+    position: fixed;
+    background-color: #FFF;
+    bottom: 0;
+    width: calc(100% - 225px);
     display: flex;
     justify-content: space-between;
     align-items: center;

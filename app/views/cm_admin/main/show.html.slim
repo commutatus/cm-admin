@@ -1,13 +1,19 @@
-== render 'cm_admin/main/top_navbar'
-.show-page
-  .show-page__inner
-    .info-section
-      p.section-heading   
-        | Section heading
-      .paper
-        - @model.available_fields[:show].each do |field|
-          .info-split
-            .info-split__lhs
-              p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
-            .info-split__rhs
-              p = @ar_object.send(field.field_name)
+.show-page.page-container
+  .show-page__tabs.sticky-container
+    .cm-tabs-bar
+      == render 'cm_admin/main/top_navbar'
+      ul.nav.nav-pills
+        - @model.available_fields[:show][:nav_items].each do |nav_item|
+          li.nav-item
+            a.nav-link href=nav_item.redirection_url class="#{nav_item.is_active ? 'active' : ''}" #{nav_item.nav_item_name.to_s.titleize}
+  .show-page__inner.scrollable
+    - @model.available_fields[:show][:sections].each do |section|
+      .info-section
+        p.section-heading = section.section_name
+        .paper
+          - section.available_section_fields.each do |field|
+            .info-split
+              .info-split__lhs
+                p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
+              .info-split__rhs
+                p = @ar_object.send(field.field_name)

@@ -1,11 +1,33 @@
 @import "../helpers/index.scss";
 
 .show-page {
-  margin-top: 194px;
+  overflow: auto;
   
   &__tabs {
     .cm-tabs-bar {
-      // If you want to overwrite tabs styles ---> add styles here
+      background-color: #FFF;
+      width: 100%;
+      .nav-pills {
+        margin-left: 20px;
+      }
+      .nav-link {
+        position: static;
+        left: 0%;
+        right: 0%;
+        font-size: 14px;
+        line-height: 22px;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+        color: #6B7586;
+        background-color: #FFF;
+        border-radius: 0px;
+      }
+      .nav-link.active {
+        color: #6554E0;
+        border-bottom: 3px #6554E0 solid;
+        background-color: #FFF;
+      }
     }
   }
 
