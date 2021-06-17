@@ -29,7 +29,7 @@ module CmAdmin
       end
 
       def form_with_mentioned_fields(resource, available_fields, method)
-        columns = resource.class.columns.select { |i| available_fields.include?(i.name.to_sym) }
+        columns = resource.class.columns.select { |i| available_fields.map(&:field_name).include?(i.name.to_sym) }
         table_name = resource.class.table_name
         columns.reject! { |i| REJECTABLE.include?(i.name) }
         url = CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}"

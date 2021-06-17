@@ -1,7 +1,7 @@
 require_relative 'lib/cm_admin/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "cm_admin"
+  spec.name          = "cm-admin"
   spec.version       = CmAdmin::VERSION
   spec.authors       = ["sajinmp", "anbublacky", "manikandan0603"]
   spec.email         = ["sajinprasadkm@gmail.com", "anbublacky@gmail.com"]

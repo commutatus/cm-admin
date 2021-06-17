@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm_admin (0.1.0)
+    cm-admin (0.3.0)
       axlsx_rails (~> 0.6.1)
       pagy (~> 3.13)
       slim (~> 4.1.0)
@@ -50,10 +50,8 @@ GEM
       nokogiri (>= 1.5.9)
     marcel (1.0.1)
     method_source (1.0.0)
-    mini_portile2 (2.5.3)
     minitest (5.14.4)
-    nokogiri (1.11.7)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.7-x86_64-darwin)
       racc (~> 1.4)
     pagy (3.13.0)
     racc (1.5.2)
@@ -108,7 +106,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cm_admin!
+  cm-admin!
   pagy
   rake (~> 12.0)
   rspec (~> 3.0)
