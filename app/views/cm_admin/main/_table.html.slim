@@ -24,7 +24,8 @@
             span
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each do |column|
-            td = column_for_field_helper(ar_object, column)
+            td
+              span class="#{column.cm_css_class}" = column_for_field_helper(ar_object, column)
           td.row-action-cell
             .row-action-tool
               button.secondary-btn.tool-btn type="button"
