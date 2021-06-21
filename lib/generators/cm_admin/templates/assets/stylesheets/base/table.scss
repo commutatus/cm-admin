@@ -1,0 +1,94 @@
+@import "../helpers/index.scss";
+
+.main-body {
+  margin-top: 140px;
+
+  &__filter-bar {
+    position: fixed;
+    top: 140px;
+    left: 250px;
+    width: calc(100% - 250px);
+    min-height: 60px;
+    padding: 10px 20px;
+    background-color: $white;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.06);
+    z-index: 9;
+  }
+
+  &__table-container {
+    margin-top: 140px; //This should be height of the filters + navbar height
+    padding: 20px;
+  }
+
+  .admin-table {
+    background-color: $white;
+    border-radius: 5px;
+    .record-found {
+      padding: 10px;
+      color: #31383d;
+      font-size: 14px;
+      opacity: 0.5;
+    }
+    .cm-table {
+      width: 100%;
+      &__header {
+        tr > th {
+          width: 20%;
+          color: #172b4d;
+          background-color: #fafbfc;
+          box-shadow: inset 0 1px 0 0 #ebecf0;
+          font-weight: 600;
+          font-size: 14px;
+          border-bottom: none;
+          height: 40px;
+          padding: 0 10px;
+        }
+      }
+
+      &__body {
+        tr {
+          transition: all 0.2s linear;
+          &:hover {
+            background-color: #dfe4e7;
+          }
+        }
+
+        tr > td {
+          color: #172b4d;
+          font-size: 14px;
+          padding: 8px 10px;
+        }
+        .edit-icon {
+          font-size: 20px;
+          cursor: pointer;
+          @include transition-linear;
+          &:hover {
+            box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+  }
+
+  .cm-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+    &__item {
+      padding: 5px 10px;
+      font-size: 16px;
+      background-color: $white;
+      border: 1px solid #cbdcde;
+      border-radius: 4px;
+      &:nth-child(2) {
+        margin-left: 16px;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        &:hover {
+          box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}

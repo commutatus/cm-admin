@@ -1,0 +1,20 @@
+.admin-table
+  .record-found
+    | <%= @filtered_result.facets.total_count %> companies found
+
+  table.cm-table
+    thead.cm-table__header
+      tr
+        <% options[:column_names].each do |column_name| %>
+        th <%= column_name.titleize %>
+        <% end %>
+
+    tbody.cm-table__body
+      - @filtered_result.data.each do |<%= name.singularize %>|
+        tr
+          <% options[:column_names].each do |column_name| %>
+          td = <%= name.singularize %>.<%= column_name %>
+          <% end %>
+          td
+            i.fa.fa-pencil.edit-icon
+= cm_paginate(@filtered_result.facets)

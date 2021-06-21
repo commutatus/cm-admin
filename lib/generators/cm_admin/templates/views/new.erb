@@ -1,0 +1,9 @@
+.form-wrapper
+  .form-wrapper__top-bar
+    .back-btn
+      span
+        i.fa.fa-arrow-left aria-hidden="true"
+      | Back
+  .form-wrapper__inner
+    .paper
+      == render 'form', <%= name.singularize %>: @<%= name.singularize %>

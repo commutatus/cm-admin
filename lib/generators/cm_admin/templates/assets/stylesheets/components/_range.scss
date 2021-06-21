@@ -1,0 +1,20 @@
+@import "../helpers/index.scss";
+
+.range-container {
+  display: flex;
+  width: 360px;
+  height: 54px;
+  padding: 8px;
+  background: $white;
+  border: 1px solid #F3F4F6;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  border-radius: $radius-4;
+  .range-item {
+    &:nth-child(1) {
+      margin-right: 4px;
+    }
+    &:nth-child(2) {
+      margin-left: 4px;
+    }
+  }
+}
