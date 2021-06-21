@@ -18,7 +18,7 @@ module CmAdmin
 
       #column's value is either linked with 'url' attribute's value or its own value
       def link_url_value_helper(column, value, formatted_value)
-        return value unless column.column_type.to_s == 'link'
+        return formatted_value unless column.column_type.to_s == 'link'
         link_url_value = column.url.present? ? column.url : value
         final_value = "<a href=#{link_url_value}>#{formatted_value}</a>".html_safe
         return final_value
