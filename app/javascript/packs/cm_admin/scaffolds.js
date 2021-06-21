@@ -1,3 +1,8 @@
+$(document).ready(function(e) {
+  $('.select-2').select2();
+  flatpickr("[data-behaviour='date-only']", {})
+}
+);
 $(document).on('click', '.row-action-cell', function(e) {
   e.stopPropagation();
   if ($(this).hasClass('opacity-1')) {
