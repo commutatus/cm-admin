@@ -5,23 +5,23 @@
   line-height: 22px;
   padding: 4px;
   &.default-tag {
-    color: $primary-text-clr !important;
+    color: $primary-text-clr;
     background: $grey-lighter-clr;
   }
   &.green-tag {
-    color: $green-regular-clr !important;
+    color: $green-regular-clr;
     background: $green-lightest-clr;
   }
   &.yellow-tag {
-    color: $yellow-regular-clr !important;
+    color: $yellow-regular-clr;
     background: $yellow-lightest-clr;
   }
   &.red-tag {
-    color: $red-regular-clr !important;
+    color: $red-regular-clr;
     background: $red-lightest-clr;
   }
   &.blue-tag {
-    color: $blue-regular-clr !important;
+    color: $blue-regular-clr;
     background: $blue-lightest-clr;
   }
 }

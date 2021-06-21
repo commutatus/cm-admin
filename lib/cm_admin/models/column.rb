@@ -1,7 +1,8 @@
 module CmAdmin
   module Models
     class Column
-      attr_accessor :db_column_name, :column_type, :header, :format, :prefix, :suffix, :exportable, :round, :cm_css_class
+      attr_accessor :db_column_name, :column_type, :header, :format, :prefix, :suffix, :exportable, :round,
+      :cm_css_class, :link, :url
 
       def initialize(db_column_name, attributes = {})
         @db_column_name = db_column_name

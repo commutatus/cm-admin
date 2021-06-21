@@ -2,16 +2,26 @@ module CmAdmin
   module ViewHelpers
     module ColumnFieldHelper
 
+      #adds prefix and suffix to a value
+      def add_prefix_and_suffix_helper(value, prefix, suffix)
+        prefix.to_s + ' ' + value.to_s + ' ' + suffix.to_s
+      end
+
+      #formats the column value a field
       def column_for_field_helper(ar_object, column)
         value = ar_object.send(column.db_column_name)
         formatted_value = CmAdmin::Models::Column.format_data_type(column, value)
-        if column.prefix.present?
-          formatted_value = column.prefix.to_s + ' ' + formatted_value.to_s
-        end
-        if column.suffix.present?
-          formatted_value = formatted_value.to_s + ' ' + column.suffix.to_s
-        end
+        formatted_value = add_prefix_and_suffix_helper(formatted_value, column.prefix, column.suffix)
+        formatted_value = link_url_value_helper(column, value, formatted_value)
         return formatted_value
+      end
+
+      #column's value is either linked with 'url' attribute's value or its own value
+      def link_url_value_helper(column, value, formatted_value)
+        return value unless column.column_type.to_s == 'link'
+        link_url_value = column.url.present? ? column.url : value
+        final_value = "<a href=#{link_url_value}>#{formatted_value}</a>".html_safe
+        return final_value
       end
 
     end
