@@ -4,7 +4,7 @@ module CmAdmin
 
       #adds prefix and suffix to a value
       def add_prefix_and_suffix_helper(value, prefix, suffix)
-        prefix.to_s + ' ' + value.to_s + ' ' + suffix.to_s
+        "#{prefix} #{value} #{suffix}"
       end
 
       #formats the column value a field
