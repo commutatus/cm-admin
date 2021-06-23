@@ -59,3 +59,81 @@ a {
 .opacity-1 {
   opacity: 1 !important;
 }
+
+.table-column-modal {
+
+    //modal overwritten styles
+    .modal-dialog {
+      .modal-content {
+        .modal-header {
+          position: relative;
+          padding: 24px 32px 18px;
+          border: none;
+          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+          .modal-title {
+            @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
+            line-height: 32px;
+          }
+          .close {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            padding: 4px;
+            margin: 0;
+          }
+        }
+        .modal-body {
+          padding: 0;
+        }
+        .modal-footer {
+          padding: 16px 32px;
+          border: none;
+          box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
+        }
+      }
+    } 
+
+    .columns-list {
+      .column-item  {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 24px;
+        box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+        &:hover {
+          .dragger {
+            display: block;
+          }
+        }
+        &__name {
+          font-size: $t4-text;
+          line-height: 22px;
+          margin-left: 4px;
+          color: $primary-text-clr;
+          p {
+            margin: 0;
+          }
+        }
+        &__action {
+          padding: 5px 8px;
+          font-size: $t4-text;
+          color: $ink-lightest-clr;
+        }
+        .dragger {
+          display: none;
+          position: absolute;
+          left: 4px;
+          top: 8px;
+          padding: 5px;
+          color: $ink-lightest-clr;
+          border-radius: $radius-4;
+          animation: fadeIn .1s ease-in-out;
+          cursor: grab;
+          &:hover {
+            background: $grey-lighter-clr;
+          }
+        }
+      }
+    } 
+  }
