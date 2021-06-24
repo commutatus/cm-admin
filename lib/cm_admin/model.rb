@@ -143,6 +143,17 @@ module CmAdmin
       records
     end
 
+    def cm_date_and_range_filter(scope_value, records)
+      return nil if scope_value.nil?
+      scope_value.each do |key, value|
+        if value.present?
+          from, to = value.split(' - ')
+          records = records.where(key => from..to)
+        end
+      end
+      records
+    end
+
     def new(params)
       @ar_object = @ar_model.new
     end
