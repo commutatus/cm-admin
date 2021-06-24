@@ -19,6 +19,10 @@ module CmAdmin
           return f.text_field field.field_name, class: 'normal-input', data: {behaviour: 'date-time'}
         when :text
           return f.text_area field.field_name, class: 'normal-input'
+        when :single_file_upload
+          return f.file_field field.field_name, class: 'normal-input'
+        when :multi_file_upload
+          return f.file_field field.field_name, multiple: true, class: 'normal-input'
         end
       end
     end
