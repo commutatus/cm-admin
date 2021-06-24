@@ -118,7 +118,7 @@ module CmAdmin
       records
     end
 
-    def cm_search(scope_value, records)
+    def cm_search_filter(scope_value, records)
       return nil if scope_value.blank?
       table_name = records.table_name
 
