@@ -184,7 +184,7 @@ module CmAdmin
     end
 
     def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options)
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
     end
 
     def column(field_name, options={})
