@@ -1,7 +1,7 @@
 module CmAdmin
   module Models
     class Filter
-      attr_accessor :db_column_name, :filter_type, :placeholder, :collection, :multiselect, :checked
+      attr_accessor :db_column_name, :filter_type, :placeholder, :collection
 
       VALID_FILTER_TYPES = Set[:date, :multi_select, :range, :search, :single_select].freeze
 
