@@ -104,8 +104,15 @@ module CmAdmin
     def filtered_data(filter_params)
       records = self.name.constantize.where(nil)
       if filter_params
-        filter_params.each do |scope, scope_value|
-          records = self.send("cm_#{scope}", scope_value, records)
+        filter_params.each do |scope_type, scope_value|
+          scope_name = if scope_type.eql?('date') || scope_type.eql?('range')
+            'date_and_range'
+          elsif scope_type.eql?('single_select') || scope_type.eql?('multi_select')
+            'dropdown'
+          else
+            scope_type
+          end
+          records = self.send("cm_#{scope_name}_filter", scope_value, records) if scope_value.present?
         end
       end
       records
