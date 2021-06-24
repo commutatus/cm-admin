@@ -3,7 +3,7 @@ module CmAdmin
     class Filter
       attr_accessor :db_column_name, :filter_type, :placeholder, :collection, :multiselect, :checked
 
-      VALID_FILTER_TYPES = Set[:checkbox, :date, :dropdown, :range, :search].freeze
+      VALID_FILTER_TYPES = Set[:date, :multi_select, :range, :search, :single_select].freeze
 
       def initialize(db_column_name:, filter_type:, options: {})
         raise TypeError, "Can't have array of multiple columns for #{filter_type} filter" if db_column_name.is_a?(Array) && db_column_name.size > 1 && !filter_type.to_sym.eql?(:search)
