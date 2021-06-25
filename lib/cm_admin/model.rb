@@ -291,20 +291,12 @@ module CmAdmin
 
     def filter_params(params)
       # OPTIMIZE: Need to check if we can permit the filter_params in a better way
-      params.require(:filters).tap do |sanatized|
-        CmAdmin::Models::Filter::VALID_FILTER_TYPES.reject{|x| x.eql?(:search)}.each do |filter_type|
-          if sanatized[filter_type]
-            filter_columns = @filters.select{|x| x.filter_type.eql?(filter_type)}.map(&:db_column_name)
-            sanatized[filter_type].delete_if {|k,v| !filter_columns.include?(k.to_sym)}
-            sanatized[filter_type].each do |key, value|
-              if filter_columns.include?(key.to_sym)
-                sanatized[filter_type][key] = params[:filters][filter_type][key]
-                sanatized.permit!
-              end
-            end
-          end
-        end
-      end
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map(&:db_column_name)
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
     end
   end
 end
