@@ -16,7 +16,7 @@ module CmAdmin
         if cm_model.available_fields[action].empty?
           return form_with_all_fields(resource, method)
         else
-          return form_with_mentioned_fields(resource, cm_model.available_fields[:edit], method)
+          return form_with_mentioned_fields(resource, cm_model.available_fields[action], method)
         end
       end
 
