@@ -1,11 +1,7 @@
 module CmAdmin
   module ViewHelpers
     module ShowFieldHelper
-           # .info-split__lhs
-              
-            # .info-split__rhs
-            #   p = @ar_object.send(field.field_name)
- 
+
       def show_field(ar_object, field)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
