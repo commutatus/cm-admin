@@ -156,6 +156,13 @@ module CmAdmin
 
     def resource_params(params)
       permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+      permittable_fields += @ar_model.reflect_on_all_attachments.map {|x| 
+        if x.class.name.include?('HasOne')
+          x.name
+        elsif x.class.name.include?('HasMany')
+          Hash[x.name.to_s, []]
+        end
+      }.compact
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
     end
 
@@ -177,7 +184,7 @@ module CmAdmin
     end
 
     def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options)
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
     end
 
     def column(field_name, options={})
