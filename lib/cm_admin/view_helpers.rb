@@ -6,8 +6,8 @@ module CmAdmin
     include NavigationHelper
     include FormHelper
     include ColumnFieldHelper
-    include ActionView::Helpers::FormTagHelper
-    include ActionView::Helpers::TagHelper
+    # include ActionView::Helpers::FormTagHelper
+    # include ActionView::Helpers::TagHelper
 
     def exportable(klass, html_class: [])
       tag.a "Export as excel", class: html_class.append("filter-btn modal-btn mr-2"), data: {toggle: "modal", target: "#exportmodal"} do

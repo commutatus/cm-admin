@@ -16,7 +16,7 @@ module CmAdmin
         if cm_model.available_fields[action].empty?
           return form_with_all_fields(resource, method)
         else
-          return form_with_mentioned_fields(resource, cm_model.available_fields[:edit], method)
+          return form_with_mentioned_fields(resource, cm_model.available_fields[action], method)
         end
       end
 
@@ -29,20 +29,22 @@ module CmAdmin
       end
 
       def form_with_mentioned_fields(resource, available_fields, method)
-        columns = resource.class.columns.select { |i| available_fields.map(&:field_name).include?(i.name.to_sym) }
+        # columns = resource.class.columns.select { |i| available_fields.map(&:field_name).include?(i.name.to_sym) }
         table_name = resource.class.table_name
-        columns.reject! { |i| REJECTABLE.include?(i.name) }
+        # columns.reject! { |i| REJECTABLE.include?(i.name) }
         url = CmAdmin::Engine.mount_path + "/#{table_name}/#{resource.id}"
-        set_form_for_fields(resource, columns, url, method)
+        set_form_for_fields(resource, available_fields, url, method)
       end
 
-      def set_form_for_fields(resource, columns, url, method)
+      def set_form_for_fields(resource, available_fields, url, method)
         form_for(resource, url: url, method: method) do |f|
-          columns.each do |field|
-            concat f.label field.name, class: 'field-label'
+          available_fields.each do |field|
+            concat f.label field.field_name, class: 'field-label'
             concat tag.br
-            concat input_field_for_column(f, field)
-            concat tag.p resource.errors[field.name].first if resource.errors[field.name].present?
+            concat(content_tag(:div, class: "datetime-wrapper") do
+              concat input_field_for_column(f, field)  
+            end)
+            concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
             concat tag.br
             concat tag.br
           end

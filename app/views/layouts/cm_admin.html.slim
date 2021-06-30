@@ -7,7 +7,10 @@ html
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'cm_admin/cm_admin', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
+    link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /
     = javascript_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
+    script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" 
   body
     - flash.each do |type, msg|
       .alert class="alert-#{type}"

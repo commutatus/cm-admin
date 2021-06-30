@@ -3,11 +3,15 @@
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "@popperjs/core": "^2.9.2",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "5.3.0",
-    "bootstrap": "4.6.0",
+    "bootstrap": "^5.0.1",
+    "daterangepicker": "^3.1.0",
+    "flatpickr": "^4.6.9",
     "jquery": "^3.6.0",
+    "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "turbolinks": "^5.2.0"
   },
