@@ -21,11 +21,11 @@ module CmAdmin
           when :integer
             ar_object.send(field.field_name).to_s
           when :decimal
-            ar_object.send(field.field_name).to_f.round(field.precision).to_s
+            ar_object.send(field.field_name).to_f.round(field.precision).to_s if ar_object.send(field.field_name)
           when :string
             ar_object.send(field.field_name)
           when :datetime
-            ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s
+            ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
           when :text
             ar_object.send(field.field_name)
           when :custom

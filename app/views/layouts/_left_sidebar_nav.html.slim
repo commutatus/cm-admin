@@ -5,10 +5,10 @@
   .cm-sidebar__quick-search
     span
       i.fa.fa-search
-    input type="text" placeholder="Quick Links"
+    input data-bs-target="#quickSearchModal" data-bs-toggle="modal" type="text" placeholder="Quick Links"
 
   .cm-sidebar__menu-wrapper
-    = sidebar_navigation
+    = navigation_links('sidebar')
 
   .cm-sidebar__footer
     .profile-name
@@ -28,3 +28,4 @@
       .auth-option
         = link_to '/sign-out', method: :delete, class: 'auth-link'
           | Logout
+= render 'layouts/quick_links'

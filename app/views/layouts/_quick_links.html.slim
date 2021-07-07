@@ -1,0 +1,25 @@
+#quickSearchModal.modal.fade.quick-search-modal aria-hidden="true" aria-labelledby="exampleModalLabel" role="dialog" tabindex="-1"
+  .modal-dialog role="document"
+    .modal-content
+      .modal-body
+        .quick-search-field
+          .form-field
+            .field-input-wrapper
+              input#quick-search-input.search-input type="text" placeholder="Search"
+              span.search-input-icon
+                i.fa.fa-search
+              span.clear-search
+                i.fa.fa-times
+        .search-results-container
+          = navigation_links('quick_links')
+        .results-action
+          .select
+            span.move-arrow
+              i.fa.fa-long-arrow-up
+            span.move-arrow
+              i.fa.fa-long-arrow-down
+            span Select
+          button.text-btn.enter-btn type="button"
+            | ENTER
+          button.text-btn.open-btn type="button"
+            | open
