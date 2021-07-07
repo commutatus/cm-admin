@@ -2,6 +2,18 @@ module CmAdmin
   module ViewHelpers
     module FilterHelper
 
+      def filter_ui(filters)
+        filters.each do |filter|
+          case filter.filter_type
+          when :date
+            concat add_date_filter(filter)
+          when :range
+            concat add_range_filter(filter)
+          end
+        end
+        return
+      end
+
       def add_search_filter(filter)
         tag.div class: 'filter-search' do
           tag.div class: 'form-field' do
