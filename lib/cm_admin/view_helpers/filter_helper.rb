@@ -2,6 +2,21 @@ module CmAdmin
   module ViewHelpers
     module FilterHelper
 
+      def add_filters_dropdown(filters)
+        concat(content_tag(:div, class: 'dropdown add-filter-btn', data: {bs_toggle: "dropdown"}) do
+          tag.span '+ Add filter'
+        end)
+        concat(content_tag(:ul, class: 'dropdown-menu', id:'add-filter-dropdown') do
+          concat tag.input id: 'cm-add-filter-search', placeholder: 'Search for filter'
+          filters.each do |filter|
+            concat(content_tag(:li, class: 'pointer dropdown-item', data: {behavior: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+              tag.span filter.db_column_name.to_s.titleize
+            end)
+          end
+        end)
+        return
+      end
+
       def filter_ui(filters)
         filters.each do |filter|
           case filter.filter_type
