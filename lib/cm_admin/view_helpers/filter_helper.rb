@@ -2,6 +2,20 @@ module CmAdmin
   module ViewHelpers
     module FilterHelper
 
+      def add_search_filter(filter)
+        tag.div class: 'filter-search' do
+          tag.div class: 'form-field' do
+            tag.div class: 'field-input-wrapper' do
+              concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}") do
+                tag.span class: 'search-input-icon' do
+                  tag.i class: 'fa fa-search'
+                end
+              end)
+            end
+          end
+        end
+      end
+
       def add_range_filter(filter)
         concat(content_tag(:div, class: 'filter-chips-wrapper hidden') do
           concat(content_tag(:div, class: 'filter-chip d-flex') do
