@@ -2,6 +2,21 @@ module CmAdmin
   module ViewHelpers
     module FilterHelper
 
+      def generate_filters(filters)
+        search_filter = filters.select{ |x| x.filter_type.eql?(:search) }.last
+        other_filters = filters.reject{ |x| x.filter_type.eql?(:search) }
+        concat(content_tag(:div, class: 'cm-filters-v2') do
+          concat(content_tag(:div, class: 'cm-filters-v2__inner') do
+            concat add_search_filter(search_filter) if search_filter
+            if other_filters
+              concat filter_ui(other_filters)
+              concat add_filters_dropdown(other_filters)
+            end
+          end)
+        end)
+        return
+      end
+
       def add_filters_dropdown(filters)
         concat(content_tag(:div, class: 'dropdown add-filter-btn', data: {bs_toggle: "dropdown"}) do
           tag.span '+ Add filter'
