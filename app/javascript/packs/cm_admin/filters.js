@@ -39,6 +39,14 @@ unhide_filter = function(filter_type, filter_column) {
   $($('[data-behaviour="filter"][data-filter-type=' + filter_type + '][data-db-column='+ filter_column + ']')[0]).parent().parent().removeClass('hidden')
 };
 
+// Only allow numeric input (both integer and decimal) values in range filters
+$(document).on('keypress', '[data-behaviour="filter"][data-filter-type="range"]', function(e){
+  var charCode = (e.which) ? e.which : e.keyCode
+  if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
+    return false;
+  return true;
+});
+
 $(document).on('keyup', '#cm-add-filter-search', function(e){
   var input, filter, ul, li, a, i;
   input = $(this);
