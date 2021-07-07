@@ -15,7 +15,6 @@ window.jQuery = jQuery
 
 
 import "@fortawesome/fontawesome-free/css/all"
-import flatpickr from 'flatpickr'
 import "daterangepicker"
 
 
