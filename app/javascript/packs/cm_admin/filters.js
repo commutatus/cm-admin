@@ -29,6 +29,16 @@ $(document).on('keyup', '.search-input', function(e) {
       console.log(errorThrown, textStatus);
     }
   });
+$(document).on('click', '[data-behavior="filter-option"]', function(e) {
+  var filter_type = $(this).data('filter-type')
+  var filter_column = $(this).data('db-column')
+  unhide_filter(filter_type, filter_column)
+})
+
+unhide_filter = function(filter_type, filter_column) {
+  $($('[data-behaviour="filter"][data-filter-type=' + filter_type + '][data-db-column='+ filter_column + ']')[0]).parent().parent().removeClass('hidden')
+};
+
 $(document).on('keyup', '#cm-add-filter-search', function(e){
   var input, filter, ul, li, a, i;
   input = $(this);
