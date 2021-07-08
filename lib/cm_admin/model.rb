@@ -147,7 +147,7 @@ module CmAdmin
       return nil if scope_value.nil?
       scope_value.each do |key, value|
         if value.present?
-          from, to = value.split(' - ')
+          from, to = value.split(' to ')
           records = records.where(key => from..to)
         end
       end
