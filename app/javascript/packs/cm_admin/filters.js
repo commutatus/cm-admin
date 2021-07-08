@@ -1,17 +1,35 @@
 var current_request = null;
 
-$(document).on('keyup', '.search-input', function(e) {
-  e.stopPropagation();
+get_filtered_data = function(filter_type, filter_value, filter_columns=null) {
   var url = window.location.pathname
-  var search_val = $(this).val();
+
+  // Based on the value changed for recent filter generate the filter_params hash
   var filter_params = {};
-  if (search_val) {
-    filter_params['search'] = search_val
+  if (filter_columns) {
+    filter_params[filter_type] = {};
+    filter_params[filter_type][filter_columns] = filter_value
+  } else {
+    filter_params[filter_type] = filter_value
   }
-  // TODO add page and sort params in the query_string
-  query_string = {
-    filters: filter_params
+
+  // TODO add sort params in the query_string
+  // page params is reinitialized to 1 when any new filter value is applied so
+  // that it won't throw the error when the user doesn't have sufficent data
+  // to display on the table.
+  var query_string = {
+    filters: filter_params,
+    page: 1
   };
+
+  // Generate the query_string by concatenating the filter_params and
+  // searchParams that are already applied, if searchParams are present.
+  var searchParams = window.location.search
+  if (searchParams.length > 0) {
+    filter_params = jQuery.param(query_string)
+    var availableParams = searchParams + '&' + newParams
+    query_string = getParamsAsObject(availableParams)
+  }
+
   return current_request = $.ajax(url, {
     type: 'GET',
     data: query_string,
@@ -29,6 +47,7 @@ $(document).on('keyup', '.search-input', function(e) {
       console.log(errorThrown, textStatus);
     }
   });
+}
 
 $(document).on('change', '[data-behaviour="filter"]', function(e) {
   var filter_type = $(this).data('filter-type')
@@ -51,6 +70,14 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     get_filtered_data(filter_type, filter_value, filter_column)
   }
 });
+
+$(document).on('keyup', '.search-input', function(e) {
+  e.stopPropagation();
+
+  var search_val = $(this).val();
+  get_filtered_data('search', search_val)
+});
+
 $(document).on('click', '[data-behavior="filter-option"]', function(e) {
   var filter_type = $(this).data('filter-type')
   var filter_column = $(this).data('db-column')
