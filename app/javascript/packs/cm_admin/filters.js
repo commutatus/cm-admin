@@ -1,45 +1,45 @@
-var current_request = null;
+var currentRequest = null;
 
-get_filtered_data = function(filter_type, filter_value, filter_columns=null) {
+var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   var url = window.location.pathname
 
-  // Based on the value changed for recent filter generate the filter_params hash
-  var filter_params = {};
-  if (filter_columns) {
-    filter_params[filter_type] = {};
-    filter_params[filter_type][filter_columns] = filter_value
+  // Based on the value changed for recent filter generate the filterParams hash
+  var filterParams = {};
+  if (filterColumn) {
+    filterParams[filterType] = {};
+    filterParams[filterType][filterColumn] = filterValue
   } else {
-    filter_params[filter_type] = filter_value
+    filterParams[filterType] = filterValue
   }
 
-  // TODO add sort params in the query_string
+  // TODO add sort params in the queryString
   // page params is reinitialized to 1 when any new filter value is applied so
   // that it won't throw the error when the user doesn't have sufficent data
   // to display on the table.
-  var query_string = {
-    filters: filter_params,
+  var queryString = {
+    filters: filterParams,
     page: 1
   };
 
-  // Generate the query_string by concatenating the filter_params and
+  // Generate the queryString by concatenating the filterParams and
   // searchParams that are already applied, if searchParams are present.
   var searchParams = window.location.search
   if (searchParams.length > 0) {
-    filter_params = jQuery.param(query_string)
-    var availableParams = searchParams + '&' + newParams
-    query_string = getParamsAsObject(availableParams)
+    filterParams = jQuery.param(queryString)
+    var availableParams = searchParams + '&' + filterParams
+    queryString = getParamsAsObject(availableParams)
   }
 
-  return current_request = $.ajax(url, {
+  return currentRequest = $.ajax(url, {
     type: 'GET',
-    data: query_string,
+    data: queryString,
     beforeSend: function() {
-      if (current_request !== null) {
-        current_request.abort();
+      if (currentRequest !== null) {
+        currentRequest.abort();
       }
     },
     success: function(data) {
-      var queryParam = jQuery.param(query_string)
+      var queryParam = jQuery.param(queryString)
       window.history.pushState("", "", url + '?' + queryParam);
       $('.index-page__table-container').html(data);
     },
@@ -50,24 +50,24 @@ get_filtered_data = function(filter_type, filter_value, filter_columns=null) {
 }
 
 $(document).on('change', '[data-behaviour="filter"]', function(e) {
-  var filter_type = $(this).data('filter-type')
-  var filter_column = $(this).data('db-column')
+  var filterType = $(this).data('filter-type')
+  var filterColumn = $(this).data('db-column')
 
   if ($(this).data('filter-type') == 'date') {
     if ($(this).val().includes(' to ')){
-      var filter_value = $(this).val()
+      var filterValue = $(this).val()
     }
   } else if ($(this).data('filter-type') == 'range') {
     var rangeElements = $('[data-behaviour="filter"][data-filter-type="range"][data-db-column=' + $(this).data('db-column') + ']')
     if ($(rangeElements[0]).val().length > 0 && $(rangeElements[1]).val().length > 0) {
-      var filter_value = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
+      var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
     }
   } else {
-    var filter_value = $(this).val()
+    var filterValue = $(this).val()
   }
 
-  if (filter_value.length > 0) {
-    get_filtered_data(filter_type, filter_value, filter_column)
+  if (filterValue.length > 0) {
+    getFilteredData(filterType, filterValue, filterColumn)
   }
 });
 
@@ -75,20 +75,20 @@ $(document).on('keyup', '.search-input', function(e) {
   e.stopPropagation();
 
   var search_val = $(this).val();
-  get_filtered_data('search', search_val)
+  getFilteredData('search', search_val)
 });
 
 $(document).on('click', '[data-behavior="filter-option"]', function(e) {
-  var filter_type = $(this).data('filter-type')
-  var filter_column = $(this).data('db-column')
-  unhide_filter(filter_type, filter_column)
+  var filterType = $(this).data('filter-type')
+  var filterColumn = $(this).data('db-column')
+  unhideFilter(filterType, filterColumn)
 });
 
-unhide_filter = function(filter_type, filter_column) {
-  var filter_element = $('[data-behaviour="filter"][data-filter-type=' + filter_type + '][data-db-column='+ filter_column + ']')
+var unhideFilter = function(filterType, filterColumn) {
+  var filter_element = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
   filter_element.parent().parent().removeClass('hidden')
 
-  if (filter_type == 'date') {
+  if (filterType == 'date') {
     filter_element.click();
   }
 };
@@ -101,6 +101,7 @@ $(document).on('keypress', '[data-behaviour="filter"][data-filter-type="range"]'
   return true;
 });
 
+// Search inside the `+ Add filter` dropdown
 $(document).on('keyup', '#cm-add-filter-search', function(e){
   var input, filter, ul, li, a, i;
   input = $(this);
