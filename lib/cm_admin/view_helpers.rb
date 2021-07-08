@@ -6,7 +6,7 @@ module CmAdmin
     include NavigationHelper
     include FormHelper
     include ColumnFieldHelper
-    include FilterHelper
+    include ShowFieldHelper
     include ActionView::Helpers::FormTagHelper
     include ActionView::Helpers::TagHelper
 
