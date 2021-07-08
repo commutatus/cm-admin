@@ -104,14 +104,21 @@ module CmAdmin
     def filtered_data(filter_params)
       records = self.name.constantize.where(nil)
       if filter_params
-        filter_params.each do |scope, scope_value|
-          records = self.send("cm_#{scope}", scope_value, records)
+        filter_params.each do |scope_type, scope_value|
+          scope_name = if scope_type.eql?('date') || scope_type.eql?('range')
+            'date_and_range'
+          elsif scope_type.eql?('single_select') || scope_type.eql?('multi_select')
+            'dropdown'
+          else
+            scope_type
+          end
+          records = self.send("cm_#{scope_name}_filter", scope_value, records) if scope_value.present?
         end
       end
       records
     end
 
-    def cm_search(scope_value, records)
+    def cm_search_filter(scope_value, records)
       return nil if scope_value.blank?
       table_name = records.table_name
 
@@ -132,6 +139,25 @@ module CmAdmin
           }.join(' AND '),
           *terms.map { |e| [e] * filter.db_column_name.size }.flatten
         )
+      end
+      records
+    end
+
+    def cm_date_and_range_filter(scope_value, records)
+      return nil if scope_value.nil?
+      scope_value.each do |key, value|
+        if value.present?
+          from, to = value.split(' to ')
+          records = records.where(key => from..to)
+        end
+      end
+      records
+    end
+
+    def cm_dropdown_filter(scope_value, records)
+      return nil if scope_value.nil?
+      scope_value.each do |key, value|
+        records = records.where(key => value) if value.present?
       end
       records
     end
@@ -271,7 +297,13 @@ module CmAdmin
     end
 
     def filter_params(params)
-      params.require(:filters).permit(:search) if params[:filters]
+      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map(&:db_column_name)
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
     end
   end
 end

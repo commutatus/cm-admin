@@ -1,10 +1,1 @@
-.cm-filters-v2
-  .cm-filters-v2__inner
-    .filter-search
-      .form-field
-        .field-input-wrapper
-          - filters.each do |filter|
-            - if filter.filter_type.eql?(:search)
-              input.search-input value="#{params.dig(:filters, :search)}" placeholder="#{filter.placeholder}"
-              span.search-input-icon
-                i.fa.fa-search
+= generate_filters(filters)

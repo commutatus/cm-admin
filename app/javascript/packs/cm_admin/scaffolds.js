@@ -6,6 +6,9 @@ $(document).ready(function(e) {
   flatpickr("[data-behaviour='date-time']", {
     enableTime: true
   })
+  flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
+    mode: 'range'
+  })
 }
 );
 $("[data-behaviour='decimal-only']").on("keypress keyup blur",function (event) {
