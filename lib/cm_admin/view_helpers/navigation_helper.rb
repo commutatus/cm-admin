@@ -7,17 +7,26 @@ module CmAdmin
         CmAdmin.cm_admin_models.map { |model|
           path = CmAdmin::Engine.mount_path + '/' + model.name.underscore.pluralize
           if navigation_type == "sidebar"
-            "<a href=#{path}><div class='menu-item'>
-              <span class='menu-icon'><i class='fa fa-th-large'></i></span>
-              #{model.name}
-            </div></a>".html_safe
+            content_tag(:a, href: path) do
+              content_tag(:div, class: 'menu-item') do
+                content_tag(:span, class: 'menu-icon') do
+                  concat tag.i class: 'fa fa-th-large'
+                end +
+                model.name
+              end
+            end
           elsif navigation_type == "quick_links"
-            "<a href=#{path}><div class='result-item'>
-            <span><i class='fa fa-th-large'></i></span>
-            <span>#{model.name}</span>
-          </div></a>".html_safe
+            content_tag(:a, href: path) do
+              content_tag(:div, class: 'result-item') do
+                content_tag(:span) do
+                  concat tag.i class: 'fa fa-th-large'
+                end +
+                content_tag(:span) do
+                  model.name
+                end
+              end
+            end
           end
-
         }.join.html_safe
       end
     end
