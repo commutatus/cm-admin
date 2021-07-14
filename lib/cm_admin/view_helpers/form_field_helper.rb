@@ -4,9 +4,9 @@ module CmAdmin
       def input_field_for_column(f, field)
         case field.input_type
         when :integer
-          return f.number_field field.field_name, class: 'normal-input', data: {behaviour: 'integer-only'}
+          return f.text_field field.field_name, class: 'normal-input', data: {behaviour: 'integer-only'}
         when :decimal
-          return f.number_field field.field_name, class: 'normal-input', data: {behaviour: 'decimal-only'}
+          return f.text_field field.field_name, class: 'normal-input', data: {behaviour: 'decimal-only'}
         when :string
           return f.text_field field.field_name, class: 'normal-input'
         when :single_select
