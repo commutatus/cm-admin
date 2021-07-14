@@ -1,6 +1,7 @@
 CmAdmin::Engine.routes.draw do
-  controller 'main' do
+  controller 'static' do
     get '/', action: 'dashboard'
+    get '/access-denied', action: 'error_403'
   end
 
   controller 'exports' do
