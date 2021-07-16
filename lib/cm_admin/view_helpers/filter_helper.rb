@@ -59,10 +59,11 @@ module CmAdmin
       end
 
       def add_range_filter(filter)
-        concat(content_tag(:div, class: 'filter-chips-wrapper hidden') do
+        value = params.dig(:filters, :range, :"#{filter.db_column_name}")
+        concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
           concat(content_tag(:div, class: 'filter-chip d-flex') do
-            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input', placeholder: 'From', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
-            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input ml-2', placeholder: 'To', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input', value: "#{value ? value.split(' to ')[0] : ''}", placeholder: 'From', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input ml-2', value: "#{value ? value.split(' to ')[1] : ''}", placeholder: 'To', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
           end)
         end)
         return
