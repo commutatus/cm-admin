@@ -53,11 +53,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
 
-  if ($(this).data('filter-type') == 'date') {
-    if ($(this).val().includes(' to ')){
-      var filterValue = $(this).val()
-    }
-  } else if ($(this).data('filter-type') == 'range') {
+  if ($(this).data('filter-type') == 'range') {
     var rangeElements = $('[data-behaviour="filter"][data-filter-type="range"][data-db-column=' + $(this).data('db-column') + ']')
     if ($(rangeElements[0]).val().length > 0 && $(rangeElements[1]).val().length > 0) {
       var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
@@ -66,9 +62,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     var filterValue = $(this).val()
   }
 
-  if (filterValue.length > 0) {
-    getFilteredData(filterType, filterValue, filterColumn)
-  }
+  getFilteredData(filterType, filterValue, filterColumn)
 });
 
 $(document).on('keyup', '.search-input', function(e) {
