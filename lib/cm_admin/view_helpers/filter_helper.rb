@@ -39,6 +39,8 @@ module CmAdmin
             concat add_date_filter(filter)
           when :range
             concat add_range_filter(filter)
+          when :single_select, :multi_select
+            concat add_select_filter(filter)
           end
         end
         return
@@ -74,6 +76,16 @@ module CmAdmin
         concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
           concat(content_tag(:div, class: 'filter-chip') do
             concat tag.input class: 'normal-input', value: "#{value ? value : ''}", placeholder: "#{filter.placeholder}", data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+          end)
+        end)
+        return
+      end
+
+      def add_select_filter(filter)
+        value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
+        concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
+          concat(content_tag(:div, class: 'filter-chip') do
+            concat content_tag(:select, options_for_select(filter.collection, selected: value), class: 'select-2', multiple: filter.filter_type.eql?(:multi_select), data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"})
           end)
         end)
         return
