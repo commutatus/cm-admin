@@ -17,7 +17,7 @@ module CmAdmin
       
       def show_field_value(ar_object, field)
         content_tag(:div, class: "info-split__lhs") do
-          case field.field_type
+          case field.field_type || :string
           when :integer
             ar_object.send(field.field_name).to_s
           when :decimal
@@ -41,6 +41,12 @@ module CmAdmin
             end 
           when :attachment
             concat show_attachment_value(ar_object, field)
+          when :association
+            object = ar_object
+            field.custom_method.split('.').each do |method|
+              object = object&.send(method)
+            end
+            object
           end
         end
       end

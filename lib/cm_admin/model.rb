@@ -188,7 +188,7 @@ module CmAdmin
     end
 
     def column(field_name, options={})
-      unless @available_fields[:index].map{|x| x.db_column_name.to_sym}.include?(field_name)
+      unless @available_fields[:index].map{|x| x.field_name.to_sym}.include?(field_name)
         puts "For printing column #{field_name}"
         @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
       end
