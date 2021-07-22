@@ -80,7 +80,11 @@ $(document).on('click', '[data-behavior="filter-option"]', function(e) {
 
 var unhideFilter = function(filterType, filterColumn) {
   var filter_element = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
-  filter_element.parent().parent().removeClass('hidden')
+  if (filterType == 'date') {
+    filter_element.removeClass('hidden')
+  } else {
+    filter_element.parent().parent().removeClass('hidden')
+  }
 
   if (filterType == 'date') {
     filter_element.click();
