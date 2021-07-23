@@ -62,10 +62,15 @@ module CmAdmin
 
       def add_range_filter(filter)
         value = params.dig(:filters, :range, :"#{filter.db_column_name}")
-        concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip d-flex') do
-            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input', value: "#{value ? value.split(' to ')[0] : ''}", placeholder: 'From', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
-            concat tag.input type: 'number', min: '0', step: '1', class: 'normal-input ml-2', value: "#{value ? value.split(' to ')[1] : ''}", placeholder: 'To', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+          concat(content_tag(:div, class: 'filter-chip', data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+            concat tag.span "#{filter.db_column_name.to_s.titleize} is "
+            concat tag.span "#{value}"
+          end)
+
+          concat(content_tag(:div, class: 'position-absolute mt-2 range-container hidden') do
+            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[0] : ''}", placeholder: 'From', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[1] : ''}", placeholder: 'To', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
           end)
         end)
         return
