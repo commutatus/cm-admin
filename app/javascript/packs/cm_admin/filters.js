@@ -81,13 +81,12 @@ $(document).on('click', '[data-behavior="filter-option"]', function(e) {
 var unhideFilter = function(filterType, filterColumn) {
   var filter_element = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
   if (filterType == 'date') {
-    filter_element.removeClass('hidden')
+    filter_element.removeClass('hidden');
+    filter_element.click();
+  } else if (filterType == 'range') {
+    filter_element.parent().removeClass('hidden');
   } else {
     filter_element.parent().parent().removeClass('hidden')
-  }
-
-  if (filterType == 'date') {
-    filter_element.click();
   }
 };
 
@@ -163,3 +162,11 @@ var getParamsAsObject = function (query) {
   }
   return params;
 };
+
+$(document).on('click', '[data-behaviour="filter-input"]', function(e) {
+  var filterType = $(this).data('filter-type')
+  var filterColumn = $(this).data('db-column')
+
+  $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']').parent().toggleClass('hidden')
+})
+
