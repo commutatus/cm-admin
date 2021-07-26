@@ -47,7 +47,7 @@ module CmAdmin
       end
 
       def add_search_filter(filter)
-        tag.div class: 'filter-search' do
+        tag.div class: 'filter-search mr-3' do
           tag.div class: 'form-field' do
             tag.div class: 'field-input-wrapper' do
               concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}") do
