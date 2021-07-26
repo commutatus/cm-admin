@@ -70,9 +70,9 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
 $(document).on('keyup', '.search-input', function(e) {
   e.stopPropagation();
 
-  var search_val = $(this).val();
-  unhideClearFilterBtn(search_val)
-  getFilteredData('search', search_val)
+  var searchValue = $(this).val();
+  unhideClearFilterBtn(searchValue)
+  getFilteredData('search', searchValue)
 });
 
 $(document).on('click', '[data-behavior="filter-option"]', function(e) {
@@ -82,15 +82,15 @@ $(document).on('click', '[data-behavior="filter-option"]', function(e) {
 });
 
 var unhideFilter = function(filterType, filterColumn) {
-  var filter_element = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
+  var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
   if (filterType == 'date') {
-    filter_element.removeClass('hidden');
-    filter_element.click();
+    filterElement.removeClass('hidden');
+    filterElement.click();
   } else if (filterType == 'range') {
-    filter_element.parent().parent().removeClass('hidden');
-    filter_element.parent().removeClass('hidden');
+    filterElement.parent().parent().removeClass('hidden');
+    filterElement.parent().removeClass('hidden');
   } else {
-    filter_element.parent().parent().removeClass('hidden')
+    filterElement.parent().parent().removeClass('hidden')
   }
 };
 
