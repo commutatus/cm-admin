@@ -177,6 +177,11 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
   }
 })
 
+// Remove all the applied filters and reload the page
+$(document).on('click', '.clear-btn', function(e) {
+  window.location.href = window.location.href.split("?")[0]
+})
+
 var unhideClearFilterBtn = function(filterValue) {
   if (filterValue) {
     $('.clear-btn').removeClass('hidden')
