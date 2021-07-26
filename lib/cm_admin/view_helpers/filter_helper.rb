@@ -8,10 +8,11 @@ module CmAdmin
         concat(content_tag(:div, class: 'cm-filters-v2') do
           concat(content_tag(:div, class: 'cm-filters-v2__inner') do
             concat add_search_filter(search_filter) if search_filter
-            if other_filters
+            if other_filters.any?
               concat filter_ui(other_filters)
               concat add_filters_dropdown(other_filters)
             end
+            concat clear_filters
           end)
         end)
         return
@@ -28,6 +29,13 @@ module CmAdmin
               tag.span filter.db_column_name.to_s.titleize
             end)
           end
+        end)
+        return
+      end
+
+      def clear_filters
+        concat(content_tag(:div, class: "clear-btn #{params.dig(:filters) ? '' : 'hidden'}") do
+          tag.span 'Clear all'
         end)
         return
       end
