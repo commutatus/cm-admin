@@ -25,6 +25,9 @@
       span {
         margin-right: 4px;
       }
+      &:hover {
+        color: $brand-color;
+      }
     }
     .clear-btn {
       position: relative;
@@ -41,6 +44,9 @@
         left: -16px;
         height: 32px;
         border-left: 1px solid $grey-regular-clr;
+      }
+      &:hover {
+        color: $primary-text-clr;
       }
     }
   }
