@@ -63,6 +63,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     var filterValue = $(this).val()
   }
 
+  unhideClearFilterBtn(filterValue)
   getFilteredData(filterType, filterValue, filterColumn)
 });
 
@@ -70,6 +71,7 @@ $(document).on('keyup', '.search-input', function(e) {
   e.stopPropagation();
 
   var search_val = $(this).val();
+  unhideClearFilterBtn(search_val)
   getFilteredData('search', search_val)
 });
 
@@ -174,4 +176,10 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
     filterElement.parent().toggleClass('hidden')
   }
 })
+
+var unhideClearFilterBtn = function(filterValue) {
+  if (filterValue) {
+    $('.clear-btn').removeClass('hidden')
+  }
+}
 
