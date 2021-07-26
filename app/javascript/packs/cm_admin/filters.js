@@ -85,6 +85,7 @@ var unhideFilter = function(filterType, filterColumn) {
     filter_element.removeClass('hidden');
     filter_element.click();
   } else if (filterType == 'range') {
+    filter_element.parent().parent().removeClass('hidden');
     filter_element.parent().removeClass('hidden');
   } else {
     filter_element.parent().parent().removeClass('hidden')
@@ -168,6 +169,9 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
 
-  $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']').parent().toggleClass('hidden')
+  var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']')
+  if (filterType == 'range') {
+    filterElement.parent().toggleClass('hidden')
+  }
 })
 
