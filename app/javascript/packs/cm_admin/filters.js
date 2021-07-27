@@ -89,6 +89,10 @@ var unhideFilter = function(filterType, filterColumn) {
     filterElement.click();
   } else if (filterType == 'range') {
     filterElement.parent().removeClass('hidden');
+  } else if (filterType == 'single_select') {
+    var selectFilterElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
+    selectFilterElement.parent().removeClass('hidden');
+    selectFilterElement.click()
   }
 };
 
