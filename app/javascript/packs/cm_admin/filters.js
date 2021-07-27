@@ -57,12 +57,12 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     var rangeElements = $('[data-behaviour="filter"][data-filter-type="range"][data-db-column=' + filterColumn + ']')
     if ($(rangeElements[0]).val().length > 0 && $(rangeElements[1]).val().length > 0) {
       var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
-      $($('[data-behaviour="filter-input"][data-filter-type="range"][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
     }
   } else {
     var filterValue = $(this).val()
   }
 
+  $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
   unhideClearFilterBtn(filterValue)
   getFilteredData(filterType, filterValue, filterColumn)
 });
