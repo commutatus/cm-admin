@@ -190,3 +190,20 @@ var unhideClearFilterBtn = function(filterValue) {
   }
 }
 
+$(document).on('click', '[data-behaviour="select-option"]', function(e) {
+  var filterType = $(this).data('filter-type')
+  var filterColumn = $(this).data('db-column')
+  var filterValue = $(this).data('value')
+
+  if (!this.classList.contains('selected')) {
+    if (this.parentNode.querySelector('.list-item.selected') != null) {
+      this.parentNode.querySelector('.list-item.selected').classList.remove('selected');
+    }
+    $(this).addClass('selected')
+  }
+  $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
+
+  unhideClearFilterBtn(filterValue)
+  getFilteredData(filterType, filterValue, filterColumn)
+});
+
