@@ -75,9 +75,9 @@
         display: flex;
         align-items: center;
         padding: 9px 16px;
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
         label {
-          @include font($size: $t4-text, $color: $primary-text-clr);
-          line-height: 22px;
           margin: 0 0 0 8px;
         }
         &:hover {
@@ -86,9 +86,9 @@
             border-radius: 0 0 4px 4px;
           }
         }
-        &:active {
-          color: $brand-color;
-        }
+      }
+      .selected {
+        color: $brand-color;
       }
     }
     .apply-area {
