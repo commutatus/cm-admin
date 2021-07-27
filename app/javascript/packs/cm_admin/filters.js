@@ -105,14 +105,14 @@ $(document).on('keyup', '#cm-add-filter-search', function(e){
   var input, filter, ul, li, a, i;
   input = $(this);
   filter = input.val().toUpperCase();
-  div = document.getElementById("add-filter-dropdown");
-  a = div.getElementsByTagName("li");
+  div = document.getElementById('add-filter-dropdown');
+  a = div.getElementsByTagName('span');
   for (i = 0; i < a.length; i++) {
     txtValue = a[i].textContent || a[i].innerText;
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
+      $(a[i]).parent()[0].style.display = '';
     } else {
-      a[i].style.display = "none";
+      $(a[i]).parent()[0].style.display = 'none';
     }
   }
 });
