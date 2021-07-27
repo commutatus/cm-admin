@@ -63,3 +63,10 @@ a {
 .datetime-wrapper {
   position: relative;
 }
+
+.date-filter-wrapper {
+  position: absolute;
+  line-height: 28px;
+  top: 0;
+  opacity: 0;
+}
