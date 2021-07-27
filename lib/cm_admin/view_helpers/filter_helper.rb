@@ -56,7 +56,9 @@ module CmAdmin
             concat add_date_filter(filter)
           when :range
             concat add_range_filter(filter)
-          when :single_select, :multi_select
+          when :single_select
+            concat add_single_select_filter(filter)
+          when :multi_select
             concat add_select_filter(filter)
           end
         end
@@ -108,8 +110,29 @@ module CmAdmin
         return
       end
 
-        concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip') do
+      def add_single_select_filter(filter)
+        value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
+        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+          concat(content_tag(:div, class: 'filter-chip dropdown', value: "#{value ? value : ''}", data: {bs_toggle: 'dropdown', behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+            concat tag.span "#{filter.db_column_name.to_s.titleize} is "
+            concat tag.span "#{value}"
+          end)
+
+          concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
+            concat(content_tag(:div, class: 'popup-base') do
+              concat(content_tag(:div, class: 'popup-inner') do
+                concat(content_tag(:div, class: 'search-area') do
+                  concat tag.input placeholder: "#{filter.placeholder}"
+                end)
+                concat(content_tag(:div, class: 'list-area') do
+                  filter.collection.each do |val|
+                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
+                      concat tag.span val.to_s
+                    end)
+                  end
+                end)
+              end)
+            end)
           end)
         end)
         return
