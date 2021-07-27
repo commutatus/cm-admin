@@ -83,14 +83,12 @@ $(document).on('click', '[data-behavior="filter-option"]', function(e) {
 
 var unhideFilter = function(filterType, filterColumn) {
   var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
+  filterElement.parent().parent().removeClass('hidden');
+
   if (filterType == 'date') {
-    filterElement.removeClass('hidden');
     filterElement.click();
   } else if (filterType == 'range') {
-    filterElement.parent().parent().removeClass('hidden');
     filterElement.parent().removeClass('hidden');
-  } else {
-    filterElement.parent().parent().removeClass('hidden')
   }
 };
 
