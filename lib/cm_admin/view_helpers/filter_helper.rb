@@ -86,7 +86,16 @@ module CmAdmin
 
       def add_date_filter(filter)
         value = params.dig(:filters, :date, :"#{filter.db_column_name}")
-        concat tag.input class: "ml-3 filter-chip #{value ? '' : 'hidden'}", value: "#{value ? value : ''}", placeholder: "#{filter.placeholder}", data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+          concat(content_tag(:div, class: 'filter-chip', value: "#{value ? value : ''}", data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+            concat tag.span "#{filter.db_column_name.to_s.titleize} is "
+            concat tag.span "#{value}"
+          end)
+
+          concat(content_tag(:div, class: 'date-filter-wrapper w-100') do
+            concat tag.input class: 'w-100 pb-1', value: "#{value ? value : ''}", data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+          end)
+        end)
         return
       end
 
