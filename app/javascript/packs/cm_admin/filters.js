@@ -75,7 +75,7 @@ $(document).on('keyup', '.search-input', function(e) {
   getFilteredData('search', searchValue)
 });
 
-$(document).on('click', '[data-behavior="filter-option"]', function(e) {
+$(document).on('click', '[data-behaviour="filter-option"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
   unhideFilter(filterType, filterColumn)
