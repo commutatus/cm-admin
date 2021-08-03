@@ -97,8 +97,9 @@
       text-align: center;
       padding: 9px 16px;
       box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
-      cursor: pointer;
+      cursor: not-allowed;
       &.active {
+        cursor: pointer;
         color: $blue-regular-clr;
       }
     }
