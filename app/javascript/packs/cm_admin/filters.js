@@ -196,20 +196,34 @@ var unhideClearFilterBtn = function(filterValue) {
   }
 }
 
+// Selecting options for single and multi select filters
 $(document).on('click', '[data-behaviour="select-option"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
-  var filterValue = $(this).data('value')
 
-  if (!this.classList.contains('selected')) {
-    if (this.parentNode.querySelector('.list-item.selected') != null) {
-      this.parentNode.querySelector('.list-item.selected').classList.remove('selected');
+  if (filterType == 'single_select') {
+    var filterValue = $(this).data('value')
+    if (!this.classList.contains('selected')) {
+      if (this.parentNode.querySelector('.list-item.selected') != null) {
+        this.parentNode.querySelector('.list-item.selected').classList.remove('selected');
+      }
+      $(this).addClass('selected')
     }
-    $(this).addClass('selected')
+    $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
+    unhideClearFilterBtn(filterValue)
+    getFilteredData(filterType, filterValue, filterColumn)
   }
-  $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
+  else if (filterType == 'multi_select') {
+    var checkboxElement = $(this).find('.cm-checkbox')
+    checkboxElement.prop('checked', !checkboxElement.prop('checked'))
+    var checkedCount = $(this).parent().find('.cm-checkbox').filter(':checked').length
 
-  unhideClearFilterBtn(filterValue)
-  getFilteredData(filterType, filterValue, filterColumn)
+    if (checkedCount > 0) {
+      $(this).parents(':nth(1)').children(':last').addClass('active')
+    } else {
+      $(this).parents(':nth(1)').children(':last').removeClass('active')
+    }
+  }
+});
 });
 
