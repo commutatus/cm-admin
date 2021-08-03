@@ -83,16 +83,18 @@ $(document).on('click', '[data-behaviour="filter-option"]', function(e) {
 
 var unhideFilter = function(filterType, filterColumn) {
   var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
+  var selectFilterElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
   filterElement.parent().parent().removeClass('hidden');
+  selectFilterElement.parent().removeClass('hidden');
 
   if (filterType == 'date') {
     filterElement.click();
   } else if (filterType == 'range') {
     filterElement.parent().removeClass('hidden');
   } else if (filterType == 'single_select') {
-    var selectFilterElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
-    selectFilterElement.parent().removeClass('hidden');
     selectFilterElement.click()
+  } else if (filterType == 'multi_select') {
+    $(selectFilterElement.parent().children()[1]).removeClass('hidden')
   }
 };
 
@@ -174,8 +176,12 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
   var filterColumn = $(this).data('db-column')
 
   var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']')
+  var filterInputElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']')
+
   if (filterType == 'range') {
     filterElement.parent().toggleClass('hidden')
+  } else if (filterType == 'multi_select') {
+    $(filterInputElement.parent().children()[1]).toggleClass('hidden')
   }
 })
 
