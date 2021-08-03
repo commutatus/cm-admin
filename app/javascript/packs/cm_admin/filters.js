@@ -31,7 +31,9 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
     // and will be concadinated with the searchParams post deletion.
     if (filterType == 'multi_select') {
       searchParams = getParamsAsObject(searchParams)
-      delete(searchParams['filters'][filterType][filterColumn])
+      if (searchParams['filters'][filterType] != undefined) {
+        delete(searchParams['filters'][filterType][filterColumn])
+      }
       searchParams = jQuery.param(searchParams)
     }
     filterParams = jQuery.param(queryString)
