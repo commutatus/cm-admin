@@ -225,5 +225,31 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     }
   }
 });
+
+// Apply button for multi select filters
+$(document).on('click', '.apply-area', function(e) {
+  var filterInputElement = $(this).parents(':nth(3)').children(':first')
+  var filterType = filterInputElement.data('filter-type')
+  var filterColumn = filterInputElement.data('db-column')
+  var filterValue = []
+
+  var selectFilterElement = $('[data-behaviour="select-option"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']')
+  var checkedElements = selectFilterElement.find('.cm-checkbox').filter(':checked')
+
+  if (checkedElements.length > 0) {
+    for(var i = 0; i < checkedElements.length; i++) {
+      filterValue.push($(checkedElements[i]).parent().data('value'))
+    }
+
+    truncatedFilterValue = filterValue[0]
+    if (filterValue.length > 1) {
+      truncatedFilterValue += ' + ' + (filterValue.length - 1) + ' more'
+    }
+
+    filterInputElement.children(':last').text(truncatedFilterValue)
+    selectFilterElement.parents(':nth(3)').addClass('hidden')
+    unhideClearFilterBtn(filterValue)
+    getFilteredData(filterType, filterValue, filterColumn)
+  }
 });
 
