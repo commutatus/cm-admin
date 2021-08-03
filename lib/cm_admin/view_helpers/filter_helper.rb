@@ -59,7 +59,7 @@ module CmAdmin
           when :single_select
             concat add_single_select_filter(filter)
           when :multi_select
-            concat add_select_filter(filter)
+            concat add_multi_select_filter(filter)
           end
         end
         return
@@ -138,11 +138,37 @@ module CmAdmin
         return
       end
 
-      def add_select_filter(filter)
+      def add_multi_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
-        concat(content_tag(:div, class: "filter-chips-wrapper #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip') do
-            concat content_tag(:select, options_for_select(filter.collection, selected: value), class: 'select-2', multiple: filter.filter_type.eql?(:multi_select), data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"})
+
+        if value
+          truncated_value = value[0]
+          truncated_value += " + #{value.size - 1} more" if truncated_value.size > 1
+        end
+
+        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+          concat(content_tag(:div, class: 'filter-chip', value: "#{value ? value : ''}", data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+            concat tag.span "#{filter.db_column_name.to_s.titleize} is "
+            concat tag.span "#{truncated_value}"
+          end)
+
+          concat(content_tag(:div, class: 'position-absolute mt-2 dropdown-popup hidden') do
+            concat(content_tag(:div, class: 'popup-base') do
+              concat(content_tag(:div, class: 'popup-inner') do
+                concat(content_tag(:div, class: 'search-area') do
+                  concat tag.input placeholder: "#{filter.placeholder}"
+                end)
+                concat(content_tag(:div, class: 'list-area') do
+                  filter.collection.each do |val|
+                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
+                      concat tag.input class: 'cm-checkbox', type: 'checkbox', checked: value ? value.include?(val) : false
+                      concat tag.label val.to_s.titleize, class: 'pointer'
+                    end)
+                  end
+                end)
+                concat tag.div 'Apply', class: 'apply-area'
+              end)
+            end)
           end)
         end)
         return
