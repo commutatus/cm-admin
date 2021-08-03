@@ -25,6 +25,15 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   // searchParams that are already applied, if searchParams are present.
   var searchParams = window.location.search
   if (searchParams.length > 0) {
+    // Delete the previous applied value for multi_select filter from the
+    // searchParams as altering the array with new and old value will create
+    // more complicated logic. The new value is passed structured in filterParams
+    // and will be concadinated with the searchParams post deletion.
+    if (filterType == 'multi_select') {
+      searchParams = getParamsAsObject(searchParams)
+      delete(searchParams['filters'][filterType][filterColumn])
+      searchParams = jQuery.param(searchParams)
+    }
     filterParams = jQuery.param(queryString)
     var availableParams = searchParams + '&' + filterParams
     queryString = getParamsAsObject(availableParams)
