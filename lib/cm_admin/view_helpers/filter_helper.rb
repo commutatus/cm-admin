@@ -77,6 +77,9 @@ module CmAdmin
         concat(content_tag(:div, class: "filter-chip #{filter.filter_type.to_s.eql?('single_select') ? 'dropdown' : ''}", data: data_hash) do
           concat tag.span "#{filter.db_column_name.to_s.titleize} is "
           concat tag.span "#{filter.filter_type.to_s.eql?('multi_select') ? truncated_value : value}"
+          concat(content_tag(:div, class: "filter-chip-remove #{value ? '' : 'hidden'}") do
+            tag.i class: 'fa fa-times bolder'
+          end)
         end)
         return
       end
