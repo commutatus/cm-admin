@@ -69,7 +69,7 @@ var dropdownFilterSearch = function(element) {
   for (var i = 0; i < dropdownElements.length; i++) {
     txtValue = $(dropdownElements[i]).children().text();
     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      $(dropdownElements[i]).css('display', 'block');
+      $(dropdownElements[i]).css('display', 'flex');
     } else {
       $(dropdownElements[i]).css('display', 'none');
     }
