@@ -1,5 +1,7 @@
 var currentRequest = null;
 
+// Main method which will structure the existing filter values with the newly
+// applied filter. Send and receive the value from the backend.
 var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   var url = window.location.pathname
 
@@ -27,8 +29,8 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   if (searchParams.length > 0) {
     // Delete the previous applied value for multi_select filter from the
     // searchParams as altering the array with new and old value will create
-    // more complicated logic. The new value is passed structured in filterParams
-    // and will be concadinated with the searchParams post deletion.
+    // more complicated logic. The new value is passed and structured in
+    // filterParams and will be concadinated with the searchParams post deletion
     if (filterType == 'multi_select') {
       searchParams = getParamsAsObject(searchParams)
       if (searchParams['filters'][filterType] != undefined) {
@@ -65,7 +67,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
   var filterColumn = $(this).data('db-column')
 
   if (filterType == 'range') {
-    var rangeElements = $('[data-behaviour="filter"][data-filter-type="range"][data-db-column=' + filterColumn + ']')
+    var rangeElements = $(this).parent().children()
     if ($(rangeElements[0]).val().length > 0 && $(rangeElements[1]).val().length > 0) {
       var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
     }
@@ -73,7 +75,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     var filterValue = $(this).val()
   }
 
-  $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
+  $(this).parents(':nth(1)').children(':first').children(':last').text(filterValue)
   unhideClearFilterBtn(filterValue)
   getFilteredData(filterType, filterValue, filterColumn)
 });
@@ -94,18 +96,13 @@ $(document).on('click', '[data-behaviour="filter-option"]', function(e) {
 
 var unhideFilter = function(filterType, filterColumn) {
   var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
-  var selectFilterElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
-  filterElement.parent().parent().removeClass('hidden');
-  selectFilterElement.parent().removeClass('hidden');
+  var filterInputElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
+
+  filterInputElement.parent().removeClass('hidden');
+  filterInputElement.click()
 
   if (filterType == 'date') {
     filterElement.click();
-  } else if (filterType == 'range') {
-    filterElement.parent().removeClass('hidden');
-  } else if (filterType == 'single_select') {
-    selectFilterElement.click()
-  } else if (filterType == 'multi_select') {
-    $(selectFilterElement.parent().children()[1]).removeClass('hidden')
   }
 };
 
@@ -187,12 +184,11 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
   var filterColumn = $(this).data('db-column')
 
   var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']')
-  var filterInputElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn +']')
 
   if (filterType == 'range') {
     filterElement.parent().toggleClass('hidden')
   } else if (filterType == 'multi_select') {
-    $(filterInputElement.parent().children()[1]).toggleClass('hidden')
+    $(this).parent().children(':last').toggleClass('hidden')
   }
 })
 
@@ -220,7 +216,8 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
       }
       $(this).addClass('selected')
     }
-    $($('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']').children()[1]).text(filterValue)
+
+    $(this).parents(':nth(4)').children(':first').children(':last').text(filterValue)
     unhideClearFilterBtn(filterValue)
     getFilteredData(filterType, filterValue, filterColumn)
   }
