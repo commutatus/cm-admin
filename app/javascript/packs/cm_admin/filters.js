@@ -63,7 +63,7 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
 }
 
 // Generate or remove elements of the dropdown based on the search value.
-var filterSearch = function(element) {
+var dropdownFilterSearch = function(element) {
   var filter = element.val().toUpperCase();
   var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
   for (var i = 0; i < dropdownElements.length; i++) {
@@ -129,8 +129,8 @@ $(document).on('keypress', '[data-behaviour="filter"][data-filter-type="range"]'
 });
 
 // Search inside the dropdowns
-$(document).on('keyup', '[data-id="cm-filter-search"]', function(e) {
-  filterSearch($(this))
+$(document).on('keyup', '[data-behaviour="dropdown-filter-search"]', function(e) {
+  dropdownFilterSearch($(this))
 });
 
 // Method to decode the encoded nested and/or complex hash and convert it to
