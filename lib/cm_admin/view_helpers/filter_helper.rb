@@ -98,7 +98,7 @@ module CmAdmin
       def add_date_filter(filter)
         value = params.dig(:filters, :date, :"#{filter.db_column_name}")
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip', value: "#{value ? value : ''}", data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+          concat(content_tag(:div, class: 'filter-chip', data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
             concat tag.span "#{filter.db_column_name.to_s.titleize} is "
             concat tag.span "#{value}"
           end)
@@ -113,7 +113,7 @@ module CmAdmin
       def add_single_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip dropdown', value: "#{value ? value : ''}", data: {bs_toggle: 'dropdown', behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+          concat(content_tag(:div, class: 'filter-chip dropdown', data: {bs_toggle: 'dropdown', behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
             concat tag.span "#{filter.db_column_name.to_s.titleize} is "
             concat tag.span "#{value}"
           end)
@@ -147,7 +147,7 @@ module CmAdmin
         end
 
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
-          concat(content_tag(:div, class: 'filter-chip', value: "#{value ? value : ''}", data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+          concat(content_tag(:div, class: 'filter-chip', data: {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
             concat tag.span "#{filter.db_column_name.to_s.titleize} is "
             concat tag.span "#{truncated_value}"
           end)
@@ -160,7 +160,7 @@ module CmAdmin
                 end)
                 concat(content_tag(:div, class: 'list-area') do
                   filter.collection.each do |val|
-                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
+                    concat(content_tag(:div, class: "pointer list-item #{(value && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
                       concat tag.input class: 'cm-checkbox', type: 'checkbox', checked: value ? value.include?(val) : false
                       concat tag.label val.to_s.titleize, class: 'pointer'
                     end)
