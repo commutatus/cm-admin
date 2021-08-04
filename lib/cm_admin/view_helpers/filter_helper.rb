@@ -27,9 +27,9 @@ module CmAdmin
           concat(content_tag(:div, class: 'popup-base') do
             concat(content_tag(:div, class: 'popup-inner') do
               concat(content_tag(:div, class: 'search-area') do
-                concat tag.input id: 'cm-add-filter-search', placeholder: 'Search for filter'
+                concat tag.input placeholder: 'Search for filter', data: {behaviour: 'dropdown-filter-search'}
               end)
-              concat(content_tag(:div, class: 'list-area', id: 'add-filter-dropdown') do
+              concat(content_tag(:div, class: 'list-area') do
                 filters.each do |filter|
                   concat(content_tag(:div, class: 'pointer list-item', data: {behaviour: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
                     tag.span filter.db_column_name.to_s.titleize
@@ -129,7 +129,7 @@ module CmAdmin
             concat(content_tag(:div, class: 'popup-base') do
               concat(content_tag(:div, class: 'popup-inner') do
                 concat(content_tag(:div, class: 'search-area') do
-                  concat tag.input placeholder: "#{filter.placeholder}"
+                  concat tag.input placeholder: "#{filter.placeholder}", data: {behaviour: 'dropdown-filter-search'}
                 end)
                 concat(content_tag(:div, class: 'list-area') do
                   filter.collection.each do |val|
@@ -155,7 +155,7 @@ module CmAdmin
             concat(content_tag(:div, class: 'popup-base') do
               concat(content_tag(:div, class: 'popup-inner') do
                 concat(content_tag(:div, class: 'search-area') do
-                  concat tag.input placeholder: "#{filter.placeholder}"
+                  concat tag.input placeholder: "#{filter.placeholder}", data: {behaviour: 'dropdown-filter-search'}
                 end)
                 concat(content_tag(:div, class: 'list-area') do
                   filter.collection.each do |val|
