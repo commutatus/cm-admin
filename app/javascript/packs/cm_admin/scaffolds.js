@@ -7,7 +7,7 @@ $(document).ready(function(e) {
   flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
     mode: 'range'
   })
-}
+});
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only']", function (event) {
   $(this).val($(this).val().replace(/[^0-9\.]/g,''));
   if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
