@@ -105,6 +105,12 @@ $(document).on('keyup', '.search-input', function(e) {
 $(document).on('click', '[data-behaviour="filter-option"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
+
+  // Clear the search value post selection and regenerate the dropdown elements.
+  var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
+  searchInputElement.val('')
+  dropdownFilterSearch(searchInputElement)
+
   unhideFilter(filterType, filterColumn)
 });
 
@@ -220,6 +226,12 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     }
 
     $(this).parents(':nth(4)').children(':first').children(':last').text(filterValue)
+
+    // Clear the search value post selection and regenerate the dropdown elements.
+    var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
+    searchInputElement.val('')
+    dropdownFilterSearch(searchInputElement)
+
     unhideClearFilterBtn(filterValue)
     getFilteredData(filterType, filterValue, filterColumn)
   }
@@ -258,6 +270,12 @@ $(document).on('click', '.apply-area', function(e) {
 
     filterInputElement.children(':last').text(truncatedFilterValue)
     selectFilterElement.parents(':nth(3)').addClass('hidden')
+
+    // Clear the search value post selection and regenerate the dropdown elements.
+    var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
+    searchInputElement.val('')
+    dropdownFilterSearch(searchInputElement)
+
     unhideClearFilterBtn(filterValue)
     getFilteredData(filterType, filterValue, filterColumn)
   }
