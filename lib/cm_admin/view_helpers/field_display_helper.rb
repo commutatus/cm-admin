@@ -29,7 +29,7 @@ module CmAdmin
           when :text
             ar_object.send(field.field_name)
           when :custom
-            send(field.helper_method, ar_object.send(field.field_name))
+            send(field.helper_method, ar_object, field.field_name)
           when :link
             if field.custom_link
               link = field.custom_link
