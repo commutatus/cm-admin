@@ -117,15 +117,10 @@ $(document).on('click', '[data-behaviour="filter-option"]', function(e) {
 });
 
 var unhideFilter = function(filterType, filterColumn) {
-  var filterElement = $('[data-behaviour="filter"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
   var filterInputElement = $('[data-behaviour="filter-input"][data-filter-type=' + filterType + '][data-db-column='+ filterColumn + ']')
 
   filterInputElement.parent().removeClass('hidden');
   filterInputElement.click()
-
-  if (filterType == 'date') {
-    filterElement.click();
-  }
 };
 
 // Only allow numeric input (both integer and decimal) values in range filters
@@ -199,6 +194,8 @@ $(document).on('click', '[data-behaviour="filter-input"]', function(e) {
     filterElement.parent().toggleClass('hidden')
   } else if (filterType == 'multi_select') {
     $(this).parent().children(':last').toggleClass('hidden')
+  } else if (filterType == 'date') {
+    filterElement.click()
   }
 })
 
