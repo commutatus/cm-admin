@@ -89,7 +89,9 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
     var filterValue = $(this).val()
   }
 
-  $(this).parents(':nth(1)').children(':first').children(':last').text(filterValue)
+  $(this).parents(':nth(1)').children(':first').children(':nth(1)').text(filterValue)
+  $(this).parents(':nth(1)').children(':first').children(':last').removeClass('hidden')
+
   unhideClearFilterBtn(filterValue)
   getFilteredData(filterType, filterValue, filterColumn)
 });
@@ -225,7 +227,8 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
       $(this).addClass('selected')
     }
 
-    $(this).parents(':nth(4)').children(':first').children(':last').text(filterValue)
+    $(this).parents(':nth(4)').children(':first').children(':nth(1)').text(filterValue)
+    $(this).parents(':nth(4)').children(':first').children(':last').removeClass('hidden')
 
     // Clear the search value post selection and regenerate the dropdown elements.
     var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
@@ -268,11 +271,12 @@ $(document).on('click', '.apply-area', function(e) {
       truncatedFilterValue += ' + ' + (filterValue.length - 1) + ' more'
     }
 
-    filterInputElement.children(':last').text(truncatedFilterValue)
+    filterInputElement.children(':nth(1)').text(truncatedFilterValue)
+    filterInputElement.children(':last').removeClass('hidden')
     selectFilterElement.parents(':nth(3)').addClass('hidden')
 
     // Clear the search value post selection and regenerate the dropdown elements.
-    var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
+    var searchInputElement = $(this).parent().children(':first').children(':last')
     searchInputElement.val('')
     dropdownFilterSearch(searchInputElement)
 
