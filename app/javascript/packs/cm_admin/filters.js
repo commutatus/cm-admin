@@ -62,6 +62,20 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   });
 }
 
+// Generate or remove elements of the dropdown based on the search value.
+var filterSearch = function(element) {
+  var filter = element.val().toUpperCase();
+  var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
+  for (var i = 0; i < dropdownElements.length; i++) {
+    txtValue = $(dropdownElements[i]).children().text();
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      $(dropdownElements[i]).css('display', 'block');
+    } else {
+      $(dropdownElements[i]).css('display', 'none');
+    }
+  }
+};
+
 $(document).on('change', '[data-behaviour="filter"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
@@ -114,21 +128,9 @@ $(document).on('keypress', '[data-behaviour="filter"][data-filter-type="range"]'
   return true;
 });
 
-// Search inside the `+ Add filter` dropdown
-$(document).on('keyup', '#cm-add-filter-search', function(e){
-  var input, filter, ul, li, a, i;
-  input = $(this);
-  filter = input.val().toUpperCase();
-  div = document.getElementById('add-filter-dropdown');
-  a = div.getElementsByTagName('span');
-  for (i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      $(a[i]).parent()[0].style.display = '';
-    } else {
-      $(a[i]).parent()[0].style.display = 'none';
-    }
-  }
+// Search inside the dropdowns
+$(document).on('keyup', '[data-id="cm-filter-search"]', function(e) {
+  filterSearch($(this))
 });
 
 // Method to decode the encoded nested and/or complex hash and convert it to
