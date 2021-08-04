@@ -23,6 +23,8 @@ module CmAdmin
           return f.file_field field.field_name, class: 'normal-input'
         when :multi_file_upload
           return f.file_field field.field_name, multiple: true, class: 'normal-input'
+        when :hidden
+          return f.hidden_field field.field_name, value: field.custom_value
         end
       end
     end
