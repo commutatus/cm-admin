@@ -1,25 +1,25 @@
 module CmAdmin
   module Models
     class Column
-      attr_accessor :db_column_name, :column_type, :header, :format, :prefix, :suffix, :exportable, :round,
-      :cm_css_class, :link, :url
+      attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round,
+      :cm_css_class, :link, :url, :custom_method, :helper_method
 
-      def initialize(db_column_name, attributes = {})
-        @db_column_name = db_column_name
+      def initialize(field_name, attributes = {})
+        @field_name = field_name
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
 
-        #formatting header (either db_column_name or value present in header attribute)
+        #formatting header (either field_name or value present in header attribute)
         self.send("header=", format_header)
 
         #all columns are exportable by default
         @exportable = true if attributes[:exportable].nil?
       end
 
-      #returns a string value as a header (either db_column_name or value present in header attribute)
+      #returns a string value as a header (either field_name or value present in header attribute)
       def format_header
-        self.header.present? ? self.header.to_s.gsub(/_/, ' ')&.upcase : self.db_column_name.to_s.gsub(/_/, ' ').upcase
+        self.header.present? ? self.header.to_s.gsub(/_/, ' ')&.upcase : self.field_name.to_s.gsub(/_/, ' ').upcase
       end
 
       #formatting value for different data types
@@ -40,6 +40,8 @@ module CmAdmin
         when :decimal
           round_to = column.round.present? ? column.round.to_i : 2
           value = value.round(round_to)
+        when :custom
+
         end
         return value
       end
