@@ -41,12 +41,6 @@ module CmAdmin
             end 
           when :attachment
             concat show_attachment_value(ar_object, field)
-          when :association
-            object = ar_object
-            field.custom_method.split('.').each do |method|
-              object = object&.send(method)
-            end
-            object
           end
         end
       end
