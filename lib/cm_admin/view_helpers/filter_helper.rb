@@ -168,7 +168,7 @@ module CmAdmin
                     end)
                   end
                 end)
-                concat tag.div 'Apply', class: 'apply-area'
+                concat tag.div 'Apply', class: "apply-area #{value ? 'active' : ''}"
               end)
             end)
           end)
