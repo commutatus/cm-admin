@@ -8,7 +8,7 @@ module CmAdmin
   class ExportsController < ApplicationController
 
     def export
-      file_path = CmAdmin::Models::Export.generate_excel(params[:class_name], params[:columns])
+      file_path = CmAdmin::Models::Export.generate_excel(params[:class_name], params[:columns], helpers)
       send_file file_path, disposition: 'attachment'
     end
 

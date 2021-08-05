@@ -40,6 +40,10 @@ module CmAdmin
       def all_actions
         @all_actions || []
       end
+
+      def find_by(search_hash)
+        CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
+      end
     end
 
     # Insert into actions according to config block
@@ -203,10 +207,6 @@ module CmAdmin
       field_names.each do |field_name|
         column field_name
       end
-    end
-
-    def self.find_by(search_hash)
-      CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
     end
 
     # Custom actions
