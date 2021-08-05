@@ -39,14 +39,16 @@ module CmAdmin
       def set_form_for_fields(resource, available_fields, url, method)
         form_for(resource, url: url, method: method) do |f|
           available_fields.each do |field|
-            concat f.label field.field_name, class: 'field-label'
-            concat tag.br
-            concat(content_tag(:div, class: "datetime-wrapper") do
-              concat input_field_for_column(f, field)  
-            end)
-            concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
-            concat tag.br
-            concat tag.br
+            if field.input_type.eql?(:hidden)
+              concat input_field_for_column(f, field)
+            else
+              concat f.label field.field_name, class: 'field-label'
+              concat tag.br
+              concat(content_tag(:div, class: "datetime-wrapper") do
+                concat input_field_for_column(f, field)  
+              end)
+              concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
+            end
           end
           concat tag.br
           concat f.submit 'Save', class: 'cta-btn mt-3'
