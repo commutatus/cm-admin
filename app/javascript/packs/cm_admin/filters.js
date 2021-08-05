@@ -282,3 +282,20 @@ $(document).on('click', '.apply-area', function(e) {
   }
 });
 
+// Remove single applied filter.
+$(document).on('click', '.filter-chip-remove', function(e) {
+  var url = window.location.pathname
+  var filterType = $(this).parent().data('filter-type')
+  var filterColumn = $(this).parent().data('db-column')
+
+  var searchParams = window.location.search
+  if (searchParams.length > 0) {
+    queryString = getParamsAsObject(searchParams)
+    if (queryString['filters'][filterType] != undefined) {
+      delete(queryString['filters'][filterType][filterColumn])
+      var queryParam = jQuery.param(queryString)
+      window.history.pushState("", "", url + '?' + queryParam);
+      window.location.reload()
+    }
+  }
+});
