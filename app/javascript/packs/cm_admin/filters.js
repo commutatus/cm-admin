@@ -318,3 +318,26 @@ $(document).on('click', '.filter-chip-remove', function(e) {
   }
 });
 
+$(document).on('click', '[data-behaviour="selected-chip"]', function(e) {
+  var filterType = $(this).parents(':nth(5)').find('.filter-chip').data('filter-type')
+  var filterColumn = $(this).parents(':nth(5)').find('.filter-chip').data('db-column')
+  var filterValue = $(this).siblings().text()
+
+  var selectElement = $('[data-behaviour="select-option"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']')
+  $(this).parent().remove()
+
+  for(var i = 0; i < selectElement.length; i++) {
+    if ($(selectElement[i]).data('value') == filterValue) {
+      var checkboxElement = $(selectElement[i]).find('.cm-checkbox')
+      checkboxElement.prop('checked', !checkboxElement.prop('checked'))
+      break
+    }
+  }
+
+  var checkedCount = $(selectElement).find('.cm-checkbox').filter(':checked').length
+  if (checkedCount < 1) {
+    $(selectElement).parent().siblings(':first').addClass('search-area').removeClass('search-with-chips')
+    $(selectElement).parent().siblings(':last').removeClass('active')
+  }
+})
+
