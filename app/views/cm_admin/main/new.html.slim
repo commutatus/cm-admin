@@ -19,4 +19,20 @@
         p.form-title 
           | Section heading
         .form-container__inner
-          = generate_form(@ar_object, @model)
+          / = generate_form(@ar_object, @model, @comments)
+          = form_for @ar_object, url: CmAdmin::Engine.mount_path + "/#{@ar_object.class.table_name}/#{@ar_object.id}" do |f|
+            .field
+              = f.label :title
+              .br
+              = f.text_field :title
+            .field
+              = f.label :context
+              .br
+              = f.text_field :context
+            .h3 Tasks
+            #tasks
+              = f.fields_for :comments do |comment|
+                = render partial: '/cm_admin/main/nested_fields', locals: { f: comment }
+              .links
+                = link_to_add_association 'add comment', f, :comments, partial: '/cm_admin/main/nested_fields'
+            = f.submit
