@@ -236,13 +236,31 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     getFilteredData(filterType, filterValue, filterColumn)
   }
   else if (filterType == 'multi_select') {
+    var parentChip = $(this).parent().siblings(':first')
     var checkboxElement = $(this).find('.cm-checkbox')
     checkboxElement.prop('checked', !checkboxElement.prop('checked'))
     var checkedCount = $(this).parent().find('.cm-checkbox').filter(':checked').length
 
+    if (checkboxElement.prop('checked')) {
+      var chip = $('<div class="chip"></div>')
+      var firstSpan = $('<span></span>').text($(this).data('value'))
+      var secondSpan = $('<span data-behaviour="selected-chip"><i class="fa fa-times"></i></span>')
+      parentChip.prepend(chip.append(firstSpan).append(secondSpan))
+    } else {
+      var chipElement = parentChip.find('.chip')
+      for(var i = 0; i < chipElement.length; i++) {
+        if ($(chipElement[i]).text() == $(this).data('value')) {
+          $(chipElement[i]).remove()
+          break
+        }
+      }
+    }
+
     if (checkedCount > 0) {
+      parentChip.addClass('search-with-chips').removeClass('search-area')
       $(this).parents(':nth(1)').children(':last').addClass('active')
     } else {
+      parentChip.addClass('search-area').removeClass('search-with-chips')
       $(this).parents(':nth(1)').children(':last').removeClass('active')
     }
   }
@@ -299,3 +317,4 @@ $(document).on('click', '.filter-chip-remove', function(e) {
     }
   }
 });
+
