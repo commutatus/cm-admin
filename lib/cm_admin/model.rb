@@ -7,7 +7,7 @@ require_relative 'models/column'
 require_relative 'models/filter'
 require_relative 'models/export'
 require_relative 'models/cm_show_section'
-require_relative 'models/nav_item'
+require_relative 'models/tab'
 require 'pagy'
 require 'axlsx'
 
@@ -16,7 +16,7 @@ module CmAdmin
   class Model
     include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters, :available_tabs
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -28,6 +28,7 @@ module CmAdmin
       @ar_model = entity
       @available_actions ||= []
       @current_action = nil
+      @available_tabs ||= []
       @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
       @filters ||= []
@@ -44,6 +45,15 @@ module CmAdmin
       end
     end
 
+    def method_missing(m, *args, &block)
+      current_action = CmAdmin::Models::Action.find_by(self, name: m.to_s)
+      byebug
+      if current_action
+        @current_Action = CmAdmin::Models::Action.find_by(self, name: m.to_s)
+        @ar_object = filter_by(params, filter_params=filter_params(params))
+      end
+    end
+
     # Insert into actions according to config block
     def actions(only: [], except: [])
       acts = CmAdmin::DEFAULT_ACTIONS.keys
@@ -56,9 +66,10 @@ module CmAdmin
       @actions_set = true
     end
 
-    def cm_show(&block)
-      @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-      @available_fields[:show] = {sections: [], nav_items: []}
+    def cm_show(page_title: ,page_description: ,&block)
+      # @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+      @page_title = page_title
+      @page_description = page_description
       yield
     end
 
@@ -105,7 +116,7 @@ module CmAdmin
     end
 
     def filtered_data(filter_params)
-      records = self.name.constantize.where(nil)
+      records = self.name.constantize.where(nil) unless records.present?
       if filter_params
         filter_params.each do |scope, scope_value|
           records = self.send("cm_#{scope}", scope_value, records)
@@ -181,14 +192,26 @@ module CmAdmin
       end
     end
 
-    def cm_show_section(section_name, &block)
-      puts "For printing section"
-      @available_fields[:show][:sections] << CmAdmin::Models::CmShowSection.new(section_name, &block)
+    def tab(tab_name, custom_action, &block)
+      puts "For printing nav item #{tab_name}"
+      if custom_action.to_s == ''
+        @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+        @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
+      else
+        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout: '/cm_admin/main/index', partial: '/cm_admin/main/table', child_records: nil)
+        @available_actions << action
+        @current_action = action
+        @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
+      end
+      @current_action.page_title = @page_title
+      @current_action.page_description = @page_description
+      yield if block
     end
 
-    def nav_item(nav_item_name, redirection_url, is_active)
-      puts "For printing nav item #{nav_item_name}"
-      @available_fields[:show][:nav_items] << CmAdmin::Models::NavItem.new(nav_item_name, redirection_url, is_active)
+    def cm_show_section(section_name, &block)
+      puts "For printing section"
+      @available_fields[@current_action.name.to_sym] ||= []
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
     end
 
     def form_field(field_name, options={})
@@ -265,10 +288,10 @@ module CmAdmin
                   format.html { render '/cm_admin/main/new' }
                 end
               elsif action.layout.present?
-                if action.partial.present?
-                  render partial: action.partial, layout: action.layout
+                if request.xhr? && action.partial.present?
+                  format.html { render partial: action.partial }
                 else
-                  render layout: action.layout
+                  format.html { render action.layout }
                 end
               end
             end
