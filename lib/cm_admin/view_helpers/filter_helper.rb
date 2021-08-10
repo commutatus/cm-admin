@@ -157,7 +157,17 @@ module CmAdmin
           concat(content_tag(:div, class: 'position-absolute mt-2 dropdown-popup hidden') do
             concat(content_tag(:div, class: 'popup-base') do
               concat(content_tag(:div, class: 'popup-inner') do
-                concat(content_tag(:div, class: 'search-area') do
+                concat(content_tag(:div, class: "#{value ? 'search-with-chips' : 'search-area'}") do
+                  if value
+                    value.each do |val|
+                      concat(content_tag(:div, class: 'chip') do
+                        concat tag.span val
+                        concat(content_tag(:span, data: { behaviour: 'selected-chip' }) do
+                          tag.i class: 'fa fa-times'
+                        end)
+                      end)
+                    end
+                  end
                   concat tag.input placeholder: "#{filter.placeholder}", data: {behaviour: 'dropdown-filter-search'}
                 end)
                 concat(content_tag(:div, class: 'list-area') do
