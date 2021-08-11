@@ -148,8 +148,8 @@ module CmAdmin
       scope_value.each do |key, value|
         if value.present?
           value = value.split(' to ')
-          from = value[0]
-          to = value[1] ? value[1] : value[0]
+          from = value[0].presence
+          to = value[1].presence
           records = records.where(key => from..to)
         end
       end
