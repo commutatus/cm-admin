@@ -243,6 +243,7 @@ module CmAdmin
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
+            @comments = @ar_object.comments.build if action_name == "new"
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')

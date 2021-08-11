@@ -8,6 +8,7 @@ require("bootstrap")
 require('flatpickr')
 require('./scaffolds.js')
 require('./filters.js')
+require("@nathanvda/cocoon")
 
 import jQuery from 'jquery'
 window.$ = jQuery

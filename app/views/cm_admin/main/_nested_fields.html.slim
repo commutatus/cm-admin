@@ -1,0 +1,6 @@
+.nested-fields
+  .field
+    = f.label :comment_text
+    .br
+    = f.text_field :comment_text
+  = link_to_remove_association "remove comment", f
