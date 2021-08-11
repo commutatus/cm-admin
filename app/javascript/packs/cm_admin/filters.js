@@ -82,9 +82,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
 
   if (filterType == 'range') {
     var rangeElements = $(this).parent().children()
-    if ($(rangeElements[0]).val().length > 0 && $(rangeElements[1]).val().length > 0) {
-      var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
-    }
+    var filterValue = $(rangeElements[0]).val() + ' to ' + $(rangeElements[1]).val()
   } else {
     var filterValue = $(this).val()
   }
