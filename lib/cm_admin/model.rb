@@ -8,7 +8,7 @@ require_relative 'models/filter'
 require_relative 'models/export'
 require 'pagy'
 require 'axlsx'
-
+require 'cocoon'
 
 module CmAdmin
   class Model
@@ -26,7 +26,7 @@ module CmAdmin
       @ar_model = entity
       @available_actions ||= []
       @current_action = nil
-      @available_fields ||= {index: [], show: [], edit: [], new: []}
+      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?
@@ -183,8 +183,19 @@ module CmAdmin
       @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
-    def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+    def form_field(field_name, options={}, arg=nil)
+      if @current_action.is_nested_field == false
+        @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      else
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      end
+    end
+
+    def nested_form_field(field_name, &block)
+      @current_action.is_nested_field = true
+      @current_action.nested_table_name = field_name
+      yield
     end
 
     def column(field_name, options={})
