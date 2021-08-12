@@ -1,6 +1,6 @@
 .admin-table-index
   .table-top
-    p.table-top__total-count = "#{@ar_object.pagy.count} #{@model.ar_model.table_name} found"
+    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@associated_model.ar_model.table_name} found"
     .table-top__column-action
       button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
         span
@@ -15,15 +15,15 @@
         th.check-box-space
           span
             input.cm-checkbox type="checkbox"
-        - @model.available_fields[:index].each do |column|
+        - @model.available_fields[@action.name.to_sym].each do |column|
           th = column.header
     tbody.cm-table__body
-      - @ar_object.data.each do |ar_object|
+      - @associated_ar_object.data.each do |ar_object|
         tr.body-row
           td.check-box-space
             span
               input.cm-checkbox type="checkbox"
-          - @model.available_fields[:index].each do |column|
+          - @model.available_fields[@action.name.to_sym].each do |column|
             td
               span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
           td.row-action-cell
@@ -55,6 +55,6 @@
 /       i.fa.fa-angle-double-right.bolder.f14
 
 .cm-pagination
-  .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
+  .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
   .cm-pagination__rhs
-    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }

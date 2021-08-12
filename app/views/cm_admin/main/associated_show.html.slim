@@ -4,9 +4,9 @@
       == render 'cm_admin/main/top_navbar'
       == render 'cm_admin/main/tabs'
   .show-page__inner.scrollable
-    - @model.available_fields[:show].each do |section|
+    - @model.available_fields[@action.name.to_sym].each do |section|
       .info-section
         p.section-heading = section.section_name
         .paper
           - section.available_section_fields.each do |field|
-            = show_field(@ar_object, field)
+            = show_field(@associated_ar_object, field)

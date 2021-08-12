@@ -45,12 +45,22 @@ module CmAdmin
       end
     end
 
-    def method_missing(m, *args, &block)
-      current_action = CmAdmin::Models::Action.find_by(self, name: m.to_s)
-      byebug
+    def custom_controller_action(action_name, params)
+      current_action = CmAdmin::Models::Action.find_by(self, name: action_name.to_s)
       if current_action
-        @current_Action = CmAdmin::Models::Action.find_by(self, name: m.to_s)
-        @ar_object = filter_by(params, filter_params=filter_params(params))
+        @current_action = current_action
+        @ar_object = @ar_model.find(params[:id])
+        if @current_action.child_records
+          child_records = @ar_object.send(@current_action.child_records)
+          @associated_model = CmAdmin::Model.find_by(name: @ar_model.reflect_on_association(@current_action.child_records).klass.name)
+          if child_records.is_a? ActiveRecord::Relation
+            @associated_ar_object = filter_by(params, child_records)
+          else
+            @associated_ar_object = child_records
+          end
+          return @ar_object, @associated_model, @associated_ar_object
+        end
+        return @ar_object
       end
     end
 
@@ -100,12 +110,12 @@ module CmAdmin
       @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
-    def filter_by(params, filter_params={}, sort_params={})
+    def filter_by(params, records=self, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
-      sort_column = "users.created_at"
+      sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      final_data = filtered_data(filter_params)
+      final_data = filtered_data(filter_params, records)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -115,8 +125,8 @@ module CmAdmin
       return filtered_result
     end
 
-    def filtered_data(filter_params)
-      records = self.name.constantize.where(nil) unless records.present?
+    def filtered_data(filter_params, records)
+      records = self.name.constantize.where(nil) unless records
       if filter_params
         filter_params.each do |scope, scope_value|
           records = self.send("cm_#{scope}", scope_value, records)
@@ -192,13 +202,13 @@ module CmAdmin
       end
     end
 
-    def tab(tab_name, custom_action, &block)
+    def tab(tab_name, custom_action, associated_model: nil, layout: nil, partial: nil, &block)
       puts "For printing nav item #{tab_name}"
       if custom_action.to_s == ''
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
       else
-        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout: '/cm_admin/main/index', partial: '/cm_admin/main/table', child_records: nil)
+        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout: layout, partial: partial, child_records: associated_model)
         @available_actions << action
         @current_action = action
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
@@ -219,9 +229,10 @@ module CmAdmin
     end
 
     def column(field_name, options={})
-      unless @available_fields[:index].map{|x| x.db_column_name.to_sym}.include?(field_name)
+      @available_fields[@current_action.name.to_sym] ||= []
+      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
         puts "For printing column #{field_name}"
-        @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
       end
     end
 
@@ -273,7 +284,8 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
-            @ar_object = @model.send(action_name, params)
+            @ar_object = @model.try(action_name, params)
+            @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')

@@ -1,0 +1,12 @@
+.show-page.page-container
+  .show-page__tabs.sticky-container
+    .cm-tabs-bar
+      == render 'cm_admin/main/top_navbar'
+      == render 'cm_admin/main/tabs'
+      .index-page__filters
+		    == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
+  .index-page
+		.index-page__table-container
+			== render 'cm_admin/main/associated_table'
+
+		= column_pop_up(@associated_model)
