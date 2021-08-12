@@ -1,1 +1,7 @@
 | Nested table data to appear here.
+
+#tasks
+  = f.fields_for table_name do |record|
+    = render partial: '/cm_admin/main/nested_fields', locals: { f: record }
+  .links
+    = link_to_add_association 'add comment', f, table_name, partial: '/cm_admin/main/nested_fields'

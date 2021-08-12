@@ -53,7 +53,7 @@ module CmAdmin
                 end
               end
             else
-              concat(render partial: '/cm_admin/main/nested_table_form')
+              concat(render partial: '/cm_admin/main/nested_table_form', locals: {f: f, table_name: key})
             end
           end
           concat tag.br
