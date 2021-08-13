@@ -163,7 +163,17 @@ module CmAdmin
           Hash[x.name.to_s, []]
         end
       }.compact
+      nested_tables = self.available_fields[:new].except(:fields).keys
+      nested_tables += self.available_fields[:edit].except(:fields).keys
+      nested_fields = nested_tables.map {|table| 
+        Hash[
+          table.to_s + '_attributes',
+          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+        ]
+      }
+      permittable_fields += nested_fields
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+      
     end
 
     def page_title(title)
