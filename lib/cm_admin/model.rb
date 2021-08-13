@@ -264,7 +264,11 @@ module CmAdmin
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
-            @comments = @ar_object.comments.build if action_name == "new"
+            nested_tables = @model.available_fields[:new].except(:fields).keys
+            nested_tables += @model.available_fields[:edit].except(:fields).keys
+            nested_tables.each do |table_name|
+              @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+            end
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')
