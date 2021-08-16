@@ -202,13 +202,22 @@ module CmAdmin
       end
     end
 
-    def tab(tab_name, custom_action, associated_model: nil, layout: nil, partial: nil, &block)
+    def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, &block)
       puts "For printing nav item #{tab_name}"
       if custom_action.to_s == ''
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
       else
-        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout: layout, partial: partial, child_records: associated_model)
+        if layout_type.present? && layout.nil? && partial.nil?
+          case layout_type
+          when 'cm_association_index'
+            layout = '/cm_admin/main/associated_index'
+            partial = '/cm_admin/main/associated_table'
+          when 'cm_association_show'
+            layout = '/cm_admin/main/associated_show'
+          end
+        end
+        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model)
         @available_actions << action
         @current_action = action
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)

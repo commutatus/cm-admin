@@ -4,7 +4,7 @@ module CmAdmin
   module Models
     class Action
       include Actions::Blocks
-      attr_accessor :name, :verb, :layout, :partial, :path, :page_title, :page_description, :child_records
+      attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description, :child_records
 
       def initialize(attributes = {})
         attributes.each do |key, value|
