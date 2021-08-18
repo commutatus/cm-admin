@@ -6,7 +6,7 @@ module CmAdmin
         when :integer
           return f.text_field field.field_name, class: 'normal-input', data: {behaviour: 'integer-only'}
         when :decimal
-          return f.text_field field.field_name, class: 'normal-input', data: {behaviour: 'decimal-only'}
+          return f.number_field field.field_name, class: 'normal-input', data: {behaviour: 'decimal-only'}
         when :string
           return f.text_field field.field_name, class: 'normal-input'
         when :single_select

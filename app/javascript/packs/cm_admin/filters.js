@@ -121,14 +121,6 @@ var unhideFilter = function(filterType, filterColumn) {
   filterInputElement.click()
 };
 
-// Only allow numeric input (both integer and decimal) values in range filters
-$(document).on('keypress', '[data-behaviour="filter"][data-filter-type="range"]', function(e){
-  var charCode = (e.which) ? e.which : e.keyCode
-  if (charCode > 31 && (charCode != 46 &&(charCode < 48 || charCode > 57)))
-    return false;
-  return true;
-});
-
 // Search inside the dropdowns
 $(document).on('keyup', '[data-behaviour="dropdown-filter-search"]', function(e) {
   dropdownFilterSearch($(this))
