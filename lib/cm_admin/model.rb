@@ -91,7 +91,7 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      final_data = filtered_data(filter_params)
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, self.name, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -99,69 +99,6 @@ module CmAdmin
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
-    end
-
-    def filtered_data(filter_params)
-      records = self.name.constantize.where(nil)
-      if filter_params
-        filter_params.each do |scope_type, scope_value|
-          scope_name = if scope_type.eql?('date') || scope_type.eql?('range')
-            'date_and_range'
-          elsif scope_type.eql?('single_select') || scope_type.eql?('multi_select')
-            'dropdown'
-          else
-            scope_type
-          end
-          records = self.send("cm_#{scope_name}_filter", scope_value, records) if scope_value.present?
-        end
-      end
-      records
-    end
-
-    def cm_search_filter(scope_value, records)
-      return nil if scope_value.blank?
-      table_name = records.table_name
-
-      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
-        terms = scope_value.downcase.split(/\s+/)
-        terms = terms.map { |e|
-          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
-        }
-        sql = ""
-        filter.db_column_name.each.with_index do |column, i|
-          sql.concat("#{table_name}.#{column} ILIKE ?")
-          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
-        end
-
-        records = records.where(
-          terms.map { |term|
-            sql
-          }.join(' AND '),
-          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
-        )
-      end
-      records
-    end
-
-    def cm_date_and_range_filter(scope_value, records)
-      return nil if scope_value.nil?
-      scope_value.each do |key, value|
-        if value.present?
-          value = value.split(' to ')
-          from = value[0].presence
-          to = value[1].presence
-          records = records.where(key => from..to)
-        end
-      end
-      records
-    end
-
-    def cm_dropdown_filter(scope_value, records)
-      return nil if scope_value.nil?
-      scope_value.each do |key, value|
-        records = records.where(key => value) if value.present?
-      end
-      records
     end
 
     def new(params)
