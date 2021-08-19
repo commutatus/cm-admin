@@ -104,9 +104,9 @@ module CmAdmin
 
     def manage_column_body_list(column_name)
       tag.div class: "column-item" do
-        concat manage_column_dragger(column_name.db_column_name)
+        concat manage_column_dragger(column_name.field_name)
         concat manage_column_item_name(column_name)
-        concat manage_column_item_pointer(column_name.db_column_name)
+        concat manage_column_item_pointer(column_name.field_name)
       end
     end
 
@@ -119,7 +119,7 @@ module CmAdmin
 
     def manage_column_item_name(column_name)
       tag.div class: "column-item__name" do
-        tag.p column_name.db_column_name.to_s.gsub('/', '_').humanize
+        tag.p column_name.field_name.to_s.gsub('/', '_').humanize
       end
     end
 
