@@ -124,7 +124,7 @@ module CmAdmin
     end
 
     def manage_column_item_pointer(default_column_name)
-      tag.div class: "column-item__action. #{"pointer" if default_column_name != :id} " do
+      tag.div class: "column-item__action #{"pointer" if default_column_name != :id}" do
         tag.i class: "fa #{default_column_name == :id ? "fa-lock" : "fa-times-circle"} bolder"
       end
     end
