@@ -6,8 +6,4 @@
         | Section heading
       .paper
         - @model.available_fields[:show].each do |field|
-          .info-split
-            .info-split__lhs
-              p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
-            .info-split__rhs
-              p = @ar_object.send(field.field_name)
+          = show_field(@ar_object, field)
