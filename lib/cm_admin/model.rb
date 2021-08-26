@@ -168,7 +168,7 @@ module CmAdmin
       nested_fields = nested_tables.map {|table| 
         Hash[
           table.to_s + '_attributes',
-          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
         ]
       }
       permittable_fields += nested_fields
@@ -266,8 +266,14 @@ module CmAdmin
             @ar_object = @model.send(action_name, params)
             nested_tables = @model.available_fields[:new].except(:fields).keys
             nested_tables += @model.available_fields[:edit].except(:fields).keys
+            @reflections = User.reflect_on_all_associations
             nested_tables.each do |table_name|
-              @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+              reflection = @reflections.select {|x| x if x.name == table_name}.first
+              if reflection.macro == :has_many
+                @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+              else
+                @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
+              end
             end
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
