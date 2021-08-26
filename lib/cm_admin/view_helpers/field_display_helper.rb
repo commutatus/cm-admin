@@ -1,6 +1,6 @@
 module CmAdmin
   module ViewHelpers
-    module ShowFieldHelper
+    module FieldDisplayHelper
 
       def show_field(ar_object, field)
         content_tag(:div, class: "info-split") do
@@ -17,19 +17,26 @@ module CmAdmin
       
       def show_field_value(ar_object, field)
         content_tag(:div, class: "info-split__lhs") do
-          case field.field_type
+          case field.field_type || :string
           when :integer
             ar_object.send(field.field_name).to_s
           when :decimal
-            ar_object.send(field.field_name).to_f.to_s
+            ar_object.send(field.field_name).to_f.round(field.precision).to_s if ar_object.send(field.field_name)
           when :string
             ar_object.send(field.field_name)
           when :datetime
-            ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s
+            ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
           when :text
             ar_object.send(field.field_name)
+          when :custom
+            send(field.helper_method, ar_object, field.field_name)
           when :link
-            content_tag :a, href: ar_object.send(field.field_name) do
+            if field.custom_link
+              link = field.custom_link
+            else
+              link = ar_object.send(field.field_name)
+            end
+            content_tag :a, href: link do
               ar_object.send(field.field_name).to_s
             end 
           when :attachment

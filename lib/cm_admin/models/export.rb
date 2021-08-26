@@ -34,7 +34,7 @@ module CmAdmin
         end
 
         def exportable_columns(klass)
-          klass.available_fields[:index].map{|x| x.exportable ? x.db_column_name : ""}.reject { |c| c.empty? }
+          klass.available_fields[:index].map{|x| x.exportable ? x.field_name : ""}.reject { |c| c.empty? }
         end
 
       end

@@ -1,10 +1,10 @@
 @import "../helpers/index.scss";
 
 .dropdown-popup {
-  width: 256px;
+  border: none !important;
   .popup-base {
     position: absolute;
-    width: 256px;
+    min-width: 256px;
     height: 56px;
     padding: 8px;
     background: $white;
@@ -14,7 +14,7 @@
   }
   .popup-inner {
     position: relative;
-    width: 240px;
+    min-width: 240px;
     margin: 0 auto;
     background-color: $white;
     border: 1px solid #e0e0e0;
@@ -24,14 +24,16 @@
       input {
         width: 100%;
         min-height: 40px;
-        padding: 9px 16px 9px 16px;
+        padding: 9px 16px;
         font-size: $t4-text;
         border: none;
+        border-radius: 4px 4px 0 0;
         &::placeholder {
           color: $ink-lightest-clr;
         }
         &:focus {
-          outline: 3px auto rgba(47, 128, 237, 0.3);
+          outline: none;
+          border: 1px solid $brand-color;
         }
       }
     }
@@ -47,11 +49,11 @@
         background: $grey-lighter-clr;
         border-radius: $radius-4;
         span:nth-child(1) {
-          @include font($size: $t4-text, $color: $primary-text-clr); 
+          @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
         }
         span:nth-child(2) {
-          @include font($size: 10px, $color: $ink-lightest-clr); 
+          @include font($size: 10px, $color: $ink-lightest-clr);
           margin-left: 4px;
           cursor: pointer;
         }
@@ -73,11 +75,20 @@
         display: flex;
         align-items: center;
         padding: 9px 16px;
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
         label {
-          @include font($size: $t4-text, $color: $primary-text-clr); 
-          line-height: 22px;
           margin: 0 0 0 8px;
         }
+        &:hover {
+          background: $grey-lighter-clr;
+          &:nth-last-child(1) {
+            border-radius: 0 0 4px 4px;
+          }
+        }
+      }
+      .selected {
+        color: $brand-color;
       }
     }
     .apply-area {
@@ -86,8 +97,9 @@
       text-align: center;
       padding: 9px 16px;
       box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
-      cursor: pointer;
+      cursor: not-allowed;
       &.active {
+        cursor: pointer;
         color: $blue-regular-clr;
       }
     }
