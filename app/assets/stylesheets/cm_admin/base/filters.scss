@@ -9,7 +9,7 @@
     @include flex(row, flex-start, center, wrap);
     .filter-chips-wrapper {
       .filter-chip {
-        margin-left: 16px
+        margin-left: 16px;
       }
     }
     .add-filter-btn {
@@ -17,13 +17,15 @@
       line-height: 22px;
       font-weight: 600;
       color: $primary-text-clr;
-      margin-left: 16px;
       cursor: pointer;
       span {
         margin-right: 4px;
       }
+      &:hover {
+        color: $brand-color;
+      }
     }
-    .clear-btn { 
+    .clear-btn {
       position: relative;
       font-size: $t4-text;
       line-height: 22px;
@@ -38,6 +40,9 @@
         left: -16px;
         height: 32px;
         border-left: 1px solid $grey-regular-clr;
+      }
+      &:hover {
+        color: $primary-text-clr;
       }
     }
   }

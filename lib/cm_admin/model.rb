@@ -43,6 +43,10 @@ module CmAdmin
       def all_actions
         @all_actions || []
       end
+
+      def find_by(search_hash)
+        CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
+      end
     end
 
     def custom_controller_action(action_name, params)
@@ -115,7 +119,7 @@ module CmAdmin
       sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      final_data = filtered_data(filter_params, records)
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -160,6 +164,8 @@ module CmAdmin
       records
     end
 
+=======
+>>>>>>> 0ed78242394a8de0a9cafdcff5bf658fd94c17af
     def new(params)
       @ar_object = @ar_model.new
     end
@@ -256,10 +262,6 @@ module CmAdmin
       end
     end
 
-    def self.find_by(search_hash)
-      CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
-    end
-
     # Custom actions
     # eg
     # class User < ApplicationRecord
@@ -323,7 +325,13 @@ module CmAdmin
     end
 
     def filter_params(params)
-      params.require(:filters).permit(:search) if params[:filters]
+      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
     end
   end
 end
