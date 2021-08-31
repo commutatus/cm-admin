@@ -37,6 +37,7 @@
   border-radius: $radius-4;
   @include transition-linear;
   cursor: pointer;
+  user-select: none;
   &:hover {
     background-color: #F3F4F6;
     .filter-chip-remove {
