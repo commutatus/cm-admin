@@ -266,7 +266,7 @@ module CmAdmin
             @ar_object = @model.send(action_name, params)
             nested_tables = @model.available_fields[:new].except(:fields).keys
             nested_tables += @model.available_fields[:edit].except(:fields).keys
-            @reflections = User.reflect_on_all_associations
+            @reflections = @model.ar_model.reflect_on_all_associations
             nested_tables.each do |table_name|
               reflection = @reflections.select {|x| x if x.name == table_name}.first
               if reflection.macro == :has_many
