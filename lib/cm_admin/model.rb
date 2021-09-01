@@ -157,6 +157,9 @@ module CmAdmin
     end
 
     def column(field_name, options={})
+      if @available_fields[:index].select{|x| x.lockable}.size > 0 && options[:lockable]
+        raise "Only one column can be locked in a table."
+      end
       unless @available_fields[:index].map{|x| x.field_name.to_sym}.include?(field_name)
         puts "For printing column #{field_name}"
         @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
