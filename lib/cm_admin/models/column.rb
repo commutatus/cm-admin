@@ -6,20 +6,24 @@ module CmAdmin
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
+        set_default_values
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
 
         #formatting header (either field_name or value present in header attribute)
         self.send("header=", format_header)
-
-        #all columns are exportable by default
-        @exportable = true if attributes[:exportable].nil?
       end
 
       #returns a string value as a header (either field_name or value present in header attribute)
       def format_header
         self.header.present? ? self.header.to_s.gsub(/_/, ' ')&.upcase : self.field_name.to_s.gsub(/_/, ' ').upcase
+      end
+
+      def set_default_values
+        self.exportable = true
+        self.managable = true
+        self.lockable = false
       end
 
       #formatting value for different data types
