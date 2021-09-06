@@ -113,8 +113,8 @@
           background-color: #4b4b4b;
         }
         &.active {
-          background-color: $black;
-          border-left: 4px solid $primary-clr;
+          background-color: $active-bg;
+          border-left: 4px solid #0099ff;
         }
         .tab-name {
           color: $white;

@@ -3,6 +3,12 @@ module CmAdmin
     def copy_index_files
       template "views/index.erb", "app/views/admin/#{name}/index.html.slim"
       template "views/_table.erb", "app/views/admin/#{name}/_table.html.slim"
+      inject_into_file 'app/views/layouts/_side_navbar.html.slim', after: ".sidebar-menu__tabs-wrapper" do
+        "\n
+      = link_to '/admin/#{name}', class: 'tab-link'
+        .tab-item class=\"\#{(controller_name == '#{name}' ) ? 'active' : ''}\"
+          span.p-4.tab-name.f14 #{name.titleize}\n"
+      end
       puts "
       -------------------------------------------------------------------
       # Important
@@ -18,7 +24,13 @@ module CmAdmin
 
     def copy_form_files
       template "views/new.erb", "app/views/admin/#{name}/new.html.slim"
+      template "views/edit.erb", "app/views/admin/#{name}/edit.html.slim"
       template "views/_form.erb", "app/views/admin/#{name}/_form.html.slim"
+    end
+
+    def copy_devise_files
+      template "views/reset_password.erb", "app/views/devise/passwords/new.html.slim"
+      template "views/sign_in.erb", "app/views/devise/sessions/new.html.slim"
     end
   end
 
@@ -55,6 +67,8 @@ module CmAdmin
         copy_form_files
       elsif page_type == 'show'
         copy_show_files
+      elsif page_type == 'devise'
+        copy_devise_files
       else
         puts "Wrong page_type provided. It can be either index or show"
       end

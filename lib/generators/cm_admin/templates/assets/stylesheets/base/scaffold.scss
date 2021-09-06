@@ -1,4 +1,4 @@
-@import "../helpers/index.scss";
+@import "_variable.scss";
 
 //main-layout-styles
 .admin-panel {
@@ -14,14 +14,6 @@
     background-color: $white;
     overflow-y: auto;
     overflow-x: hidden;
-  }
-}
-
-.components {
-  margin-top: 140px;
-  padding: 10px 30px;
-  .field-container {
-    max-width: 400px;
   }
 }
 
@@ -94,53 +86,6 @@ a {
 
 .pointer {
   cursor: pointer;
-}
-
-//common styles gose here
-
-.error-text {
-  font-size: 14px;
-  color: #ff0000;
-  margin: 5px 0;
-  animation: shakeError 0.82s cubic-bezier(.36,.07,.19,.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-.required-symbol {
-  color: #0099ff;
-  margin-left: 2px;
-}
-
-@keyframes shakeError {
-  10%, 90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-  
-  20%, 80% {
-    transform: translate3d(2px, 0, 0);
-  }
-
-  30%, 50%, 70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-
-  40%, 60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-
-.app-btn {
-  padding: 4px 8px;
-  color: #fff;
-  background-color: #0099ff;
-  border: none;
-  border-radius: 4px;
-  @include transition-linear;
-  &:hover {
-    background-color: darken(#0099ff, 10%);
-  }
 }
 
 
