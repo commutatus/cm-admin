@@ -1,12 +1,6 @@
 # CmAdmin
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cm_admin`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-First create a new rails project with the following command. If you are adding to existing project skip this
-
-```
-rails new blog -m https://raw.githubusercontent.com/commutatus/cm-rails-template/devise_integration/template.rb
-```
+New CmAdmin gem
 
 ## Installation
 
@@ -18,20 +12,15 @@ gem 'cm_admin'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 
     $ gem install cm_admin
 
-Assuming we have a model created already or we can create one
-
-    $ rails g user first_name:string last_name:string
-
-
 ## Usage
 
-For copying layout such as CSS and the layout files
+Install the gem
 
     $ rails g cm_admin:install
 
@@ -68,12 +57,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/commutatus/cm-admin. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/commutatus/cm-admin).
+
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the CmAdmin project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cm-admin/blob/master/CODE_OF_CONDUCT.md).

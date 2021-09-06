@@ -1,4 +1,4 @@
-@import "_variable.scss";
+@import "../helpers/index.scss";
 
 .show-wrapper {
   margin-top: 60px;
@@ -44,6 +44,22 @@
         transform: scale(1.2);
       }
     }
+  }
+
+  &__filter-bar {
+    position: fixed;
+    top: 140px;
+    left: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: calc(100% - 250px);
+    min-height: 60px;
+    padding: 10px 20px;
+    background-color: $white;
+    border-top: 1px solid #ececec;
+    border-bottom: 1px solid #ececec;
+    z-index: 9;
   }
 
   &__info-inner {

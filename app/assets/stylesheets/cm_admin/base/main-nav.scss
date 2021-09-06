@@ -1,0 +1,47 @@
+@import "../helpers/index.scss";
+
+.main-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 225px;
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 225px);
+  height: 140px;
+  padding: 24px 24px 16px;
+  background-color: $white;
+  z-index: 2;
+  &__lhs {
+    .bread-crumb-area {
+      .breadcrumb-text {
+        font-size: $t4-text;
+        line-height: 22px;     
+        color: $ink-lighter-clr;
+        margin: 0 0 16px;
+        a {
+          color: inherit;
+        }
+      }
+    }
+    .nav-title-area {
+      .title-text {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 32px;
+        color: $primary-text-clr;
+        margin: 0 0 8px;
+      }
+      .title-sub-text {
+        font-size: $t4-text;
+        line-height: 22px;
+        color: $primary-text-clr;
+        margin: 0;
+      }
+    }
+  }
+
+  &__rhs {
+    
+  }
+}

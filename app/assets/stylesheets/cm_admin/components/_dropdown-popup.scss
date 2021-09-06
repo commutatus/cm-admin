@@ -1,0 +1,153 @@
+@import "../helpers/index.scss";
+
+.dropdown-popup {
+  border: none !important;
+  .popup-base {
+    position: absolute;
+    min-width: 256px;
+    height: 56px;
+    padding: 8px;
+    background: $white;
+    border: 1px solid $grey-lighter-clr;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+  }
+  .popup-inner {
+    position: relative;
+    min-width: 240px;
+    margin: 0 auto;
+    background-color: $white;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+    .search-area {
+      input {
+        width: 100%;
+        min-height: 40px;
+        padding: 9px 16px;
+        font-size: $t4-text;
+        border: none;
+        border-radius: 4px 4px 0 0;
+        &::placeholder {
+          color: $ink-lightest-clr;
+        }
+        &:focus {
+          outline: none;
+          border: 1px solid $brand-color;
+        }
+      }
+    }
+    .search-with-chips {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 8px 16px;
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        margin: 2px;
+        padding: 0 4px;
+        background: $grey-lighter-clr;
+        border-radius: $radius-4;
+        span:nth-child(1) {
+          @include font($size: $t4-text, $color: $primary-text-clr);
+          line-height: 22px;
+        }
+        span:nth-child(2) {
+          @include font($size: 10px, $color: $ink-lightest-clr);
+          margin-left: 4px;
+          cursor: pointer;
+        }
+      }
+      input {
+        border: none;
+        font-size: $t4-text;
+        margin: 2px;
+        &:focus {
+          outline: 3px auto rgba(47, 128, 237, 0.3);
+        }
+      }
+    }
+    .list-area {
+      max-height: 240px;
+      overflow-y: auto;
+      border-top: 1px solid #e0e0e0;
+      .list-item {
+        display: flex;
+        align-items: center;
+        padding: 9px 16px;
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
+        label {
+          margin: 0 0 0 8px;
+        }
+        &:hover {
+          background: $grey-lighter-clr;
+          &:nth-last-child(1) {
+            border-radius: 0 0 4px 4px;
+          }
+        }
+      }
+      .selected {
+        color: $brand-color;
+      }
+    }
+    .apply-area {
+      @include font($size: $t4-text, $color: $ink-lightest-clr, $weight: 600);
+      line-height: 22px;
+      text-align: center;
+      padding: 9px 16px;
+      box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
+      cursor: not-allowed;
+      &.active {
+        cursor: pointer;
+        color: $blue-regular-clr;
+      }
+    }
+  }
+}
+
+.applied-select {
+  margin-left: 20rem;
+}
+
+.column-popup {
+  display: inline-block;
+  min-width: 156px;
+  max-height: 295px;
+  background-color: $white;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.16));
+  border-radius: $radius-4;
+  z-index: 1;
+  .column-option {
+    .option-title {
+      @include font($size: $t6-text, $color: $ink-lightest-clr, $weight: 600);
+      line-height: 16px;
+      text-transform: uppercase;
+      margin: 0;
+      padding: 18px 16px 9px;
+    }
+    .option-action {
+      padding: 9px 16px;
+      cursor: pointer;
+      @include transition-linear;
+      &:hover {
+        background-color: $grey-lighter-clr;
+      }
+      .action-icon {
+        font-size: $t4-text;
+      }
+      .action-name {
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
+        margin-left: 8px;
+      }
+    }
+    .cannot-sort {
+      font-size: $t6-text;
+      line-height: 16px;
+      color: $ink-lightest-clr;
+      margin-bottom: 9px;
+      padding: 0 16px;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+@import "../helpers/index.scss";
+
+.cm-tabs-bar {
+  position: fixed;
+  top: 140px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 54px;
+  padding: 0 24px;
+  background-color: $white;
+  box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+  z-index: 1;
+
+  .tab-item {
+    font-size: 14px;
+    color: $ink-lighter-clr;
+    padding: 16px 0;
+    margin-right: 24px;
+    cursor: pointer;
+    &.active {
+      color: $brand-color;
+      box-shadow: inset 0px -2px 0px $brand-color;
+    }
+  }
+}

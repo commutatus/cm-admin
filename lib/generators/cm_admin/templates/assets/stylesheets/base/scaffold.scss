@@ -9,9 +9,9 @@
   // sidebar styles are in sidebar.scss
 
   .main {
-    width: calc(100% - 250px);
-    margin-left: 250px;
-    background-color: $main-background;
+    width: calc(100% - 225px);
+    margin-left: 225px;
+    background-color: $white;
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -62,15 +62,9 @@ a {
 .border-top {
   border-top: 1px solid #ccc;
 }
+
 .border-bottom {
   border-bottom: 1px solid #ccc;
-}
-
-h6 a {
-  color: white !important;
-}
-a:hover {
-  color: lightgrey !important;
 }
 
 .breadcrumb-nav {
@@ -92,4 +86,13 @@ a:hover {
 
 .pointer {
   cursor: pointer;
+}
+
+
+// datepicker theme styles
+
+.daterangepicker {
+  .active {
+    background-color: #0099ff !important;
+  }
 }
