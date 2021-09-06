@@ -1,0 +1,31 @@
+@import "../helpers/index.scss";
+
+.range-container {
+  display: flex;
+  width: 424px;
+  height: 54px;
+  padding: 8px;
+  background: $white;
+  border: 1px solid $grey-lighter-clr;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+  border-radius: $radius-4;
+  .range-item {
+    width: 200px;
+    border: 1px solid $grey-light-clr;
+    border-radius: $radius-4;
+    padding: 8px 0 8px 16px;
+    &:nth-child(1) {
+      margin-right: 4px;
+    }
+    &:nth-child(2) {
+      margin-left: 4px;
+    }
+    &:hover {
+      border: 1px solid $grey-dark-clr;
+    }
+    &:focus {
+      outline: none;
+      border: 1px solid $brand-color;
+    }
+  }
+}
