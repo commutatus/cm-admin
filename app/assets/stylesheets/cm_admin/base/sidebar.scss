@@ -107,13 +107,8 @@
           background-color: #4b4b4b;
         }
         &.active {
-<<<<<<< HEAD:lib/generators/cm_admin/templates/assets/stylesheets/base/sidebar.scss
-          background-color: $active-bg;
-          border-left: 4px solid #0099ff;
-=======
           background-color: $black;
           border-left: 4px solid $brand-color;
->>>>>>> 2328aa785046be0453d2e6d690b574effde40605:app/assets/stylesheets/cm_admin/base/sidebar.scss
         }
         .tab-name {
           color: $white;

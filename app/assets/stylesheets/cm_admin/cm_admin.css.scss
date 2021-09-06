@@ -23,15 +23,4 @@
  *= require 'cm_admin/components/index'
  *= require 'cm_admin/dependency/bootstrap.min'
  *= require_self
- *= require 'select2'
- *= require jgrowl 
- *= require bootstrap/dist/css/bootstrap
- *= require bootstrap-datepicker/dist/css/bootstrap-datepicker3
- *= require daterangepicker
  */
-
- $fa-font-path: '@fortawesome/fontawesome-free/webfonts';
- @import '@fortawesome/fontawesome-free/scss/fontawesome';
- @import '@fortawesome/fontawesome-free/scss/regular';
- @import '@fortawesome/fontawesome-free/scss/brands';
- @import '@fortawesome/fontawesome-free/scss/v4-shims';
