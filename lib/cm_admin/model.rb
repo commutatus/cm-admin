@@ -40,6 +40,10 @@ module CmAdmin
       def all_actions
         @all_actions || []
       end
+
+      def find_by(search_hash)
+        CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
+      end
     end
 
     # Insert into actions according to config block
@@ -91,7 +95,7 @@ module CmAdmin
       sort_column = "users.created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      final_data = filtered_data(filter_params)
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, self.name, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -99,41 +103,6 @@ module CmAdmin
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
-    end
-
-    def filtered_data(filter_params)
-      records = self.name.constantize.where(nil)
-      if filter_params
-        filter_params.each do |scope, scope_value|
-          records = self.send("cm_#{scope}", scope_value, records)
-        end
-      end
-      records
-    end
-
-    def cm_search(scope_value, records)
-      return nil if scope_value.blank?
-      table_name = records.table_name
-
-      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
-        terms = scope_value.downcase.split(/\s+/)
-        terms = terms.map { |e|
-          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
-        }
-        sql = ""
-        filter.db_column_name.each.with_index do |column, i|
-          sql.concat("#{table_name}.#{column} ILIKE ?")
-          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
-        end
-
-        records = records.where(
-          terms.map { |term|
-            sql
-          }.join(' AND '),
-          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
-        )
-      end
-      records
     end
 
     def new(params)
@@ -226,10 +195,6 @@ module CmAdmin
       end
     end
 
-    def self.find_by(search_hash)
-      CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
-    end
-
     # Custom actions
     # eg
     # class User < ApplicationRecord
@@ -303,7 +268,13 @@ module CmAdmin
     end
 
     def filter_params(params)
-      params.require(:filters).permit(:search) if params[:filters]
+      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
     end
   end
 end

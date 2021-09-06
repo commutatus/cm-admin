@@ -63,3 +63,17 @@ a {
 .datetime-wrapper {
   position: relative;
 }
+
+.cm-admin-static {
+  width: auto;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.date-filter-wrapper {
+  position: absolute;
+  line-height: 28px;
+  top: 0;
+  opacity: 0;
+  z-index: -1;
+}
