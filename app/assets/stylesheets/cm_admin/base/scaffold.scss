@@ -1,0 +1,79 @@
+@import "../helpers/index.scss";
+
+body {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Open Sans', sans-serif !important;
+  background-color: $grey-lightest-clr !important;
+}
+
+//main-layout-styles
+.cm-admin {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  .panel-area {
+    width: calc(100% - 225px);
+    margin-left: 225px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .components {
+    margin-top: 140px;
+    padding: 10px 30px;
+    .field-container {
+      max-width: 400px;
+    }
+  }
+}
+
+
+a:hover,
+a {
+  text-decoration: none !important;
+}
+
+// daterangepicker theme styles
+.daterangepicker {
+  .active {
+    background-color: $brand-color !important;
+  }
+  .drp-buttons {
+    .btn-primary {
+      background-color: $brand-color !important;
+    }
+  }
+}
+
+// datepicker theme styles
+.datepicker {
+  .active {
+    background-color: $brand-color !important;
+  }
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.datetime-wrapper {
+  position: relative;
+}
+
+.cm-admin-static {
+  width: auto;
+  text-align: center;
+  padding: 0 15px;
+}
+
+.date-filter-wrapper {
+  position: absolute;
+  line-height: 28px;
+  top: 0;
+  opacity: 0;
+  z-index: -1;
+}

@@ -1,44 +1,33 @@
-
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "cm_admin/version"
+require_relative 'lib/cm_admin/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cm-admin"
   spec.version       = CmAdmin::VERSION
-  spec.date          = '2020-05-08'
-  spec.authors       = ["Anbazhagan Palani"]
-  spec.email         = ["anbu@commutatus.com"]
+  spec.authors       = ["sajinmp", "anbublacky", "manikandan0603"]
+  spec.email         = ["sajinprasadkm@gmail.com", "anbublacky@gmail.com"]
 
-  spec.summary       = "Setup basic requied components for admin management."
+  spec.summary       = %q{This is an admin panel gem}
+  spec.description   = %q{This is an admin panel gem}
   spec.homepage      = "https://github.com/commutatus/cm-admin"
   spec.license       = "MIT"
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
+  # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
-  # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
-  # to allow pushing to a single host or delete this section to allow pushing to any host.
-  # if spec.respond_to?(:metadata)
-  #   spec.metadata["allowed_push_host"] = "Set to 'http://mygemserver.com'"
-  #
-  #   spec.metadata["homepage_uri"] = spec.homepage
-  #   spec.metadata["source_code_uri"] = "Put your gem's public repo URL here."
-  #   spec.metadata["changelog_uri"] = "Put your gem's CHANGELOG.md URL here."
-  # else
-  #   raise "RubyGems 2.0 or newer is required to protect against " \
-  #     "public gem pushes."
-  # end
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = "https://github.com/commutatus/cm-admin"
+  # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-
-  # spec.bindir        = "exe"
-  # spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  # spec.require_paths = ["lib"]
-
-  spec.add_development_dependency "bundler", "~> 2.0"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
+    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
+  end
+  spec.bindir        = "exe"
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = ["lib"]
+  spec.add_runtime_dependency 'pagy', '~> 3.13'
+  spec.add_runtime_dependency 'slim', '~> 4.1.0'
+  spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
+  spec.add_runtime_dependency 'axlsx_rails', '~> 0.6.1'
 end

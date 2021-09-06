@@ -1,0 +1,9 @@
+== render 'cm_admin/main/top_navbar'
+.show-page
+  .show-page__inner
+    .info-section
+      p.section-heading   
+        | Section heading
+      .paper
+        - @model.available_fields[:show].each do |field|
+          = show_field(@ar_object, field)

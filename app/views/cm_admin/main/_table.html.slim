@@ -1,0 +1,60 @@
+.admin-table-index
+  .table-top
+    p.table-top__total-count = "#{@ar_object.pagy.count} #{@model.ar_model.table_name} found"
+    .table-top__column-action
+      button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
+        span
+          i.fa.fa-columns.bolder
+        span
+          i.fa.fa-angle-down
+
+.new-admin-table
+  table.cm-table
+    thead.cm-table__header
+      tr.header-row
+        th.check-box-space
+          span
+            input.cm-checkbox type="checkbox"
+        - @model.available_fields[:index].each do |column|
+          th = column.header
+    tbody.cm-table__body
+      - @ar_object.data.each do |ar_object|
+        tr.body-row
+          td.check-box-space
+            span
+              input.cm-checkbox type="checkbox"
+          - @model.available_fields[:index].each do |column|
+            td
+              span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+          td.row-action-cell
+            .row-action-tool
+              button.secondary-btn.tool-btn type="button"
+                span
+                  i.fa.fa-bars.bolder
+                span
+                  i.fa.fa-angle-down
+              .popup-card.table-export-popup.hidden
+                .popup-option
+                  a href="#{page_url('edit', ar_object)}"
+                    | Edit
+/ .cm-pagination
+/   .cm-pagination__lhs Showing 1 to 15 out of 104
+/   .cm-pagination__rhs
+/     span.page-move-btn.disabled
+/       i.fa.fa-angle-double-left.bolder.f14
+/     span.page-move-btn.disabled
+/       i.fa.fa-chevron-left.bolder
+/     span.page-num-btn.active 1
+/     span.page-num-btn 2
+/     span.page-num-btn 3
+/     span.page-num-btn 4
+/     span.page-num-btn 5
+/     span.page-move-btn
+/       i.fa.fa-chevron-right.bolder
+/     span.page-move-btn
+/       i.fa.fa-angle-double-right.bolder.f14
+
+.cm-pagination
+  .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
+  .cm-pagination__rhs
+    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
