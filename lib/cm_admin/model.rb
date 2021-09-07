@@ -8,7 +8,7 @@ require_relative 'models/filter'
 require_relative 'models/export'
 require 'pagy'
 require 'axlsx'
-
+require 'cocoon'
 
 module CmAdmin
   class Model
@@ -26,7 +26,7 @@ module CmAdmin
       @ar_model = entity
       @available_actions ||= []
       @current_action = nil
-      @available_fields ||= {index: [], show: [], edit: [], new: []}
+      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?
@@ -132,7 +132,17 @@ module CmAdmin
           Hash[x.name.to_s, []]
         end
       }.compact
+      nested_tables = self.available_fields[:new].except(:fields).keys
+      nested_tables += self.available_fields[:edit].except(:fields).keys
+      nested_fields = nested_tables.map {|table| 
+        Hash[
+          table.to_s + '_attributes',
+          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+        ]
+      }
+      permittable_fields += nested_fields
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+      
     end
 
     def page_title(title)
@@ -152,8 +162,19 @@ module CmAdmin
       @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
     end
 
-    def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+    def form_field(field_name, options={}, arg=nil)
+      unless @current_action.is_nested_field
+        @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      else
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      end
+    end
+
+    def nested_form_field(field_name, &block)
+      @current_action.is_nested_field = true
+      @current_action.nested_table_name = field_name
+      yield
     end
 
     def column(field_name, options={})
@@ -211,6 +232,17 @@ module CmAdmin
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.send(action_name, params)
+            nested_tables = @model.available_fields[:new].except(:fields).keys
+            nested_tables += @model.available_fields[:edit].except(:fields).keys
+            @reflections = @model.ar_model.reflect_on_all_associations
+            nested_tables.each do |table_name|
+              reflection = @reflections.select {|x| x if x.name == table_name}.first
+              if reflection.macro == :has_many
+                @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+              else
+                @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
+              end
+            end
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')
