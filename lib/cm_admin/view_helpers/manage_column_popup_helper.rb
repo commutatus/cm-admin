@@ -3,7 +3,7 @@ module CmAdmin
     module ManageColumnPopupHelper
 
       def manage_column_pop_up(klass)
-        tag.div class: 'modal fade form-modal table-column-modal', id: 'columnActionModal', role: 'dialog', aria: {labelledby: 'exampleModalLabel'} do
+        tag.div class: 'modal fade form-modal table-column-modal', id: 'columnActionModal', role: 'dialog' do
           tag.div class: 'modal-dialog', role: 'document' do
             tag.div class: 'modal-content' do
               tag.div do
@@ -21,7 +21,7 @@ module CmAdmin
           concat(content_tag(:button, class: 'close', data: {bs_dismiss: 'modal'}) do
             tag.span 'X'
           end)
-          concat tag.h5 'Manage columns', class: 'modal-title', id: 'exampleModalLabel'
+          concat tag.h5 'Manage columns', class: 'modal-title'
         end)
         return
       end
