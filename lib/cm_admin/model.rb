@@ -10,7 +10,7 @@ require_relative 'models/cm_show_section'
 require_relative 'models/tab'
 require 'pagy'
 require 'axlsx'
-
+require 'cocoon'
 
 module CmAdmin
   class Model
@@ -29,7 +29,7 @@ module CmAdmin
       @available_actions ||= []
       @current_action = nil
       @available_tabs ||= []
-      @available_fields ||= {index: [], show: [], edit: [], new: []}
+      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?
@@ -119,7 +119,7 @@ module CmAdmin
       sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      records = self.name.constantize.where(nil)
+      records = self.name.constantize.where(nil) if records.nil?
       final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
@@ -192,7 +192,17 @@ module CmAdmin
           Hash[x.name.to_s, []]
         end
       }.compact
+      nested_tables = self.available_fields[:new].except(:fields).keys
+      nested_tables += self.available_fields[:edit].except(:fields).keys
+      nested_fields = nested_tables.map {|table| 
+        Hash[
+          table.to_s + '_attributes',
+          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+        ]
+      }
+      permittable_fields += nested_fields
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+      
     end
 
     def page_title(title)
@@ -227,12 +237,28 @@ module CmAdmin
       @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
     end
 
-    def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+    def form_field(field_name, options={}, arg=nil)
+      unless @current_action.is_nested_field
+        @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      else
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      end
+    end
+
+    def nested_form_field(field_name, &block)
+      @current_action.is_nested_field = true
+      @current_action.nested_table_name = field_name
+      yield
     end
 
     def column(field_name, options={})
       @available_fields[@current_action.name.to_sym] ||= []
+      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
+      end
+      if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
+      end
       unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
       end
@@ -284,6 +310,17 @@ module CmAdmin
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.try(action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
+            nested_tables = @model.available_fields[:new].except(:fields).keys
+            nested_tables += @model.available_fields[:edit].except(:fields).keys
+            @reflections = @model.ar_model.reflect_on_all_associations
+            nested_tables.each do |table_name|
+              reflection = @reflections.select {|x| x if x.name == table_name}.first
+              if reflection.macro == :has_many
+                @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+              else
+                @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
+              end
+            end
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')

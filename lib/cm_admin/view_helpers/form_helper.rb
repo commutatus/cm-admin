@@ -36,18 +36,24 @@ module CmAdmin
         set_form_for_fields(resource, available_fields, url, method)
       end
 
-      def set_form_for_fields(resource, available_fields, url, method)
+      def set_form_for_fields(resource, available_fields_hash, url, method)
         form_for(resource, url: url, method: method) do |f|
-          available_fields.each do |field|
-            if field.input_type.eql?(:hidden)
-              concat input_field_for_column(f, field)
+          available_fields_hash.each do |key, fields_array|
+            if key == :fields
+              fields_array.each do |field|
+                if field.input_type.eql?(:hidden)
+                  concat input_field_for_column(f, field)
+                else
+                  concat f.label field.field_name, class: 'field-label'
+                  concat tag.br
+                  concat(content_tag(:div, class: "datetime-wrapper") do
+                    concat input_field_for_column(f, field)  
+                  end)
+                  concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
+                end
+              end
             else
-              concat f.label field.field_name, class: 'field-label'
-              concat tag.br
-              concat(content_tag(:div, class: "datetime-wrapper") do
-                concat input_field_for_column(f, field)  
-              end)
-              concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
+              concat(render partial: '/cm_admin/main/nested_table_form', locals: {f: f, table_name: key})
             end
           end
           concat tag.br
