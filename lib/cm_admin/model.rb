@@ -163,7 +163,7 @@ module CmAdmin
     end
 
     def form_field(field_name, options={}, arg=nil)
-      if @current_action.is_nested_field == false
+      unless @current_action.is_nested_field
         @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
       else
         @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
