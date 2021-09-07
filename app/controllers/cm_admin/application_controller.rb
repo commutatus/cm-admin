@@ -1,6 +1,6 @@
 module CmAdmin
   class ApplicationController < ::ActionController::Base
-    before_action :check_cm_admin
+    # before_action :check_cm_admin
     layout 'cm_admin'
     helper CmAdmin::ViewHelpers
 
