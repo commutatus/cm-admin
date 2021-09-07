@@ -29,7 +29,6 @@ module CmAdmin
       # Methods to filter the records based on the filter type.
       class << self
         def filtered_data(filter_params, records, filters)
-          records = self.name.constantize.where(nil) unless records
           if filter_params
             filter_params.each do |scope_type, scope_value|
               scope_name = if scope_type.eql?('date') || scope_type.eql?('range')

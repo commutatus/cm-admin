@@ -114,11 +114,12 @@ module CmAdmin
       @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
-    def filter_by(params, records=self, filter_params={}, sort_params={})
+    def filter_by(params, records, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
       sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
+      records = self.name.constantize.where(nil)
       final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
@@ -164,8 +165,6 @@ module CmAdmin
       records
     end
 
-=======
->>>>>>> 0ed78242394a8de0a9cafdcff5bf658fd94c17af
     def new(params)
       @ar_object = @ar_model.new
     end
@@ -209,20 +208,10 @@ module CmAdmin
     end
 
     def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, &block)
-      puts "For printing nav item #{tab_name}"
       if custom_action.to_s == ''
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
       else
-        if layout_type.present? && layout.nil? && partial.nil?
-          case layout_type
-          when 'cm_association_index'
-            layout = '/cm_admin/main/associated_index'
-            partial = '/cm_admin/main/associated_table'
-          when 'cm_association_show'
-            layout = '/cm_admin/main/associated_show'
-          end
-        end
         action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model)
         @available_actions << action
         @current_action = action
@@ -234,7 +223,6 @@ module CmAdmin
     end
 
     def cm_show_section(section_name, &block)
-      puts "For printing section"
       @available_fields[@current_action.name.to_sym] ||= []
       @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
     end
@@ -246,7 +234,6 @@ module CmAdmin
     def column(field_name, options={})
       @available_fields[@current_action.name.to_sym] ||= []
       unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
-        puts "For printing column #{field_name}"
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
       end
     end

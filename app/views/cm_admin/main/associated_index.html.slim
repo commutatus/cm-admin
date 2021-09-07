@@ -1,5 +1,6 @@
-.index-page
-	.index-page__table-container.pt-0
-		== render 'cm_admin/main/associated_table'
+.cm-index-page
+	.index-page
+		.index-page__table-container.pt-0
+			== render 'cm_admin/main/associated_table'
 
-	= column_pop_up(@associated_model)
+		= column_pop_up(@associated_model)

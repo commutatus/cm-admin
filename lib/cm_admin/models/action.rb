@@ -7,6 +7,15 @@ module CmAdmin
       attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description, :child_records
 
       def initialize(attributes = {})
+        if attributes[:layout_type].present? && attributes[:layout].nil? && attributes[:partial].nil?
+          case layout_type
+          when 'cm_association_index'
+            attributes[:layout] = '/cm_admin/main/associated_index'
+            attributes[:partial] = '/cm_admin/main/associated_table'
+          when 'cm_association_show'
+            attributes[:layout] = '/cm_admin/main/associated_show'
+          end
+        end
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
