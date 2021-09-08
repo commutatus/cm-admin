@@ -1,5 +1,9 @@
 @import "../helpers/index.scss";
 
+html {
+  overflow: hidden;
+}
+
 body {
   box-sizing: border-box;
   width: 100%;
@@ -18,8 +22,6 @@ body {
   .panel-area {
     width: calc(100% - 225px);
     margin-left: 225px;
-    overflow-y: auto;
-    overflow-x: hidden;
   }
 
   .components {
@@ -58,6 +60,21 @@ a {
 
 .opacity-1 {
   opacity: 1 !important;
+}
+
+.page-container {
+  height: 100vh;
+}
+
+.sticky-container {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.scrollable {
+  overflow: auto;
 }
 
 .datetime-wrapper {

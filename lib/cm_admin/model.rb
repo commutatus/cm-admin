@@ -6,15 +6,17 @@ require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
 require_relative 'models/export'
+require_relative 'models/cm_show_section'
+require_relative 'models/tab'
 require 'pagy'
 require 'axlsx'
-
+require 'cocoon'
 
 module CmAdmin
   class Model
     include Pagy::Backend
     include Models::Blocks
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters, :available_tabs
     attr_reader :name, :ar_model
 
     # Class variable for storing all actions
@@ -26,7 +28,8 @@ module CmAdmin
       @ar_model = entity
       @available_actions ||= []
       @current_action = nil
-      @available_fields ||= {index: [], show: [], edit: [], new: []}
+      @available_tabs ||= []
+      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?
@@ -46,6 +49,25 @@ module CmAdmin
       end
     end
 
+    def custom_controller_action(action_name, params)
+      current_action = CmAdmin::Models::Action.find_by(self, name: action_name.to_s)
+      if current_action
+        @current_action = current_action
+        @ar_object = @ar_model.find(params[:id])
+        if @current_action.child_records
+          child_records = @ar_object.send(@current_action.child_records)
+          @associated_model = CmAdmin::Model.find_by(name: @ar_model.reflect_on_association(@current_action.child_records).klass.name)
+          if child_records.is_a? ActiveRecord::Relation
+            @associated_ar_object = filter_by(params, child_records)
+          else
+            @associated_ar_object = child_records
+          end
+          return @ar_object, @associated_model, @associated_ar_object
+        end
+        return @ar_object
+      end
+    end
+
     # Insert into actions according to config block
     def actions(only: [], except: [])
       acts = CmAdmin::DEFAULT_ACTIONS.keys
@@ -58,8 +80,10 @@ module CmAdmin
       @actions_set = true
     end
 
-    def cm_show(&block)
-      @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+    def cm_show(page_title: ,page_description: ,&block)
+      # @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+      @page_title = page_title
+      @page_description = page_description
       yield
     end
 
@@ -90,12 +114,13 @@ module CmAdmin
       @ar_object = filter_by(params, filter_params=filter_params(params))
     end
 
-    def filter_by(params, filter_params={}, sort_params={})
+    def filter_by(params, records, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
-      sort_column = "users.created_at"
+      sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, self.name, @filters)
+      records = self.name.constantize.where(nil) if records.nil?
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -103,6 +128,41 @@ module CmAdmin
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
+    end
+
+    def filtered_data(filter_params, records)
+      records = self.name.constantize.where(nil) unless records
+      if filter_params
+        filter_params.each do |scope, scope_value|
+          records = self.send("cm_#{scope}", scope_value, records)
+        end
+      end
+      records
+    end
+
+    def cm_search(scope_value, records)
+      return nil if scope_value.blank?
+      table_name = records.table_name
+
+      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+        terms = scope_value.downcase.split(/\s+/)
+        terms = terms.map { |e|
+          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
+        }
+        sql = ""
+        filter.db_column_name.each.with_index do |column, i|
+          sql.concat("#{table_name}.#{column} ILIKE ?")
+          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+        end
+
+        records = records.where(
+          terms.map { |term|
+            sql
+          }.join(' AND '),
+          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+        )
+      end
+      records
     end
 
     def new(params)
@@ -132,7 +192,17 @@ module CmAdmin
           Hash[x.name.to_s, []]
         end
       }.compact
+      nested_tables = self.available_fields[:new].except(:fields).keys
+      nested_tables += self.available_fields[:edit].except(:fields).keys
+      nested_fields = nested_tables.map {|table| 
+        Hash[
+          table.to_s + '_attributes',
+          table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+        ]
+      }
+      permittable_fields += nested_fields
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
+      
     end
 
     def page_title(title)
@@ -147,19 +217,50 @@ module CmAdmin
       end
     end
 
-    def field(field_name, options={})
-      puts "For printing field #{field_name}"
-      @available_fields[:show] << CmAdmin::Models::Field.new(field_name, options)
+    def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, &block)
+      if custom_action.to_s == ''
+        @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+        @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
+      else
+        action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model)
+        @available_actions << action
+        @current_action = action
+        @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
+      end
+      @current_action.page_title = @page_title
+      @current_action.page_description = @page_description
+      yield if block
     end
 
-    def form_field(field_name, options={})
-      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+    def cm_show_section(section_name, &block)
+      @available_fields[@current_action.name.to_sym] ||= []
+      @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
+    end
+
+    def form_field(field_name, options={}, arg=nil)
+      unless @current_action.is_nested_field
+        @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      else
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
+        @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
+      end
+    end
+
+    def nested_form_field(field_name, &block)
+      @current_action.is_nested_field = true
+      @current_action.nested_table_name = field_name
+      yield
     end
 
     def column(field_name, options={})
-      unless @available_fields[:index].map{|x| x.field_name.to_sym}.include?(field_name)
-        puts "For printing column #{field_name}"
-        @available_fields[:index] << CmAdmin::Models::Column.new(field_name, options)
+      @available_fields[@current_action.name.to_sym] ||= []
+      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
+      end
+      if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
+      end
+      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
       end
     end
 
@@ -207,7 +308,19 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
-            @ar_object = @model.send(action_name, params)
+            @ar_object = @model.try(action_name, params)
+            @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
+            nested_tables = @model.available_fields[:new].except(:fields).keys
+            nested_tables += @model.available_fields[:edit].except(:fields).keys
+            @reflections = @model.ar_model.reflect_on_all_associations
+            nested_tables.each do |table_name|
+              reflection = @reflections.select {|x| x if x.name == table_name}.first
+              if reflection.macro == :has_many
+                @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
+              else
+                @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
+              end
+            end
             respond_to do |format|
               if %w(show index new edit).include?(action_name)
                 if request.xhr? && action_name.eql?('index')
@@ -222,10 +335,10 @@ module CmAdmin
                   format.html { render '/cm_admin/main/new' }
                 end
               elsif action.layout.present?
-                if action.partial.present?
-                  render partial: action.partial, layout: action.layout
+                if request.xhr? && action.partial.present?
+                  format.html { render partial: action.partial }
                 else
-                  render layout: action.layout
+                  format.html { render action.layout }
                 end
               end
             end

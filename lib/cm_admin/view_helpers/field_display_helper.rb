@@ -16,14 +16,14 @@ module CmAdmin
       end
       
       def show_field_value(ar_object, field)
-        content_tag(:div, class: "info-split__lhs") do
+        content_tag(:div, class: "info-split__rhs") do
           case field.field_type || :string
           when :integer
             ar_object.send(field.field_name).to_s
           when :decimal
             ar_object.send(field.field_name).to_f.round(field.precision).to_s if ar_object.send(field.field_name)
           when :string
-            ar_object.send(field.field_name)
+            ar_object.send(field.field_name).to_s
           when :datetime
             ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
           when :text
