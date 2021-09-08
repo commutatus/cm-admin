@@ -1,301 +1,311 @@
 @import "../helpers/index.scss";
 
-.index-page {
-  margin-top: 204px;
-  background-color: $white;
-
-  &__filters {
-    // If you want to overwrite filters styles ---> add styles here
-  }
-
-  &__table-container {
-    margin-top: 174px; //This should be height of the filters + navbar height
-    padding: 20px;
-  }
-
-  .admin-table {
+.cm-index-page {
+  .index-page {
     background-color: $white;
-    border-radius: $radius-5;
-    .record-found {
-      padding: 10px;
-      color: #31383d;
-      font-size: 14px;
-      opacity: 0.5;
-    }
-    .cm-table {
-      width: 100%;
-      &__header {
-        tr > th {
-          width: 20%;
-          color: #172b4d;
-          background-color: #fafbfc;
-          box-shadow: inset 0 1px 0 0 #ebecf0;
-          font-weight: 600;
-          font-size: 14px;
-          border-bottom: none;
-          height: 40px;
-          padding: 0 10px;
-        }
-      }
-
-      &__body {
-        tr {
-          transition: all 0.2s linear;
-          &:hover {
-            background-color: #dfe4e7;
-          }
-        }
-
-        tr > td {
-          color: #172b4d;
-          font-size: 14px;
-          padding: 8px 10px;
-        }
-        .edit-icon {
-          font-size: 20px;
-          cursor: pointer;
-          @include transition-linear;
-          &:hover {
-            box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
-            transform: scale(1.2);
-          }
-        }
-      }
-    }
-  }
-
-  .new-admin-table {
     overflow: auto;
-    .cm-table {
-      table-layout: fixed;
-      position: relative;
-      min-width: fit-content;
-      border-collapse: collapse;
-      white-space: nowrap;
-      border: 1px solid $grey-lighter-clr;
-      border-radius: $radius-8;
-      &__header {
-        .header-row {
+
+    &__filters {
+      // If you want to overwrite filters styles ---> add styles here
+    }
+
+    &__table-container {
+      padding: 20px;
+      height: 100%;
+    }
+
+    .admin-table {
+      background-color: $white;
+      border-radius: $radius-5;
+      .record-found {
+        padding: 10px;
+        color: #31383d;
+        font-size: 14px;
+        opacity: 0.5;
+      }
+      .cm-table {
+        width: 100%;
+        &__header {
+          tr > th {
+            width: 20%;
+            color: #172b4d;
+            background-color: #fafbfc;
+            box-shadow: inset 0 1px 0 0 #ebecf0;
+            font-weight: 600;
+            font-size: 14px;
+            border-bottom: none;
+            height: 40px;
+            padding: 0 10px;
+          }
+        }
+
+        &__body {
+          tr {
+            transition: all 0.2s linear;
+            &:hover {
+              background-color: #dfe4e7;
+            }
+          }
+
+          tr > td {
+            color: #172b4d;
+            font-size: 14px;
+            padding: 8px 10px;
+          }
+          .edit-icon {
+            font-size: 20px;
+            cursor: pointer;
+            @include transition-linear;
+            &:hover {
+              box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+              transform: scale(1.2);
+            }
+          }
+        }
+      }
+    }
+
+    .new-admin-table {
+      overflow: auto;
+      margin-top: 40px;
+      margin-bottom: 50px;
+      .cm-table {
+        table-layout: fixed;
+        position: relative;
+        min-width: fit-content;
+        border-collapse: collapse;
+        white-space: nowrap;
+        border: 1px solid $grey-lighter-clr;
+        border-radius: $radius-8;
+        &__header {
+          .header-row {
+            display: block;
+            position: relative;
+            width: 100%;
+            box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+            th {
+              @include font($size: $t6-text, $color: $ink-lighter-clr, $weight: bold);
+              text-transform: uppercase;
+              min-width: 200px;
+              max-width: 200px;
+              padding: 12px 16px 12px 16px;
+            }
+            .check-box-space {
+              min-width: fit-content;
+              max-width: fit-content;
+              padding: 12px 8px 12px 16px;
+              span {
+                vertical-align: text-top;
+              }
+            }
+          }
+        }
+        &__body {
           display: block;
           position: relative;
-          width: 100%;
-          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
-          th {
-            @include font($size: $t6-text, $color: $ink-lighter-clr, $weight: bold);
-            text-transform: uppercase;
-            min-width: 200px;
-            max-width: 200px;
-            padding: 12px 16px 12px 16px;
-          }
-          .check-box-space {
-            min-width: fit-content;
-            max-width: fit-content;
-            padding: 12px 8px 12px 16px;
-            span {
-              vertical-align: text-top;
+          width: 100%;        .body-row {
+            box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+            transition: all .2s linear;
+            &:nth-last-child(1) {
+              box-shadow: none;
             }
-          }
-        }
-      }
-      &__body {
-        display: block;
-        overflow: auto;
-        overflow-x: hidden;
-        position: relative;
-        width: 100%;
-        height: 335px;
-        .body-row {
-          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
-          transition: all .2s linear;
-          &:nth-last-child(1) {
-            box-shadow: none;
-          }
-          &:hover {
-            background-color: $grey-lighter-clr;
+            &:hover {
+              background-color: $grey-lighter-clr;
+              .row-action-cell {
+                opacity: 1;
+              }
+            }
+            .check-box-space {
+              min-width: fit-content;
+              max-width: fit-content;
+              padding: 16px 8px 16px 16px;
+              span {
+                vertical-align: text-top;
+              }
+            }
+            td {
+              @include font($size: $t4-text, $color: $primary-text-clr);
+              min-width: 200px;
+              max-width: 200px;
+              padding: 16px;
+            }
             .row-action-cell {
-              opacity: 1;
-            }
-          }
-          .check-box-space {
-            min-width: fit-content;
-            max-width: fit-content;
-            padding: 16px 8px 16px 16px;
-            span {
-              vertical-align: text-top;
-            }
-          }
-          td {
-            @include font($size: $t4-text, $color: $primary-text-clr);
-            min-width: 200px;
-            max-width: 200px;
-            padding: 16px;
-          }
-          .row-action-cell {
-            position: absolute;
-            // left: 1225px;
-            right: 0;
-            width: 88px;
-            max-width: inherit;
-            min-width: inherit;
-            height: 56px;
-            padding: 0;
-            background: linear-gradient(270deg, #F3F4F6 81.75%, rgba(243, 244, 246, 0) 100%);
-            opacity: 0;
-            transition: all .1s linear;
-            .row-action-tool {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 100%;
-              .tool-btn {
-                background-color: transparent;
-                border: none;
+              position: absolute;
+              // left: 1225px;
+              right: 0;
+              width: 88px;
+              max-width: inherit;
+              min-width: inherit;
+              height: 56px;
+              padding: 0;
+              background: linear-gradient(270deg, #F3F4F6 81.75%, rgba(243, 244, 246, 0) 100%);
+              opacity: 0;
+              transition: all .1s linear;
+              .row-action-tool {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                .tool-btn {
+                  background-color: transparent;
+                  border: none;
+                }
               }
             }
           }
         }
       }
     }
-  }
 
-  .admin-table-index {
-    .table-sticky-top {
-      position: sticky;
-      top: 254px;
+    .admin-table-index {
+
+      position: fixed;
+      width: calc(100% - 285px);
+      left: 245px;
+      background-color: #fff;
+      z-index: 1;
+      .table-sticky-top {
+        position: sticky;
+        top: 254px;
+      }
+      .table-top  {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 16px;
+        &__total-count {
+          font-size: $t4-text;
+          line-height: 22px;
+          color: $ink-lighter-clr;
+          margin: 0;
+        }
+        &__column-action {
+          .column-btn {
+            padding: 4px 8px;
+            span:nth-child(2) {
+              margin: 0 0 0 4px;
+            }
+          }
+        }
+      }
     }
-    .table-top  {
+
+    // table-column-modal
+    .table-column-modal {
+
+      //modal overwritten styles
+      .modal-dialog {
+        .modal-content {
+          .modal-header {
+            position: relative;
+            padding: 24px 32px 18px;
+            border: none;
+            box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+            .modal-title {
+              @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
+              line-height: 32px;
+            }
+            .close {
+              position: absolute;
+              top: 4px;
+              right: 8px;
+              padding: 4px;
+              margin: 0;
+            }
+          }
+          .modal-body {
+            padding: 0;
+          }
+          .modal-footer {
+            padding: 16px 32px;
+            border: none;
+            box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
+          }
+        }
+      } 
+
+      .columns-list {
+        .column-item  {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 24px;
+          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+          &:hover {
+            .dragger {
+              display: block;
+            }
+          }
+          &__name {
+            font-size: $t4-text;
+            line-height: 22px;
+            margin-left: 4px;
+            color: $primary-text-clr;
+            p {
+              margin: 0;
+            }
+          }
+          &__action {
+            padding: 5px 8px;
+            font-size: $t4-text;
+            color: $ink-lightest-clr;
+          }
+          .dragger {
+            display: none;
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            padding: 5px;
+            color: $ink-lightest-clr;
+            border-radius: $radius-4;
+            animation: fadeIn .1s ease-in-out;
+            cursor: grab;
+            &:hover {
+              background: $grey-lighter-clr;
+            }
+          }
+        }
+      } 
+    }
+
+    .cm-pagination {
+      position: fixed;
+      background-color: #FFF;
+      bottom: 0;
+      width: calc(100% - 225px);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 16px;
-      &__total-count {
-        font-size: $t4-text;
+      padding: 16px 24px;
+      border: 1px solid $grey-lighter-clr;
+      &__lhs {
+        @include font($size: $t4-text, $color: $ink-lightest-clr, $weight: bold);
         line-height: 22px;
-        color: $ink-lighter-clr;
-        margin: 0;
       }
-      &__column-action {
-        .column-btn {
-          padding: 4px 8px;
-          span:nth-child(2) {
-            margin: 0 0 0 4px;
-          }
-        }
-      }
-    }
-  }
-
-  // table-column-modal
-  .table-column-modal {
-
-    //modal overwritten styles
-    .modal-dialog {
-      .modal-content {
-        .modal-header {
-          position: relative;
-          padding: 24px 32px 18px;
-          border: none;
-          box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
-          .modal-title {
-            @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
-            line-height: 32px;
-          }
-          .close {
-            position: absolute;
-            top: 4px;
-            right: 8px;
-            padding: 4px;
-            margin: 0;
-          }
-        }
-        .modal-body {
-          padding: 0;
-        }
-        .modal-footer {
-          padding: 16px 32px;
-          border: none;
-          box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
-        }
-      }
-    } 
-
-    .columns-list {
-      .column-item  {
-        position: relative;
-        display: flex;
+      &__rhs {
+        display: inline-flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 8px 24px;
-        box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
-        &:hover {
-          .dragger {
-            display: block;
-          }
-        }
-        &__name {
-          font-size: $t4-text;
-          line-height: 22px;
-          margin-left: 4px;
+        .page-move-btn {
+          font-size: 10px;
+          line-height: 12px;
           color: $primary-text-clr;
-          p {
-            margin: 0;
+          padding: 10px 11px;
+          cursor: pointer;
+          &.disabled {
+            color: #9CA7AE;
           }
         }
-        &__action {
-          padding: 5px 8px;
-          font-size: $t4-text;
-          color: $ink-lightest-clr;
-        }
-        .dragger {
-          display: none;
-          position: absolute;
-          left: 4px;
-          top: 8px;
-          padding: 5px;
-          color: $ink-lightest-clr;
-          border-radius: $radius-4;
-          animation: fadeIn .1s ease-in-out;
-          cursor: grab;
-          &:hover {
-            background: $grey-lighter-clr;
+        .page-num-btn {
+          @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
+          margin: 0 8px;
+          padding: 5px 11px;
+          cursor: pointer;
+          &.active {
+            background-color: $grey-lightest-clr;
+            border: 1px solid $grey-light-clr;
+            border-radius: $radius-4;
           }
-        }
-      }
-    } 
-  }
-
-  .cm-pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 24px;
-    border: 1px solid $grey-lighter-clr;
-    &__lhs {
-      @include font($size: $t4-text, $color: $ink-lightest-clr, $weight: bold);
-      line-height: 22px;
-    }
-    &__rhs {
-      display: inline-flex;
-      align-items: center;
-      .page-move-btn {
-        font-size: 10px;
-        line-height: 12px;
-        color: $primary-text-clr;
-        padding: 10px 11px;
-        cursor: pointer;
-        &.disabled {
-          color: #9CA7AE;
-        }
-      }
-      .page-num-btn {
-        @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
-        margin: 0 8px;
-        padding: 5px 11px;
-        cursor: pointer;
-        &.active {
-          background-color: $grey-lightest-clr;
-          border: 1px solid $grey-light-clr;
-          border-radius: $radius-4;
         }
       }
     }

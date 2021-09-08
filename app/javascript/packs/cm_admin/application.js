@@ -13,7 +13,7 @@ import jQuery from 'jquery'
 window.$ = jQuery
 window.jQuery = jQuery
 
-
+require("@nathanvda/cocoon")
 import "@fortawesome/fontawesome-free/css/all"
 import "daterangepicker"
 

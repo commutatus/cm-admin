@@ -8,6 +8,7 @@ module CmAdmin
     include ColumnFieldHelper
     include FieldDisplayHelper
     include FilterHelper
+    include ManageColumnPopupHelper
     include ActionView::Helpers::FormTagHelper
     include ActionView::Helpers::TagHelper
 
@@ -69,6 +70,5 @@ module CmAdmin
         concat " " + column_path.to_s.gsub('/', '_').humanize
       end
     end
-
   end
 end
