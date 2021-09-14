@@ -24,8 +24,8 @@ module CmAdmin
       end
 
       def action_description
-        if @model.current_action.page_title
-          title = @model.current_action.page_title
+        if @model.current_action.page_description
+          title = @model.current_action.page_description
         else
           title = "#{@model.name}"
           case action_name
