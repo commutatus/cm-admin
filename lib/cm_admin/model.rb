@@ -117,7 +117,7 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params, filter_params=filter_params(params))
+      @ar_object = filter_by(params, nil, filter_params(params))
     end
 
     def new(params)
