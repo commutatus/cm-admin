@@ -3,8 +3,8 @@
     .bread-crumb-area
       = yield :bread_crumb
     .nav-title-area
-      p.title-text = @ar_object.try(@model.current_action.page_title) || @model.current_action.page_title
-      p.title-sub-text = @ar_object.try(@model.current_action.page_description) || @model.current_action.page_description
+      p.title-text = action_title
+      p.title-sub-text = action_description
   - if @model.current_action.name == 'index'
     .cm-navbar__rhs
       .export-container
