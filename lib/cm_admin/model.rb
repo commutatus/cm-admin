@@ -225,10 +225,8 @@ module CmAdmin
 
     def column(field_name, options={})
       @available_fields[@current_action.name.to_sym] ||= []
-      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
-      end
       if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
+        raise "Only one column can be locked in a table."
       end
       unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
