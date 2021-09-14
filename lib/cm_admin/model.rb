@@ -80,25 +80,31 @@ module CmAdmin
       @actions_set = true
     end
 
-    def cm_show(page_title: ,page_description: ,&block)
-      # @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-      @page_title = page_title
-      @page_description = page_description
+    def cm_show(page_title: nil,page_description: nil,&block)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
+      @current_action.page_title = page_title
+      @current_action.page_description = page_description
       yield
     end
 
-    def cm_edit(&block)
+    def cm_edit(page_title: nil,page_description: nil, &block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
+      @current_action.page_title = page_title
+      @current_action.page_description = page_description
       yield
     end
 
-    def cm_new(&block)
+    def cm_new(page_title: nil,page_description: nil,&block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
+      @current_action.page_title = page_title
+      @current_action.page_description = page_description
       yield
     end
 
-    def cm_index(&block)
+    def cm_index(page_title: nil ,page_description: nil, &block)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
+      @current_action.page_title = page_title
+      @current_action.page_description = page_description
       yield
       # action.instance_eval(&block)
     end
@@ -113,6 +119,27 @@ module CmAdmin
       # Based on the params the filter and pagination object to be set
       @ar_object = filter_by(params, filter_params=filter_params(params))
     end
+
+    def new(params)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
+      @ar_object = @ar_model.new
+    end
+
+    def edit(params)
+      @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
+      @ar_object = @ar_model.find(params[:id])
+    end
+
+    def update(params)
+      @ar_object = @ar_model.find(params[:id])
+      @ar_object.assign_attributes(resource_params(params))
+      @ar_object
+    end
+
+    def create(params)
+      @ar_object = @ar_model.new(resource_params(params))
+    end
+
 
     def filter_by(params, records, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
@@ -165,24 +192,6 @@ module CmAdmin
       records
     end
 
-    def new(params)
-      @ar_object = @ar_model.new
-    end
-
-    def edit(params)
-      @ar_object = @ar_model.find(params[:id])
-    end
-
-    def update(params)
-      @ar_object = @ar_model.find(params[:id])
-      @ar_object.assign_attributes(resource_params(params))
-      @ar_object
-    end
-
-    def create(params)
-      @ar_object = @ar_model.new(resource_params(params))
-    end
-
     def resource_params(params)
       permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
       permittable_fields += @ar_model.reflect_on_all_attachments.map {|x| 
@@ -227,8 +236,6 @@ module CmAdmin
         @current_action = action
         @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
       end
-      @current_action.page_title = @page_title
-      @current_action.page_description = @page_description
       yield if block
     end
 
