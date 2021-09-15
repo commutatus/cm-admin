@@ -52,5 +52,16 @@ $(document).on('keydown', function(e){
 });
 
 $(document).on('keyup', '[data-behaviour="quick-input-search"]', function(e) {
+  if ($(this).val().length > 0) {
+    $('.clear-search').removeClass('hidden')
+  } else {
+    $('.clear-search').addClass('hidden')
+  }
   CmFilter.quick_input_search($(this))
+});
+
+$(document).on('click', '.clear-search', function(){
+  $('#quick-search-input').val('')
+  $('.clear-search').addClass('hidden')
+  CmFilter.quick_input_search($('#quick-search-input'))
 });
