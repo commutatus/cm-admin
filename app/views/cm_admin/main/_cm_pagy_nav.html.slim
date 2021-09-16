@@ -3,21 +3,21 @@
 nav.pagy_nav.pagination role="navigation" aria-label="pager"
 
   - if pagy.prev
-    span.page-move-btn ==> link.call(pagy.prev, '<', 'aria-label="previous"')
+    span ==> link.call(pagy.prev, '<', 'aria-label="previous" class="page-move-btn"')
   - else
-    span.page-move-btn.disabled ==> '<'
+    span ==> link.call('#', '<', 'class="page-move-btn disabled"')
 
   - pagy.series.each do |item|        # series example: [1, :gap, 7, 8, "9", 10, 11, :gap, 36]
     - if item.is_a?(Integer)          # page link
-      span.page-num-btn ==> link.call(item)
+      span ==> link.call(item, item, 'class="page-num-btn"')
 
     - elsif item.is_a?(String)        # current page
-      span.page-num-btn.active ==> item
+      span ==> link.call(item, item, 'class="page-num-btn active"')
 
     - elsif item == :gap              # page gap
       span.page.gap ==> pagy_t('pagy.nav.gap')
 
   - if pagy.next
-    span.page-move-btn == link.call(pagy.next, '>', 'aria-label="next"')
+    span == link.call(pagy.next, '>', 'aria-label="next" class="page-move-btn"')
   - else
-    span.page-move-btn.disabled == '>'
+    span ==> link.call('#', '>', 'class="page-move-btn disabled"')

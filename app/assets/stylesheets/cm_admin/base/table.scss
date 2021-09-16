@@ -292,8 +292,11 @@
           color: $primary-text-clr;
           padding: 10px 11px;
           cursor: pointer;
+          color: #0d6efd;
           &.disabled {
             color: #9CA7AE;
+            cursor: initial;
+            pointer-events: none;
           }
         }
         .page-num-btn {
@@ -301,10 +304,14 @@
           margin: 0 8px;
           padding: 5px 11px;
           cursor: pointer;
+          color: #0d6efd;
           &.active {
+            color: $primary-text-clr;
             background-color: $grey-lightest-clr;
             border: 1px solid $grey-light-clr;
             border-radius: $radius-4;
+            cursor: initial;
+            pointer-events: none;
           }
         }
       }

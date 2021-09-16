@@ -62,20 +62,6 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   });
 }
 
-// Generate or remove elements of the dropdown based on the search value.
-var dropdownFilterSearch = function(element) {
-  var filter = element.val().toUpperCase();
-  var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
-  for (var i = 0; i < dropdownElements.length; i++) {
-    txtValue = $(dropdownElements[i]).children().text();
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      $(dropdownElements[i]).css('display', 'flex');
-    } else {
-      $(dropdownElements[i]).css('display', 'none');
-    }
-  }
-};
-
 $(document).on('change', '[data-behaviour="filter"]', function(e) {
   var filterType = $(this).data('filter-type')
   var filterColumn = $(this).data('db-column')
@@ -94,7 +80,7 @@ $(document).on('change', '[data-behaviour="filter"]', function(e) {
   getFilteredData(filterType, filterValue, filterColumn)
 });
 
-$(document).on('keyup', '.search-input', function(e) {
+$(document).on('keyup', '[data-behaviour="input-search"]', function(e) {
   e.stopPropagation();
 
   var searchValue = $(this).val();
@@ -109,7 +95,7 @@ $(document).on('click', '[data-behaviour="filter-option"]', function(e) {
   // Clear the search value post selection and regenerate the dropdown elements.
   var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
   searchInputElement.val('')
-  dropdownFilterSearch(searchInputElement)
+  CmFilter.dropdown_search(searchInputElement)
 
   unhideFilter(filterType, filterColumn)
 });
@@ -123,7 +109,7 @@ var unhideFilter = function(filterType, filterColumn) {
 
 // Search inside the dropdowns
 $(document).on('keyup', '[data-behaviour="dropdown-filter-search"]', function(e) {
-  dropdownFilterSearch($(this))
+  CmFilter.dropdown_search($(this))
 });
 
 // Method to decode the encoded nested and/or complex hash and convert it to
@@ -220,7 +206,7 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     // Clear the search value post selection and regenerate the dropdown elements.
     var searchInputElement = $(this).parents(':nth(1)').children(':first').children()
     searchInputElement.val('')
-    dropdownFilterSearch(searchInputElement)
+    CmFilter.dropdown_search(searchInputElement)
 
     unhideClearFilterBtn(filterValue)
     getFilteredData(filterType, filterValue, filterColumn)
@@ -283,7 +269,7 @@ $(document).on('click', '.apply-area', function(e) {
     // Clear the search value post selection and regenerate the dropdown elements.
     var searchInputElement = $(this).parent().children(':first').children(':last')
     searchInputElement.val('')
-    dropdownFilterSearch(searchInputElement)
+    CmFilter.dropdown_search(searchInputElement)
 
     unhideClearFilterBtn(filterValue)
     getFilteredData(filterType, filterValue, filterColumn)
@@ -331,3 +317,31 @@ $(document).on('click', '[data-behaviour="selected-chip"]', function(e) {
   }
 })
 
+CmFilter = {
+  // Generate or remove elements of the dropdown based on the search value.
+  dropdown_search: function(element) {
+    var filter = element.val().toUpperCase();
+    var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
+    for (var i = 0; i < dropdownElements.length; i++) {
+      txtValue = $(dropdownElements[i]).children().text();
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        $(dropdownElements[i]).css('display', 'flex');
+      } else {
+        $(dropdownElements[i]).css('display', 'none');
+      }
+    }
+  },
+  quick_input_search: function(element) {
+    var filter = element.val().toUpperCase();
+    var searchElements = element.parents(':nth(3)').find('.list-area').children();
+    searchElements.removeClass('visible').addClass('hidden')
+    console.log("Filter is ", filter)
+    console.log("Search elements are ", searchElements)
+    for (var i = 0; i < searchElements.length; i++) {
+      txtValue = $(searchElements[i]).children().text();
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        $(searchElements[i]).removeClass('hidden').addClass('visible');
+      }
+    }
+  }
+}

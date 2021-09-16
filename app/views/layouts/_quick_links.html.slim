@@ -5,12 +5,12 @@
         .quick-search-field
           .form-field
             .field-input-wrapper
-              input#quick-search-input.search-input placeholder="Search"
+              input#quick-search-input.search-input placeholder="Search" data-behaviour="quick-input-search" autocomplete="off"
               span.search-input-icon
                 i.fa.fa-search
-              span.clear-search
+              span.clear-search.hidden
                 i.fa.fa-times
-        .search-results-container
+        .search-results-container.list-area
           = navigation_links('quick_links')
         .results-action
           .select
