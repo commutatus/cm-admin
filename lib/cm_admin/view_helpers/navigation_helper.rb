@@ -16,7 +16,7 @@ module CmAdmin
               end
             end
           elsif navigation_type == "quick_links"
-            content_tag(:a, href: path) do
+            content_tag(:a, href: path, class: 'visible') do
               content_tag(:div, class: 'result-item') do
                 content_tag(:span) do
                   concat tag.i class: 'fa fa-th-large'

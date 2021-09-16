@@ -88,7 +88,7 @@ module CmAdmin
         tag.div class: 'filter-search mr-3' do
           tag.div class: 'form-field' do
             tag.div class: 'field-input-wrapper' do
-              concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}") do
+              concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}) do
                 tag.span class: 'search-input-icon' do
                   tag.i class: 'fa fa-search'
                 end
