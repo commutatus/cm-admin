@@ -7,6 +7,7 @@ require("moment")
 require("bootstrap")
 require('flatpickr')
 require('./scaffolds.js')
+require('./quick_search.js')
 require('./filters.js')
 
 import jQuery from 'jquery'
