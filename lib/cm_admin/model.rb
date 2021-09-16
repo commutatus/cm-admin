@@ -117,7 +117,7 @@ module CmAdmin
     def index(params)
       @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params, filter_params=filter_params(params))
+      @ar_object = filter_by(params, nil, filter_params(params))
     end
 
     def new(params)
@@ -157,44 +157,9 @@ module CmAdmin
       return filtered_result
     end
 
-    def filtered_data(filter_params, records)
-      records = self.name.constantize.where(nil) unless records
-      if filter_params
-        filter_params.each do |scope, scope_value|
-          records = self.send("cm_#{scope}", scope_value, records)
-        end
-      end
-      records
-    end
-
-    def cm_search(scope_value, records)
-      return nil if scope_value.blank?
-      table_name = records.table_name
-
-      @filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
-        terms = scope_value.downcase.split(/\s+/)
-        terms = terms.map { |e|
-          (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
-        }
-        sql = ""
-        filter.db_column_name.each.with_index do |column, i|
-          sql.concat("#{table_name}.#{column} ILIKE ?")
-          sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
-        end
-
-        records = records.where(
-          terms.map { |term|
-            sql
-          }.join(' AND '),
-          *terms.map { |e| [e] * filter.db_column_name.size }.flatten
-        )
-      end
-      records
-    end
-
     def resource_params(params)
       permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
-      permittable_fields += @ar_model.reflect_on_all_attachments.map {|x| 
+      permittable_fields += @ar_model.reflect_on_all_attachments.map {|x|
         if x.class.name.include?('HasOne')
           x.name
         elsif x.class.name.include?('HasMany')
@@ -203,7 +168,7 @@ module CmAdmin
       }.compact
       nested_tables = self.available_fields[:new].except(:fields).keys
       nested_tables += self.available_fields[:edit].except(:fields).keys
-      nested_fields = nested_tables.map {|table| 
+      nested_fields = nested_tables.map {|table|
         Hash[
           table.to_s + '_attributes',
           table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
@@ -211,7 +176,6 @@ module CmAdmin
       }
       permittable_fields += nested_fields
       params.require(self.name.underscore.to_sym).permit(*permittable_fields)
-      
     end
 
     def page_title(title)
@@ -261,10 +225,8 @@ module CmAdmin
 
     def column(field_name, options={})
       @available_fields[@current_action.name.to_sym] ||= []
-      unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
-      end
       if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
+        raise "Only one column can be locked in a table."
       end
       unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)

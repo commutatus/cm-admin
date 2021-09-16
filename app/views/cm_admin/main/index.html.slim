@@ -1,12 +1,12 @@
 .cm-index-page
-	.index-page.page-container
-		.sticky-container
-			== render 'cm_admin/main/top_navbar'
-			- if @model.filters.present?
-			  .index-page__filters
-			    == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
-		.index-page__table-container
-			== render 'cm_admin/main/table'
-		
-		= column_pop_up(@model)
-		= manage_column_pop_up(@model)
+  .index-page.page-container
+    .sticky-container
+      == render 'cm_admin/main/top_navbar'
+      - if @model.filters.present?
+        .index-page__filters
+          == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
+    .index-page__table-container
+      == render 'cm_admin/main/table'
+
+    = column_pop_up(@model)
+    = manage_column_pop_up(@model)
