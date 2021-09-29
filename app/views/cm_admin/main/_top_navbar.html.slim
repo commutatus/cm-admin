@@ -5,8 +5,8 @@
     .nav-title-area
       p.title-text = action_title
       p.title-sub-text = action_description
-  - if @model.current_action.name == 'index'
-    .cm-navbar__rhs
+  .cm-navbar__rhs
+    - if @model.current_action.name == 'index'
       .export-container
         .dropdown
           button.secondary-btn data-bs-toggle='dropdown'
@@ -23,3 +23,9 @@
 
       a.primary-btn.ml-2 href="#{page_url('new')}"
         | Add
+      - @model.available_actions.select{|act| act if act.route_type == 'collection'}.each do |custom_action|
+        = link_to custom_action.name, @model.ar_model.table_name + '/' + custom_action.path, class: 'primary-btn ml-2', method: custom_action.verb
+    - elsif @model.current_action.name == 'show'
+      - @model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
+        - if custom_action.display_if.call(@ar_object)
+          = link_to custom_action.name, custom_action.path.gsub(':id', params[:id]), class: 'primary-btn ml-2', method: custom_action.verb

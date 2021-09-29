@@ -4,9 +4,9 @@ module CmAdmin
   module Models
     class Action
       include Actions::Blocks
-      attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description, :child_records, :is_nested_field, :nested_table_name
+      attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description, :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block
 
-      def initialize(attributes = {})
+      def initialize(attributes = {}, &block)
         if attributes[:layout_type].present? && attributes[:layout].nil? && attributes[:partial].nil?
           case attributes[:layout_type]
           when 'cm_association_index'
@@ -20,10 +20,12 @@ module CmAdmin
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
+        self.send("code_block=", block) if block_given?
       end
 
       def set_default_values
         self.is_nested_field = false
+        self.display_if = true
       end
 
       class << self

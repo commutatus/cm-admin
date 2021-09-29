@@ -109,9 +109,9 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, verb: nil, layout: nil, partial: nil, path: nil, &block)
-        @available_actions << CmAdmin::Models::Action.new(name: name, verb: verb, layout: layout, partial: partial, path: path)
-        self.class.class_eval(&block)
+      def custom_action(name: nil, verb: nil, layout: nil, partial: nil, path: nil, display_if: lambda { |arg| return true }, route_type: nil, &block)
+        @available_actions << CmAdmin::Models::CustomAction.new(name: name, verb: verb, layout: layout, partial: partial, path: path, parent: self.current_action.name, display_if: display_if, route_type: route_type, &block)
+        # self.class.class_eval(&block)
       end
 
       def filter(db_column_name, filter_type, options={})
