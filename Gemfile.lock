@@ -4,7 +4,7 @@ PATH
     cm-admin (0.4.0)
       axlsx_rails (~> 0.6.1)
       cocoon (~> 1.2.15)
-      pagy (~> 3.13)
+      pagy (~> 4.11.0)
       slim (~> 4.1.0)
       webpacker (~> 5.2.1)
 
@@ -34,7 +34,7 @@ GEM
       actionpack (>= 3.1)
       caxlsx (>= 3.0)
     builder (3.2.4)
-    caxlsx (3.1.0)
+    caxlsx (3.1.1)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -50,12 +50,12 @@ GEM
     loofah (2.12.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    marcel (1.0.1)
+    marcel (1.0.2)
     method_source (1.0.0)
     minitest (5.14.4)
     nokogiri (1.12.4-x86_64-darwin)
       racc (~> 1.4)
-    pagy (3.14.0)
+    pagy (4.11.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-proxy (0.7.0)
@@ -110,10 +110,10 @@ PLATFORMS
 DEPENDENCIES
   cm-admin!
   cocoon
-  pagy
+  pagy (~> 4.11.0)
   rake (~> 12.0)
   rspec (~> 3.0)
   slim
 
 BUNDLED WITH
-   2.2.17
+   2.0.2

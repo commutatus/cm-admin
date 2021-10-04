@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.add_runtime_dependency 'pagy', '~> 3.13'
+  spec.add_runtime_dependency 'pagy', '~> 4.11.0'
   spec.add_runtime_dependency 'slim', '~> 4.1.0'
   spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
   spec.add_runtime_dependency 'axlsx_rails', '~> 0.6.1'

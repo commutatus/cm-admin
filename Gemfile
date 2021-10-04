@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'pagy'
+gem 'pagy', '~> 4.11.0'
 gem 'slim'
 gem "rake", "~> 12.0"
 gem "rspec", "~> 3.0"
