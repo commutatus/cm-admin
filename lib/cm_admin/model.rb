@@ -1,5 +1,6 @@
 require_relative 'constants'
 require_relative 'models/action'
+require_relative 'models/custom_action'
 require_relative 'models/field'
 require_relative 'models/form_field'
 require_relative 'models/blocks'
@@ -99,7 +100,7 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
-            @ar_object = @model.try(action_name, params)
+            @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
             nested_tables = @model.available_fields[:new].except(:fields).keys
             nested_tables += @model.available_fields[:edit].except(:fields).keys
@@ -124,6 +125,14 @@ module CmAdmin
                   format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
                 else
                   format.html { render '/cm_admin/main/new' }
+                end
+              elsif action.class == CmAdmin::Models::CustomAction
+                redirect_url = request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
+                data = @action.parent == "index" ? @ar_object.data : @ar_object
+                if @action.code_block.call(@ar_object)
+                  format.html { redirect_to redirect_url }
+                else
+                  format.html { redirect_to redirect_url }
                 end
               elsif action.layout.present?
                 if request.xhr? && action.partial.present?

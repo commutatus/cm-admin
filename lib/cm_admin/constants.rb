@@ -27,6 +27,9 @@ module CmAdmin
     destroy: {
       verb: :delete,
       path: ':id'
+    },
+    custom_action: {
+      verb: :post
     }
   }
   REJECTABLE_FIELDS = %w(id created_at updated_at)
