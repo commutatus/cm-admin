@@ -3763,6 +3763,11 @@ jest-worker@^26.5.0:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
+jgrowl@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/jgrowl/-/jgrowl-1.4.8.tgz#4ba40ffb93757a7e1d9b262d916be299d03df3a4"
+  integrity sha512-JFi609DhWhD4wbnt1/NvYqt702SncgBk2SFssUi6GEUfnxM5TQ9YAKHP/kODwch7Q6QVhOWYvk1QCxLtujwRog==
+
 jquery@>=1.10, jquery@^3.3.1, jquery@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"

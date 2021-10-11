@@ -1,0 +1,9 @@
+- if flash[:notice].present?
+  javascript:
+    $.jGrowl("#{flash[:notice]}", {theme: 'notice'})
+- elsif flash[:success].present?
+  javascript:
+    $.jGrowl("#{flash[:success]}", {theme: 'success'})
+- elsif flash[:alert].present?
+  javascript:
+    $.jGrowl("#{flash[:alert]}", {theme: 'error'})
