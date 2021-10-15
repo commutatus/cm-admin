@@ -24,7 +24,7 @@
             span
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each do |column|
-            td
+            td.text-ellipsis
               span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
           td.row-action-cell
             .row-action-tool
