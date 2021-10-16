@@ -38,7 +38,11 @@ module CmAdmin
             end
             content_tag :a, href: link do
               ar_object.send(field.field_name).to_s
-            end 
+            end
+          when :tag
+            content_tag :span, class: "status-tag default-#{ar_object.send(field.field_name.to_s + '_before_type_cast')}" do
+              ar_object.send(field.field_name).to_s.titleize
+            end
           when :attachment
             concat show_attachment_value(ar_object, field)
           end

@@ -4,23 +4,23 @@
   font-size: $t4-text;
   line-height: 22px;
   padding: 4px;
-  &.default-tag {
+  &.default-0 {
     color: $primary-text-clr;
     background: $grey-lighter-clr;
   }
-  &.green-tag {
+  &.default-1 {
     color: $green-regular-clr;
     background: $green-lightest-clr;
   }
-  &.yellow-tag {
+  &.default-2 {
     color: $yellow-regular-clr;
     background: $yellow-lightest-clr;
   }
-  &.red-tag {
+  &.default-3 {
     color: $red-regular-clr;
     background: $red-lightest-clr;
   }
-  &.blue-tag {
+  &.default-4 {
     color: $blue-regular-clr;
     background: $blue-lightest-clr;
   }
