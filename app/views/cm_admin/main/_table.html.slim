@@ -38,7 +38,21 @@
                   a href="#{page_url('edit', ar_object)}"
                     | Edit
                 - @model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
-                  - if custom_action.display_if.call(ar_object)
+                  - if custom_action.partial
+                    .popup-option
+                      = link_to custom_action.name, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb, data: { bs_target: "#exampleModal", bs_toggle: "modal"}
+                      #exampleModal.modal.fade aria-hidden="true" aria-labelledby="exampleModalLabel" tabindex="-1" 
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              h5#exampleModalLabel.modal-title Modal title
+                              button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+                            .modal-body
+                              = render partial: "#{custom_action.partial}", locals: {ar_object: ar_object}
+                            .modal-footer
+                              button.btn.btn-secondary data-bs-dismiss="modal" type="button"  Close
+                              button.btn.btn-primary type="button"  Save changes
+                  - elsif custom_action.display_if.call(ar_object)
                     .popup-option
                       = link_to custom_action.name, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
 
@@ -46,3 +60,4 @@
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
   .cm-pagination__rhs
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+

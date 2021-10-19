@@ -27,5 +27,19 @@
         = link_to custom_action.name, @model.ar_model.table_name + '/' + custom_action.path, class: 'primary-btn ml-2', method: custom_action.verb
     - elsif @model.current_action.name == 'show'
       - @model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
-        - if custom_action.display_if.call(@ar_object)
+        - if custom_action.partial.present?
+          button.btn.btn-primary data-bs-target="#exampleModal" data-bs-toggle="modal" type="button" 
+            | Launch demo modal
+          #exampleModal.modal.fade aria-hidden="true" aria-labelledby="exampleModalLabel" tabindex="-1" 
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  h5#exampleModalLabel.modal-title Modal title
+                  button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+                .modal-body
+                  = render partial: "#{custom_action.partial}"
+                .modal-footer
+                  button.btn.btn-secondary data-bs-dismiss="modal" type="button"  Close
+                  button.btn.btn-primary type="button"  Save changes
+        - elsif custom_action.display_if.call(@ar_object)
           = link_to custom_action.name, custom_action.path.gsub(':id', params[:id]), class: 'primary-btn ml-2', method: custom_action.verb
