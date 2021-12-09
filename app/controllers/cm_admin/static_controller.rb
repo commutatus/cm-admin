@@ -1,5 +1,5 @@
 module CmAdmin
-  class StaticController < ::ActionController::Base
+  class StaticController < ApplicationController
     layout 'static'
 
     def dashboard
