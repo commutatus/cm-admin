@@ -7,7 +7,7 @@ New CmAdmin gem
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'cm_admin'
+gem 'cm-admin'
 ```
 
 And then execute:
@@ -16,7 +16,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install cm_admin
+    $ gem install cm-admin
 
 ## Usage
 
