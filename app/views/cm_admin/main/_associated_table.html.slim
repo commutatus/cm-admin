@@ -25,7 +25,7 @@
               input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each do |column|
             td
-              span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+              span class="#{column.cm_css_class} text-ellipsis" = show_field_value(ar_object, column)
           td.row-action-cell
             .row-action-tool
               button.secondary-btn.tool-btn type="button"

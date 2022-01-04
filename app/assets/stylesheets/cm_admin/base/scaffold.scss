@@ -22,6 +22,8 @@ body {
   .panel-area {
     width: calc(100% - 225px);
     margin-left: 225px;
+    height: 100vh;
+    overflow-y: auto;
   }
 
   .components {
