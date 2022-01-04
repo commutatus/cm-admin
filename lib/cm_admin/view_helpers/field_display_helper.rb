@@ -39,6 +39,8 @@ module CmAdmin
             content_tag :a, href: link do
               ar_object.send(field.field_name).to_s
             end
+          when :enum
+            ar_object.send(field.field_name).to_s.titleize
           when :tag
             content_tag :span, class: "status-tag default-#{ar_object.send(field.field_name.to_s + '_before_type_cast')}" do
               ar_object.send(field.field_name).to_s.titleize
