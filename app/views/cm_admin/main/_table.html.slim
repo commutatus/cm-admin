@@ -1,13 +1,12 @@
 .admin-table-index
   .table-top
     p.table-top__total-count = "#{@ar_object.pagy.count} #{@model.ar_model.table_name} found"
-    .table-top__column-action
-      button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
-        span
-          i.fa.fa-columns.bolder
-        span
-          i.fa.fa-angle-down
-
+    // .table-top__column-action
+    //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
+    //    span
+    //      i.fa.fa-columns.bolder
+    //    span
+    //      i.fa.fa-angle-down
 .new-admin-table.scrollable
   table.cm-table
     thead.cm-table__header
@@ -23,9 +22,13 @@
           td.check-box-space
             span
               input.cm-checkbox type="checkbox"
-          - @model.available_fields[:index].each do |column|
+          - @model.available_fields[:index].each_with_index do |column, index|
             td.text-ellipsis
-              span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+              span class="#{column.cm_css_class}"
+                - if index == 0
+                  = link_to ar_object.send(column.field_name), "/cm_admin/#{@model.ar_model.table_name}/#{ar_object.id}"
+                - else
+                  = show_field_value(ar_object, column)
           td.row-action-cell
             .row-action-tool
               button.secondary-btn.tool-btn type="button"
