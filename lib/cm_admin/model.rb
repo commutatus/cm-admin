@@ -92,7 +92,6 @@ module CmAdmin
     # If model is User, controller will be UsersController
     def define_controller
       klass = Class.new(CmAdmin::ApplicationController) do
-
         $available_actions.each do |action|
           define_method action.name.to_sym do
 
@@ -126,13 +125,20 @@ module CmAdmin
                 else
                   format.html { render '/cm_admin/main/new' }
                 end
-              elsif action.class == CmAdmin::Models::CustomAction
-                redirect_url = request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
-                data = @action.parent == "index" ? @ar_object.data : @ar_object
-                if @action.code_block.call(@ar_object)
-                  format.html { redirect_to redirect_url }
+              elsif action.action_type == :custom
+                if action.child_records
+                  format.html { render action.layout }
+                elsif action.display_type == :page
+                  
+                  data = @action.parent == "index" ? @ar_object.data : @ar_object
+                  format.html { render action.partial }
                 else
-                  format.html { redirect_to redirect_url }
+                  redirect_url = request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
+                  if @action.code_block.call(@ar_object)
+                    format.html { redirect_to redirect_url }
+                  else
+                    format.html { redirect_to redirect_url }
+                  end
                 end
               elsif action.layout.present?
                 if request.xhr? && action.partial.present?

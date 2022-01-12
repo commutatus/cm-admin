@@ -4,7 +4,9 @@ module CmAdmin
   module Models
     class Action
       include Actions::Blocks
-      attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description, :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block
+      attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
+        :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
+        :display_type, :action_type
 
       def initialize(attributes = {}, &block)
         if attributes[:layout_type].present? && attributes[:layout].nil? && attributes[:partial].nil?
@@ -25,7 +27,9 @@ module CmAdmin
 
       def set_default_values
         self.is_nested_field = false
-        self.display_if = true
+        self.display_if = lambda { |arg| return true }
+        self.display_type = :button
+        self.action_type = :default
       end
 
       class << self
