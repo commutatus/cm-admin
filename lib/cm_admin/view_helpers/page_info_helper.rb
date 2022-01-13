@@ -6,8 +6,11 @@ module CmAdmin
       end
 
       def action_title
-        if @model.current_action.page_title
+        show_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
+        if @model.current_action.page_title 
           title = @model.current_action.page_title
+        elsif show_action.page_title
+          title = show_action.page_title
         else
           title = "#{@model.name}"
           case action_name
@@ -24,8 +27,11 @@ module CmAdmin
       end
 
       def action_description
+        show_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
         if @model.current_action.page_description
           title = @model.current_action.page_description
+        elsif show_action.page_description
+          title = show_action.page_description
         else
           title = "#{@model.name}"
           case action_name
