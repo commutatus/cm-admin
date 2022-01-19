@@ -65,7 +65,7 @@ module CmAdmin
         nested_fields = nested_tables.map {|table|
           Hash[
             table.to_s + '_attributes',
-            table.to_s.singularize.titleize.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+            table.to_s.classify.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
           ]
         }
         permittable_fields += nested_fields

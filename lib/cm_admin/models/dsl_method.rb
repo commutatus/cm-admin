@@ -118,9 +118,9 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, verb: nil, layout: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, &block)
+      def custom_action(name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, &block)
         action = CmAdmin::Models::CustomAction.new(
-                    name: name, verb: verb, layout: layout, partial: partial, path: path,
+                    name: name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
                     parent: self.current_action.name, display_type: display_type, display_if: display_if,
                     action_type: :custom, route_type: route_type, &block)
         @available_actions << action

@@ -101,6 +101,8 @@ module CmAdmin
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
             @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
+            aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
+            @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
             nested_tables = @model.available_fields[:new].except(:fields).keys
             nested_tables += @model.available_fields[:edit].except(:fields).keys
             @reflections = @model.ar_model.reflect_on_all_associations
@@ -129,7 +131,6 @@ module CmAdmin
                 if action.child_records
                   format.html { render action.layout }
                 elsif action.display_type == :page
-                  
                   data = @action.parent == "index" ? @ar_object.data : @ar_object
                   format.html { render action.partial }
                 else
