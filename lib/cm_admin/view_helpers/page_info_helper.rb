@@ -7,10 +7,9 @@ module CmAdmin
 
       def action_title
         show_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
-        if @model.current_action.page_title 
-          title = @model.current_action.page_title
-        elsif show_action.page_title
-          title = show_action.page_title
+        title = @model.current_action.page_title || show_action.page_title
+        if title
+          title = (title.class == Symbol) ? @ar_object.send(title) : title
         else
           title = "#{@model.name}"
           case action_name
