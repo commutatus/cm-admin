@@ -12,7 +12,7 @@ CmAdmin::Engine.routes.draw do
   CmAdmin.cm_admin_models.each do |model|
     model.available_actions.sort_by {|act| act.class}.each do |act|
       scope model.name.tableize do
-        send(act.verb, act.path.present? ? act.path : act.name, to: "#{model.name.underscore}##{act.name}")
+        send(act.verb, act.path.present? ? act.path : act.name, to: "#{model.name.underscore}##{act.name}", as: "#{model.name.underscore}_#{act.name}")
       end
     end
   end
