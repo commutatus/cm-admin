@@ -3,8 +3,8 @@ require_relative 'lib/cm_admin/version'
 Gem::Specification.new do |spec|
   spec.name          = "cm-admin"
   spec.version       = CmAdmin::VERSION
-  spec.authors       = ["sajinmp", "anbublacky", "manikandan0603"]
-  spec.email         = ["sajinprasadkm@gmail.com", "anbublacky@gmail.com"]
+  spec.authors       = ["sajinmp", "anbublacky", "AdityaTiwari2102"]
+  spec.email         = ["sajinprasadkm@gmail.com", "anbublacky@gmail.com", "taditya.tiwari007@gmail.com"]
 
   spec.summary       = %q{This is an admin panel gem}
   spec.description   = %q{This is an admin panel gem}
