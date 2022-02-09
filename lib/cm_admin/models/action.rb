@@ -6,7 +6,7 @@ module CmAdmin
       include Actions::Blocks
       attr_accessor :name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
         :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
-        :display_type, :action_type
+        :display_type, :action_type, :redirection_url
 
       def initialize(attributes = {}, &block)
         if attributes[:layout_type].present? && attributes[:layout].nil? && attributes[:partial].nil?
