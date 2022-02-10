@@ -99,6 +99,7 @@ module CmAdmin
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @model.params = params
             @action = CmAdmin::Models::Action.find_by(@model, name: action_name)
+            @model.current_action = @action
             @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
             aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
@@ -134,11 +135,11 @@ module CmAdmin
                   data = @action.parent == "index" ? @ar_object.data : @ar_object
                   format.html { render action.partial }
                 else
-                  redirect_url = request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                   if @action.code_block.call(@ar_object)
+                    redirect_url = @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                     format.html { redirect_to redirect_url }
                   else
-                    format.html { redirect_to redirect_url }
+                    format.html { redirect_to request.referrer }
                   end
                 end
               elsif action.layout.present?
