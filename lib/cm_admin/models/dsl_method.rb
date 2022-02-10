@@ -3,6 +3,13 @@ module CmAdmin
     module DslMethod
       extend ActiveSupport::Concern
 
+      def cm_page(name: nil, partial: nil, path: nil, route_type: nil, page_title: nil, display_type: :button, &block)
+        action = CmAdmin::Models::CustomAction.new(name: name, verb: :get, partial: partial, path: path, route_type: route_type, display_type: display_type, &block)
+        @available_actions << action
+        # @available_actions << CmAdmin::Models::CustomAction.new(name: name, verb: 'get', layout: 'cm_admin', partial: partial, path: path, parent: self.current_action.name, route_type: route_type, page_title: page_title, display_type: display_type, &block)
+        # @current_action = CmAdmin::Models::CustomAction.find_by(self, name: name)
+      end
+
       def cm_index(page_title: nil ,page_description: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
         @current_action.page_title = page_title
@@ -49,7 +56,9 @@ module CmAdmin
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
         else
-          action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action, layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model)
+          action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action,
+                      layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model,
+                      action_type: :custom, display_type: :page)
           @available_actions << action
           @current_action = action
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
@@ -109,8 +118,12 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, verb: nil, layout: nil, partial: nil, path: nil, display_if: lambda { |arg| return true }, route_type: nil, &block)
-        @available_actions << CmAdmin::Models::CustomAction.new(name: name, verb: verb, layout: layout, partial: partial, path: path, parent: self.current_action.name, display_if: display_if, route_type: route_type, &block)
+      def custom_action(name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, &block)
+        action = CmAdmin::Models::CustomAction.new(
+                    name: name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
+                    parent: self.current_action.name, display_type: display_type, display_if: display_if,
+                    action_type: :custom, route_type: route_type, &block)
+        @available_actions << action
         # self.class.class_eval(&block)
       end
 

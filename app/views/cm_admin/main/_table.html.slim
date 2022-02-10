@@ -26,7 +26,7 @@
             td.text-ellipsis
               span class="#{column.cm_css_class}"
                 - if index == 0
-                  = link_to ar_object.send(column.field_name), "/cm_admin/#{@model.ar_model.table_name}/#{ar_object.id}"
+                  = link_to ar_object.send(column.field_name), "/cm_admin/#{ar_object.model_name.collection}/#{ar_object.id}"
                 - else
                   = show_field_value(ar_object, column)
           td.row-action-cell
