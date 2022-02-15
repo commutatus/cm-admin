@@ -74,7 +74,6 @@
         position: relative;
         min-width: fit-content;
         border-collapse: collapse;
-        white-space: nowrap;
         border: 1px solid $grey-lighter-clr;
         border-radius: $radius-8;
         &__header {
@@ -222,7 +221,7 @@
             box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.15);
           }
         }
-      } 
+      }
 
       .columns-list {
         .column-item  {
@@ -266,7 +265,7 @@
             }
           }
         }
-      } 
+      }
     }
 
     .cm-pagination {
