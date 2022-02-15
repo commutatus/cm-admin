@@ -1,7 +1,8 @@
 .nested-fields
   - @model.available_fields[action_name.to_sym][assoc_name].each do |field|
-    = f.label field.field_name, class: 'field-label'
-    br
-    = input_field_for_column(f, field)
-  - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-    = link_to_remove_association "remove #{assoc_name}", f
+    .row
+      .col-sm-10
+        = input_field_for_column(f, field)
+      .col-sm-2
+        - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+          = link_to_remove_association "x", f

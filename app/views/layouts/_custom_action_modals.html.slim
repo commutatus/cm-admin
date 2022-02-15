@@ -1,9 +1,9 @@
-- @model.available_actions.select{|act| act if act.route_type == 'collection' && act.display_type == :modal}.each do |custom_action|
-  .modal.fade id="#{custom_action.name.classify}Modal" aria-hidden="true" aria-labelledby="exampleModalLabel" tabindex="1" 
+- @model.available_actions.select{|act| act if act.display_type == :modal}.each do |custom_action|
+  .modal.fade id="#{custom_action.name.classify}Modal" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
     .modal-dialog
       .modal-content
         .modal-header
-          h5#exampleModalLabel.modal-title = custom_action.name.classify
+          h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
           button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
         .modal-body
           = render partial: custom_action.partial
