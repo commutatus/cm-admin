@@ -1,6 +1,7 @@
-#tasks
+.nested-field-wrapper
+  label.field-label = table_name.to_s.titleize
   = f.fields_for table_name do |record|
     = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: table_name }
   - if @reflections.select {|x| x if x.name == table_name}.first.macro == :has_many
     .links
-      = link_to_add_association "add #{table_name}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: table_name }}
+      = link_to_add_association "+ Add #{table_name.to_s.titleize}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: table_name }}
