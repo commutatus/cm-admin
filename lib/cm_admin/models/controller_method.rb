@@ -62,7 +62,7 @@ module CmAdmin
         }.compact
         nested_tables = self.available_fields[:new].except(:fields).keys
         nested_tables += self.available_fields[:edit].except(:fields).keys
-        nested_fields = nested_tables.map {|table|
+        nested_fields = nested_tables.uniq.map {|table|
           Hash[
             table.to_s + '_attributes',
             table.to_s.classify.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
