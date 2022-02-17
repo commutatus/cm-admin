@@ -69,12 +69,7 @@ module CmAdmin
           ]
         }
         permittable_fields += nested_fields
-        monetize_fields = @ar_model.columns.map(&:name).select { |i| i.include?('_cents') }
-        if monetize_fields.any?
-          monetize_fields.each do |field|
-            permittable_fields += field.split('_cents')
-          end
-        end
+        @ar_model.columns.map { |col| permittable_fields << col.name.split('_cents') if col.name.include?('_cents') }
         params.require(self.name.underscore.to_sym).permit(*permittable_fields)
       end
     end
