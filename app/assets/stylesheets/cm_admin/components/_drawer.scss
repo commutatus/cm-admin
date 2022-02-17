@@ -1,0 +1,86 @@
+@import "../helpers/index.scss";
+
+.cm-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, .7);
+  &__container {
+    position: relative;
+    width: 360px;
+    height: 100%;
+    background: $white;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px;
+      background: #F8F9FA;
+      &__lhs {
+        .title {
+          font-family: $primary-font;
+          font-size: $t1-text;
+          font-weight: 600;
+          line-height: 28px;
+          color: $primary-text-clr;
+          margin-bottom: 8px;
+        }
+        .description {
+          font-family: $primary-font;
+          font-size: $t4-text;
+          line-height: 22px;
+          color: $primary-text-clr;
+          margin-bottom: 0;
+        }
+      }
+      &__rhs {
+        color: $ink-lighter-clr;
+      }
+    }
+    .body {
+      padding: 24px;
+      .info-text {
+        font-family: $primary-font;
+        font-size: $t4-text;
+        line-height: 22px;
+        color: $primary-text-clr;
+      }
+    }
+  }
+}
+
+.drawer-slide-in {
+  animation: slideInLeft .3s ease-in forwards;
+}
+
+.drawer-slide-out {
+  animation: slideOutLeft .3s ease-in forwards;
+}
+
+@keyframes slideInLeft {
+  0% {
+     left: -400px;
+     opacity: 0;
+  }
+  100% {
+      left: 0;
+     opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+     left: 0;
+     opacity: 1;
+  }
+  100% {
+      left: -400px;
+     opacity: 0;
+  }
+}
