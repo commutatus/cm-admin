@@ -41,3 +41,26 @@ $(document).on('click', '.row-action-cell', function(e) {
     return $(this).find('.table-export-popup').addClass('hidden');
   }
 });
+
+
+$(document).on('click', '.drawer-btn', function(e) {
+  e.stopPropagation();
+  if ($('.cm-drawer').hasClass('hidden')) {
+     $('.cm-drawer').removeClass('hidden');
+     if ($('#drawer-container').hasClass('drawer-slide-out')) {
+        $('#drawer-container').removeClass('drawer-slide-out');
+     }
+     $('#drawer-container').addClass('drawer-slide-in');
+  } else {
+    return $('.cm-drawer').addClass('hidden');
+  }
+});
+
+$(document).on('click', '.drawer-close', function(e) {
+  e.stopPropagation();
+  $('#drawer-container').removeClass('drawer-slide-in');
+  $('#drawer-container').addClass('drawer-slide-out');
+  setTimeout(() => {
+    $('.cm-drawer').addClass('hidden');
+  }, 300);
+});

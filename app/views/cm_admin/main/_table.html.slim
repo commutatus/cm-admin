@@ -16,6 +16,7 @@
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
           th = column.header
+        th Drawer
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
@@ -29,6 +30,8 @@
                   = link_to ar_object.send(column.field_name), "/cm_admin/#{ar_object.model_name.collection}/#{ar_object.id}"
                 - else
                   = show_field_value(ar_object, column)
+          td
+           button.drawer-btn Open Drawer
           td.row-action-cell
             .row-action-tool
               button.secondary-btn.tool-btn type="button"
