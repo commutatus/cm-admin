@@ -22,7 +22,7 @@ module CmAdmin
     include Models::DslMethod
     include Models::ControllerMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters, :available_tabs
-    attr_reader :name, :ar_model
+    attr_reader :name, :ar_model, :is_visible_on_sidebar
 
     # Class variable for storing all actions
     # CmAdmin::Model.all_actions
@@ -31,6 +31,7 @@ module CmAdmin
     def initialize(entity, &block)
       @name = entity.name
       @ar_model = entity
+      @is_visible_on_sidebar = true
       @available_actions ||= []
       @current_action = nil
       @available_tabs ||= []
@@ -83,6 +84,10 @@ module CmAdmin
         @available_actions << CmAdmin::Models::Action.new(name: act.to_s, verb: action_defaults[:verb], path: action_defaults[:path])
       end
       @actions_set = true
+    end
+
+    def visible_on_sidebar(visible_option)
+      @is_visible_on_sidebar = visible_option
     end
 
 

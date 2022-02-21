@@ -34,3 +34,8 @@
           = link_to custom_action.name.titleize, custom_action.path.gsub(':id', params[:id]), class: 'primary-btn ml-2', method: custom_action.verb
         - elsif custom_action.display_type == :modal && custom_action.display_if.call(@ar_object)
           = link_to custom_action.name.titleize, '', class: 'primary-btn ml-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal" }
+
+      - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
+      - if edit_action.any?
+        a.primary-btn.ml-2 href="#{page_url('edit', @ar_object)}"
+          = "Edit #{@model.name}"

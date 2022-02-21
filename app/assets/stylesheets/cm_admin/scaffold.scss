@@ -12,3 +12,13 @@
   }
   
 }
+
+.nested-field-wrapper {
+  label {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+  .nested-fields {
+    margin-bottom: 16px;
+  }
+}

@@ -37,24 +37,26 @@
                 .popup-option
                   a href="#{page_url('edit', ar_object)}"
                     | Edit
-/ .cm-pagination
-/   .cm-pagination__lhs Showing 1 to 15 out of 104
-/   .cm-pagination__rhs
-/     span.page-move-btn.disabled
-/       i.fa.fa-angle-double-left.bolder.f14
-/     span.page-move-btn.disabled
-/       i.fa.fa-chevron-left.bolder
-/     span.page-num-btn.active 1
-/     span.page-num-btn 2
-/     span.page-num-btn 3
-/     span.page-num-btn 4
-/     span.page-num-btn 5
-/     span.page-move-btn
-/       i.fa.fa-chevron-right.bolder
-/     span.page-move-btn
-/       i.fa.fa-angle-double-right.bolder.f14
-
+                - @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
+                  - if custom_action.display_if.call(ar_object)
+                    .popup-option
+                      - if custom_action.display_type == :button
+                        = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+                      - elsif custom_action.display_type == :modal
+                        = link_to custom_action.name.titleize, '', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
+                
 .cm-pagination
   .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
   .cm-pagination__rhs
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
+
+- @associated_ar_object.data.each do |ar_object|
+  - @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
+    .modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id.to_s}" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
+            button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+          .modal-body
+            = render partial: custom_action.partial, locals: { ar_object: ar_object }
