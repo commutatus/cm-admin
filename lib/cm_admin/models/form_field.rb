@@ -15,6 +15,7 @@ module CmAdmin
 
       def set_default_values
         self.disabled = false
+        self.label = self.field_name.to_s.titleize
       end
     end
   end

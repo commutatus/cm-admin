@@ -44,10 +44,10 @@ module CmAdmin
                 if field.input_type.eql?(:hidden)
                   concat input_field_for_column(f, field)
                 else
-                  concat f.label field.field_name, class: 'field-label'
+                  concat f.label field.label, class: 'field-label'
                   concat tag.br
                   concat(content_tag(:div, class: "datetime-wrapper") do
-                    concat input_field_for_column(f, field)  
+                    concat input_field_for_column(f, field)
                   end)
                   concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
                 end
