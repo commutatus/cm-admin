@@ -15,6 +15,7 @@ module CmAdmin
 
         #formatting header (either field_name or value present in header attribute)
         self.send("header=", format_header)
+        set_sort_columns
       end
 
       #returns a string value as a header (either field_name or value present in header attribute)
@@ -26,6 +27,16 @@ module CmAdmin
         self.exportable = true
         self.managable = true
         self.lockable = false
+        self.sortable = false
+      end
+
+      def set_sort_columns
+        if sort_direction.present?
+          raise ArgumentError, "Kindly select a valid sort direction like #{VALID_SORT_DIRECTION.join(' or ')} instead of #{sort_direction} for column #{field_name}" unless VALID_SORT_DIRECTION.include?(sort_direction.to_sym.downcase)
+          sortable = true
+          sort_direction = sort_direction.to_s
+        end
+        sort_direction = 'asc' if sortable && !sort_direction
       end
 
       #formatting value for different data types
