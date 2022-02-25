@@ -4,6 +4,8 @@ module CmAdmin
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round,
       :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :sortable, :sort_direction
 
+      VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
+
       def initialize(field_name, attributes = {})
         @field_name = field_name
         set_default_values
