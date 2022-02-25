@@ -31,12 +31,12 @@ module CmAdmin
       end
 
       def set_sort_columns
-        if sort_direction.present?
-          raise ArgumentError, "Kindly select a valid sort direction like #{VALID_SORT_DIRECTION.join(' or ')} instead of #{sort_direction} for column #{field_name}" unless VALID_SORT_DIRECTION.include?(sort_direction.to_sym.downcase)
-          sortable = true
-          sort_direction = sort_direction.to_s
+        if self.sort_direction.present?
+          raise ArgumentError, "Kindly select a valid sort direction like #{VALID_SORT_DIRECTION.join(' or ')} instead of #{self.sort_direction} for column #{self.field_name}" unless VALID_SORT_DIRECTION.include?(self.sort_direction.to_sym.downcase)
+          self.sortable = true
+          self.sort_direction = self.sort_direction.to_s
         end
-        sort_direction = 'asc' if sortable && !sort_direction
+        self.sort_direction = 'asc' if self.sortable && !self.sort_direction
       end
 
       #formatting value for different data types
