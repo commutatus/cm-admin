@@ -7,23 +7,23 @@ module CmAdmin
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @ar_object = @ar_model.find(params[:id])
       end
-  
+
       def index(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
         # Based on the params the filter and pagination object to be set
         @ar_object = filter_by(params, nil, filter_params(params))
       end
-  
+
       def new(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
         @ar_object = @ar_model.new
       end
-  
+
       def edit(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
         @ar_object = @ar_model.find(params[:id])
       end
-  
+
       def update(params)
         @ar_object = @ar_model.find(params[:id])
         @ar_object.assign_attributes(resource_params(params))
@@ -50,7 +50,7 @@ module CmAdmin
         # filtered_result.facets.sort = sort_params
         return filtered_result
       end
-  
+
       def resource_params(params)
         permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
         permittable_fields += @ar_model.reflect_on_all_attachments.map {|x|
