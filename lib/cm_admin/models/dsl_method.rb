@@ -87,6 +87,11 @@ module CmAdmin
       end
 
       def column(field_name, options={})
+        db_columns = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
+        if options[:sort_direction].present? && !db_columns.include?(field_name)
+          raise "Sorting for custom column #{field_name} does not exist."
+        end
+
         @available_fields[@current_action.name.to_sym] ||= []
         if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
           raise "Only one column can be locked in a table."
