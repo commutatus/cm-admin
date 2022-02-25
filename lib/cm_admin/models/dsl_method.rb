@@ -88,7 +88,7 @@ module CmAdmin
 
       def column(field_name, options={})
         db_columns = self.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
-        if options[:sort_direction].present? && !db_columns.include?(field_name)
+        if (options[:sortable] || options[:sort_direction].present?) && !db_columns.include?(field_name)
           raise "Sorting for custom column #{field_name} does not exist."
         end
 
