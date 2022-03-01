@@ -2,9 +2,7 @@ module CmAdmin
   module Models
     class Column
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round,
-      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :sortable, :sort_direction
-
-      VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
+      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -15,7 +13,6 @@ module CmAdmin
 
         #formatting header (either field_name or value present in header attribute)
         self.send("header=", format_header)
-        set_sort_columns
       end
 
       #returns a string value as a header (either field_name or value present in header attribute)
@@ -27,16 +24,6 @@ module CmAdmin
         self.exportable = true
         self.managable = true
         self.lockable = false
-        self.sortable = false
-      end
-
-      def set_sort_columns
-        if self.sort_direction.present?
-          raise ArgumentError, "Kindly select a valid sort direction like #{VALID_SORT_DIRECTION.join(' or ')} instead of #{self.sort_direction} for column #{self.field_name}" unless VALID_SORT_DIRECTION.include?(self.sort_direction.to_sym.downcase)
-          self.sortable = true
-          self.sort_direction = self.sort_direction.to_s
-        end
-        self.sort_direction = 'asc' if self.sortable && !self.sort_direction
       end
 
       #formatting value for different data types

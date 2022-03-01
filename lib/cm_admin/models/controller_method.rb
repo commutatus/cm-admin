@@ -41,12 +41,6 @@ module CmAdmin
         sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
         sort_params = {sort_column: sort_column, sort_direction: sort_direction}
         records = self.name.constantize.where(nil) if records.nil?
-        sortable_columns = available_fields[current_action.name.to_sym].select(&:sortable)
-        if sortable_columns.any?
-          sortable_columns.each do |column|
-            records = records.order("#{column.field_name} #{column.sort_direction}")
-          end
-        end
         final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
         pagy, records = pagy(final_data)
         filtered_result.data = records
