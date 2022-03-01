@@ -131,6 +131,12 @@ module CmAdmin
       def filter(db_column_name, filter_type, options={})
         @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
       end
+
+      def sort_direction(direction = :desc)
+        raise ArgumentError, "Select a valid sort direction like #{CmAdmin::Models::Action::VALID_SORT_DIRECTION.join(' or ')} instead of #{direction}" unless CmAdmin::Models::Action::VALID_SORT_DIRECTION.include?(direction.to_sym.downcase)
+
+        @current_action.sort_direction = direction.to_sym if @current_action
+      end
     end
   end
 end
