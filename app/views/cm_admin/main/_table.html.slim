@@ -43,10 +43,10 @@
                 .popup-option
                   a href="#{page_url('edit', ar_object)}"
                     | Edit
-                - @model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
+                - @model.available_actions.select{|act| act if act.route_type == 'member' && [:button, :modal].include?(act.display_type)}.each do |custom_action|
                   - if custom_action.display_if.call(ar_object)
                     .popup-option
-                      = link_to custom_action.name, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+                      = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
