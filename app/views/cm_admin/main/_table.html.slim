@@ -16,7 +16,6 @@
             input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
           th = column.header
-        // th Drawer
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
@@ -25,13 +24,13 @@
               input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each_with_index do |column, index|
             td.text-ellipsis
-              span class="#{column.cm_css_class}"
+              span class="#{column.field_type.to_s} #{column.cm_css_class} "
                 - if index == 0
                   = link_to ar_object.send(column.field_name), "/cm_admin/#{ar_object.model_name.collection}/#{ar_object.id}"
                 - else
                   = show_field_value(ar_object, column)
-          // td
-           // button.drawer-btn Open Drawer
+                  - if column.field_type == :drawer
+                    = render partial: column.drawer_partial, locals: { ar_object: ar_object}
           td.row-action-cell
             .row-action-tool
               button.secondary-btn.tool-btn type="button"
