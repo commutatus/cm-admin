@@ -32,6 +32,8 @@ module CmAdmin
         self.display_if = lambda { |arg| return true }
         self.display_type = :button
         self.action_type = :default
+        self.sort_column = :created_at
+        self.sort_direction = :desc
       end
 
       class << self
