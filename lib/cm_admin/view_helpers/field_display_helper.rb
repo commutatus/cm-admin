@@ -47,6 +47,11 @@ module CmAdmin
             end
           when :attachment
             concat show_attachment_value(ar_object, field)
+          when :drawer
+            content_tag :span do
+              concat content_tag(:span, truncate(ar_object.send(field.field_name).to_s, length: 25))
+              concat content_tag(:a, " View", class: "drawer-btn")
+            end
           end
         end
       end

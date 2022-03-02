@@ -45,21 +45,23 @@ $(document).on('click', '.row-action-cell', function(e) {
 
 $(document).on('click', '.drawer-btn', function(e) {
   e.stopPropagation();
-  if ($('.cm-drawer').hasClass('hidden')) {
-     $('.cm-drawer').removeClass('hidden');
-     if ($('#drawer-container').hasClass('drawer-slide-out')) {
-        $('#drawer-container').removeClass('drawer-slide-out');
+  drawer_el = $(this).parent().closest('.drawer').find('.cm-drawer')
+  if (drawer_el.hasClass('hidden')) {
+     drawer_el.removeClass('hidden');
+     drawer_container = drawer_el.find('.drawer-container')
+     if (drawer_container.hasClass('drawer-slide-out')) {
+        drawer_container.removeClass('drawer-slide-out');
      }
-     $('#drawer-container').addClass('drawer-slide-in');
+     drawer_container.addClass('drawer-slide-in');
   } else {
-    return $('.cm-drawer').addClass('hidden');
+    return drawer_el.addClass('hidden');
   }
 });
 
 $(document).on('click', '.drawer-close', function(e) {
   e.stopPropagation();
-  $('#drawer-container').removeClass('drawer-slide-in');
-  $('#drawer-container').addClass('drawer-slide-out');
+  $('.drawer-container').removeClass('drawer-slide-in');
+  $('.drawer-container').addClass('drawer-slide-out');
   setTimeout(() => {
     $('.cm-drawer').addClass('hidden');
   }, 300);
