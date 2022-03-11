@@ -11,16 +11,16 @@ module CmAdmin
               content_tag(:a, href: path) do
                 content_tag(:div, class: 'menu-item') do
                   content_tag(:span, class: 'menu-icon') do
-                    concat tag.i class: 'fa fa-th-large'
+                    concat tag.i class: "#{model.icon_name}"
                   end +
-                  model.name
+                  model.name.pluralize
                 end
               end
             elsif navigation_type == "quick_links"
               content_tag(:a, href: path, class: 'visible') do
                 content_tag(:div, class: 'result-item') do
                   content_tag(:span) do
-                    concat tag.i class: 'fa fa-th-large'
+                    concat tag.i class: "#{model.icon_name}"
                   end +
                   content_tag(:span) do
                     model.name
