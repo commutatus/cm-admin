@@ -13,7 +13,7 @@ module CmAdmin
                   content_tag(:span, class: 'menu-icon') do
                     concat tag.i class: 'fa fa-th-large'
                   end +
-                  model.name
+                  model.name.pluralize
                 end
               end
             elsif navigation_type == "quick_links"
