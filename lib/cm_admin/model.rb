@@ -21,7 +21,8 @@ module CmAdmin
     include Models::Blocks
     include Models::DslMethod
     include Models::ControllerMethod
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields, :current_action, :params, :filters, :available_tabs
+    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields,
+      :current_action, :params, :filters, :available_tabs, :icon_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar
 
     # Class variable for storing all actions
@@ -32,6 +33,7 @@ module CmAdmin
       @name = entity.name
       @ar_model = entity
       @is_visible_on_sidebar = true
+      @icon_name = 'fa fa-th-large'
       @available_actions ||= []
       @current_action = nil
       @available_tabs ||= []
@@ -59,7 +61,7 @@ module CmAdmin
       current_action = CmAdmin::Models::Action.find_by(self, name: action_name.to_s)
       if current_action
         @current_action = current_action
-        @ar_object = @ar_model.find(params[:id])
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
         if @current_action.child_records
           child_records = @ar_object.send(@current_action.child_records)
           @associated_model = CmAdmin::Model.find_by(name: @ar_model.reflect_on_association(@current_action.child_records).klass.name)
@@ -88,6 +90,10 @@ module CmAdmin
 
     def visible_on_sidebar(visible_option)
       @is_visible_on_sidebar = visible_option
+    end
+
+    def set_icon(name)
+      @icon_name = name
     end
 
 
