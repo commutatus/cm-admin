@@ -31,21 +31,25 @@
                   = show_field_value(ar_object, column)
                   - if column.field_type == :drawer
                     = render partial: column.drawer_partial, locals: { ar_object: ar_object}
-          td.row-action-cell
-            .row-action-tool
-              button.secondary-btn.tool-btn type="button"
-                span
-                  i.fa.fa-bars.bolder
-                span
-                  i.fa.fa-angle-down
-              .popup-card.table-export-popup.hidden
-                .popup-option
-                  a href="#{page_url('edit', ar_object)}"
-                    | Edit
-                - @model.available_actions.select{|act| act if act.route_type == 'member' && [:button, :modal].include?(act.display_type)}.each do |custom_action|
-                  - if custom_action.display_if.call(ar_object)
-                    .popup-option
-                      = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+
+          - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
+          - custom_actions = @model.available_actions.select{|act| act if act.route_type == 'member' && [:button, :modal].include?(act.display_type)}
+          - if custom_actions.any? || edit_action.any?
+            td.row-action-cell
+              .row-action-tool
+                button.secondary-btn.tool-btn type="button"
+                  span
+                    i.fa.fa-bars.bolder
+                  span
+                    i.fa.fa-angle-down
+                .popup-card.table-export-popup.hidden
+                  - if edit_action.any?
+                    = link_to "#{page_url('edit', ar_object)}" do
+                      .popup-option Edit
+                  - custom_actions.each do |custom_action|
+                    - if custom_action.display_if.call(ar_object)
+                      = link_to custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                        .popup-option = custom_action.name.titleize
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
