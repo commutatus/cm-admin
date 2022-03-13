@@ -79,6 +79,19 @@ a {
   overflow: auto;
 }
 
+.input-wrapper {
+  margin-bottom: 24px;
+  input, select, .select2 {
+    width: 320px;
+  }
+  textarea {
+    width: 480px;
+  }
+}
+.nested-fields .select2 {
+  width: 320px !important;
+}
+
 .datetime-wrapper {
   position: relative;
 }
