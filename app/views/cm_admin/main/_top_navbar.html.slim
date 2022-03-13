@@ -20,9 +20,9 @@
             li
               .popup-option.pointer data-bs-toggle='modal' data-bs-target='#exportmodal'
                 span Export
-
-      a.primary-btn.ml-2 href="#{page_url('new')}"
-        | Add
+      - new_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('new')}
+      - if new_action.any?
+        = link_to 'Add', "#{page_url('new')}", class: 'primary-btn ml-2'
       - @model.available_actions.select{|act| act if act.route_type == 'collection'}.each do |custom_action|
         - if custom_action.display_type == :button
           = link_to custom_action.name.titleize, @model.ar_model.table_name + '/' + custom_action.path, class: 'primary-btn ml-2', method: custom_action.verb
@@ -37,5 +37,4 @@
 
       - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
       - if edit_action.any?
-        a.primary-btn.ml-2 href="#{page_url('edit', @ar_object)}"
-          = "Edit #{@model.name}"
+        = link_to "Edit #{@model.name}", "#{page_url('edit', @ar_object)}", class: 'primary-btn ml-2'
