@@ -5,7 +5,7 @@ module CmAdmin
       def show_field(ar_object, field)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
-          concat show_field_value(ar_object, field)
+          concat value_with_prefix_and_suffix(ar_object, field)
         end
       end
 
@@ -14,9 +14,18 @@ module CmAdmin
           p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
         end
       end
+
+      def value_with_prefix_and_suffix(ar_object, field)
+        value = show_field_value(ar_object, field)
+        content_tag(:div, class: "info-split__rhs") do
+          concat field.prefix
+          concat value
+          concat field.suffix
+        end
+      end
       
       def show_field_value(ar_object, field)
-        content_tag(:div, class: "info-split__rhs") do
+        content_tag(:span) do
           case field.field_type || :string
           when :integer
             ar_object.send(field.field_name).to_s
