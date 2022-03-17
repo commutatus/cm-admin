@@ -88,6 +88,14 @@ a {
     width: 480px;
   }
 }
+.input-wrapper.disabled {
+  input:disabled {
+    background-color: #F3F4F6;
+  }
+  label {
+    color: #9CA7AE;
+  }
+}
 .nested-fields .select2 {
   width: 320px !important;
 }

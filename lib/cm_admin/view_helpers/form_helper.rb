@@ -44,8 +44,8 @@ module CmAdmin
                 if field.input_type.eql?(:hidden)
                   concat input_field_for_column(f, field)
                 else
-                  concat(content_tag(:div, class: "input-wrapper") do
-                    concat f.label field.label, field.label, class: 'field-label'
+                  concat(content_tag(:div, class: "input-wrapper #{field.disabled ? 'disabled' : ''}") do
+                    concat f.label field.label, field.label, class: "field-label"
                     concat tag.br
                     concat(content_tag(:div, class: "datetime-wrapper") do
                       concat input_field_for_column(f, field)
