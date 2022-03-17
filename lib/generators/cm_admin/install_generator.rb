@@ -1,5 +1,6 @@
 require 'rails/generators'
-
+module CmAdmin
+  class InstallGenerator < Rails::Generators::Base
     def add_required_gems
       gem 'slim'
       gem 'simple_form'
