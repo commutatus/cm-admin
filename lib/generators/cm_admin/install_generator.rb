@@ -7,6 +7,8 @@ module CmAdmin
 
       def copy_initializer
         copy_file 'cm_admin_initializer.rb', 'config/initializers/cm_admin.rb'
+        copy_file 'custom.js', 'app/assets/javascripts/custom.js'
+        copy_file 'custom.css', 'app/assets/stylesheets/custom.css'
         route 'mount CmAdmin::Engine => "/admin"'
       end
     end
