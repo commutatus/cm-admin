@@ -1,6 +1,6 @@
 .admin-table-index
   .table-top
-    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@associated_model&.ar_model&.table_name} found"
+    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
     .table-top__column-action
       button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
         span
@@ -51,7 +51,7 @@
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
 
 - @associated_ar_object.data.each do |ar_object|
-  - @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
+  - @associated_model && @associated_model.available_actions.select{|act| act if (act.route_type == 'member' && act.display_type == :modal)}.each do |custom_action|
     .modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id.to_s}" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
       .modal-dialog
         .modal-content
