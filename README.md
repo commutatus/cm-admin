@@ -24,7 +24,11 @@ Install the gem
 
     $ rails g cm_admin:install
 
-## Usage
+## Documentation
+
+You can find more detailed documentation [here](https://github.com/commutatus/cm-admin/wiki)
+
+## Demo
 
 For demo check [here](http://cm-admin.labs.commutatus.com/admin/users/)
 
