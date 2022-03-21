@@ -90,10 +90,10 @@ a {
 }
 .input-wrapper.disabled {
   input:disabled {
-    background-color: #F3F4F6;
+    background-color: $grey-lightest-clr;
   }
   label {
-    color: #9CA7AE;
+    color: $ink-lightest-clr;
   }
 }
 .nested-fields .select2 {
