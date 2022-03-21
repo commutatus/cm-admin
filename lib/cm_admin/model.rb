@@ -147,7 +147,7 @@ module CmAdmin
                   format.html { render action.partial }
                 else
                   if @action.code_block.call(@ar_object)
-                    redirect_url = @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
+                    redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                     format.html { redirect_to redirect_url }
                   else
                     format.html { redirect_to request.referrer }
