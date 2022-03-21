@@ -10,10 +10,11 @@ module CmAdmin
         # @current_action = CmAdmin::Models::CustomAction.find_by(self, name: name)
       end
 
-      def cm_index(page_title: nil ,page_description: nil, &block)
+      def cm_index(page_title: nil, page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
         @current_action.page_title = page_title
         @current_action.page_description = page_description
+        @current_action.partial = partial
         yield
         # action.instance_eval(&block)
       end
