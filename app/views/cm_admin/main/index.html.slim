@@ -2,7 +2,7 @@
   .index-page.page-container
     .sticky-container
       == render 'cm_admin/main/top_navbar'
-      - if @model.filters.present?
+      - if @model.filters.present? && @action.partial.nil?
         .index-page__filters
           == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
     .index-page__table-container
