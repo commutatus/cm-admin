@@ -1,5 +1,6 @@
 ul.nav.nav-pills
   - @model.available_tabs.each do |nav_item|
-    li.nav-item
-	    - nav_item_action_name = nav_item.custom_action.present? ? nav_item.custom_action : 'show'
-	    = link_to nav_item.nav_item_name.to_s.titleize, "/cm_admin/#{@model.name.underscore.pluralize}/#{@ar_object.id}/#{nav_item.custom_action}", class: "nav-link #{ nav_item_action_name == action_name ? 'active' : ''}"
+    - if policy([:cm_admin, @model.name.classify.constantize]).send(:"#{nav_item.custom_action}?")
+      li.nav-item
+        - nav_item_action_name = nav_item.custom_action.present? ? nav_item.custom_action : 'show'
+        = link_to nav_item.nav_item_name.to_s.titleize, "/cm_admin/#{@model.name.underscore.pluralize}/#{@ar_object.id}/#{nav_item.custom_action}", class: "nav-link #{ nav_item_action_name == action_name ? 'active' : ''}"

@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
   spec.add_runtime_dependency 'axlsx_rails', '~> 0.6.1'
   spec.add_runtime_dependency 'cocoon', '~> 1.2.15'
+  spec.add_runtime_dependency 'pundit', '~> 2.2.0'
 end
