@@ -4,6 +4,7 @@ require 'cm_admin/engine'
 require 'cm_admin/model'
 require 'cm_admin/view_helpers'
 require 'cm_admin/utils'
+require 'cm_admin/configuration'
 
 module CmAdmin
   class Error < StandardError; end
@@ -21,14 +22,22 @@ module CmAdmin
       )
     end
 
-    def setup
-      yield self
+    def configure(&block)
+      instance_eval(&block)
     end
 
-    def config(entity, &block)
+    def config
+      @config ||= Configuration.new
+    end
+
+    # def setup
+    #   yield self
+    # end
+
+    def initialize_model(entity, &block)
       if entity.is_a?(Class)
         unless CmAdmin::Model.find_by({name: entity.name})
-          @@cm_admin_models << CmAdmin::Model.new(entity, &block)
+          config.cm_admin_models << CmAdmin::Model.new(entity, &block)
         end
       end
     end
