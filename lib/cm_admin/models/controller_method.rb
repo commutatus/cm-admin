@@ -5,7 +5,7 @@ module CmAdmin
 
       def show(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-        @ar_object = @ar_model.find(params[:id])
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
       end
 
       def index(params)
@@ -21,11 +21,11 @@ module CmAdmin
 
       def edit(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
-        @ar_object = @ar_model.find(params[:id])
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
       end
 
       def update(params)
-        @ar_object = @ar_model.find(params[:id])
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
         @ar_object.assign_attributes(resource_params(params))
         @ar_object
       end

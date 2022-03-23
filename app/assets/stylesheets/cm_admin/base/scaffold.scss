@@ -79,6 +79,27 @@ a {
   overflow: auto;
 }
 
+.input-wrapper {
+  margin-bottom: 24px;
+  input, select, .select2 {
+    width: 320px;
+  }
+  textarea {
+    width: 480px;
+  }
+}
+.input-wrapper.disabled {
+  input:disabled {
+    background-color: $grey-lightest-clr;
+  }
+  label {
+    color: $ink-lightest-clr;
+  }
+}
+.nested-fields .select2 {
+  width: 320px !important;
+}
+
 .datetime-wrapper {
   position: relative;
 }

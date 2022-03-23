@@ -2,11 +2,14 @@
   .index-page.page-container
     .sticky-container
       == render 'cm_admin/main/top_navbar'
-      - if @model.filters.present?
+      - if @model.filters.present? && @action.partial.nil?
         .index-page__filters
           == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
     .index-page__table-container
-      == render 'cm_admin/main/table'
+      - if @action.partial
+        == render @action.partial
+      - else
+        == render 'cm_admin/main/table'
 
     = column_pop_up(@model)
     = manage_column_pop_up(@model)

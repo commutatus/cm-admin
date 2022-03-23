@@ -36,9 +36,8 @@ module CmAdmin
 
     def initialize_model(entity, &block)
       if entity.is_a?(Class)
-        unless CmAdmin::Model.find_by({name: entity.name})
-          config.cm_admin_models << CmAdmin::Model.new(entity, &block)
-        end
+        return if CmAdmin::Model.find_by({name: entity.name})
+        config.cm_admin_models << CmAdmin::Model.new(entity, &block)
       end
     end
   end
