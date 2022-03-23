@@ -1,16 +1,18 @@
+@import "helpers/index.scss";
+
 .jGrowl {
-  color: #1D2129 !important;
+  color: $ink-regular-clr !important;
   font-size: 14px !important;
   .success{
-    background-color: #C1EDE2 !important;
+    background-color: $green-light-clr !important;
   }
   .notice {
-    background-color: #CDE1FB !important;
+    background-color: $blue-light-clr !important;
   }
   .error {
-    background-color: #FDCFCF !important;
+    background-color: $red-light-clr !important;
   }
-  
+
 }
 
 .nested-field-wrapper {
