@@ -85,6 +85,8 @@
   }
 }
 
-.drawer {
+.drawer-btn {
   cursor: pointer;
+  margin-left: 8px;
+  @include font($size: $t4-text, $color: $brand-color);
 }
