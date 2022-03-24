@@ -15,8 +15,6 @@ module CmAdmin
           case action_name
           when 'index'
             title + " list record"
-          when 'show'
-            title + " detail"
           when 'new'
             title + " create record"
           when 'edit'
@@ -36,8 +34,6 @@ module CmAdmin
           case action_name
           when 'index'
             title + " list record"
-          when 'show'
-            title + " detail"
           when 'new'
             title + " new record"
           when 'edit'

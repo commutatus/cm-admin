@@ -5,7 +5,7 @@ module CmAdmin
       def show_field(ar_object, field)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
-          concat show_field_value(ar_object, field)
+          concat value_with_prefix_and_suffix(ar_object, field)
         end
       end
 
@@ -14,9 +14,18 @@ module CmAdmin
           p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
         end
       end
-      
-      def show_field_value(ar_object, field)
+
+      def value_with_prefix_and_suffix(ar_object, field)
+        value = show_field_value(ar_object, field)
         content_tag(:div, class: "info-split__rhs") do
+          concat field.prefix
+          concat value
+          concat field.suffix
+        end
+      end
+
+      def show_field_value(ar_object, field)
+        content_tag(:span) do
           case field.field_type || :string
           when :integer
             ar_object.send(field.field_name).to_s
@@ -50,7 +59,7 @@ module CmAdmin
           when :drawer
             content_tag :span do
               concat content_tag(:span, truncate(ar_object.send(field.field_name).to_s, length: 25))
-              concat content_tag(:a, " View", class: "drawer-btn")
+              concat content_tag(:span, 'View', class: 'drawer-btn')
             end
           end
         end
@@ -60,12 +69,12 @@ module CmAdmin
         if ar_object.send(field.field_name).attached?
           if ar_object.send(field.field_name).class.name.include?('One')
             content_tag :a, href: rails_blob_path(ar_object.send(field.field_name), disposition: "attachment") do
-              ar_object.send(field.field_name).filename.to_s 
+              ar_object.send(field.field_name).filename.to_s
             end
           elsif ar_object.send(field.field_name).class.name.include?('Many')
             ar_object.send(field.field_name).map do |asset|
               content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
-                asset.filename.to_s 
+                asset.filename.to_s
               end
             end.join("\n").html_safe
           end

@@ -14,6 +14,7 @@ require_relative 'models/controller_method'
 require 'pagy'
 require 'axlsx'
 require 'cocoon'
+require 'pundit'
 
 module CmAdmin
   class Model
@@ -44,6 +45,7 @@ module CmAdmin
       actions unless @actions_set
       $available_actions = @available_actions.dup
       self.class.all_actions.push(@available_actions)
+      define_policy
       define_controller
     end
 
@@ -53,7 +55,7 @@ module CmAdmin
       end
 
       def find_by(search_hash)
-        CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
+        CmAdmin.config.cm_admin_models.find { |x| x.name == search_hash[:name] }
       end
     end
 
@@ -99,10 +101,30 @@ module CmAdmin
 
     private
 
+    def define_policy
+      klass = Class.new(ApplicationPolicy) do
+        def initialize(user, record)
+          @user = user
+          @record = record
+        end
+
+        $available_actions.each do |action|
+          define_method :"#{action.name}?" do
+            accessible_by = action.accessible_by.map { |role| "user.#{role}" }.join(' || ')
+            eval(accessible_by)
+          end
+        end
+      end
+      CmAdmin.const_set "#{@name}Policy", klass
+    end
+
     # Controller defined for each model
     # If model is User, controller will be UsersController
     def define_controller
       klass = Class.new(CmAdmin::ApplicationController) do
+        include Pundit::Authorization
+        rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
         $available_actions.each do |action|
           define_method action.name.to_sym do
 
@@ -113,6 +135,7 @@ module CmAdmin
             @model.current_action = @action
             @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
+            authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize
             aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
             @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
             nested_tables = @model.available_fields[:new].except(:fields).keys
@@ -147,7 +170,7 @@ module CmAdmin
                   format.html { render action.partial }
                 else
                   if @action.code_block.call(@ar_object)
-                    redirect_url = @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
+                    redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                     format.html { redirect_to redirect_url }
                   else
                     format.html { redirect_to request.referrer }
@@ -162,6 +185,12 @@ module CmAdmin
               end
             end
           end
+        end
+        private
+
+        def user_not_authorized
+          flash[:alert] = 'You are not authorized to perform this action.'
+          redirect_to CmAdmin::Engine.mount_path + '/access-denied'
         end
       end if $available_actions.present?
       CmAdmin.const_set "#{@name}Controller", klass
