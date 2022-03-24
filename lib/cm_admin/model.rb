@@ -55,7 +55,7 @@ module CmAdmin
       end
 
       def find_by(search_hash)
-        CmAdmin.cm_admin_models.find { |x| x.name == search_hash[:name] }
+        CmAdmin.config.cm_admin_models.find { |x| x.name == search_hash[:name] }
       end
     end
 
