@@ -4,7 +4,7 @@ module CmAdmin
     module NavigationHelper
       include Pagy::Frontend
       def navigation_links(navigation_type)
-        CmAdmin.cm_admin_models.map { |model|
+        CmAdmin.config.cm_admin_models.map { |model|
           if model.is_visible_on_sidebar
             path = CmAdmin::Engine.mount_path + '/' + model.name.underscore.pluralize
             if policy([:cm_admin, model.name.classify.constantize]).index?
