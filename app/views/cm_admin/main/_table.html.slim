@@ -43,13 +43,14 @@
                   span
                     i.fa.fa-angle-down
                 .popup-card.table-export-popup.hidden
-                  - if edit_action.any?
+                  - if edit_action.any? && policy([:cm_admin, @model.name.classify.constantize]).edit?
                     = link_to "#{page_url('edit', ar_object)}" do
                       .popup-option Edit
                   - custom_actions.each do |custom_action|
-                    - if custom_action.display_if.call(ar_object)
-                      = link_to custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
-                        .popup-option = custom_action.name.titleize
+                    - if custom_action.name.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{custom_action.name}?")
+                      - if custom_action.display_if.call(ar_object)
+                        = link_to custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                          .popup-option = custom_action.name.titleize
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
