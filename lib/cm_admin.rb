@@ -8,10 +8,12 @@ require 'cm_admin/utils'
 module CmAdmin
   class Error < StandardError; end
 
-  mattr_accessor :layout
+  mattr_accessor :layout, :authorized_roles
   mattr_accessor :included_models, :cm_admin_models
+  @@authorized_roles ||= []
   @@included_models ||= []
   @@cm_admin_models ||= []
+  
 
   class << self
     def webpacker
@@ -24,6 +26,7 @@ module CmAdmin
     def setup
       yield self
     end
+
 
     def config(entity, &block)
       if entity.is_a?(Class)
