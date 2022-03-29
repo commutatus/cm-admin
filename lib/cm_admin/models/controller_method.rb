@@ -5,7 +5,8 @@ module CmAdmin
 
       def show(params)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
+        scoped_model = "CmAdmin::#{self.name}Policy::Scope".constantize.new(Current.user, self.name.constantize).resolve
+        @ar_object = scoped_model.find(params[:id])
       end
 
       def index(params)
@@ -40,7 +41,8 @@ module CmAdmin
         sort_column = "created_at"
         sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
         sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-        records = self.name.constantize.where(nil) if records.nil?
+        
+        records = "CmAdmin::#{self.name}Policy::Scope".constantize.new(Current.user, self.name.constantize).resolve if records.nil?
         records = records.order("#{current_action.sort_column} #{current_action.sort_direction}")
 
         final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)

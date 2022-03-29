@@ -45,7 +45,6 @@ module CmAdmin
       actions unless @actions_set
       $available_actions = @available_actions.dup
       self.class.all_actions.push(@available_actions)
-      define_policy
       define_controller
     end
 
@@ -101,23 +100,6 @@ module CmAdmin
 
     private
 
-    def define_policy
-      klass = Class.new(ApplicationPolicy) do
-        def initialize(user, record)
-          @user = user
-          @record = record
-        end
-
-        $available_actions.each do |action|
-          define_method :"#{action.name}?" do
-            accessible_by = action.accessible_by.map { |role| "user.#{role}" }.join(' || ')
-            eval(accessible_by)
-          end
-        end
-      end
-      CmAdmin.const_set "#{@name}Policy", klass
-    end
-
     # Controller defined for each model
     # If model is User, controller will be UsersController
     def define_controller
@@ -135,7 +117,7 @@ module CmAdmin
             @model.current_action = @action
             @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
-            authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize
+            authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
             aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
             @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
             nested_tables = @model.available_fields[:new].except(:fields).keys
