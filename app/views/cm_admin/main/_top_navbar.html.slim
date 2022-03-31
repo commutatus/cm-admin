@@ -1,7 +1,9 @@
 .cm-navbar
   .cm-navbar__lhs
-    .bread-crumb-area
-      = yield :bread_crumb
+    - if @model.current_action.name == 'show' || @model.current_action.layout_type.present?
+      .bread-crumb-area
+        .breadcrumb-text
+          = link_to @model.name + ' /', cm_admin.send(:"#{@model.name.downcase}_index_path")
     .nav-title-area
       p.title-text = action_title
       p.title-sub-text = action_description
