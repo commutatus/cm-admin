@@ -53,6 +53,31 @@ module CmAdmin
           base_path + "/#{ar_object.id}" + '/edit'
         end
       end
+
+      def custom_action_items(custom_action, current_action_name)
+        if custom_action.name.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{custom_action.name}?")
+          if custom_action.display_if.call(@ar_object)
+            case custom_action.display_type
+            when :button
+              custom_action_button(custom_action, current_action_name)
+            when :modal
+              custom_modal_button(custom_action)
+            end
+          end
+        end
+      end
+
+      def custom_action_button(custom_action, current_action_name)
+        if current_action_name == "index"
+          link_to custom_action.name.titleize, @model.ar_model.table_name + '/' + custom_action.path, class: 'secondary-btn ml-2', method: custom_action.verb
+        elsif current_action_name == "show"
+          link_to custom_action.name.titleize, custom_action.path.gsub(':id', params[:id]), class: 'secondary-btn ml-2', method: custom_action.verb
+        end
+      end
+
+      def custom_modal_button(custom_action)
+        link_to custom_action.name.titleize, '', class: 'secondary-btn ml-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal" }
+      end
     end
   end
 end
