@@ -47,7 +47,7 @@
                     = link_to "#{page_url('edit', ar_object)}" do
                       .popup-option Edit
                   - custom_actions.each do |custom_action|
-                    - if custom_action.name.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{custom_action.name}?")
+                    - if custom_action.name.present? && has_valid_policy(@model.name, custom_action.name)
                       - if custom_action.display_if.call(ar_object)
                         = link_to custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
                           .popup-option = custom_action.name.titleize
