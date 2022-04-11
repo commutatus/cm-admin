@@ -51,7 +51,12 @@ module CmAdmin
           when :enum
             ar_object.send(field.field_name).to_s.titleize
           when :tag
-            content_tag :span, class: "status-tag default-#{ar_object.send(field.field_name.to_s + '_before_type_cast')}" do
+            if field.tag_class.empty?
+              tag_class = "info"
+            else
+              tag_class = field.tag_class["#{ar_object.send(field.field_name.to_s)}".to_sym]
+            end
+            content_tag :span, class: "status-tag #{tag_class}" do
               ar_object.send(field.field_name).to_s.upcase
             end
           when :attachment
