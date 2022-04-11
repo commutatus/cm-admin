@@ -15,9 +15,6 @@ html
     script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" 
     script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"
   body
-    - flash.each do |type, msg|
-      .alert class="alert-#{type}"
-        = msg
     .cm-admin
       = render 'layouts/left_sidebar_nav'
       .panel-area

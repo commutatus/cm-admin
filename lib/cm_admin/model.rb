@@ -140,9 +140,9 @@ module CmAdmin
                 end
               elsif %w(create update destroy).include?(action_name)
                 if @ar_object.save
-                  format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                  format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}", notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
                 else
-                  format.html { render '/cm_admin/main/new' }
+                  format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
                 end
               elsif action.action_type == :custom
                 if action.child_records
@@ -153,9 +153,9 @@ module CmAdmin
                 else
                   if @action.code_block.call(@ar_object)
                     redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
-                    format.html { redirect_to redirect_url }
+                    format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
                   else
-                    format.html { redirect_to request.referrer }
+                    format.html { redirect_to request.referrer, notice: "#{@action.name.titleize} is unsuccessful" }
                   end
                 end
               elsif action.layout.present?
