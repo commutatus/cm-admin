@@ -5,7 +5,7 @@ module CmAdmin
         value = field.custom_value || f.object.send(field.field_name)
         case field.input_type
         when :integer
-          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'integer-only' }
+          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
         when :decimal
           return f.number_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'decimal-only' }
         when :string
