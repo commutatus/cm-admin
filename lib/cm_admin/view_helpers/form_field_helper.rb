@@ -5,21 +5,21 @@ module CmAdmin
         value = field.custom_value || f.object.send(field.field_name)
         case field.input_type
         when :integer
-          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, data: {behaviour: 'integer-only'}
+          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
         when :decimal
-          return f.number_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, data: {behaviour: 'decimal-only'}
+          return f.number_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'decimal-only' }
         when :string
-          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value
+          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_select
-          return f.select field.field_name, options_for_select(field.collection || []), {}, class: 'normal-input select-2', disabled: field.disabled
+          return f.select field.field_name, options_for_select((field.collection || []), value), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: 'normal-input select-2', disabled: field.disabled
         when :multi_select
-          return f.select field.field_name, options_for_select(field.collection || []), {}, class: 'normal-input select-2', disabled: field.disabled, multiple: true
+          return f.select field.field_name, options_for_select((field.collection || []), value), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: 'normal-input select-2', disabled: field.disabled, multiple: true
         when :date
-          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, data: {behaviour: 'date-only'}
+          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
         when :date_time
-          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, data: {behaviour: 'date-time'}
+          return f.text_field field.field_name, class: 'normal-input', disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-time' }
         when :text
-          return f.text_area field.field_name, class: 'normal-input'
+          return f.text_area field.field_name, class: 'normal-input', placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_file_upload
           return f.file_field field.field_name, class: 'normal-input'
         when :multi_file_upload

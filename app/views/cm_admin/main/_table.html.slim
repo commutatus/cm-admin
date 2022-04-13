@@ -11,17 +11,18 @@
   table.cm-table
     thead.cm-table__header
       tr.header-row
-        th.check-box-space
-          span
-            input.cm-checkbox type="checkbox"
+        // Select all checkbox feature to be added later
+        / th.check-box-space
+        /   span
+        /     input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
           th = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
-          td.check-box-space
-            span
-              input.cm-checkbox type="checkbox"
+          / td.check-box-space
+          /   span
+          /     input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each_with_index do |column, index|
             td.text-ellipsis
               span class="#{column.field_type.to_s} #{column.cm_css_class} "
@@ -45,12 +46,18 @@
                 .popup-card.table-export-popup.hidden
                   - if edit_action.any? && policy([:cm_admin, @model.name.classify.constantize]).edit?
                     = link_to "#{page_url('edit', ar_object)}" do
-                      .popup-option Edit
+                      .popup-option
+                        span
+                          i.fa.fa-edit
+                        | Edit
                   - custom_actions.each do |custom_action|
                     - if custom_action.name.present? && has_valid_policy(@model.name, custom_action.name)
                       - if custom_action.display_if.call(ar_object)
                         = link_to cm_admin.send("#{@model.name.downcase}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
-                          .popup-option = custom_action.name.titleize
+                          .popup-option
+                            span
+                              i class="#{custom_action.icon_name}"
+                            = custom_action.name.titleize
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
