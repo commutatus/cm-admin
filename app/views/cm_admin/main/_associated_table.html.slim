@@ -12,38 +12,43 @@
   table.cm-table
     thead.cm-table__header
       tr.header-row
-        th.check-box-space
-          span
-            input.cm-checkbox type="checkbox"
+        // To be added once bulk-select is finalized
+        / th.check-box-space
+        /   span
+        /     input.cm-checkbox type="checkbox"
         - @model.available_fields[@action.name.to_sym].each do |column|
           th = column.header
     tbody.cm-table__body
       - @associated_ar_object.data.each do |ar_object|
         tr.body-row
-          td.check-box-space
-            span
-              input.cm-checkbox type="checkbox"
+          // To be added once bulk-select is finalized
+          / td.check-box-space
+          /   span
+          /     input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each do |column|
             td
               span class="#{column.cm_css_class} text-ellipsis" = show_field_value(ar_object, column)
-          td.row-action-cell
-            .row-action-tool
-              button.secondary-btn.tool-btn type="button"
-                span
-                  i.fa.fa-bars.bolder
-                span
-                  i.fa.fa-angle-down
-              .popup-card.table-export-popup.hidden
-                .popup-option
-                  a href="#{page_url('edit', ar_object)}"
-                    | Edit
-                - @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}.each do |custom_action|
-                  - if custom_action.display_if.call(ar_object)
-                    .popup-option
-                      - if custom_action.display_type == :button
-                        = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
-                      - elsif custom_action.display_type == :modal
-                        = link_to custom_action.name.titleize, '', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
+          - associated_model_actions = @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}
+          - if associated_model_actions.present?
+            td.row-action-cell
+              .row-action-tool
+                button.secondary-btn.tool-btn type="button"
+                  span
+                    i.fa.fa-bars.bolder
+                  span
+                    i.fa.fa-angle-down
+                .popup-card.table-export-popup.hidden
+                  // To be added once the associated model has edit actions
+                  / .popup-option
+                  /   a href="#{page_url('edit', ar_object)}"
+                  /     | Edit
+                  - associated_model_actions.each do |custom_action|
+                    - if custom_action.display_if.call(ar_object)
+                      .popup-option
+                        - if custom_action.display_type == :button
+                          = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+                        - elsif custom_action.display_type == :modal
+                          = link_to custom_action.name.titleize, '', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
                 
 .cm-pagination
   .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}

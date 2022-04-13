@@ -6,4 +6,4 @@
     $.jGrowl("#{flash[:success]}", {theme: 'success'})
 - elsif flash[:alert].present?
   javascript:
-    $.jGrowl("#{flash[:alert]}", {theme: 'error'})
+    $.jGrowl("#{flash[:alert].html_safe}", {theme: 'error'})

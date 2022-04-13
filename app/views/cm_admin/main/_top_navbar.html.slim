@@ -1,6 +1,6 @@
 .cm-navbar
   .cm-navbar__lhs
-    - if @model.current_action.name == 'show' || @model.current_action.layout_type.present?
+    - if cm_admin.method_defined?(:"#{@model.name.downcase}_index_path") && (@model.current_action.name == 'show' || @model.current_action.layout_type.present?)
       .bread-crumb-area
         .breadcrumb-text
           = link_to @model.name + ' /', cm_admin.send(:"#{@model.name.downcase}_index_path")

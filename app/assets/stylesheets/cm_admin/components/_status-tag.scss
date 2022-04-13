@@ -4,25 +4,11 @@
   font-size: $t4-text;
   line-height: 22px;
   padding: 4px;
-  &.default-0 {
-    color: $primary-text-clr;
-    background: $grey-lighter-clr;
-  }
-  &.default-1 {
+  color: $primary-text-clr;
+  background: $grey-lighter-clr;
+  &.success {
     color: $green-regular-clr;
     background: $green-lightest-clr;
-  }
-  &.default-2 {
-    color: $yellow-regular-clr;
-    background: $yellow-lightest-clr;
-  }
-  &.default-3 {
-    color: $red-regular-clr;
-    background: $red-lightest-clr;
-  }
-  &.default-4 {
-    color: $blue-regular-clr;
-    background: $blue-lightest-clr;
   }
 }
 
