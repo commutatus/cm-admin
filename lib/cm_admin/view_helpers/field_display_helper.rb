@@ -51,7 +51,8 @@ module CmAdmin
           when :enum
             ar_object.send(field.field_name).to_s.titleize
           when :tag
-            content_tag :span, class: "status-tag default-#{ar_object.send(field.field_name.to_s + '_before_type_cast')}" do
+            tag_class = field.tag_class.dig("#{ar_object.send(field.field_name.to_s)}".to_sym).to_s
+            content_tag :span, class: "status-tag #{tag_class}" do
               ar_object.send(field.field_name).to_s.upcase
             end
           when :attachment
