@@ -77,7 +77,6 @@
       margin-top: 40px;
       margin-bottom: 50px;
       height: calc(100vh - 365px);
-      // height: 280px;
       .cm-table {
         table-layout: fixed;
         position: relative;
@@ -131,7 +130,7 @@
           // height: 335px;
           display: block;
           position: relative;
-          width: 100%;        
+          width: 100%;
           .body-row {
             border-bottom: 1.21px solid rgb(240, 239, 239);
             td:nth-child(2){
@@ -140,7 +139,7 @@
               z-index: 2;
               background-color: #fff;
             }
-            
+
             &:nth-last-child(1) {
               box-shadow: none;
             }
