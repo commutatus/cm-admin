@@ -4,10 +4,8 @@
   font-size: $t4-text;
   line-height: 22px;
   padding: 4px;
-  &.info {
-    color: $primary-text-clr;
-    background: $grey-lighter-clr;
-  }
+  color: $primary-text-clr;
+  background: $grey-lighter-clr;
   &.success {
     color: $green-regular-clr;
     background: $green-lightest-clr;
