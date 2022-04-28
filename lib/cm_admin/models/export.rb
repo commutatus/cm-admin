@@ -19,7 +19,7 @@ module CmAdmin
           # This includes isn't recursve, a full solution should be recursive
           records_arr = []
           records.includes(deserialized_columns[:include].keys).find_each do |record|
-            record_hash = record.as_json({only: normal_fields.map(&:field_name)})
+            record_hash = record.as_json({only: columns.map(&:to_sym)})
             custom_fields.each do |field|
               record_hash[field.field_name.to_sym] = helpers.send(field.helper_method, record, field.field_name)
             end
