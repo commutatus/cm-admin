@@ -97,6 +97,15 @@ module CmAdmin
       @icon_name = name
     end
 
+    def filter_params(params)
+      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
+    end
 
     private
 
@@ -185,14 +194,6 @@ module CmAdmin
       CmAdmin.const_set "#{@name}Controller", klass
     end
 
-    def filter_params(params)
-      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
-      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
-      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
-      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
-      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
-
-      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
-    end
+    
   end
 end
