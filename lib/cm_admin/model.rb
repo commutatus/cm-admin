@@ -161,7 +161,7 @@ module CmAdmin
                     redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                     format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
                   else
-                    error_messages = @ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
+                    error_messages = ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
                     format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
                   end
                 end
