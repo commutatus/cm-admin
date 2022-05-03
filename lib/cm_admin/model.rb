@@ -45,7 +45,6 @@ module CmAdmin
       actions unless @actions_set
       $available_actions = @available_actions.dup
       self.class.all_actions.push(@available_actions)
-      define_policy
       define_controller
     end
 
@@ -98,25 +97,17 @@ module CmAdmin
       @icon_name = name
     end
 
+    def filter_params(params)
+      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
+      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
+      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
+      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
+      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
+
+      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
+    end
 
     private
-
-    def define_policy
-      klass = Class.new(ApplicationPolicy) do
-        def initialize(user, record)
-          @user = user
-          @record = record
-        end
-
-        $available_actions.each do |action|
-          define_method :"#{action.name}?" do
-            accessible_by = action.accessible_by.map { |role| "user.#{role}" }.join(' || ')
-            eval(accessible_by)
-          end
-        end
-      end
-      CmAdmin.const_set "#{@name}Policy", klass
-    end
 
     # Controller defined for each model
     # If model is User, controller will be UsersController
@@ -135,7 +126,7 @@ module CmAdmin
             @model.current_action = @action
             @ar_object = @model.try(@action.parent || action_name, params)
             @ar_object, @associated_model, @associated_ar_object = @model.custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
-            authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize
+            authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
             aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
             @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
             nested_tables = @model.available_fields[:new].except(:fields).keys
@@ -157,10 +148,15 @@ module CmAdmin
                   format.html { render '/cm_admin/main/'+action_name }
                 end
               elsif %w(create update destroy).include?(action_name)
-                if @ar_object.save
-                  format.html { redirect_to  CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}" }
+                if %w(create update).include?(action_name)
+                  redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
                 else
-                  format.html { render '/cm_admin/main/new' }
+                  redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}"
+                end
+                if @ar_object.save
+                  format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+                else
+                  format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
                 end
               elsif action.action_type == :custom
                 if action.child_records
@@ -169,11 +165,13 @@ module CmAdmin
                   data = @action.parent == "index" ? @ar_object.data : @ar_object
                   format.html { render action.partial }
                 else
-                  if @action.code_block.call(@ar_object)
+                  ar_object = @action.code_block.call(@ar_object)
+                  if ar_object.errors.empty?
                     redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
-                    format.html { redirect_to redirect_url }
+                    format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
                   else
-                    format.html { redirect_to request.referrer }
+                    error_messages = ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
+                    format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
                   end
                 end
               elsif action.layout.present?
@@ -196,14 +194,6 @@ module CmAdmin
       CmAdmin.const_set "#{@name}Controller", klass
     end
 
-    def filter_params(params)
-      # OPTIMIZE: Need to check if we can permit the filter_params in a better way
-      date_columns = @filters.select{|x| x.filter_type.eql?(:date)}.map(&:db_column_name)
-      range_columns = @filters.select{|x| x.filter_type.eql?(:range)}.map(&:db_column_name)
-      single_select_columns = @filters.select{|x| x.filter_type.eql?(:single_select)}.map(&:db_column_name)
-      multi_select_columns = @filters.select{|x| x.filter_type.eql?(:multi_select)}.map{|x| Hash["#{x.db_column_name}", []]}
-
-      params.require(:filters).permit(:search, date: date_columns, range: range_columns, single_select: single_select_columns, multi_select: multi_select_columns) if params[:filters]
-    end
+    
   end
 end

@@ -2,7 +2,7 @@ module CmAdmin
   module Models
     class Column
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round,
-      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial
+      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -24,6 +24,7 @@ module CmAdmin
         self.exportable = true
         self.managable = true
         self.lockable = false
+        self.tag_class = {}
       end
 
       #formatting value for different data types

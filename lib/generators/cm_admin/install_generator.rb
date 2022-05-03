@@ -6,9 +6,10 @@ module CmAdmin
       source_root File.expand_path('templates', __dir__)
 
       def copy_initializer
-        copy_file 'cm_admin_initializer.rb', 'config/initializers/cm_admin.rb'
-        copy_file 'custom.js', 'app/assets/javascripts/custom.js'
-        copy_file 'custom.css', 'app/assets/stylesheets/custom.css'
+        copy_file 'cm_admin_initializer.rb', 'config/initializers/zcm_admin.rb'
+        copy_file 'custom.js', 'app/assets/javascripts/cm_admin/custom.js'
+        copy_file 'custom.css', 'app/assets/stylesheets/cm_admin/custom.css'
+        copy_file 'application_policy.rb', 'app/policies/application_policy.rb'
         route 'mount CmAdmin::Engine => "/admin"'
       end
     end

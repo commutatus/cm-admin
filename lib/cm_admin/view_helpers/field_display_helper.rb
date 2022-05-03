@@ -23,7 +23,7 @@ module CmAdmin
           concat field.suffix
         end
       end
-      
+
       def show_field_value(ar_object, field)
         content_tag(:span) do
           case field.field_type || :string
@@ -51,7 +51,8 @@ module CmAdmin
           when :enum
             ar_object.send(field.field_name).to_s.titleize
           when :tag
-            content_tag :span, class: "status-tag default-#{ar_object.send(field.field_name.to_s + '_before_type_cast')}" do
+            tag_class = field.tag_class.dig("#{ar_object.send(field.field_name.to_s)}".to_sym).to_s
+            content_tag :span, class: "status-tag #{tag_class}" do
               ar_object.send(field.field_name).to_s.upcase
             end
           when :attachment
@@ -59,7 +60,7 @@ module CmAdmin
           when :drawer
             content_tag :span do
               concat content_tag(:span, truncate(ar_object.send(field.field_name).to_s, length: 25))
-              concat content_tag(:a, " View", class: "drawer-btn")
+              concat content_tag(:span, 'View', class: 'drawer-btn')
             end
           end
         end
@@ -69,12 +70,12 @@ module CmAdmin
         if ar_object.send(field.field_name).attached?
           if ar_object.send(field.field_name).class.name.include?('One')
             content_tag :a, href: rails_blob_path(ar_object.send(field.field_name), disposition: "attachment") do
-              ar_object.send(field.field_name).filename.to_s 
+              ar_object.send(field.field_name).filename.to_s
             end
           elsif ar_object.send(field.field_name).class.name.include?('Many')
             ar_object.send(field.field_name).map do |asset|
               content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
-                asset.filename.to_s 
+                asset.filename.to_s
               end
             end.join("\n").html_safe
           end

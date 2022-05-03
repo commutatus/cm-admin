@@ -10,28 +10,28 @@ module CmAdmin
         # @current_action = CmAdmin::Models::CustomAction.find_by(self, name: name)
       end
 
-      def cm_index(page_title: nil, page_description: nil, partial: nil, accessible_by: nil, &block)
+      def cm_index(page_title: nil, page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
-        @current_action.set_values(page_title, page_description, partial, accessible_by)
+        @current_action.set_values(page_title, page_description, partial)
         yield
         # action.instance_eval(&block)
       end
 
-      def cm_show(page_title: nil, page_description: nil, partial: nil, accessible_by: nil, &block)
+      def cm_show(page_title: nil, page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-        @current_action.set_values(page_title, page_description, partial, accessible_by)
+        @current_action.set_values(page_title, page_description, partial)
         yield
       end
 
-      def cm_edit(page_title: nil,page_description: nil, partial: nil, accessible_by: nil, &block)
+      def cm_edit(page_title: nil,page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
-        @current_action.set_values(page_title, page_description, partial, accessible_by)
+        @current_action.set_values(page_title, page_description, partial)
         yield
       end
 
-      def cm_new(page_title: nil,page_description: nil, partial: nil, accessible_by: nil, &block)
+      def cm_new(page_title: nil,page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
-        @current_action.set_values(page_title, page_description, partial, accessible_by)
+        @current_action.set_values(page_title, page_description, partial)
         yield
       end
 
@@ -47,16 +47,14 @@ module CmAdmin
         end
       end
 
-      def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, accessible_by: nil, &block)
+      def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
-          @current_action.accessible_by = (CmAdmin.authorized_roles.dup << accessible_by).flatten.compact.uniq  if accessible_by
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
         else
           action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action,
                       layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model,
                       action_type: :custom, display_type: :page)
-          action.accessible_by = (CmAdmin.authorized_roles.dup << accessible_by).flatten.compact.uniq  if accessible_by
           @available_actions << action
           @current_action = action
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
@@ -117,12 +115,11 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, accessible_by: nil, &block)
+      def custom_action(name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
         action = CmAdmin::Models::CustomAction.new(
                     name: name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
                     parent: self.current_action.name, display_type: display_type, display_if: display_if,
-                    action_type: :custom, route_type: route_type, &block)
-        action.accessible_by = (CmAdmin.authorized_roles.dup << accessible_by).flatten.compact.uniq  if accessible_by
+                    action_type: :custom, route_type: route_type, icon_name: icon_name, &block)
         @available_actions << action
         # self.class.class_eval(&block)
       end
