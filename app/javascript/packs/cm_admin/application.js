@@ -10,6 +10,7 @@ require("jgrowl")
 require('./scaffolds.js')
 require('./quick_search.js')
 require('./filters.js')
+require('./exports.js')
 
 import jQuery from 'jquery'
 window.$ = jQuery

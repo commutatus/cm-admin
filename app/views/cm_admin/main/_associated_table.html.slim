@@ -26,8 +26,8 @@
           /   span
           /     input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each do |column|
-            td
-              span class="#{column.cm_css_class} text-ellipsis" = show_field_value(ar_object, column)
+            td class="text-ellipsis"
+              span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
           - associated_model_actions = @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}
           - if associated_model_actions.present?
             td.row-action-cell
