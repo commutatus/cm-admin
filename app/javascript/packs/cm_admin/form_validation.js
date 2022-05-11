@@ -5,7 +5,7 @@ $(document).on('turbolinks:load', function () {
     var form_class = $(this).data('form-class');
     $("." + form_class + " input.required, ." + form_class + " textarea.required").each(function() {
       $(this).removeClass('error');
-      if ($(this).val() === '' || $(this).val() === null) {
+      if ($(this).val().trim().length === 0) {
         $(this).addClass('error');
         window.scrollTo(top);
         submit.push(true);
@@ -13,7 +13,7 @@ $(document).on('turbolinks:load', function () {
     });
     $("." + form_class + " select.required").each(function() {
       $(this).removeClass('error');
-      if ($(this).val() === '' || $(this).val() === null) {
+      if ($(this).val().trim().length === 0) {
         $(this).parent().find('.select2').addClass('error');
         window.scrollTo(top);
         submit.push(true);
@@ -23,7 +23,7 @@ $(document).on('turbolinks:load', function () {
       var class_name;
       class_name = $(this).data('class-name');
       $(this).parent().parent().find('.' + class_name).addClass('hidden');
-      if ($(this).val() === '' || $(this).val() === null) {
+      if ($(this).val().trim().length === 0) {
         $(this).parent().parent().find('.' + class_name).removeClass('hidden');
         window.scrollTo(top);
         submit.push(true);
