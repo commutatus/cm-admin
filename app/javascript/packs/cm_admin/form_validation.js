@@ -22,9 +22,9 @@ $(document).on('turbolinks:load', function () {
     $('.nested_input_validation').each(function() {
       var class_name;
       class_name = $(this).data('class-name');
-      $(this).parent().parent().find('.' + class_name).addClass('hidden');
+      $(this).parents(':nth(1)').find('.' + class_name).addClass('hidden');
       if ($(this).val().trim().length === 0) {
-        $(this).parent().parent().find('.' + class_name).removeClass('hidden');
+        $(this).parents(':nth(1)').find('.' + class_name).removeClass('hidden');
         window.scrollTo(top);
         submit.push(true);
       }
