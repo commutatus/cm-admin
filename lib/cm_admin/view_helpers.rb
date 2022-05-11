@@ -5,7 +5,6 @@ module CmAdmin
     include PageInfoHelper
     include NavigationHelper
     include FormHelper
-    include ColumnFieldHelper
     include FieldDisplayHelper
     include FilterHelper
     include ManageColumnPopupHelper

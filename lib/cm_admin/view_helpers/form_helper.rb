@@ -37,7 +37,7 @@ module CmAdmin
       end
 
       def set_form_for_fields(resource, available_fields_hash, url, method)
-        form_for(resource, url: url, method: method) do |f|
+        form_for(resource, url: url, method: method, html: { class: "cm_#{resource.class.name.downcase}_form" } ) do |f|
           available_fields_hash.each do |key, fields_array|
             if key == :fields
               fields_array.each do |field|
@@ -59,7 +59,7 @@ module CmAdmin
             end
           end
           concat tag.br
-          concat f.submit 'Save', class: 'cta-btn mt-3'
+          concat f.submit 'Save', class: 'cta-btn mt-3 form_submit', data: {form_class: "cm_#{f.object.class.name.downcase}_form"}
         end
       end
     end

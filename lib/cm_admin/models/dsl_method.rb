@@ -3,18 +3,10 @@ module CmAdmin
     module DslMethod
       extend ActiveSupport::Concern
 
-      def cm_page(name: nil, partial: nil, path: nil, route_type: nil, page_title: nil, display_type: :button, &block)
-        action = CmAdmin::Models::CustomAction.new(name: name, verb: :get, partial: partial, path: path, route_type: route_type, display_type: display_type, &block)
-        @available_actions << action
-        # @available_actions << CmAdmin::Models::CustomAction.new(name: name, verb: 'get', layout: 'cm_admin', partial: partial, path: path, parent: self.current_action.name, route_type: route_type, page_title: page_title, display_type: display_type, &block)
-        # @current_action = CmAdmin::Models::CustomAction.find_by(self, name: name)
-      end
-
       def cm_index(page_title: nil, page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
         @current_action.set_values(page_title, page_description, partial)
         yield
-        # action.instance_eval(&block)
       end
 
       def cm_show(page_title: nil, page_description: nil, partial: nil, &block)
