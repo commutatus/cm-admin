@@ -24,7 +24,7 @@ $(document).on('turbolinks:load', function () {
       class_name = $(this).data('class-name');
       $(this).parents(':nth(1)').find('.' + class_name).addClass('hidden');
       if ($(this).val() === '' || $(this).val() === null) {
-        $(this).parent().parent().find('.' + class_name).removeClass('hidden');
+        $(this).parents(':nth(1)').find('.' + class_name).removeClass('hidden');
         window.scrollTo(top);
         submit.push(true);
       }
