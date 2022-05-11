@@ -27,30 +27,6 @@ module CmAdmin
         self.tag_class = {}
       end
 
-      #formatting value for different data types
-      def self.format_data_type(column, value)
-        case column.column_type
-        when :string
-          if column.format.present?
-            column.format = [column.format] if column.format.is_a? String
-            column.format.each do |formatter|
-              value = value.send(formatter)
-            end
-          end
-        when :datetime
-          format_value = column.format.present? ? column.format.to_s : '%d/%m/%Y'
-          value = value.strftime(format_value)
-        when :enum
-          value = value.titleize
-        when :decimal
-          round_to = column.round.present? ? column.round.to_i : 2
-          value = value.round(round_to)
-        when :custom
-
-        end
-        return value
-      end
-
       class << self
         def find_by(model, search_hash)
           model.available_fields.find { |i| i.name == search_hash[:name] }

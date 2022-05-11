@@ -26,10 +26,6 @@ module CmAdmin
       :current_action, :params, :filters, :available_tabs, :icon_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar
 
-    # Class variable for storing all actions
-    # CmAdmin::Model.all_actions
-    singleton_class.send(:attr_accessor, :all_actions)
-
     def initialize(entity, &block)
       @name = entity.name
       @ar_model = entity
@@ -44,14 +40,10 @@ module CmAdmin
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
-      self.class.all_actions.push(@available_actions)
       define_controller
     end
 
     class << self
-      def all_actions
-        @all_actions || []
-      end
 
       def find_by(search_hash)
         CmAdmin.config.cm_admin_models.find { |x| x.name == search_hash[:name] }
