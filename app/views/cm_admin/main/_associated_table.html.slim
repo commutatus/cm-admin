@@ -2,11 +2,11 @@
   .table-top
     p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
     .table-top__column-action
-      button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
-        span
-          i.fa.fa-columns.bolder
-        span
-          i.fa.fa-angle-down
+      / button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
+      /   span
+      /     i.fa.fa-columns.bolder
+      /   span
+      /     i.fa.fa-angle-down
 
 .new-admin-table.scrollable
   table.cm-table
