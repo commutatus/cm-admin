@@ -46,7 +46,10 @@
                     - if custom_action.display_if.call(ar_object)
                       .popup-option
                         - if custom_action.display_type == :button
-                          = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+                          = link_to cm_admin.send("#{@associated_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                            span
+                              i class="#{custom_action.icon_name}"
+                            = custom_action.name.humanize
                         - elsif custom_action.display_type == :modal
                           = link_to custom_action.name.titleize, '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
 
