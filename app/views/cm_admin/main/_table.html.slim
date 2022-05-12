@@ -53,7 +53,7 @@
                   - custom_actions.each do |custom_action|
                     - if custom_action.name.present? && has_valid_policy(@model.name, custom_action.name)
                       - if custom_action.display_if.call(ar_object)
-                        = link_to cm_admin.send("#{@model.name.downcase}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                        = link_to cm_admin.send("#{@model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
                           .popup-option
                             span
                               i class="#{custom_action.icon_name}"
