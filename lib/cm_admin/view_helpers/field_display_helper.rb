@@ -25,43 +25,41 @@ module CmAdmin
       end
 
       def show_field_value(ar_object, field)
-        content_tag(:span) do
-          case field.field_type || :string
-          when :integer
+        case field.field_type || :string
+        when :integer
+          ar_object.send(field.field_name).to_s
+        when :decimal
+          ar_object.send(field.field_name).to_f.round(field.precision).to_s if ar_object.send(field.field_name)
+        when :string
+          ar_object.send(field.field_name).to_s
+        when :datetime
+          ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
+        when :text
+          ar_object.send(field.field_name)
+        when :custom
+          send(field.helper_method, ar_object, field.field_name)
+        when :link
+          if field.custom_link
+            link = field.custom_link
+          else
+            link = ar_object.send(field.field_name)
+          end
+          content_tag :a, href: link do
             ar_object.send(field.field_name).to_s
-          when :decimal
-            ar_object.send(field.field_name).to_f.round(field.precision).to_s if ar_object.send(field.field_name)
-          when :string
-            ar_object.send(field.field_name).to_s
-          when :datetime
-            ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
-          when :text
-            ar_object.send(field.field_name)
-          when :custom
-            send(field.helper_method, ar_object, field.field_name)
-          when :link
-            if field.custom_link
-              link = field.custom_link
-            else
-              link = ar_object.send(field.field_name)
-            end
-            content_tag :a, href: link do
-              ar_object.send(field.field_name).to_s
-            end
-          when :enum
-            ar_object.send(field.field_name).to_s.titleize
-          when :tag
-            tag_class = field.tag_class.dig("#{ar_object.send(field.field_name.to_s)}".to_sym).to_s
-            content_tag :span, class: "status-tag #{tag_class}" do
-              ar_object.send(field.field_name).to_s.upcase
-            end
-          when :attachment
-            concat show_attachment_value(ar_object, field)
-          when :drawer
-            content_tag :div, class: 'd-flex' do
-              concat content_tag(:div, ar_object.send(field.field_name).to_s, class: 'text-ellipsis')
-              concat content_tag(:div, 'View', class: 'drawer-btn')
-            end
+          end
+        when :enum
+          ar_object.send(field.field_name).to_s.titleize
+        when :tag
+          tag_class = field.tag_class.dig("#{ar_object.send(field.field_name.to_s)}".to_sym).to_s
+          content_tag :span, class: "status-tag #{tag_class}" do
+            ar_object.send(field.field_name).to_s.upcase
+          end
+        when :attachment
+          concat show_attachment_value(ar_object, field)
+        when :drawer
+          content_tag :div, class: 'd-flex' do
+            concat content_tag(:div, ar_object.send(field.field_name).to_s, class: 'text-ellipsis')
+            concat content_tag(:div, 'View', class: 'drawer-btn')
           end
         end
       end
