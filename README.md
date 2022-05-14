@@ -1,6 +1,6 @@
 # CmAdmin
 
-New CmAdmin gem
+An admin gem for Ruby on Rails application. Get your admin panel setup running quickly.
 
 ## Installation
 
@@ -31,6 +31,7 @@ You can find more detailed documentation [here](https://github.com/commutatus/cm
 ## Demo
 
 For demo check [here](http://cm-admin.labs.commutatus.com/admin/users/)
+For demo repo check [here](https://github.com/commutatus/cm-admin-panel-demo)
 
 ## Development
 
