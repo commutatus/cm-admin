@@ -55,7 +55,7 @@ module CmAdmin
             ar_object.send(field.field_name).to_s.upcase
           end
         when :attachment
-          concat show_attachment_value(ar_object, field)
+          show_attachment_value(ar_object, field)
         when :drawer
           content_tag :div, class: 'd-flex' do
             concat content_tag(:div, ar_object.send(field.field_name).to_s, class: 'text-ellipsis')
