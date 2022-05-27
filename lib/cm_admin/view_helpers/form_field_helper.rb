@@ -22,6 +22,8 @@ module CmAdmin
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-time' }
         when :text
           return f.text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
+        when :rich_text
+          return f.rich_text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_file_upload
           return f.file_field field.field_name, class: "normal-input #{required_class}"
         when :multi_file_upload
