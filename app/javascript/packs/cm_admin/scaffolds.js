@@ -1,6 +1,8 @@
 $(document).on('turbolinks:load', function () {
   $('.select-2').select2();
-  flatpickr("[data-behaviour='date-only']", {})
+  flatpickr("[data-behaviour='date-only']", {
+    dateFormat: "d-m-Y"
+  })
   flatpickr("[data-behaviour='date-time']", {
     enableTime: true
   })
