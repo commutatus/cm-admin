@@ -1,5 +1,5 @@
 .nested-fields
-  - @model.available_fields[action_name.to_sym == :update ? :edit : (action_name.to_sym == :create ? :new : action_name.to_sym) ][assoc_name].each do |field|
+  - @model.available_fields[ find_correct_action_name(action_name) ][assoc_name].each do |field|
     .row
       .col-sm-10
         = input_field_for_column(f, field)
