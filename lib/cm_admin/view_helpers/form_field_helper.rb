@@ -17,11 +17,13 @@ module CmAdmin
         when :multi_select
           return f.select field.field_name, options_for_select((field.collection || []), value), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled, multiple: true
         when :date
-          return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
+          return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value.strftime('%d-%m-%Y'), placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
         when :date_time
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-time' }
         when :text
           return f.text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
+        when :rich_text
+          return f.rich_text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_file_upload
           return f.file_field field.field_name, class: "normal-input #{required_class}"
         when :multi_file_upload
