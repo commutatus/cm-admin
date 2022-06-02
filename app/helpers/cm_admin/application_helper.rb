@@ -14,10 +14,11 @@ module CmAdmin
       policy([:cm_admin, model_name.classify.constantize]).send(:"#{action_name}?")
     end
 
-    def find_correct_action_name(action_name)
-      if action_name.to_sym  == :update
+    def action(action_name)
+      case action_name.to_sym
+      when :update
         return :edit
-      elsif action_name.to_sym == :create
+      when :create
         return :new
       else
         return action_name.to_sym
