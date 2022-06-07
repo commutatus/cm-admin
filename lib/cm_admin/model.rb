@@ -26,10 +26,6 @@ module CmAdmin
       :current_action, :params, :filters, :available_tabs, :icon_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar
 
-    # Class variable for storing all actions
-    # CmAdmin::Model.all_actions
-    singleton_class.send(:attr_accessor, :all_actions)
-
     def initialize(entity, &block)
       @name = entity.name
       @ar_model = entity
@@ -44,14 +40,10 @@ module CmAdmin
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
-      self.class.all_actions.push(@available_actions)
       define_controller
     end
 
     class << self
-      def all_actions
-        @all_actions || []
-      end
 
       def find_by(search_hash)
         CmAdmin.config.cm_admin_models.find { |x| x.name == search_hash[:name] }
@@ -170,7 +162,7 @@ module CmAdmin
                     redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
                     format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
                   else
-                    error_messages = @ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
+                    error_messages = ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
                     format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
                   end
                 end

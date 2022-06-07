@@ -81,6 +81,16 @@
   }
 }
 
+.select2 {
+  &.error {
+    border: 1px solid $error-clr;
+    border-radius: 5px;
+    &:focus {
+      outline: 3px auto rgba(248, 54, 54, 0.3);
+    }
+  }
+}
+
 .file-upload-wrapper {
   display: inline-flex;
   align-items: center;

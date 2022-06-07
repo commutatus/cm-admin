@@ -1,9 +1,9 @@
 .cm-navbar
   .cm-navbar__lhs
-    - if cm_admin.method_defined?(:"#{@model.name.downcase}_index_path") && (@model.current_action.name == 'show' || @model.current_action.layout_type.present?)
+    - if cm_admin.method_defined?(:"#{@model.name.underscore}_index_path") && (@model.current_action.name == 'show' || @model.current_action.layout_type.present?)
       .bread-crumb-area
         .breadcrumb-text
-          = link_to @model.name + ' /', cm_admin.send(:"#{@model.name.downcase}_index_path")
+          = link_to @model.name + ' /', cm_admin.send(:"#{@model.name.underscore}_index_path")
     .nav-title-area
       p.title-text = action_title
       p.title-sub-text = action_description
@@ -24,7 +24,7 @@
                 span Export
       - new_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('new')}
       - if new_action.any? && policy([:cm_admin, @model.name.classify.constantize]).new?
-        = link_to 'Add', "#{page_url('new')}", class: 'primary-btn ml-2'
+        = link_to 'Add', cm_admin.send(:"#{@model.name.underscore}_new_path"), class: 'primary-btn ml-2'
       - @model.available_actions.select{|act| act if act.route_type == 'collection'}.each do |custom_action|
         = custom_action_items(custom_action, 'index')
     - elsif @model.current_action.name == 'show'
@@ -33,4 +33,4 @@
 
       - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
       - if edit_action.any? && policy([:cm_admin, @model.name.classify.constantize]).edit?
-        = link_to "Edit #{@model.name}", "#{page_url('edit', @ar_object)}", class: 'primary-btn ml-2'
+        = link_to "Edit #{@model.name}", cm_admin.send(:"#{@model.name.underscore}_edit_path", @ar_object), class: 'primary-btn ml-2'

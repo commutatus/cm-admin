@@ -1,16 +1,21 @@
-$(document).ready(function(e) {
+$(document).on('turbolinks:load', function () {
   $('.select-2').select2();
-  flatpickr("[data-behaviour='date-only']", {})
+  flatpickr("[data-behaviour='date-only']", {
+    dateFormat: "d-m-Y"
+  })
   flatpickr("[data-behaviour='date-time']", {
     enableTime: true
   })
   flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
     mode: 'range'
   })
-  Sortable.create($('.columns-list')[0],{
-    handle: '.dragger',
-    animation: 150
-  });
+  var el = document.getElementsByClassName('columns-list')
+  if(el[0]) {
+    Sortable.create(el[0],{
+      handle: '.dragger',
+      animation: 150
+    });
+  }
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {
