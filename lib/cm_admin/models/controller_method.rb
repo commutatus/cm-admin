@@ -58,7 +58,9 @@ module CmAdmin
       def resource_params(params)
         permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
         permittable_fields += @ar_model.name.constantize.reflect_on_all_associations.map {|x|
-          if x.klass.name == "ActiveStorage::Attachment"
+          if x.name == :page_components
+            x.name
+          elsif x.klass.name == "ActiveStorage::Attachment"
             if x.class.name.include?('HasOne')
               x.name
             elsif x.class.name.include?('HasMany')
