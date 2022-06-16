@@ -1,7 +1,7 @@
 module CmAdmin
   module Models
     class FormField
-      attr_accessor :field_name, :label, :header, :input_type, :collection, :custom_value, :disabled
+      attr_accessor :field_name, :label, :header, :input_type, :collection, :custom_value, :disabled, :collection_method
       VALID_INPUT_TYPES = [:integer, :decimal, :string, :single_select, :multi_select, :date, :date_time, :text, :single_file_upload, :multi_file_upload, :hidden, :rich_text].freeze
 
       def initialize(field_name, input_type, attributes = {})

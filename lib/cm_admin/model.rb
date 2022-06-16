@@ -140,7 +140,9 @@ module CmAdmin
                   format.html { render '/cm_admin/main/'+action_name }
                 end
               elsif %w(create update destroy).include?(action_name)
-                if %w(create update).include?(action_name)
+                if params["referrer"]
+                  redirect_url = params["referrer"]
+                elsif %w(create update).include?(action_name)
                   redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
                 else
                   redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}"
