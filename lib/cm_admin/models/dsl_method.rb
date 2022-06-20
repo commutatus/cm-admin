@@ -39,7 +39,7 @@ module CmAdmin
         end
       end
 
-      def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, &block)
+      def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: lambda { |arg| return true }, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, '', &block)
@@ -49,7 +49,7 @@ module CmAdmin
                       action_type: :custom, display_type: :page)
           @available_actions << action
           @current_action = action
-          @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, &block)
+          @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, display_if, &block)
         end
         yield if block
       end
