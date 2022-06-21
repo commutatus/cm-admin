@@ -59,7 +59,14 @@ module CmAdmin
         permittable_fields = @permitted_fields || @ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
         permittable_fields += @ar_model.name.constantize.reflect_on_all_associations.map {|x|
           next if x.options[:polymorphic]
-          if x.klass.name == "ActiveStorage::Attachment"
+          # The first if statement is added for compatibilty with cm-page-builder.
+          # One of the associated models of cm-page-builder was throwing error.
+          # The associated model is CmPageBuilder::Rails::PageComponent.
+          # When using reflection, the value of klass of the above association is uninitialized.
+          # As a result, it was throwing error in the 2nd elsif statement.
+          if x.name == :page_components
+            x.name
+          elsif x.klass.name == "ActiveStorage::Attachment"
             if x.class.name.include?('HasOne')
               x.name
             elsif x.class.name.include?('HasMany')
