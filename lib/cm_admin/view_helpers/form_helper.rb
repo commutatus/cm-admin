@@ -38,6 +38,15 @@ module CmAdmin
 
       def set_form_for_fields(resource, available_fields_hash, url, method)
         form_for(resource, url: url, method: method, html: { class: "cm_#{resource.class.name.downcase}_form" } ) do |f|
+          if params[:referrer]
+            concat f.text_field "referrer", class: "normal-input", hidden: true, value: params[:referrer], name: 'referrer'
+          end
+          if params[:polymorphic_name].present?
+            concat f.text_field params[:polymorphic_name] + '_type', class: "normal-input", hidden: true, value: params[:associated_class].classify
+            concat f.text_field params[:polymorphic_name] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
+          elsif params[:associated_class] && params[:associated_id]
+            concat f.text_field params[:associated_class] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
+          end
           available_fields_hash.each do |key, fields_array|
             if key == :fields
               fields_array.each do |field|
