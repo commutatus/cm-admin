@@ -199,9 +199,10 @@
   margin-left: 2px;
 }
 
-.text-ellipsis div {
-  overflow: hidden;
+.text-ellipsis {
   text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @keyframes shakeError {

@@ -25,6 +25,10 @@ module CmAdmin
           records_arr = []
           records.includes(deserialized_columns[:include].keys).find_each do |record|
             record_hash = record.as_json({only: columns.map(&:to_sym)})
+            columns.each do |column|
+              break unless model.available_fields[:index].map(&:field_name).include?(column.to_sym)
+              record_hash[column.to_sym] = record.send(column.to_sym)
+            end
             custom_fields.each do |field|
               record_hash[field.field_name.to_sym] = helpers.send(field.helper_method, record, field.field_name)
             end

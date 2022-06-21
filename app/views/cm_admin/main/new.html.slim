@@ -19,4 +19,4 @@
         p.form-title 
           | Section heading
         .form-container__inner
-          = generate_form(@ar_object, @model)
+          = generate_form(@ar_object.class.name.constantize.new, @model)

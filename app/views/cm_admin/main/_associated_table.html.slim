@@ -2,11 +2,16 @@
   .table-top
     p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
     .table-top__column-action
-      button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
-        span
-          i.fa.fa-columns.bolder
-        span
-          i.fa.fa-angle-down
+      - if @associated_model && @associated_model.available_actions.map(&:name).include?('new')
+        - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first
+        - polymorphic_name = (association && association.inverse_of && association.inverse_of.options[:polymorphic]) ? association.inverse_of.name : ''
+        a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/new?associated_id=#{@ar_object.id}&associated_class=#{@ar_object.class.name.underscore}&polymorphic_name=#{polymorphic_name}&referrer=#{request.path}"
+          button.secondary-btn.column-btn Add
+      / button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
+      /   span
+      /     i.fa.fa-columns.bolder
+      /   span
+      /     i.fa.fa-angle-down
 
 .new-admin-table.scrollable
   table.cm-table
@@ -17,7 +22,7 @@
         /   span
         /     input.cm-checkbox type="checkbox"
         - @model.available_fields[@action.name.to_sym].each do |column|
-          th = column.header
+            th = column.header
     tbody.cm-table__body
       - @associated_ar_object.data.each do |ar_object|
         tr.body-row
@@ -25,9 +30,12 @@
           / td.check-box-space
           /   span
           /     input.cm-checkbox type="checkbox"
-          - @model.available_fields[@action.name.to_sym].each do |column|
+          - @model.available_fields[@action.name.to_sym].each_with_index do |column, index|
             td class="text-ellipsis"
-              span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+              - if index == 0 && @associated_model && @associated_model.available_actions.map(&:name).include?('show')
+                a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
+              - else
+                span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
           - associated_model_actions = @associated_model && @associated_model.available_actions.select{|act| act if act.route_type == 'member'}
           - if associated_model_actions.present?
             td.row-action-cell
@@ -46,10 +54,13 @@
                     - if custom_action.display_if.call(ar_object)
                       .popup-option
                         - if custom_action.display_type == :button
-                          = link_to custom_action.name.titleize, custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb
+                          = link_to cm_admin.send("#{@associated_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                            span
+                              i class="#{custom_action.icon_name}"
+                            = custom_action.name.humanize
                         - elsif custom_action.display_type == :modal
-                          = link_to custom_action.name.titleize, '', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
-                
+                          = link_to custom_action.name.humanize, '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" }
+
 .cm-pagination
   .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
   .cm-pagination__rhs
@@ -57,11 +68,11 @@
 
 - @associated_ar_object.data.each do |ar_object|
   - @associated_model && @associated_model.available_actions.select{|act| act if (act.route_type == 'member' && act.display_type == :modal)}.each do |custom_action|
-    .modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id.to_s}" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
+    .modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id.to_s}" aria-hidden='true' aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex='1'
       .modal-dialog
         .modal-content
           .modal-header
             h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
-            button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+            button.btn-close aria-label='Close' data-bs-dismiss='modal'
           .modal-body
             = render partial: custom_action.partial, locals: { ar_object: ar_object }
