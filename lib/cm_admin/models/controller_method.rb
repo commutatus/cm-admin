@@ -36,6 +36,11 @@ module CmAdmin
         @ar_object = @ar_model.name.classify.constantize.new(resource_params(params))
       end
 
+      def destroy(params)
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
+        @ar_object.destroy
+      end
+
       def filter_by(params, records, filter_params={}, sort_params={})
         filtered_result = OpenStruct.new
         sort_column = "created_at"
