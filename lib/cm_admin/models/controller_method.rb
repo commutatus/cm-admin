@@ -68,9 +68,9 @@ module CmAdmin
             x.name
           elsif x.klass.name == "ActiveStorage::Attachment"
             if x.class.name.include?('HasOne')
-              x.name
+              x.name.to_s.gsub('_attachment', '').to_sym
             elsif x.class.name.include?('HasMany')
-              Hash[x.name.to_s, []]
+              Hash[x.name.to_s.gsub('_attachment', ''), []]
             end
           elsif x.klass.name == "ActionText::RichText"
             x.name.to_s.gsub('rich_text_', '').to_sym
