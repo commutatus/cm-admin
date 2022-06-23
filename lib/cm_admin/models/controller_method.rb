@@ -36,6 +36,11 @@ module CmAdmin
         @ar_object = @ar_model.name.classify.constantize.new(resource_params(params))
       end
 
+      def destroy(params)
+        @ar_object = @ar_model.name.classify.constantize.find(params[:id])
+        @ar_object.destroy
+      end
+
       def filter_by(params, records, filter_params={}, sort_params={})
         filtered_result = OpenStruct.new
         sort_column = "created_at"
@@ -68,9 +73,9 @@ module CmAdmin
             x.name
           elsif x.klass.name == "ActiveStorage::Attachment"
             if x.class.name.include?('HasOne')
-              x.name
+              x.name.to_s.gsub('_attachment', '').to_sym
             elsif x.class.name.include?('HasMany')
-              Hash[x.name.to_s, []]
+              Hash[x.name.to_s.gsub('_attachment', ''), []]
             end
           elsif x.klass.name == "ActionText::RichText"
             x.name.to_s.gsub('rich_text_', '').to_sym
