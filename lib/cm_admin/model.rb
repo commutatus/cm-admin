@@ -147,7 +147,7 @@ module CmAdmin
                 else
                   redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}"
                 end
-                if @ar_object.save
+                if action_name.eql?('destroy') || @ar_object.save
                   format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
                 else
                   format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
