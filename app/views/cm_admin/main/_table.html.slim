@@ -34,8 +34,9 @@
                     = render partial: column.drawer_partial, locals: { ar_object: ar_object}
 
           - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
+          - destroy_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('destroy')}
           - custom_actions = @model.available_actions.select{|act| act if act.route_type == 'member' && [:button, :modal].include?(act.display_type)}
-          - if custom_actions.any? || edit_action.any?
+          - if custom_actions.any? || edit_action.any? || destroy_action.any?
             td.row-action-cell
               .row-action-tool
                 button.secondary-btn.tool-btn type="button"
@@ -50,6 +51,12 @@
                         span
                           i.fa.fa-edit
                         | Edit
+                  - if destroy_action.any? && policy([:cm_admin, @model.name.classify.constantize]).destroy?
+                    = link_to "#{page_url('destroy', ar_object)}", method: :delete do
+                      .popup-option
+                        span
+                          i.fa.fa-trash
+                        | Destroy
                   - custom_actions.each do |custom_action|
                     - if custom_action.name.present? && has_valid_policy(@model.name, custom_action.name)
                       - if custom_action.display_if.call(ar_object)
