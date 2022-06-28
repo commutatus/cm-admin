@@ -60,7 +60,6 @@ module CmAdmin
 
     def cm_custom_method(params)
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
-      # @ar_object = scoped_model.find(params[:id])
       resource_identifier
       respond_to do |format|
         if @action.action_type == :custom
@@ -99,51 +98,6 @@ module CmAdmin
           @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
         end
       end
-      # respond_to do |format|
-      #   if %w(show index new edit).include?(action_name)
-      #     byebug
-      #     if request.xhr? && action_name.eql?('index')
-      #       format.html { render partial: '/cm_admin/main/table' }
-      #     else
-      #       format.html { render '/cm_admin/main/'+action_name }
-      #     end
-      #   elsif %w(create update destroy).include?(action_name)
-      #     if params["referrer"]
-      #       redirect_url = params["referrer"]
-      #     elsif %w(create update).include?(action_name)
-      #       redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
-      #     else
-      #       redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}"
-      #     end
-      #     if @ar_object.save
-      #       format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
-      #     else
-      #       format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
-      #     end
-      #   elsif @action.action_type == :custom
-      #     if @action.child_records
-      #       format.html { render @action.layout }
-      #     elsif @action.display_type == :page
-      #       data = @action.parent == "index" ? @ar_object.data : @ar_object
-      #       format.html { render action.partial }
-      #     else
-      #       ar_object = @action.code_block.call(@ar_object)
-      #       if ar_object.errors.empty?
-      #         redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
-      #         format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
-      #       else
-      #         error_messages = ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
-      #         format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
-      #       end
-      #     end
-      #   elsif @action.layout.present?
-      #     if request.xhr? && @action.partial.present?
-      #       format.html { render partial: @action.partial }
-      #     else
-      #       format.html { render @action.layout }
-      #     end
-      #   end
-      # end
     end
 
     def resource_responder
@@ -199,7 +153,7 @@ module CmAdmin
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
       records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
 
-      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @filters)
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @model.filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy

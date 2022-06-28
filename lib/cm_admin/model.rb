@@ -10,7 +10,6 @@ require_relative 'models/export'
 require_relative 'models/cm_show_section'
 require_relative 'models/tab'
 require_relative 'models/dsl_method'
-require_relative 'models/controller_method'
 require 'pagy'
 require 'axlsx'
 require 'cocoon'
@@ -21,7 +20,6 @@ module CmAdmin
     include Pagy::Backend
     include Models::Blocks
     include Models::DslMethod
-    include Models::ControllerMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields,
       :current_action, :params, :filters, :available_tabs, :icon_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar
