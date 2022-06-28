@@ -51,6 +51,8 @@ module CmAdmin
           base_path + '/new'
         when 'edit'
           base_path + "/#{ar_object.id}" + '/edit'
+        when 'destroy'
+          base_path + "/#{ar_object.id}"
         end
       end
 
