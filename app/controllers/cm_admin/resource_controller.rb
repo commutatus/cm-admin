@@ -67,7 +67,7 @@ module CmAdmin
             format.html { render @action.layout }
           elsif @action.display_type == :page
             data = @action.parent == "index" ? @ar_object.data : @ar_object
-            format.html { render action.partial }
+            format.html { render @action.partial }
           else
             ar_object = @action.code_block.call(@ar_object)
             if ar_object.errors.empty?
