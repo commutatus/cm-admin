@@ -58,6 +58,17 @@ module CmAdmin
       resource_responder
     end
 
+    def cm_destroy(params)
+      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      respond_to do |format|
+        if @ar_object.destroy
+          format.html { redirect_back fallback_location: cm_admin.course_index_path, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+        else
+          format.html { redirect_back fallback_location: cm_admin.course_index_path, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
+        end
+      end
+    end
+
     def cm_custom_method(params)
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       resource_identifier
