@@ -62,9 +62,9 @@ module CmAdmin
       @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
       respond_to do |format|
         if @ar_object.destroy
-          format.html { redirect_back fallback_location: cm_admin.course_index_path, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
-          format.html { redirect_back fallback_location: cm_admin.course_index_path, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
+          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
         end
       end
     end
@@ -175,14 +175,10 @@ module CmAdmin
         # As a result, it was throwing error in the 2nd elsif statement.
         if x.name == :page_components
           x.name
-        elsif x.klass.name == "ActiveStorage::Attachment"
-          if x.class.name.include?('HasOne')
-            x.name
-          elsif x.class.name.include?('HasMany')
-            Hash[x.name.to_s, []]
-          end
-        elsif x.klass.name == "ActionText::RichText"
-          x.name.to_s.gsub('rich_text_', '').to_sym
+        elsif x.class.name.include?('HasOne')
+          x.name.to_s.gsub('_attachment', '').gsub('rich_text_', '').to_sym
+        elsif x.class.name.include?('HasMany')
+          Hash[x.name.to_s.gsub('_attachment', ''), []]
         end
       }.compact
       nested_tables = @model.available_fields[:new].except(:fields).keys
