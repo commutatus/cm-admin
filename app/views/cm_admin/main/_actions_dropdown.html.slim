@@ -1,5 +1,5 @@
-- edit_action = model_object.available_actions.select{ |act| act if act.action_type.eql?(:default) && act.name.eql?('edit') } if policy([:cm_admin, model_object.name.classify.constantize]).edit?
-- destroy_action = model_object.available_actions.select{ |act| act if act.action_type.eql?(:default) && act.name.eql?('destroy') } if policy([:cm_admin, model_object.name.classify.constantize]).destroy?
+- edit_action = model_object.available_actions.select{ |act| act if act.action_type.eql?(:default) && act.name.eql?('edit') } if has_valid_policy(model_object.name, 'edit')
+- destroy_action = model_object.available_actions.select{ |act| act if act.action_type.eql?(:default) && act.name.eql?('destroy') } if has_valid_policy(model_object.name, 'destroy')
 - custom_actions = model_object.available_actions.select{ |act| act if act.route_type.eql?('member') && [:button, :modal].include?(act.display_type) }
 - if custom_actions.any? || edit_action.present? || destroy_action.present?
   td.row-action-cell
