@@ -23,19 +23,20 @@
                 i.fa.fa-trash
               | Destroy
         - custom_actions.each do |custom_action|
-          - if custom_action.display_if.call(ar_object)
-            - if custom_action.display_type == :button
-              = link_to cm_admin.send("#{model_object.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
-                .popup-option
-                  span
-                    i class="#{custom_action.icon_name}"
-                  = custom_action.name.humanize
-            - elsif custom_action.display_type == :modal
-              = link_to '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" } do
-                .popup-option
-                  span
-                    i class="#{custom_action.icon_name}"
-                  = custom_action.name.humanize
+          - if custom_action.name.present? && has_valid_policy(model_object.name, custom_action.name)
+            - if custom_action.display_if.call(ar_object)
+              - if custom_action.display_type == :button
+                = link_to cm_admin.send("#{model_object.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                  .popup-option
+                    span
+                      i class="#{custom_action.icon_name}"
+                    = custom_action.name.humanize
+              - elsif custom_action.display_type == :modal
+                = link_to '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" } do
+                  .popup-option
+                    span
+                      i class="#{custom_action.icon_name}"
+                    = custom_action.name.humanize
 
 - custom_actions_modals = custom_actions.select{ |act| act if (act.display_type.eql?(:modal)) }
 - if custom_actions_modals.any?
