@@ -178,6 +178,10 @@ module CmAdmin
             end
           end
         end
+
+        def pundit_user
+          Current.user
+        end
         private
 
         def user_not_authorized

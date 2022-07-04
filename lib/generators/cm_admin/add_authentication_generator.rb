@@ -14,7 +14,9 @@ module CmAdmin
         generate "devise", model_name
         rake "db:migrate"
         copy_file 'application_controller.rb', 'app/controllers/cm_admin/application_controller.rb'
+        gsub_file 'app/controllers/cm_admin/application_controller.rb', 'authenticate_user', "authenticate_#{model_name}"
         copy_file 'authentication.rb', 'app/controllers/concerns/authentication.rb'
+        gsub_file 'app/controllers/concerns/authentication.rb', 'current_user', "current_#{model_name}"
         copy_file 'current.rb', 'app/models/current.rb'
         inject_into_file "app/models/#{model_name.underscore}.rb", before: "end\n" do <<-'RUBY'
   # Remove this once role is setup and mentioned in zcm_admin.rb
