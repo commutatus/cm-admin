@@ -16,7 +16,7 @@ module CmAdmin
         copy_file 'application_controller.rb', 'app/controllers/cm_admin/application_controller.rb'
         copy_file 'authentication.rb', 'app/controllers/concerns/authentication.rb'
         copy_file 'current.rb', 'app/models/current.rb'
-        inject_into_file 'app/models/user.rb', before: "end\n" do <<-'RUBY'
+        inject_into_file "app/models/#{model_name.underscore}.rb", before: "end\n" do <<-'RUBY'
   # Remove this once role is setup and mentioned in zcm_admin.rb
   def super_admin?
     true
