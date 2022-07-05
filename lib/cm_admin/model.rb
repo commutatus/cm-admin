@@ -119,6 +119,10 @@ module CmAdmin
             # @ar_object = @model.try(@action.parent || action_name, params)
           end
         end
+
+        def pundit_user
+          Current.user
+        end
         private
 
         def user_not_authorized
