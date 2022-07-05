@@ -105,8 +105,8 @@ module CmAdmin
         reflection = @reflections.select {|x| x if x.name == table_name}.first
         if reflection.macro == :has_many
           @ar_object.send(table_name).build if action_name == "new" || action_name == "edit"
-        else
-          @ar_object.send(('build_' + table_name.to_s).to_sym) if action_name == "new"
+        elsif action_name == "new"
+          @ar_object.send(('build_' + table_name.to_s).to_sym)
         end
       end
     end
