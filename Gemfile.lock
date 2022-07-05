@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (0.7.3)
+    cm-admin (0.7.4)
       axlsx_rails (~> 0.6.1)
       cocoon (~> 1.2.15)
       pagy (~> 4.11.0)
@@ -59,7 +59,7 @@ GEM
     pundit (2.2.0)
       activesupport (>= 3.0.0)
     racc (1.6.0)
-    rack (2.2.3.1)
+    rack (2.2.3)
     rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
