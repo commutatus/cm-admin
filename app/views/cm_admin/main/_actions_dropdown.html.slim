@@ -1,7 +1,7 @@
 - edit_action = available_actions(model_object, 'edit')
 - destroy_action = available_actions(model_object, 'destroy')
-- custom_actions = available_actions(model_object, 'custom_action')
-- custom_actions_modals = custom_actions.select{ |act| act if (act.display_type.eql?(:modal)) }
+- custom_actions = available_actions(model_object, 'custom_actions')
+- custom_actions_modals = available_actions(model_object, 'custom_actions_modals')
 - if custom_actions.any? || edit_action.present? || destroy_action.present?
   td.row-action-cell
     .row-action-tool

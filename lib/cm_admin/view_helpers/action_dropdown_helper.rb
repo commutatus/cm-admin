@@ -3,9 +3,13 @@ module CmAdmin
     module ActionDropdownHelper
       def available_actions(model_object, action_type)
         case action_type
-        when 'custom_action'
+        when 'custom_actions'
           model_object.available_actions.select {
             |act| act if act.route_type.eql?('member') && [:button, :modal].include?(act.display_type)
+          }
+        when 'custom_actions_modals'
+          model_object.available_actions.select {
+            |act| act if act.route_type.eql?('member') && act.display_type.eql?(:modal)
           }
         else
           model_object.available_actions.select {
