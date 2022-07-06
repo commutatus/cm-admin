@@ -31,9 +31,9 @@
                 - else
                   = show_field_value(ar_object, column)
                   - if column.field_type == :drawer
-                    = render partial: column.drawer_partial, locals: { ar_object: ar_object}
+                    = render partial: column.drawer_partial, locals: { ar_object: ar_object }
           - if @model
-            == render partial: 'cm_admin/main/actions_dropdown', locals: { model_object: @model, ar_object: ar_object }
+            == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}

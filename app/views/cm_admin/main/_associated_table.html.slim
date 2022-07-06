@@ -37,7 +37,7 @@
               - else
                 span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
           - if @associated_model
-            == render partial: 'cm_admin/main/actions_dropdown', locals: { model_object: @associated_model, ar_object: ar_object }
+            == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @associated_model, ar_object: ar_object }
 
 .cm-pagination
   .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
