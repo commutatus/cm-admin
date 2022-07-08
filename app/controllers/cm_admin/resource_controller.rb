@@ -3,6 +3,8 @@ module CmAdmin
     include Pundit::Authorization
     include Pagy::Backend
 
+    helper CmAdmin::ViewHelpers
+
     def cm_index(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'index')
       # Based on the params the filter and pagination object to be set
