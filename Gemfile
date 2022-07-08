@@ -6,6 +6,7 @@ gem "rake", "~> 12.0"
 gem "rspec", "~> 3.0"
 gem 'cocoon'
 gem 'pundit'
+gem 'local_time'
 
 # Specify your gem's dependencies in cm_admin.gemspec
 gemspec
