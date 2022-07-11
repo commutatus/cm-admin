@@ -15,9 +15,11 @@ require('./filters.js')
 require('./exports.js')
 
 import jQuery from 'jquery'
+import LocalTime from "local-time"
 window.$ = jQuery
 window.jQuery = jQuery
 
+LocalTime.start()
 require("@nathanvda/cocoon")
 import "@fortawesome/fontawesome-free/css/all"
 import "daterangepicker"
