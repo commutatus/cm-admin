@@ -2,12 +2,15 @@ module CmAdmin
   module ViewHelpers
     Dir[File.expand_path("view_helpers", __dir__) + "/*.rb"].each  { |f| require f }
 
-    include PageInfoHelper
-    include NavigationHelper
-    include FormHelper
+    include ActionDropdownHelper
     include FieldDisplayHelper
     include FilterHelper
+    include FormHelper
     include ManageColumnPopupHelper
+    include NavigationHelper
+    include PageInfoHelper
+
+    # Included Rails view helper
     include ActionView::Helpers::FormTagHelper
     include ActionView::Helpers::TagHelper
 
