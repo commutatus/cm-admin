@@ -30,7 +30,7 @@ You can find more detailed documentation [here](https://github.com/commutatus/cm
 
 ## Demo
 
-For demo check [here](http://cm-admin.labs.commutatus.com/admin/users/)
+For demo check [here](http://cm-admin.labs.commutatus.com)
 For demo repo check [here](https://github.com/commutatus/cm-admin-panel-demo)
 
 ## Development

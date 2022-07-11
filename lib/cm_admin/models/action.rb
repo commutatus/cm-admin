@@ -43,6 +43,16 @@ module CmAdmin
         self.partial = partial
       end
 
+      def controller_action_name
+        if self.action_type == :custom
+          'cm_custom_method'
+        elsif self.parent
+          'cm_' + self.parent
+        else
+          'cm_' + name
+        end
+      end
+
       class << self
         def find_by(model, search_hash)
           model.available_actions.find { |i| i.name == search_hash[:name] }
