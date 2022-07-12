@@ -26,10 +26,11 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
-  spec.add_runtime_dependency 'pagy', '~> 4.11.0'
-  spec.add_runtime_dependency 'slim', '~> 4.1.0'
-  spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
   spec.add_runtime_dependency 'axlsx_rails', '~> 0.6.1'
   spec.add_runtime_dependency 'cocoon', '~> 1.2.15'
+  spec.add_runtime_dependency 'local_time', '~> 2.1.0'
+  spec.add_runtime_dependency 'pagy', '~> 4.11.0'
   spec.add_runtime_dependency 'pundit', '~> 2.2.0'
+  spec.add_runtime_dependency 'slim', '~> 4.1.0'
+  spec.add_runtime_dependency 'webpacker', '~> 5.2.1'
 end
