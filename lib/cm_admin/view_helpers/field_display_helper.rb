@@ -1,7 +1,6 @@
 module CmAdmin
   module ViewHelpers
     module FieldDisplayHelper
-
       def show_field(ar_object, field)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
@@ -33,7 +32,8 @@ module CmAdmin
         when :string
           ar_object.send(field.field_name).to_s
         when :datetime
-          ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s if ar_object.send(field.field_name)
+          self.extend LocalTimeHelper
+          local_time(ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s) if ar_object.send(field.field_name)
         when :text
           ar_object.send(field.field_name)
         when :custom
