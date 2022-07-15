@@ -17,12 +17,6 @@ module CmAdmin
   
 
   class << self
-    def webpacker
-      @webpacker ||= ::Webpacker::Instance.new(
-        root_path: CmAdmin::Engine.root,
-        config_path: CmAdmin::Engine.root.join('config', 'webpacker.yml')
-      )
-    end
 
     def configure(&block)
       instance_eval(&block)
