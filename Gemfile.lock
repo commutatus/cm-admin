@@ -4,6 +4,7 @@ PATH
     cm-admin (0.7.6)
       axlsx_rails (~> 0.6.1)
       cocoon (~> 1.2.15)
+      importmap-rails
       local_time (~> 2.1.0)
       pagy (~> 4.11.0)
       pundit (~> 2.2.0)
@@ -47,11 +48,15 @@ GEM
     htmlentities (4.3.4)
     i18n (1.11.0)
       concurrent-ruby (~> 1.0)
+    importmap-rails (1.1.4)
+      actionpack (>= 6.0.0)
+      railties (>= 6.0.0)
     local_time (2.1.0)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     marcel (1.0.2)
+    method_source (1.0.0)
     mini_portile2 (2.8.0)
     minitest (5.16.2)
     nokogiri (1.13.7)
@@ -69,6 +74,13 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.4.3)
       loofah (~> 2.3)
+    railties (7.0.3.1)
+      actionpack (= 7.0.3.1)
+      activesupport (= 7.0.3.1)
+      method_source
+      rake (>= 12.2)
+      thor (~> 1.0)
+      zeitwerk (~> 2.5)
     rake (12.3.3)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
@@ -88,9 +100,11 @@ GEM
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
     temple (0.8.2)
+    thor (1.2.1)
     tilt (2.0.10)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    zeitwerk (2.6.0)
 
 PLATFORMS
   ruby
@@ -98,6 +112,7 @@ PLATFORMS
 DEPENDENCIES
   cm-admin!
   cocoon
+  importmap-rails (~> 1.1)
   pagy (~> 4.11.0)
   pundit
   rake (~> 12.0)

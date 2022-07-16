@@ -1,0 +1,1 @@
+pin "cm_admin/application"
