@@ -1,6 +1,3 @@
-# my_engine/bin/importmap 
-# NOTE: don't forget to `chmod u+x bin/importmap` to make it executable.
-
 #!/usr/bin/env ruby
 
 # NOTE: make sure we are loading the correct versions of things
