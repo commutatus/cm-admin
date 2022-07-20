@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (0.7.6)
+    cm-admin (0.7.7)
       axlsx_rails (~> 0.6.1)
       cocoon (~> 1.2.15)
       local_time (~> 2.1.0)
