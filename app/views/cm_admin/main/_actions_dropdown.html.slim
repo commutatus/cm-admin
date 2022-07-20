@@ -1,0 +1,52 @@
+- edit_action = available_actions(cm_model, 'edit')
+- destroy_action = available_actions(cm_model, 'destroy')
+- custom_actions = available_actions(cm_model, 'custom_actions')
+- custom_actions_modals = custom_actions.select{ |act| act if act.display_type.eql?(:modal) }
+
+- if custom_actions.any? || edit_action.present? || destroy_action.present?
+  td.row-action-cell
+    .row-action-tool
+      button.secondary-btn.tool-btn
+        span
+          i.fa.fa-bars.bolder
+        span
+          i.fa.fa-angle-down
+      .popup-card.table-export-popup.hidden
+        - if edit_action.present?
+          = link_to "#{page_url('edit', ar_object)}" do
+            .popup-option
+              span
+                i.fa.fa-edit
+              | Edit
+        - if destroy_action.present?
+          = link_to "#{page_url('destroy', ar_object)}", method: :delete do
+            .popup-option
+              span
+                i.fa.fa-trash
+              | Destroy
+        - custom_actions.each do |custom_action|
+          - if custom_action.display_if.call(ar_object)
+            - case custom_action.display_type
+            - when :button
+              = link_to cm_admin.send("#{cm_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+                .popup-option
+                  span
+                    i class="#{custom_action.icon_name}"
+                  = custom_action.name.humanize
+            - when :modal
+              = link_to '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" } do
+                .popup-option
+                  span
+                    i class="#{custom_action.icon_name}"
+                  = custom_action.name.humanize
+
+- if custom_actions_modals.any?
+  - custom_actions_modals.each do |custom_action|
+    .modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id.to_s}" aria-hidden='true' aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex='1'
+      .modal-dialog
+        .modal-content
+          .modal-header
+            h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
+            button.btn-close aria-label='Close' data-bs-dismiss='modal'
+          .modal-body
+            = render partial: custom_action.partial, locals: { ar_object: ar_object }

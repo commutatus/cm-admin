@@ -1,10 +1,8 @@
 module CmAdmin
   class ApplicationController < ::ActionController::Base
-    include Pundit::Authorization
-    include Pagy::Backend
+    
     # before_action :check_cm_admin
     layout 'cm_admin'
-    helper CmAdmin::ViewHelpers
 
 
     def check_cm_admin
