@@ -6,7 +6,7 @@ var CmFilter = {
     var filter = element.val().toUpperCase();
     var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
     for (var i = 0; i < dropdownElements.length; i++) {
-      txtValue = $(dropdownElements[i]).children().text();
+      var txtValue = $(dropdownElements[i]).children().text();
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         $(dropdownElements[i]).css('display', 'flex');
       } else {
@@ -21,7 +21,7 @@ var CmFilter = {
     console.log("Filter is ", filter)
     console.log("Search elements are ", searchElements)
     for (var i = 0; i < searchElements.length; i++) {
-      txtValue = $(searchElements[i]).children().text();
+      var txtValue = $(searchElements[i]).children().text();
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
         $(searchElements[i]).removeClass('hidden').addClass('visible');
       }

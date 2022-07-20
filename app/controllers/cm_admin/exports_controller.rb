@@ -6,6 +6,7 @@ require 'cm_admin/view_helpers'
 
 module CmAdmin
   class ExportsController < ApplicationController
+    skip_before_action :verify_authenticity_token
 
     def export
       file_path = CmAdmin::Models::Export.generate_excel(params[:class_name], params, helpers)
