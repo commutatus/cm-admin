@@ -48,8 +48,9 @@ module CmAdmin
     end
 
     def pop_up_body(klass, required_filters)
+      byebug
       tag.div class: "modal-body" do
-        form_tag '/cm_admin/export_to_file.js', id: 'export-to-file-form', style: "width: 100%;", class:"cm-admin-csv-export-form" do
+        form_tag cm_admin.send('export_to_file_path'), id: 'export-to-file-form', style: "width: 100%;", class:"cm-admin-csv-export-form" do
           concat hidden_field_tag 'class_name', klass.name.to_s, id: 'export-to-file-klass'
           concat checkbox_row(klass)
           concat tag.hr
