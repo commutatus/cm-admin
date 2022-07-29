@@ -18,6 +18,7 @@ module CmAdmin
         copy_file 'graphql/mutations/base_mutation.rb', 'app/graphql/mutations/base_mutation.rb'
         copy_file 'graphql/queries/base_query.rb', 'app/graphql/queries/base_query.rb'
         copy_file 'exceptions/base_exception.rb', 'app/exceptions/base_exception.rb'
+        copy_file 'constants.rb', 'config/initializers/constants.rb'
       end
     end
   end

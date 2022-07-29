@@ -1,0 +1,3 @@
+DEFAULT_PER_PAGE = 20
+DEFAULT_SORT_COLUMN = 'created_at'.freeze
+DEFAULT_SORT_DIRECTION = 'desc'.freeze
