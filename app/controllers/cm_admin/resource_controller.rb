@@ -77,7 +77,11 @@ module CmAdmin
       respond_to do |format|
         if @action.action_type == :custom
           if @action.child_records
-            format.html { render @action.layout }
+            if request.xhr?
+              format.html { render partial: '/cm_admin/main/associated_table' }
+            else
+              format.html { render @action.layout }
+            end
           elsif @action.display_type == :page
             data = @action.parent == "index" ? @ar_object.data : @ar_object
             format.html { render @action.partial }
@@ -137,7 +141,7 @@ module CmAdmin
           child_records = @ar_object.send(@current_action.child_records)
           @associated_model = CmAdmin::Model.find_by(name: @model.ar_model.reflect_on_association(@current_action.child_records).klass.name)
           if child_records.is_a? ActiveRecord::Relation
-            @associated_ar_object = filter_by(params, child_records)
+            @associated_ar_object = filter_by(params, child_records, @associated_model.filter_params(params))
           else
             @associated_ar_object = child_records
           end
@@ -155,8 +159,7 @@ module CmAdmin
       
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
       records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
-
-      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @model.filters)
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
