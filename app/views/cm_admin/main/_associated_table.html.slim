@@ -1,5 +1,8 @@
 .admin-table-index
   .table-top
+    - if @associated_model.filters.present? && @action.partial.nil?
+      .index-page__filters
+        == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
     p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
     .table-top__column-action
       - if @associated_model && @associated_model.available_actions.map(&:name).include?('new')
