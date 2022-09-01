@@ -71,6 +71,25 @@ module CmAdmin
       end
     end
 
+    def import
+      @model = Model.find_by({name: controller_name.titleize})
+      allowed_params = params.permit(file_import: [:associated_model_name, :import_file]).to_h
+      file_import = FileImport.new(allowed_params[:file_import])
+      file_import.added_by_id = Current.user.id
+      respond_to do |format|
+        if file_import.save!
+          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "Your import is successfully queued." }
+        end
+      end
+    end
+
+    def import_form
+      @model = Model.find_by({name: controller_name.titleize})
+      respond_to do |format|
+        format.html { render '/cm_admin/main/import_form' }
+      end
+    end
+
     def cm_custom_method(params)
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       resource_identifier

@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'pundit', '~> 2.2.0'
   spec.add_runtime_dependency 'slim', '~> 4.1.0'
   spec.add_runtime_dependency 'webpacker', '~> 5.4.3'
+  spec.add_runtime_dependency 'csv-importer', '~> 0.8.2'
 end
