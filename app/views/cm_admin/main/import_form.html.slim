@@ -1,5 +1,33 @@
-| Import the CSV form
-= simple_form_for(FileImport.new, url: "/admin/#{@model.ar_model.table_name}/import", method: :post) do |f|
-  = f.input :associated_model_name, as: :hidden, placeholder: 'Enter product title', label: false, input_html: { value: @model.name }
-  = f.input :import_file, as: :file, placeholder: 'Enter product title', label: false
-  = f.button :submit, class: "btn btn-primary"
+.import-page
+  .import-page__header 
+    h1.header-title Page_Name-Import
+    p.header-description This is an optional short description about the page you can add.
+  .import-page__body 
+    h6.body-title Import data
+    = simple_form_for(FileImport.new, url: "/admin/#{@model.ar_model.table_name}/import", method: :post, html: { class: "csv-import-form" }) do |f|
+      .form-card
+        = f.input :associated_model_name, as: :hidden, placeholder: 'Enter product title', label: false, input_html: { value: @model.name }
+        = f.input :import_file, as: :file, placeholder: 'Enter product title', label: false
+        .note-card
+          h6.note-title
+            i.fa.fa-info-circle
+            | Note
+          .steps-wrapper 
+            h6.steps-title Follow these steps to import your data
+            ul.steps-list
+              li
+                | Download this 
+                a href="#" template file
+              li Add your data on the file without changing the format
+              li Save the file as a csv, xls or xlsx
+              li Upload the file in the field above
+      = f.button :submit, class: "cta-btn import-btn", value: 'Import data'
+    / .success-card
+    /   h6.success-title
+    /     i.fa-solid.fa-circle-check
+    /     | SUCCESS
+    /   p.success-msg Your file has been uploaded and it will be processed within 15 to 30 minutes
+    /   p.success-msg-info An email will be sent once the process is completed. If there are any problems with the import, we'll let you know through an email.
+    / .actions-wrapper
+    /   button.secondary-btn Import new data
+    /   button.cta-btn.ml-2 Back to Page_Name

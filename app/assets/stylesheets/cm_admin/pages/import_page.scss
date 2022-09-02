@@ -1,0 +1,125 @@
+@import "../helpers/index.scss";
+
+@function size($size) {
+  @return map-get($font-size, $size);
+}
+
+@function weight($weight) {
+  @return map-get($font-weight, $weight);
+}
+
+.import-page {
+  &__header {
+    min-height: 110px;
+    padding: 24px;
+    background: $white;
+    .header-title {
+      @include font($size: size(24), $color: $primary-text-clr, $weight: bold);
+      font-family: $primary-font;
+      line-height: 32px;
+      margin-bottom: 8px;
+    }
+    .header-description {
+      @include font($size: size(14), $color: $primary-text-clr);
+      font-family: $primary-font;
+      line-height: 22px;
+      margin-bottom: 0;
+    }
+  }   
+  &__body {
+    padding: 16px 24px;
+    .body-title {
+      @include font($size: size(16), $color: $primary-text-clr, $weight: bold);
+      font-family: $primary-font;
+      line-height: 24px;
+      margin-bottom: 16px;
+    }
+
+    .success-card {
+      max-width: 752px;
+      margin-top: 24px;
+      padding: 24px;
+      background: $green-lightest-clr;
+      border-radius: $radius-4;
+      .success-title {
+        @include font($size: size(12), $color: $green-regular-clr, $weight: bold);
+        font-family: $primary-font;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+      }
+      .success-msg {
+        @include font($size: size(16), $weight: bold);
+        font-family: $primary-font;
+        line-height: 24px;
+        margin-bottom: 8px;
+      }
+      .success-msg-info {
+        @include font($size: size(14));
+        font-family: $primary-font;
+        line-height: 22px;
+        margin-bottom: 0;
+      }
+    }
+
+    .actions-wrapper {
+      margin-top: 32px;
+      button {
+        padding: 5px 10px;
+      }
+    }
+
+    //form UI
+    .csv-import-form {
+      .form-card {
+        max-width: 752px;
+        margin-bottom: 32px;
+        padding: 24px;
+        background: $white;
+        border: 1px solid $grey-light-clr;
+        border-radius: $radius-4;
+      }
+      .note-card {
+        width: 100%;
+        margin-top: 24px;
+        padding: 24px;
+        background: $blue-lightest-clr;
+        border-radius: $radius-4;
+        .note-title {
+          @include font($size: size(12), $color: $blue-regular-clr, $weight: bold);
+          font-family: $primary-font;
+          margin-bottom: 16px;
+          text-transform: uppercase;
+        }
+        .steps-wrapper  {
+          .steps-title {
+            @include font($size: size(16), $weight: bold);
+            font-family: $primary-font;
+            line-height: 24px;
+            margin-bottom: 8px;
+          }
+          .steps-list {
+            margin-bottom: 0;
+            padding-inline-start: 16px;
+            li {
+              @include font($size: size(14));
+              font-family: $primary-font;
+              line-height: 22px;
+              margin-bottom: 8px;
+              &:nth-last-child(1) {
+                margin-bottom: 0;
+              }
+              a {
+                color: $brand-color;
+                text-decoration: underline !important;
+              }
+            }
+          }
+        }
+      }
+      .import-btn {
+        padding: 5px 10px;
+      }
+    }
+   
+  }
+}
