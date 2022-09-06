@@ -8,11 +8,10 @@ class FileImportProcessorJob < ApplicationJob
     if import.valid_header?
       import.run!
       if import.report.success?
-        puts 'Successful import'
+        file_import.update(status: :success, completed_at: DateTime.now)
       else
-        byebug
-        puts 'Error while import'
-        puts import.report.invalid_rows
+        invalid_items_array = import.report.invalid_rows.map { |row| [row.line_number, row.model.email, row.errors] }
+        file_import.update(status: :failed, completed_at: DateTime.now, invalid_row_items: invalid_items_array)
       end
     else
       puts 'Invalid header'

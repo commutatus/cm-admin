@@ -74,7 +74,7 @@ module CmAdmin
     def import
       @model = Model.find_by({name: controller_name.titleize})
       allowed_params = params.permit(file_import: [:associated_model_name, :import_file]).to_h
-      file_import = FileImport.new(allowed_params[:file_import])
+      file_import = ::FileImport.new(allowed_params[:file_import])
       file_import.added_by_id = Current.user.id
       respond_to do |format|
         if file_import.save!
