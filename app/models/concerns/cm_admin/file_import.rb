@@ -29,7 +29,7 @@ module CmAdmin::FileImport
             field :status
           end
           cm_show_section 'Errors' do
-            field :invalid_row_items
+            field :invalid_row_items, field_type: :custom, helper_method: :formatted_error_message
           end
         end
 
