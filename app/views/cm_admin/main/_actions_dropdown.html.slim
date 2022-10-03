@@ -2,7 +2,7 @@
 - destroy_action = available_actions(cm_model, 'destroy')
 - custom_actions = available_actions(cm_model, 'custom_actions')
 - custom_actions_modals = custom_actions.select{ |act| act if act.display_type.eql?(:modal) }
-
+- current_model = @associated_model || @model
 - if custom_actions.any? || edit_action.present? || destroy_action.present?
   td.row-action-cell
     .row-action-tool
@@ -13,13 +13,13 @@
           i.fa.fa-angle-down
       .popup-card.table-export-popup.hidden
         - if edit_action.present?
-          = link_to "#{page_url('edit', ar_object)}" do
+          = link_to cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id) do
             .popup-option
               span
                 i.fa.fa-edit
               | Edit
         - if destroy_action.present?
-          = link_to "#{page_url('destroy', ar_object)}", method: :delete do
+          = link_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id), method: :delete do
             .popup-option
               span
                 i.fa.fa-trash
