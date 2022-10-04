@@ -22,6 +22,8 @@
             li
               .popup-option.pointer data-bs-toggle='modal' data-bs-target='#exportmodal'
                 span Export
+      - if @model.importer
+        = link_to 'Import', cm_admin.send(:"#{@model.name.underscore}_import_path"), class: 'primary-btn ml-2'
       - new_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('new')}
       - if new_action.any? && policy([:cm_admin, @model.name.classify.constantize]).new?
         = link_to 'Add', cm_admin.send(:"#{@model.name.underscore}_new_path"), class: 'primary-btn ml-2'
