@@ -1,7 +1,7 @@
 class FileImport < ApplicationRecord
   include CmAdmin::FileImport
 
-  belongs_to :added_by, foreign_key: 'added_by_id', class_name: 'User'
+  belongs_to :added_by, polymorphic: true
 
   enum status: { in_progress: 0, success: 1, failed: 2 }
 
@@ -18,6 +18,10 @@ class FileImport < ApplicationRecord
 
   def imported_file_name
     import_file.filename.to_s
+  end
+
+  def added_by_name
+    added_by.first_name
   end
 
 end

@@ -75,7 +75,7 @@ module CmAdmin
       @model = Model.find_by({name: controller_name.titleize})
       allowed_params = params.permit(file_import: [:associated_model_name, :import_file]).to_h
       file_import = ::FileImport.new(allowed_params[:file_import])
-      file_import.added_by_id = Current.user.id
+      file_import.added_by = Current.user
       respond_to do |format|
         if file_import.save!
           format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "Your import is successfully queued." }
