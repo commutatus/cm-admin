@@ -26,7 +26,7 @@
           - @model.available_fields[:index].each_with_index do |column, index|
             td.text-ellipsis
               span class="#{column.field_type.to_s} #{column.cm_css_class} "
-                - if index == 0
+                - if index == 0 && cm_admin.method_defined?(:"#{ar_object.model_name.singular}_show_path")
                   = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
                 - else
                   = show_field_value(ar_object, column)
