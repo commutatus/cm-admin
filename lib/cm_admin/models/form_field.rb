@@ -10,7 +10,7 @@ module CmAdmin
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
-        raise ArgumentError, "Kindly select a valid filter type like #{VALID_INPUT_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{self.input_type} for column #{field_name}" unless VALID_INPUT_TYPES.include?(self.input_type.to_sym)
+        raise ArgumentError, "Kindly select a valid input type like #{VALID_INPUT_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{self.input_type} for form field #{field_name}" unless VALID_INPUT_TYPES.include?(self.input_type.to_sym)
       end
 
       def set_default_values
