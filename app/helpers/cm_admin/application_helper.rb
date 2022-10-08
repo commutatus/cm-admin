@@ -41,7 +41,6 @@ module CmAdmin
     end
 
     def error_items(invalid_rows)
-      
       content_tag :div do
         invalid_rows.each do |row_item|
           concat format_error_item(row_item)
