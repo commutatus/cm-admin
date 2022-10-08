@@ -41,6 +41,7 @@ module CmAdmin
     end
 
     def error_items(invalid_rows)
+      
       content_tag :div do
         invalid_rows.each do |row_item|
           concat format_error_item(row_item)
@@ -58,7 +59,8 @@ module CmAdmin
     def format_error(errors)
       content_tag :div do
         errors.each do |error|
-          concat content_tag(:div, error[0].titleize + '-' + error[1])
+          message = error[1].instance_of?(Array) ? error[1].join(', ') : error[1]
+          concat content_tag(:div, error[0].titleize + '-' + message)
         end
       end
     end
