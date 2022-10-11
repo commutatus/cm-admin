@@ -25,7 +25,6 @@ class FileImportProcessorJob < ApplicationJob
         file_import.update(status: :failed, completed_at: DateTime.now, invalid_row_items: invalid_items_array)
       end
     else
-      byebug
       file_import.update(status: :failed, completed_at: DateTime.now, invalid_row_items: [[1, 'invalid_header', {invalid_header: importer.report.message}]])
     end
   end
