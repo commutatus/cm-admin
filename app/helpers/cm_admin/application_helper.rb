@@ -26,10 +26,12 @@ module CmAdmin
     end
 
     def formatted_error_message(model_name, field_name)
-      content_tag(:div) do
-        invalid_rows = model_name.send(field_name)
-        concat error_header
-        concat error_items(invalid_rows)
+      invalid_rows = model_name.send(field_name)
+      if invalid_rows.present?
+        content_tag(:div) do
+          concat error_header
+          concat error_items(invalid_rows)
+        end
       end
     end
 
