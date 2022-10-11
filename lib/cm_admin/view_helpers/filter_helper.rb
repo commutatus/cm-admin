@@ -71,7 +71,7 @@ module CmAdmin
 
         if value && filter.filter_type.to_s.eql?('multi_select')
           truncated_value = value[0]
-          truncated_value += " + #{value.size - 1} more" if truncated_value.size > 1
+          truncated_value += " + #{value.size - 1} more" if value.size > 1
         end
 
         concat(content_tag(:div, class: "filter-chip #{filter.filter_type.to_s.eql?('single_select') ? 'dropdown' : ''}", data: data_hash) do
@@ -136,8 +136,14 @@ module CmAdmin
                 end)
                 concat(content_tag(:div, class: 'list-area') do
                   filter.collection.each do |val|
-                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
-                      concat tag.span val.to_s
+                    if val.class.eql?(Array)
+                      filter_value = val[1]
+                      filter_text = val[0]
+                    elsif val.class.eql?(String)
+                      filter_value, filter_text = val, val
+                    end
+                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(filter_value)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value}) do
+                      concat tag.span filter_text.to_s
                     end)
                   end
                 end)
@@ -150,7 +156,9 @@ module CmAdmin
 
       def add_multi_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
-
+        if value && filter.collection[0].class == Array
+          value_mapped_text = filter.collection.map{|array| array[0] if array[1].to_s == value[0] }.compact
+        end
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
           concat filter_chip(value, filter)
 
@@ -158,8 +166,8 @@ module CmAdmin
             concat(content_tag(:div, class: 'popup-base') do
               concat(content_tag(:div, class: 'popup-inner') do
                 concat(content_tag(:div, class: "#{value ? 'search-with-chips' : 'search-area'}") do
-                  if value
-                    value.each do |val|
+                  if value_mapped_text
+                    value_mapped_text.each do |val|
                       concat(content_tag(:div, class: 'chip') do
                         concat tag.span val
                         concat(content_tag(:span, data: { behaviour: 'selected-chip' }) do
@@ -172,9 +180,15 @@ module CmAdmin
                 end)
                 concat(content_tag(:div, class: 'list-area') do
                   filter.collection.each do |val|
-                    concat(content_tag(:div, class: "pointer list-item #{(value && value.eql?(val)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: val}) do
-                      concat tag.input class: 'cm-checkbox', type: 'checkbox', checked: value ? value.include?(val) : false
-                      concat tag.label val.to_s.titleize, class: 'pointer'
+                    if val.class.eql?(Array)
+                      filter_value = val[1]
+                      filter_text = val[0]
+                    elsif val.class.eql?(String)
+                      filter_value, filter_text = val, val
+                    end
+                    concat(content_tag(:div, class: "pointer list-item #{(value && (value.eql?(val) || value.include?(filter_value.to_s))) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value}) do
+                      concat tag.input class: 'cm-checkbox', type: 'checkbox', checked: value ? value.include?(filter_value.to_s) : false
+                      concat tag.label filter_text.to_s.titleize, class: 'pointer'
                     end)
                   end
                 end)

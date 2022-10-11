@@ -193,6 +193,7 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
 
   if (filterType == 'single_select') {
     var filterValue = $(this).data('value')
+    var filterText = $(this).text()
     if (!this.classList.contains('selected')) {
       if (this.parentNode.querySelector('.list-item.selected') != null) {
         this.parentNode.querySelector('.list-item.selected').classList.remove('selected');
@@ -200,7 +201,7 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
       $(this).addClass('selected')
     }
 
-    $(this).parents(':nth(4)').children(':first').children(':nth(1)').text(filterValue)
+    $(this).parents(':nth(4)').children(':first').children(':nth(1)').text(filterText)
     $(this).parents(':nth(4)').children(':first').children(':last').removeClass('hidden')
 
     // Clear the search value post selection and regenerate the dropdown elements.
@@ -219,7 +220,7 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
 
     if (checkboxElement.prop('checked')) {
       var chip = $('<div class="chip"></div>')
-      var firstSpan = $('<span></span>').text($(this).data('value'))
+      var firstSpan = $('<span></span>').text($(this).text())
       var secondSpan = $('<span data-behaviour="selected-chip"><i class="fa fa-times"></i></span>')
       parentChip.prepend(chip.append(firstSpan).append(secondSpan))
     } else {
