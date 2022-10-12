@@ -11,12 +11,12 @@ module CmAdmin
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
+        self.height = 50 if self.field_type == :image && self.height.nil?
+        self.width = 50 if self.field_type == :image && self.width.nil?
       end
 
       def set_default_values
         self.tag_class = {}
-        self.height = 50
-        self.width = 50
       end
     end
   end

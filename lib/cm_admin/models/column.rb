@@ -13,6 +13,8 @@ module CmAdmin
 
         #formatting header (either field_name or value present in header attribute)
         self.send("header=", format_header)
+        self.height = 50 if self.field_type == :image && self.height.nil?
+        self.width = 50 if self.field_type == :image && self.width.nil?
       end
 
       #returns a string value as a header (either field_name or value present in header attribute)
@@ -25,8 +27,6 @@ module CmAdmin
         self.managable = true
         self.lockable = false
         self.tag_class = {}
-        self.height = 50
-        self.width = 50
       end
 
       class << self
