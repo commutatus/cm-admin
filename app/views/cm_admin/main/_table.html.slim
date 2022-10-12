@@ -27,7 +27,7 @@
             td.text-ellipsis
               span class="#{column.field_type.to_s} #{column.cm_css_class} "
                 - if index == 0
-                  = link_to ar_object.send(column.field_name), "/cm_admin/#{ar_object.model_name.collection}/#{ar_object.id}"
+                  = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
                 - else
                   = show_field_value(ar_object, column)
                   - if column.field_type == :drawer
@@ -39,3 +39,5 @@
   .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
   .cm-pagination__rhs
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+
+= render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }

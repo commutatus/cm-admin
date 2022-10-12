@@ -2,7 +2,7 @@ module CmAdmin
   module ViewHelpers
     module FormFieldHelper
       def input_field_for_column(f, field)
-        value = field.custom_value || f.object.send(field.field_name)
+        value = field.helper_method ? send(field.helper_method) : f.object.send(field.field_name)
         is_required = f.object._validators[field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
         case field.input_type
@@ -13,9 +13,9 @@ module CmAdmin
         when :string
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_select
-          return f.select field.field_name, options_for_select(select_collection_value(field), value), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled
+          return f.select field.field_name, options_for_select(select_collection_value(field), f.object.send(field.field_name)), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled
         when :multi_select
-          return f.select field.field_name, options_for_select(select_collection_value(field), value), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled, multiple: true
+          return f.select field.field_name, options_for_select(select_collection_value(field), f.object.send(field.field_name)), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled, multiple: true
         when :date
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value&.strftime('%d-%m-%Y'), placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
         when :date_time
@@ -29,13 +29,15 @@ module CmAdmin
         when :multi_file_upload
           return f.file_field field.field_name, multiple: true, class: "normal-input #{required_class}"
         when :hidden
-          return f.hidden_field field.field_name, value: field.custom_value
+          return f.hidden_field field.field_name, value: value
         end
       end
 
+      # Refactor: Collection argument can be removed.
+      # helper_method argument will accept a method where value can be passed.
       def select_collection_value(field)
-        if field.collection_method
-          collection = send(field.collection_method)
+        if field.helper_method
+          collection = send(field.helper_method)
         elsif field.collection
           collection = field.collection
         else

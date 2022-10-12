@@ -1,5 +1,6 @@
 require_relative 'constants'
 require_relative 'models/action'
+require_relative 'models/importer'
 require_relative 'models/custom_action'
 require_relative 'models/field'
 require_relative 'models/form_field'
@@ -15,6 +16,7 @@ require 'axlsx'
 require 'cocoon'
 require 'pundit'
 require 'local_time'
+require 'csv_importer'
 
 module CmAdmin
   class Model
@@ -23,7 +25,7 @@ module CmAdmin
     include Models::DslMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields,
       :current_action, :params, :filters, :available_tabs, :icon_name
-    attr_reader :name, :ar_model, :is_visible_on_sidebar
+    attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
     def initialize(entity, &block)
       @name = entity.name
@@ -78,6 +80,10 @@ module CmAdmin
         @available_actions << CmAdmin::Models::Action.new(name: act.to_s, verb: action_defaults[:verb], path: action_defaults[:path])
       end
       @actions_set = true
+    end
+
+    def importable(class_name:, importer_type:)
+      @importer = CmAdmin::Models::Importer.new(class_name, importer_type)
     end
 
     def visible_on_sidebar(visible_option)
