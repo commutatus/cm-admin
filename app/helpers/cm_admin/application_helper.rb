@@ -26,10 +26,12 @@ module CmAdmin
     end
 
     def formatted_error_message(model_name, field_name)
-      content_tag(:div) do
-        invalid_rows = model_name.send(field_name)
-        concat error_header
-        concat error_items(invalid_rows)
+      invalid_rows = model_name.send(field_name)
+      if invalid_rows.present?
+        content_tag(:div) do
+          concat error_header
+          concat error_items(invalid_rows)
+        end
       end
     end
 
@@ -58,7 +60,8 @@ module CmAdmin
     def format_error(errors)
       content_tag :div do
         errors.each do |error|
-          concat content_tag(:div, error[0].titleize + '-' + error[1])
+          message = error[1].instance_of?(Array) ? error[1].join(', ') : error[1]
+          concat content_tag(:div, error[0].titleize + '-' + message)
         end
       end
     end
