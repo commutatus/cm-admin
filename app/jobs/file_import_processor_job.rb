@@ -3,8 +3,8 @@ class FileImportProcessorJob < ApplicationJob
 
   def perform(file_import)
     model = CmAdmin::Model.find_by({name: file_import.associated_model_name})
-    path = ActiveStorage::Blob.service.path_for(file_import.import_file.key)
-    importer = model.importer.class_name.classify.constantize.new(path: path)
+    content = file_import.import_file.download
+    importer = model.importer.class_name.classify.constantize.new(content: content)
     case model.importer.importer_type.to_s
     when 'csv_importer'
       run_csv_importer(importer, file_import)
