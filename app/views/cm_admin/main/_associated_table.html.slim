@@ -1,5 +1,8 @@
 .admin-table-index
   .table-top
+    - if @associated_model.filters.present? && @action.partial.nil?
+      .index-page__filters
+        == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
     p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
     .table-top__column-action
       - if @associated_model && @associated_model.available_actions.map(&:name).include?('new')
@@ -43,3 +46,5 @@
   .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
   .cm-pagination__rhs
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
+
+= render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @associated_model, ar_collection: @associated_ar_object }

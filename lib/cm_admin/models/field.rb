@@ -2,8 +2,8 @@ module CmAdmin
   module Models
     class Field
 
-      attr_accessor :field_name, :label, :header, :field_type, :format, :precision,
-        :helper_method, :preview, :custom_link, :precision, :prefix, :suffix, :tag_class
+      attr_accessor :field_name, :label, :header, :field_type, :format, :precision, :height,
+        :width, :helper_method, :preview, :custom_link, :precision, :prefix, :suffix, :tag_class
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -11,6 +11,8 @@ module CmAdmin
         attributes.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
+        self.height = 50 if self.field_type == :image && self.height.nil?
+        self.width = 50 if self.field_type == :image && self.width.nil?
       end
 
       def set_default_values

@@ -14,6 +14,8 @@ module CmAdmin
         remove_file 'app/assets/stylesheets/actiontext.scss'
         copy_file 'application_policy.rb', 'app/policies/application_policy.rb'
         route 'mount CmAdmin::Engine => "/admin"'
+        generate 'migration', 'CreateFileImport associated_model_name:string added_by:references{polymorphic} error_report:jsonb completed_at:datetime status:integer'
+        rake 'db:migrate'
       end
     end
   end
