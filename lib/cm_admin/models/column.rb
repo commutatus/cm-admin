@@ -1,7 +1,7 @@
 module CmAdmin
   module Models
     class Column
-      attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round,
+      attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round, :height, :width,
       :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class
 
       def initialize(field_name, attributes = {})
@@ -25,6 +25,8 @@ module CmAdmin
         self.managable = true
         self.lockable = false
         self.tag_class = {}
+        self.height = 50
+        self.width = 50
       end
 
       class << self
