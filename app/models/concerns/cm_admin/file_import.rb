@@ -4,7 +4,7 @@ module CmAdmin::FileImport
     cm_admin do
       STATUS_TAG_COLOR = { in_progress: 'yellow-tag', success: 'success'}
       actions only: [:index, :show]
-      set_icon 'fa fa-user'
+      set_icon 'fa fa-file-upload'
       cm_index do
         page_title 'File Import'
         page_description 'Manage all file import progress here'
