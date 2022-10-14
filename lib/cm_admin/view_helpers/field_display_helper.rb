@@ -66,7 +66,7 @@ module CmAdmin
             if ar_object.send(field.field_name).attached?
               image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height)
             else
-              image_tag('/assets/image_not_available', height: 50, width: 50)
+              image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50)
             end
           end
         end
