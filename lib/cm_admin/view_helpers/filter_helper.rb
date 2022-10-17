@@ -141,7 +141,7 @@ module CmAdmin
                       filter_value = val[1]
                       filter_text = val[0]
                     elsif val.class.eql?(String)
-                      filter_value, filter_text = val, val
+                      filter_value = filter_text = val
                     end
                     concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(filter_value.to_s)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value}) do
                       concat tag.span filter_text.to_s
