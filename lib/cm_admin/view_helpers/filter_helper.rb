@@ -126,7 +126,11 @@ module CmAdmin
       def add_single_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
-          selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ') if value
+          if value && filter.collection[0].class == Array
+            selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ')
+          else
+            selected_value_text = value
+          end
           concat filter_chip(selected_value_text, filter)
 
           concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
@@ -162,6 +166,8 @@ module CmAdmin
           filter.collection.each do |array|
             value_mapped_text << array[0].titleize if value.include?(array[1].to_s)
           end
+        else
+          value_mapped_text = value
         end
         
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
