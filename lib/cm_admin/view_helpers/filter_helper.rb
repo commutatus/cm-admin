@@ -126,7 +126,7 @@ module CmAdmin
       def add_single_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
-          selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ')
+          selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ') if value
           concat filter_chip(selected_value_text, filter)
 
           concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
