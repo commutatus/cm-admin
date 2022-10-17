@@ -217,7 +217,6 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     var checkboxElement = $(this).find('.cm-checkbox')
     checkboxElement.prop('checked', !checkboxElement.prop('checked'))
     var checkedCount = $(this).parent().find('.cm-checkbox').filter(':checked').length
-
     if (checkboxElement.prop('checked')) {
       var chip = $('<div class="chip"></div>')
       var firstSpan = $('<span></span>').text($(this).text())
@@ -226,7 +225,7 @@ $(document).on('click', '[data-behaviour="select-option"]', function(e) {
     } else {
       var chipElement = parentChip.find('.chip')
       for(var i = 0; i < chipElement.length; i++) {
-        if ($(chipElement[i]).text() == $(this).data('value')) {
+        if ($(chipElement[i]).text() == $(this).text()) {
           $(chipElement[i]).remove()
           break
         }
@@ -249,6 +248,7 @@ $(document).on('click', '.apply-area', function(e) {
   var filterType = filterInputElement.data('filter-type')
   var filterColumn = filterInputElement.data('db-column')
   var filterValue = []
+  var filterValueText = []
 
   var selectFilterElement = $('[data-behaviour="select-option"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']')
   var checkedElements = selectFilterElement.find('.cm-checkbox').filter(':checked')
@@ -256,9 +256,10 @@ $(document).on('click', '.apply-area', function(e) {
   if (checkedElements.length > 0) {
     for(var i = 0; i < checkedElements.length; i++) {
       filterValue.push($(checkedElements[i]).parent().data('value'))
+      filterValueText.push($(checkedElements[i]).parent().text())
     }
 
-    truncatedFilterValue = filterValue[0]
+    truncatedFilterValue = filterValueText[0]
     if (filterValue.length > 1) {
       truncatedFilterValue += ' + ' + (filterValue.length - 1) + ' more'
     }
@@ -336,8 +337,6 @@ CmFilter = {
     var filter = element.val().toUpperCase();
     var searchElements = element.parents(':nth(3)').find('.list-area').children();
     searchElements.removeClass('visible').addClass('hidden')
-    console.log("Filter is ", filter)
-    console.log("Search elements are ", searchElements)
     for (var i = 0; i < searchElements.length; i++) {
       txtValue = $(searchElements[i]).children().text();
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
