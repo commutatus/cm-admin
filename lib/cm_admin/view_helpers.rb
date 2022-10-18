@@ -73,9 +73,9 @@ module CmAdmin
       end
     end
 
-    def model_name_based_on_total_count(count, model_name)
-      return model_name.singularize if count == 1
-      model_name.pluralize
+    def index_total_count(count, model_name)
+      table_name = count == 1 ? model_name.humanize.downcase.singularize : model_name.humanize.downcase.pluralize
+      return "#{count} #{table_name} found"
     end
   end
 end
