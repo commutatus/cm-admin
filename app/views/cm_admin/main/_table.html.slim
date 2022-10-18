@@ -1,6 +1,6 @@
 .admin-table-index
   .table-top
-    p.table-top__total-count = "#{@ar_object.pagy.count} #{@model.ar_model.table_name} found"
+    p.table-top__total-count = "#{@ar_object.pagy.count} #{model_name_based_on_total_count(@ar_object.pagy.count, @model.ar_model.table_name)} found"
     // .table-top__column-action
     //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
     //    span

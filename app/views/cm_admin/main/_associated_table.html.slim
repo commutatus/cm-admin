@@ -3,7 +3,7 @@
     - if @associated_model.filters.present? && @action.partial.nil?
       .index-page__filters
         == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
-    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
+    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{model_name_based_on_total_count(@associated_ar_object.pagy.count, @action.child_records.to_s.gsub('_', ' '))} found"
     .table-top__column-action
       - if @associated_model && @associated_model.available_actions.map(&:name).include?('new')
         - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first

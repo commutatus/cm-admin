@@ -72,5 +72,10 @@ module CmAdmin
         concat " #{column_path.to_s.gsub('/', '_').humanize}"
       end
     end
+
+    def model_name_based_on_total_count(count, model_name)
+      return model_name.singularize if count == 1
+      model_name.pluralize
+    end
   end
 end
