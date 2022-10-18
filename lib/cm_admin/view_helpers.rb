@@ -74,8 +74,8 @@ module CmAdmin
     end
 
     def index_total_count(count, model_name)
-      table_name = count == 1 ? model_name.humanize.downcase.singularize : model_name.humanize.downcase.pluralize
-      return "#{count} #{table_name} found"
+      table_name = count == 1 ? model_name.singularize : model_name.pluralize
+      return "#{count} #{table_name.humanize.downcase} found"
     end
   end
 end
