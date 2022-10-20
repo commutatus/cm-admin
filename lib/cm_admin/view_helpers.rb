@@ -73,7 +73,7 @@ module CmAdmin
       end
     end
 
-    def index_total_count(count, model_name)
+    def humanized_ar_collection_count(count, model_name)
       table_name = count == 1 ? model_name.singularize : model_name.pluralize
       return "#{count} #{table_name.humanize.downcase} found"
     end
