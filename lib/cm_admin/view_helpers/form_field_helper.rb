@@ -2,6 +2,7 @@ module CmAdmin
   module ViewHelpers
     module FormFieldHelper
       def input_field_for_column(f, field)
+        return unless field.display_if.call(f.object)
         value = field.helper_method ? send(field.helper_method) : f.object.send(field.field_name)
         is_required = f.object._validators[field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''

@@ -8,8 +8,9 @@
       == render @action.partial
     - else
       - @model.available_fields[:show].each do |section|
-        .info-section
-          p.section-heading = section.section_name
-          .paper
-            - section.available_section_fields.each do |field|
-              = show_field(@ar_object, field)
+        - if section.display_if.call(@ar_object)
+          .info-section
+            p.section-heading = section.section_name
+            .paper
+              - section.available_section_fields.each do |field|
+                = show_field(@ar_object, field)
