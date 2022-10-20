@@ -35,10 +35,11 @@
           /     input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each_with_index do |column, index|
             td class="text-ellipsis"
-              - if index == 0 && @associated_model && @associated_model.available_actions.map(&:name).include?('show')
-                a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
-              - else
-                span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+              span class="#{column.cm_css_class}"
+                - if index == 0 && @associated_model && @associated_model.available_actions.map(&:name).include?('show')
+                  a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
+                - else
+                  = show_field_value(ar_object, column)
           - if @associated_model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @associated_model, ar_object: ar_object }
 
