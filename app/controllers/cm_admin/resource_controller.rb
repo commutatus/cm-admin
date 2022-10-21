@@ -62,11 +62,12 @@ module CmAdmin
 
     def cm_destroy(params)
       @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      redirect_url = request.referrer || cm_admin.send("#{@model.name.underscore}_index_path")
       respond_to do |format|
         if @ar_object.destroy
-          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
-          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
+          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
         end
       end
     end
