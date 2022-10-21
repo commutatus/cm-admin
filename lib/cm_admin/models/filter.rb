@@ -48,13 +48,13 @@ module CmAdmin
           return nil if scope_value.blank?
           table_name = records.table_name
           filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
-            columns = []
+            query_variables = []
             filter.db_column_name.each do |col|
               if col.is_a?(Symbol)
-                columns << "#{table_name.pluralize}.#{column}"
+                query_variables << "#{table_name.pluralize}.#{col}"
               elsif col.is_a?(Hash)
                 col.map do |key, value|
-                  value.map {|val| columns << "#{key.pluralize}.#{val}" }
+                  value.map {|val| query_variables << "#{key.to_s.pluralize}.#{val}" }
                 end
               end
             end
@@ -63,9 +63,9 @@ module CmAdmin
               (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
             }
             sql = ""
-            columns.each.with_index do |column, i|
+            query_variables.each.with_index do |column, i|
               sql.concat("#{column} ILIKE ?")
-              sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+              sql.concat(' OR ') unless query_variables.size.eql?(i+1)
             end
 
             if filter.db_column_name.map{|x| x.is_a?(Hash)}.include?(true)
@@ -77,7 +77,7 @@ module CmAdmin
               terms.map { |term|
                 sql
               }.join(' AND '),
-              *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+              *terms.map { |e| [e] * query_variables.size }.flatten
             )
           end
           records
