@@ -30,7 +30,7 @@ module CmAdmin
         when :multi_file_upload
           return f.file_field field.field_name, multiple: true, class: "normal-input #{required_class}"
         when :hidden
-          return f.hidden_field field.field_name, value: value
+          return f.hidden_field field.field_name, value: value, name: field.html_attr[:name] || "#{f.object_name}[#{field.field_name}]"
         end
       end
 
