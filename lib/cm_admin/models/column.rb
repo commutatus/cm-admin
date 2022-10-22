@@ -2,7 +2,7 @@ module CmAdmin
   module Models
     class Column
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round, :height, :width,
-      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class
+      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class, :display_if
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -15,6 +15,7 @@ module CmAdmin
         self.send("header=", format_header)
         self.height = 50 if self.field_type == :image && self.height.nil?
         self.width = 50 if self.field_type == :image && self.width.nil?
+        self.display_if = lambda { |arg| return true } if self.display_if.nil?
       end
 
       #returns a string value as a header (either field_name or value present in header attribute)
