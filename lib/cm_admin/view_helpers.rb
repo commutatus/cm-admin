@@ -72,5 +72,10 @@ module CmAdmin
         concat " #{column_path.to_s.gsub('/', '_').humanize}"
       end
     end
+
+    def humanized_ar_collection_count(count, model_name)
+      table_name = count == 1 ? model_name.singularize : model_name.pluralize
+      return "#{count} #{table_name.humanize.downcase} found"
+    end
   end
 end
