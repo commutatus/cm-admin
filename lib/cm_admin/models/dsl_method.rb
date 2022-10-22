@@ -54,9 +54,9 @@ module CmAdmin
         yield if block
       end
 
-      def cm_show_section(section_name, &block)
+      def cm_show_section(section_name, display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, display_if, &block)
       end
 
       def form_field(field_name, options={}, arg=nil)

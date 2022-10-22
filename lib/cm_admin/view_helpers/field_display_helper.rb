@@ -2,6 +2,7 @@ module CmAdmin
   module ViewHelpers
     module FieldDisplayHelper
       def show_field(ar_object, field)
+        return unless field.display_if.call(ar_object)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
           concat value_with_prefix_and_suffix(ar_object, field)
