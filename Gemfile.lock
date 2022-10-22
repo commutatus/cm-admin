@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (0.8.5)
+    cm-admin (0.8.6)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
