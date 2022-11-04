@@ -159,7 +159,12 @@ module CmAdmin
         @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
         if @current_action.child_records
           child_records = @ar_object.send(@current_action.child_records)
-          @associated_model = CmAdmin::Model.find_by(name: @model.ar_model.reflect_on_association(@current_action.child_records).klass.name)
+          @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
+          @associated_model = if @reflection.klass.column_names.include?('type')
+                                CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
+                              else
+                                CmAdmin::Model.find_by(name: @reflection.klass.name)
+                              end
           if child_records.is_a? ActiveRecord::Relation
             @associated_ar_object = filter_by(params, child_records, @associated_model.filter_params(params))
           else
@@ -176,7 +181,7 @@ module CmAdmin
       sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      
+
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
       records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
       final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
