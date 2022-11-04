@@ -165,11 +165,11 @@ module CmAdmin
                               else
                                 CmAdmin::Model.find_by(name: @reflection.klass.name)
                               end
-          if child_records.is_a? ActiveRecord::Relation
-            @associated_ar_object = filter_by(params, child_records, @associated_model.filter_params(params))
-          else
-            @associated_ar_object = child_records
-          end
+          @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
+                                    filter_by(params, child_records, @associated_model.filter_params(params))
+                                  else
+                                    child_records
+                                  end
           return @ar_object, @associated_model, @associated_ar_object
         end
         return @ar_object
