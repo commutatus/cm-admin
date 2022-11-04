@@ -35,8 +35,8 @@
           /     input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each_with_index do |column, index|
             td class="text-ellipsis"
-              span class="#{column.field_type.to_s} #{column.cm_css_class} "
-                - if index == 0 && @associated_model && @associated_model.available_actions.map(&:name).include?('show')
+              span class="#{column.cm_css_class}"
+                - if index == 0 && is_show_action_available(@associated_model)
                   a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
                 - else
                   = show_field_value(ar_object, column)

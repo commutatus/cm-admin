@@ -65,5 +65,11 @@ module CmAdmin
         end
       end
     end
+
+    def is_show_action_available(model)
+      model &&
+      model.available_actions.map(&:name).include?('show') &&
+      has_valid_policy(model.name, 'show')
+    end
   end
 end
