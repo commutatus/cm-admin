@@ -33,8 +33,7 @@ module CmAdmin
         when :string
           ar_object.send(field.field_name).to_s
         when :datetime
-          self.extend LocalTimeHelper
-          local_time(ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s) if ar_object.send(field.field_name)
+          format_datetime(ar_object, field)
         when :text
           ar_object.send(field.field_name)
         when :custom
@@ -86,6 +85,17 @@ module CmAdmin
               end
             end.join("\n").html_safe
           end
+        end
+      end
+
+      # Check if hour is passed, else display date
+      # Else is required because local_time displays Time by default.
+      def format_datetime(ar_object, field)
+        self.extend LocalTimeHelper
+        if field.format.include?('%H')
+          local_time(ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s) if ar_object.send(field.field_name)
+        else
+          local_date(ar_object.send(field.field_name), '%B %e, %Y')
         end
       end
     end
