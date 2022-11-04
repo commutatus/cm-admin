@@ -153,27 +153,25 @@ module CmAdmin
     end
 
     def custom_controller_action(action_name, params)
-      current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
-      if current_action
-        @current_action = current_action
-        @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
-        if @current_action.child_records
-          child_records = @ar_object.send(@current_action.child_records)
-          @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
-          @associated_model = if @reflection.klass.column_names.include?('type')
-                                CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
+      return unless @current_action
+
+      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      return @ar_object unless @current_action.child_records
+
+      child_records = @ar_object.send(@current_action.child_records)
+      @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
+      @associated_model = if @reflection.klass.column_names.include?('type')
+                            CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
+                          else
+                            CmAdmin::Model.find_by(name: @reflection.klass.name)
+                          end
+      @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
+                                filter_by(params, child_records, @associated_model.filter_params(params))
                               else
-                                CmAdmin::Model.find_by(name: @reflection.klass.name)
+                                child_records
                               end
-          @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
-                                    filter_by(params, child_records, @associated_model.filter_params(params))
-                                  else
-                                    child_records
-                                  end
-          return @ar_object, @associated_model, @associated_ar_object
-        end
-        return @ar_object
-      end
+      return @ar_object, @associated_model, @associated_ar_object
     end
 
     def filter_by(params, records, filter_params={}, sort_params={})
