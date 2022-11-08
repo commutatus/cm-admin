@@ -14,9 +14,26 @@ module CmAdmin
   @@authorized_roles ||= []
   @@included_models ||= []
   @@cm_admin_models ||= []
-  
 
   class << self
+
+    def rails6?
+      Rails::VERSION::MAJOR >= 6
+    end
+  
+    def rails7?
+      Rails::VERSION::MAJOR >= 7
+    end
+  
+    def use_importmap?
+      rails7? && File.exist?("config/importmap.rb")
+    end
+  
+    def use_webpacker?
+      rails6? &&
+        defined?(Webpacker) == 'constant'
+    end
+
     def webpacker
       @webpacker ||= ::Webpacker::Instance.new(
         root_path: CmAdmin::Engine.root,

@@ -7,12 +7,17 @@ html
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag 'cm_admin/cm_admin', media: 'all', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
-    link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /
-    = javascript_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
+    - if CmAdmin.use_webpacker?
+      = stylesheet_pack_tag 'cm_admin/application', 'data-turbolinks-track': 'reload'
+      = javascript_pack_tag 'cm_admin/rails6_application', 'data-turbolinks-track': 'reload'
+      script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" 
+    - elsif CmAdmin.use_importmap?
+      = javascript_importmap_tags
+      = javascript_import_module_tag "cm_admin/application"
     = javascript_include_tag 'cm_admin/custom', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag 'cm_admin/custom', media: 'all', 'data-turbolinks-track': 'reload'
-    script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" 
+    link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /
+    
     script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"
   body
     .cm-admin
