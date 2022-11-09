@@ -19,7 +19,7 @@ module CmAdmin
       )
     end
 
-    if Rails::VERSION::MAJOR >= 6
+    if Rails::VERSION::MAJOR == 6
       initializer "webpacker.proxy" do |app|
         insert_middleware = begin
           CmAdmin.webpacker.config.dev_server.present?
@@ -34,7 +34,7 @@ module CmAdmin
           webpacker: CmAdmin.webpacker
         )
       end
-    elsif Rails::VERSION::MAJOR >= 7
+    elsif Rails::VERSION::MAJOR == 7
       initializer "cm_admin.importmap", before: "importmap" do |app|
         # NOTE: this will add pins from this engine to the main app
         # https://github.com/rails/importmap-rails#composing-import-maps
