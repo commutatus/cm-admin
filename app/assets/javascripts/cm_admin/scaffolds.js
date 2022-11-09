@@ -36,9 +36,7 @@ flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
   mode: 'range'
 })
 $('.select-2').select2();
-console.log("Outside turbolinks")
 $(document).on('turbolinks:load', function () {
-  console.log("Came inside turbolinks")
   $('.select-2').select2();
   flatpickr("[data-behaviour='date-only']", {
     dateFormat: "d-m-Y"

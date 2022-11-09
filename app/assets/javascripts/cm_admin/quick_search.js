@@ -44,7 +44,6 @@ $(document).on('keydown', function(e){
       }
     }
     if(liSelected && e.which === 13) {
-      console.log("Selected item id ", liSelected)
       href = liSelected.attr('href')
       window.location = href
     }
