@@ -1,12 +1,9 @@
-# require "webpacker/helper"
-
 module CmAdmin
   module ApplicationHelper
-    # include ::Webpacker::Helper
 
-    # def current_webpacker_instance
-    #   CmAdmin.webpacker
-    # end
+    def current_webpacker_instance
+      CmAdmin.webpacker
+    end
 
     # Allow if policy is not defined.
     def has_valid_policy(model_name, action_name)
