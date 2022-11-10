@@ -37,9 +37,9 @@
           - if @model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
 
-.cm-pagination
-  .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
-  .cm-pagination__rhs
-    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+  .cm-pagination
+    .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
+    .cm-pagination__rhs
+      == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
 
 = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }
