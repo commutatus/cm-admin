@@ -42,7 +42,12 @@ module CmAdmin
     end
 
     def configure(&block)
-      instance_eval(&block)
+      # instance_eval(&block)
+      @config ||= Configuration.new
+      yield(@config)
+    end
+
+    def layout
     end
 
     def config
