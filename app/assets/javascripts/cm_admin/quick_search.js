@@ -26,7 +26,7 @@ $(document).on('keydown', function(e){
     if(e.which === 40){
       if(liSelected){
         liSelected.removeClass('active-item');
-        next = liSelected.next();
+        var next = liSelected.next();
         if(next.length > 0){
           liSelected = next.addClass('active-item');
           selected = next.text();
@@ -58,7 +58,7 @@ $(document).on('keydown', function(e){
       }
     }
     if(liSelected && e.which === 13) {
-      href = liSelected.attr('href')
+      var href = liSelected.attr('href')
       window.location = href
     }
   }
