@@ -13,17 +13,6 @@ var CmFilter = {
         $(dropdownElements[i]).css('display', 'none');
       }
     }
-  },
-  quick_input_search: function(element) {
-    var filter = element.val().toUpperCase();
-    var searchElements = element.parents(':nth(3)').find('.list-area').children();
-    searchElements.removeClass('visible').addClass('hidden')
-    for (var i = 0; i < searchElements.length; i++) {
-      var txtValue = $(searchElements[i]).children().text();
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        $(searchElements[i]).removeClass('hidden').addClass('visible');
-      }
-    }
   }
 }
 
@@ -286,7 +275,7 @@ $(document).on('click', '.apply-area', function(e) {
       filterValueText.push($(checkedElements[i]).parent().text())
     }
 
-    truncatedFilterValue = filterValueText[0]
+    var truncatedFilterValue = filterValueText[0]
     if (filterValue.length > 1) {
       truncatedFilterValue += ' + ' + (filterValue.length - 1) + ' more'
     }
