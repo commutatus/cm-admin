@@ -1,9 +1,8 @@
 @import "../helpers/index.scss";
 
 .cm-filters-v2 {
-  min-height: 64px;
   padding: 16px 24px;
-  background-color: $white;
+  background-color: transparent;
   z-index: 1;
   &__inner {
     @include flex(row, flex-start, center, wrap);

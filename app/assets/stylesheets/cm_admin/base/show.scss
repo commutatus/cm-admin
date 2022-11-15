@@ -8,7 +8,7 @@
       background-color: #FFF;
       width: 100%;
       .nav-pills {
-        margin-left: 20px;
+        margin-left: 10px;
       }
       .nav-link {
         position: static;
@@ -72,5 +72,8 @@
         }
       }
     }
+  }
+  .filters-bar {
+    background-color: $grey-lightest-clr;
   }
 }
