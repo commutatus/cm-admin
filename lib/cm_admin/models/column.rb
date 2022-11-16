@@ -21,7 +21,13 @@ module CmAdmin
 
       #returns a string value as a header (either field_name or value present in header attribute)
       def format_header
-        self.header.present? ? self.header.to_s.gsub(/_/, ' ')&.upcase : self.field_name.to_s.gsub(/_/, ' ').upcase
+        if self.header.present?
+          self.header.to_s.titleize&.upcase
+        elsif self.association_type.to_s == "polymorphic"
+          self.association_name.to_s.titleize.upcase
+        else
+          self.field_name.to_s.titleize.upcase
+        end
       end
 
       def set_default_values
