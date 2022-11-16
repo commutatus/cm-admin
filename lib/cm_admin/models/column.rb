@@ -2,7 +2,8 @@ module CmAdmin
   module Models
     class Column
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round, :height, :width,
-      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class, :display_if
+      :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class,
+      :display_if, :association_name, :association_type
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
