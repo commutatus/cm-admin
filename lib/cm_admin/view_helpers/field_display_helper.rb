@@ -70,6 +70,14 @@ module CmAdmin
               image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50)
             end
           end
+        when :association
+          if field.association_type.to_s == 'polymorphic'
+            association_name = ar_object.send(field.association_name).class.to_s.underscore
+            field_name = find_field_name(field, association_name)
+            link_to ar_object.send(field.association_name).send(field_name), cm_admin.send("#{association_name}_show_path", ar_object.send(field.association_name).id)
+          elsif field.association_type.to_s == 'belongs_to' || field.association_type.to_s == 'has_one'
+            link_to ar_object.send(field.association_name).send(field.field_name), cm_admin.send("#{field.association_name}_show_path", ar_object.send(field.association_name).id)
+          end
         end
       end
 
@@ -86,6 +94,12 @@ module CmAdmin
               end
             end.join("\n").html_safe
           end
+        end
+      end
+
+      def find_field_name(field, association_name)
+        field.field_name.each do |hash|
+          return hash[association_name.to_sym] if hash.has_key?(association_name.to_sym)
         end
       end
     end
