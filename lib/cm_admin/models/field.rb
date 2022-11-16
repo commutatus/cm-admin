@@ -3,7 +3,8 @@ module CmAdmin
     class Field
 
       attr_accessor :field_name, :label, :header, :field_type, :format, :precision, :height,
-        :width, :helper_method, :preview, :custom_link, :precision, :prefix, :suffix, :tag_class, :display_if
+        :width, :helper_method, :preview, :custom_link, :prefix, :suffix, :tag_class,
+        :display_if, :association_name, :association_type
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
