@@ -11,7 +11,14 @@ module CmAdmin
 
       def show_field_label(ar_object, field)
         content_tag(:div, class: "info-split__lhs") do
-          p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
+          field_label = if field.label.present?
+                          field.label.to_s
+                        elsif field.association_type.to_s == "polymorphic"
+                          ar_object.send(field.association_name).class.to_s.titleize
+                        else
+                          field.field_name.to_s.titleize
+                        end
+          p = field_label
         end
       end
 
