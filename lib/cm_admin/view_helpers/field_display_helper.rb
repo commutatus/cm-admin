@@ -33,7 +33,11 @@ module CmAdmin
         when :string
           ar_object.send(field.field_name).to_s
         when :datetime
-          format_datetime(ar_object, field)
+          self.extend LocalTimeHelper
+          local_time(ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s) if ar_object.send(field.field_name)
+        when :date
+          self.extend LocalTimeHelper
+          local_date(ar_object.send(field.field_name), '%B %e, %Y')
         when :text
           ar_object.send(field.field_name)
         when :custom
