@@ -82,7 +82,7 @@ module CmAdmin
             association_name = ar_object.send(field.association_name).class.to_s.underscore
             field_name = find_field_name(field, association_name)
             link_to ar_object.send(field.association_name).send(field_name), cm_admin.send("#{association_name}_show_path", ar_object.send(field.association_name).id)
-          elsif field.association_type.to_s == 'belongs_to' || field.association_type.to_s == 'has_one'
+          elsif ['belongs_to', 'has_one'].include? field.association_type.to_s
             link_to ar_object.send(field.association_name).send(field.field_name), cm_admin.send("#{field.association_name}_show_path", ar_object.send(field.association_name).id)
           end
         end
