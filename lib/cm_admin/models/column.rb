@@ -24,7 +24,7 @@ module CmAdmin
           raise ArgumentError, "Expected field_name - #{field_name} - to be an array of hash. Eg, [{table_name_1: 'column_name_1'}, {table_name_2: 'column_name_2'}]" unless field_name.is_a?(Array)
 
           field_name.each do |element|
-            raise ArgumentError.new "Expected element #{element} of field_name Array to be Hash" unless element.class.to_s == "Hash"
+            raise ArgumentError, "Expected element #{element} to be a hash. Eg, [{table_name_1: 'column_name_1'}, {table_name_2: 'column_name_2'}]" unless element.is_a?(Hash)
           end
         elsif ['belongs_to', 'has_one'].include? association_type.to_s && field_name.class.to_s != "Symbol" && field_name.class.to_s != "String"
           raise ArgumentError.new 'Expected field_name to be String or Symbol'
