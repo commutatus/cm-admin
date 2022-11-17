@@ -1,7 +1,6 @@
 module CmAdmin
   module Models
     class Field
-
       attr_accessor :field_name, :label, :header, :field_type, :format, :precision, :height,
         :width, :helper_method, :preview, :custom_link, :prefix, :suffix, :tag_class,
         :display_if, :association_name, :association_type
@@ -16,16 +15,22 @@ module CmAdmin
         self.width = 50 if self.field_type == :image && self.width.nil?
         self.display_if = lambda { |arg| return true } if self.display_if.nil?
 
-        return unless association_type.present?
+        validation_for_association
+      end
+
+      def validation_for_association
+        return unless field_type.to_s == "association"
+
+        raise ArgumentError, 'Expected association_name and association_type to be present' if association_name.nil? || association_type.nil?
 
         if association_type.to_s == 'polymorphic'
-          raise ArgumentError.new 'Expected field_name to be Array' unless field_name.class.to_s == "Array"
+          raise ArgumentError, "Expected field_name - #{field_name} - to be an array of hash. Eg, [{table_name_1: 'column_name_1'}, {table_name_2: 'column_name_2'}]" unless field_name.is_a?(Array)
 
           field_name.each do |element|
-            raise ArgumentError.new "Expected element #{element} of field_name Array to be Hash" unless element.class.to_s == "Hash"
+            raise ArgumentError, "Expected element #{element} to be a hash. Eg, [{table_name_1: 'column_name_1'}, {table_name_2: 'column_name_2'}]" unless element.is_a?(Hash)
           end
-        elsif ['belongs_to', 'has_one'].include? association_type.to_s && field_name.class.to_s != "Symbol" && field_name.class.to_s != "String"
-          raise ArgumentError.new 'Expected field_name to be String or Symbol'
+        elsif ['belongs_to', 'has_one'].include? association_type.to_s
+          raise ArgumentError, "Expected field_name - #{field_name} to be a String or Symbol" unless field_name.is_a?(Symbol) || field_name.is_a?(String)
         end
       end
 
