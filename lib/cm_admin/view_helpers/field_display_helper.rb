@@ -108,7 +108,6 @@ module CmAdmin
         field.field_name.each do |hash|
           return hash[association_name.to_sym] if hash.has_key?(association_name.to_sym)
         end
-        raise ArgumentError.new "No value found for Associated name #{association_name} in DSL"
       end
     end
   end
