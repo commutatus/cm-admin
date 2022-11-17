@@ -27,7 +27,7 @@ module CmAdmin
             raise ArgumentError, "Expected element #{element} to be a hash. Eg, [{table_name_1: 'column_name_1'}, {table_name_2: 'column_name_2'}]" unless element.is_a?(Hash)
           end
         elsif ['belongs_to', 'has_one'].include? association_type.to_s && field_name.class.to_s != "Symbol" && field_name.class.to_s != "String"
-          raise ArgumentError.new 'Expected field_name to be String or Symbol'
+          raise ArgumentError, "Expected field_name - #{field_name} to be a String or Symbol"
         end
       end
 
