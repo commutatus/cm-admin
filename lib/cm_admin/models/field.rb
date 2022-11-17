@@ -15,6 +15,18 @@ module CmAdmin
         self.height = 50 if self.field_type == :image && self.height.nil?
         self.width = 50 if self.field_type == :image && self.width.nil?
         self.display_if = lambda { |arg| return true } if self.display_if.nil?
+
+        return unless association_type.present?
+
+        if association_type.to_s == 'polymorphic'
+          raise ArgumentError.new 'Expected field_name to be Array' unless field_name.class.to_s == "Array"
+
+          field_name.each do |element|
+            raise ArgumentError.new "Expected element #{element} of field_name Array to be Hash" unless element.class.to_s == "Hash"
+          end
+        elsif ['belongs_to', 'has_one'].include? association_type.to_s && field_name.class.to_s != "Symbol" && field_name.class.to_s != "String"
+          raise ArgumentError.new 'Expected field_name to be String or Symbol'
+        end
       end
 
       def set_default_values
