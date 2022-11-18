@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (0.8.8)
+    cm-admin (0.8.9)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
@@ -67,10 +67,8 @@ GEM
       nokogiri (>= 1.5.9)
     marcel (1.0.2)
     method_source (1.0.0)
-    mini_portile2 (2.8.0)
     minitest (5.16.2)
-    nokogiri (1.13.9)
-      mini_portile2 (~> 2.8.0)
+    nokogiri (1.13.9-arm64-darwin)
       racc (~> 1.4)
     pagy (4.11.0)
     parallel (1.22.1)
