@@ -35,6 +35,7 @@ module CmAdmin
         self.sort_column = :created_at
         self.sort_direction = :desc
         self.icon_name = 'fa fa-th-large'
+        self.custom_name = nil
       end
 
       def set_values(page_title, page_description, partial)
