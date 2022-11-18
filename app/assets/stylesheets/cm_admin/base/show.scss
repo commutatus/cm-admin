@@ -24,8 +24,8 @@
         border-radius: 0px;
       }
       .nav-link.active {
-        color: #6554E0;
-        border-bottom: 3px #6554E0 solid;
+        color: $brand-color;
+        border-bottom: 3px $brand-color solid;
         background-color: #FFF;
       }
     }
