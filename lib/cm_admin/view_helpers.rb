@@ -9,6 +9,7 @@ module CmAdmin
     include ManageColumnPopupHelper
     include NavigationHelper
     include PageInfoHelper
+    include TabHelper
 
     # Included Rails view helper
     include ActionView::Helpers::FormTagHelper

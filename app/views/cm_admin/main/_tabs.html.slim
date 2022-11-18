@@ -4,4 +4,4 @@ ul.nav.nav-pills
       - if nav_item.custom_action.empty? || (nav_item.custom_action.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{nav_item.custom_action}?"))
         li.nav-item
           - nav_item_action_name = nav_item.custom_action.present? ? nav_item.custom_action : 'show'
-          = link_to nav_item.nav_item_name.to_s.titleize, cm_admin.send("#{@ar_object.model_name.singular}_#{nav_item_action_name}_path", @ar_object.id), class: "nav-link #{ nav_item_action_name == action_name ? 'active' : ''}"
+          = link_to tab_title(nav_item), cm_admin.send("#{@ar_object.model_name.singular}_#{nav_item_action_name}_path", @ar_object.id), class: "nav-link #{ nav_item_action_name == action_name ? 'active' : ''}"
