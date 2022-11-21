@@ -29,7 +29,7 @@ module CmAdmin::FileImport
           cm_show_section 'Import details' do
             field :id, label: 'Import ID'
             field :import_file, label: 'File', field_type: :attachment
-            field :created_at, header: 'Create At', field_type: :datetime, format: '%B %d, %Y, %H:%M %p'
+            field :created_at, header: 'Created At', field_type: :datetime, format: '%B %d, %Y, %H:%M %p'
             field :completed_at, header: 'Completed At', field_type: :datetime, format: '%B %d, %Y, %H:%M %p'
             field :associated_model_name, header: 'Table name'
             field :added_by_name, header: 'Uploaded By'
