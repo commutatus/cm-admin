@@ -1,5 +1,18 @@
+ENV['RAILS_ENV'] = 'test'
+
+CI_ORM = (ENV['CI_ORM'] || :active_record).to_sym
+
+require File.expand_path('../dummy/config/environment', __FILE__)
+
 require "bundler/setup"
-require "cm_admin"
+# require "cm_admin"
+require_relative "orm/#{CI_ORM}"
+require 'rspec/rails'
+require 'capybara/rails'
+
+Dir[File.expand_path('../support/**/*.rb', __FILE__), 
+    File.expand_path('../shared_examples/**/*.rb', __FILE__)].each { |f| require f }
+
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -11,4 +24,6 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+  config.include CmAdmin::Engine.routes.url_helpers
+  config.include Capybara::DSL, type: :request
 end

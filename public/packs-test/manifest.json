@@ -1,0 +1,79 @@
+{
+  "cm_admin/application.js": "/packs-test/js/cm_admin/application-00c3657458db01d0a6a2.js",
+  "cm_admin/application.js.map": "/packs-test/js/cm_admin/application-00c3657458db01d0a6a2.js.map",
+  "cm_admin/exports.js": "/packs-test/js/cm_admin/exports-e6e66686d976fbcc5126.js",
+  "cm_admin/exports.js.map": "/packs-test/js/cm_admin/exports-e6e66686d976fbcc5126.js.map",
+  "cm_admin/filters.js": "/packs-test/js/cm_admin/filters-97252967e65922feb136.js",
+  "cm_admin/filters.js.map": "/packs-test/js/cm_admin/filters-97252967e65922feb136.js.map",
+  "cm_admin/form_validation.js": "/packs-test/js/cm_admin/form_validation-d576561f88bc26b17f4b.js",
+  "cm_admin/form_validation.js.map": "/packs-test/js/cm_admin/form_validation-d576561f88bc26b17f4b.js.map",
+  "cm_admin/quick_search.js": "/packs-test/js/cm_admin/quick_search-4dad375dfa53ca6ccec9.js",
+  "cm_admin/quick_search.js.map": "/packs-test/js/cm_admin/quick_search-4dad375dfa53ca6ccec9.js.map",
+  "cm_admin/scaffolds.js": "/packs-test/js/cm_admin/scaffolds-7489e3fc974fd1ed8dcc.js",
+  "cm_admin/scaffolds.js.map": "/packs-test/js/cm_admin/scaffolds-7489e3fc974fd1ed8dcc.js.map",
+  "entrypoints": {
+    "cm_admin/application": {
+      "js": [
+        "/packs-test/js/cm_admin/application-00c3657458db01d0a6a2.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/application-00c3657458db01d0a6a2.js.map"
+      ]
+    },
+    "cm_admin/exports": {
+      "js": [
+        "/packs-test/js/cm_admin/exports-e6e66686d976fbcc5126.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/exports-e6e66686d976fbcc5126.js.map"
+      ]
+    },
+    "cm_admin/filters": {
+      "js": [
+        "/packs-test/js/cm_admin/filters-97252967e65922feb136.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/filters-97252967e65922feb136.js.map"
+      ]
+    },
+    "cm_admin/form_validation": {
+      "js": [
+        "/packs-test/js/cm_admin/form_validation-d576561f88bc26b17f4b.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/form_validation-d576561f88bc26b17f4b.js.map"
+      ]
+    },
+    "cm_admin/quick_search": {
+      "js": [
+        "/packs-test/js/cm_admin/quick_search-4dad375dfa53ca6ccec9.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/quick_search-4dad375dfa53ca6ccec9.js.map"
+      ]
+    },
+    "cm_admin/scaffolds": {
+      "js": [
+        "/packs-test/js/cm_admin/scaffolds-7489e3fc974fd1ed8dcc.js"
+      ],
+      "js.map": [
+        "/packs-test/js/cm_admin/scaffolds-7489e3fc974fd1ed8dcc.js.map"
+      ]
+    }
+  },
+  "media/webfonts/fa-brands-400.eot": "/packs-test/media/webfonts/fa-brands-400-89a52ae1.eot",
+  "media/webfonts/fa-brands-400.svg": "/packs-test/media/webfonts/fa-brands-400-216edb96.svg",
+  "media/webfonts/fa-brands-400.ttf": "/packs-test/media/webfonts/fa-brands-400-9e138496.ttf",
+  "media/webfonts/fa-brands-400.woff": "/packs-test/media/webfonts/fa-brands-400-329a95a9.woff",
+  "media/webfonts/fa-brands-400.woff2": "/packs-test/media/webfonts/fa-brands-400-c1210e5e.woff2",
+  "media/webfonts/fa-regular-400.eot": "/packs-test/media/webfonts/fa-regular-400-4079ae2d.eot",
+  "media/webfonts/fa-regular-400.svg": "/packs-test/media/webfonts/fa-regular-400-19e27d34.svg",
+  "media/webfonts/fa-regular-400.ttf": "/packs-test/media/webfonts/fa-regular-400-1017bce8.ttf",
+  "media/webfonts/fa-regular-400.woff": "/packs-test/media/webfonts/fa-regular-400-36722648.woff",
+  "media/webfonts/fa-regular-400.woff2": "/packs-test/media/webfonts/fa-regular-400-68c5af1f.woff2",
+  "media/webfonts/fa-solid-900.eot": "/packs-test/media/webfonts/fa-solid-900-efbd5d20.eot",
+  "media/webfonts/fa-solid-900.svg": "/packs-test/media/webfonts/fa-solid-900-13de59f1.svg",
+  "media/webfonts/fa-solid-900.ttf": "/packs-test/media/webfonts/fa-solid-900-07c3313b.ttf",
+  "media/webfonts/fa-solid-900.woff": "/packs-test/media/webfonts/fa-solid-900-c6ec0800.woff",
+  "media/webfonts/fa-solid-900.woff2": "/packs-test/media/webfonts/fa-solid-900-ada6e6df.woff2"
+}

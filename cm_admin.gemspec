@@ -34,4 +34,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'slim', '~> 4.1.0'
   spec.add_runtime_dependency 'webpacker', '~> 5.4.3'
   spec.add_runtime_dependency 'csv-importer', '~> 0.8.2'
+  spec.add_development_dependency 'rails', '~> 6.1.4'
 end
