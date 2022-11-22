@@ -14,21 +14,17 @@
 
 
   .sidebar__footer
-    .profile-name
-      span.profile-avatar J
-      | John Doe
+    .menu-item
+      .profile-name
+        span.profile-avatar 
+        | #{Current.user.full_name}
     .profile-popup.hidden
       .profile-info
         .profile-info__left
-          p.name-text John Doe
-          p.email-text johndoe@commutatus.com
-        .profile-info__right J   
-      .page-options 
-        = link_to '/', class: 'page-link'
-          | Profile
-        = link_to '', class: 'page-link'
-          | Settings
+          p.name-text = Current.user.full_name
+          p.email-text.text-ellipsis = Current.user.email
+        .profile-info__right 
       .auth-option
-        = link_to '/sign-out', method: :delete, class: 'auth-link'
+        = link_to destroy_user_session_path, method: :delete, class: 'auth-link'
           | Logout
 = render 'layouts/quick_links'

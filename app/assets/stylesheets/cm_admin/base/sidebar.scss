@@ -117,33 +117,42 @@
     }
   }
 
-  &__footer {
+  .sidebar__footer {
     position: absolute;
     bottom: 0;
+    z-index: 100;
     width: 100%;
-    padding: 20px 24px;
+    padding: 16px 0;
     box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.15);
+    .menu-item {
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
+      padding: 8px 24px;
+      @include transition-linear();
+      cursor: pointer;
+      &:hover {
+        color: $white;
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
     .profile-name {
-      display: inline-flex;
-      align-items: center;
+      @include flex($justify: center, $align: center);
       position: relative;
-      font-size: $t4-text;
       line-height: 22px;
-      color: $ink-lightest-clr;
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
       cursor: pointer;
       .profile-avatar {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+        @include flex($justify: center, $align: center);
         width: 22px;
         height: 22px;
         margin-right: 8px;
-        color: $white;
-        font-size: 10px;
-        font-weight: 900;
+        @include font($size: 10px, $color: $white, $weight: 900);
         background-color: $brand-color;
-        border-radius: $circle;
-        vertical-align: middle;
+        vertical-align: middle; 
+        border-radius: 50%;
+        img {
+          width: 22px;
+          border-radius: $circle;
+        }
       }
     }
     .profile-popup {
@@ -151,7 +160,8 @@
       left: 228px;
       bottom: 10px;
       width: 268px;
-      height: 186px;
+      min-height: 100px;
+      overflow: hidden;
       background-color: $white;
       box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
       border-radius: $radius-4;
@@ -164,28 +174,29 @@
         box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
         &__left {
           .name-text {
-            font-size: $t4-text;
+            @include font($size: $t4-text);
             line-height: 22px;
-            color: $primary-text-clr;
             margin: 0;
           }
           .email-text {
-            font-size: $t4-text;
+            @include font($size: $t4-text, $color: $ink-lightest-clr);
             line-height: 22px;
-            color: $ink-lightest-clr;
             margin: 0;
+            width: 200px;
           }
         }
         &__right {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
+          @include flex($justify: center, $align: center);
           width: 32px;
           height: 32px;
-          @include font($size: $t3-text, $color: $white, $weight: 600);
+          @include font($color: $white, $weight: 600);
           background-color: $brand-color;
-          border-radius: $circle;
           vertical-align: middle;
+          border-radius: 50%;
+          img {
+            width: 32px;
+            border-radius: $circle;
+          }
         }
       }
       .page-options {
@@ -193,12 +204,11 @@
         box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
         .page-link {
           display: block;
-          font-size: $t4-text;
+          @include font($size: $t4-text);
           line-height: 22px;
-          color: $primary-text-clr;
           padding: 4px 16px;
           border: none;
-          transition: all 0.2s linear;
+          @include transition-linear();
           &:hover {
             background-color: $grey-lighter-clr;
           }
@@ -208,11 +218,10 @@
         padding: 8px 0;
         .auth-link {
           display: block;
-          font-size: $t4-text;
+          @include font($size: $t4-text);
           line-height: 22px;
-          color: $primary-text-clr;
           padding: 4px 16px;
-          transition: all 0.2s linear;
+          @include transition-linear();
           &:hover {
             background-color: $grey-lighter-clr;
           }

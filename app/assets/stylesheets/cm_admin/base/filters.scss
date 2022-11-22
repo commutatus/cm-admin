@@ -6,7 +6,7 @@
   background-color: $white;
   z-index: 1;
   &__inner {
-    @include flex(row, flex-start, center, wrap);
+    @include flex(row, flex-start, center);
     .filter-chips-wrapper {
       .filter-chip {
         margin-left: 16px;
@@ -49,7 +49,7 @@
 }
 
 .cm-filters {
-  @include flex(row, space-between, flex-start, nowrap);
+  @include flex(row, space-between, flex-start);
   position: fixed;
   top: 140px;
   width: 100%;
@@ -62,7 +62,7 @@
     flex-wrap: wrap;
   }
   &__lhs {
-    @include flex(row, flex-start, center, wrap);
+    @include flex(row, flex-start, center);
     width: 75%;
     .filter-field {
       position: relative;
