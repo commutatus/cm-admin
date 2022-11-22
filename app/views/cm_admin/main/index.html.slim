@@ -1,10 +1,10 @@
-.index-page.page-container
+.cm-index-page.cm-page-container
   .sticky-container.page-top-bar
     == render 'cm_admin/main/top_navbar'
     - if @model.filters.present? && @action.partial.nil?
-      .index-page__filters
+      .cm-index-page__filters
         == render partial: 'cm_admin/main/filters', locals: { filters: @model.filters }
-  .index-page__table-container
+  .cm-index-page__table-container
     - if @action.partial
       == render @action.partial
     - else

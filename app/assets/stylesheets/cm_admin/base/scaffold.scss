@@ -64,14 +64,14 @@ a {
   opacity: 1 !important;
 }
 
-.page-container {
+.cm-page-container {
   height: 100vh;
 }
 
 .sticky-container {
   position: sticky;
   top: 0;
-  background-color: #fff;
+  background-color: $white;
   z-index: 4;
 }
 

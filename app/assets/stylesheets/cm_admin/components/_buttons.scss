@@ -9,7 +9,8 @@
   transition: all .2s linear;
   &:hover {
     color: $white;
-    background-color: #4D40AA;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), $brand-color;
+    transform: scale(1.05);
   }
   &:focus {
     outline: 3px auto rgba(47, 128, 237, 0.3);
@@ -35,6 +36,7 @@
   &:hover {
     color: $brand-color;
     background-color: #E6E4FA;
+    transform: scale(1.05);
   }
   &:focus {
     outline: 3px auto rgba(47, 128, 237, 0.3);
@@ -61,6 +63,7 @@
   &:hover {
     color: $primary-text-clr;
     background-color: $grey-light-clr;
+    transform: scale(1.05);
   }
   &:focus {
     outline: 3px auto rgba(47, 128, 237, 0.3);
@@ -93,6 +96,7 @@
   &:hover {
     color: $primary-text-clr;
     background-color: $grey-light-clr;
+    transform: scale(1.05);
   }
   &:focus {
     outline: 3px auto rgba(47, 128, 237, 0.3);
@@ -119,6 +123,7 @@
   &:hover {
     color: $primary-text-clr;
     background: $grey-light-clr;
+    transform: scale(1.05);
   }
   &:focus {
     outline: 3px auto rgba(47, 128, 237, 0.3);

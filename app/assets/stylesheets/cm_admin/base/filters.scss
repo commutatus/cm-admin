@@ -12,10 +12,8 @@
       }
     }
     .add-filter-btn {
-      font-size: $t4-text;
+      @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
       line-height: 22px;
-      font-weight: 600;
-      color: $primary-text-clr;
       cursor: pointer;
       span {
         margin-right: 4px;
@@ -26,10 +24,8 @@
     }
     .clear-btn {
       position: relative;
-      font-size: $t4-text;
+      @include font($size: $t4-text, $color: $ink-lighter-clr, $weight: 600);
       line-height: 22px;
-      font-weight: 600;
-      color: $ink-lighter-clr;
       margin-left: 32px;
       cursor: pointer;
       &::before {
@@ -76,7 +72,7 @@
       input {
         width: 100%;
         height: 39px;
-        border: 1px solid #ccc;
+        border: 1px solid $grey-regular-clr;
         border-radius: $radius-4;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
         &:focus {
@@ -93,7 +89,7 @@
           //single-select-styles
           .select2-selection--single {
             height: 39px;
-            border: 1px solid #ccc;
+            border: 1px solid $grey-regular-clr;
             border-radius: $radius-4;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
             &:focus {
@@ -120,7 +116,7 @@
           //multi-select-styles
           .select2-selection--multiple {
             max-height: 39px;
-            border: 1px solid #ccc;
+            border: 1px solid $grey-regular-clr;
             border-radius: $radius-4;
             box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
             overflow-y: auto;
@@ -153,13 +149,13 @@
       .filter-rangepicker {
         padding: 6px 12px;
         color: #172b4d;
-        font-size: 16px;
+        font-size: $t3-text;
       }
 
       .field-area {
         display: block;
         padding: 6px 12px;
-        font-size: 16px;
+        font-size: $t3-text;
         color: #555555;
       }
       .search-icon {
@@ -172,7 +168,7 @@
         position: absolute;
         top: 10px;
         right: 15px;
-        font-size: 20px;
+        font-size: $t1-text;
         color: $brand-color;
       }
     }
@@ -182,8 +178,7 @@
     text-align: right;
     .filter-btn {
       padding: 5px 10px;
-      color: $white;
-      font-size: 16px;
+      @include font($size: $t3-text, $color: $white);
       background-color: $brand-color;
       border: none;
       border-radius: $radius-4;

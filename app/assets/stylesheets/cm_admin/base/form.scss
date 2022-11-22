@@ -76,9 +76,7 @@
     .form-field {
       margin-bottom: 20px;
       .form-label {
-        font-weight: 600;
-        color: #172b4d;
-        font-size: 14px;
+        @include font($size: $t4-text, $color: #172b4d, $weight: 600);
         margin-bottom: 0.5rem;
       }
       .form-input {
@@ -129,16 +127,12 @@
       }
 
       .radio-label {
-        color: #172b4d;
-        font-size: 16px;
-        font-weight: 600;
+        @include font($size: $t3-text, $color: #172b4d, $weight: 600);
         margin-left: 8px;
       }
 
       .checkbox-label {
-        color: #172b4d;
-        font-size: 16px;
-        font-weight: 600;
+        @include font($size: $t3-text, $color: #172b4d, $weight: 600);
         margin-left: 8px;
       }
     }
@@ -191,6 +185,6 @@
 }
 
 .add-field-btn {
-  font-size: 14px;
+  font-size: $t4-text;
   margin: 10px 0;
 }

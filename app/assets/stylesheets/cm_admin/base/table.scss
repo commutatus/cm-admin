@@ -1,6 +1,6 @@
 @import "../helpers/index.scss";
 
-.index-page {
+.cm-index-page {
   background-color: $white;
   overflow: auto;
 
@@ -30,9 +30,8 @@
     padding: 21px 24px 21px 0;
     background-color: transparent;
     &__total-count {
-      font-size: $t4-text;
+      @include font($size: $t4-text, $color: $ink-lighter-clr);
       line-height: 22px;
-      color: $ink-lighter-clr;
       margin: 0;
     }
     &__column-action {
@@ -77,7 +76,7 @@
             position: sticky;
             left: 0;
             z-index: 2;
-            background-color: #fff;
+            background-color: $white;
             border-bottom: 1.21px solid rgb(240, 239, 239);
           }
           .check-box-space {
@@ -87,7 +86,7 @@
             max-width: fit-content;
             padding: 12px 8px 12px 16px;
             z-index: 2;
-            background-color: #fff;
+            background-color: $white;
             border-bottom: 1.21px solid rgb(240, 239, 239);
             span {
               vertical-align: text-top;
@@ -107,7 +106,7 @@
             position: sticky;
             left: 0;
             z-index: 2;
-            background-color: #fff;
+            background-color: $white;
           }
 
           &:nth-last-child(1) {
@@ -132,7 +131,7 @@
             max-width: fit-content;
             padding: 16px 8px 16px 16px;
             z-index: 2;
-            background-color: #fff;
+            background-color: $white;
             span {
               vertical-align: text-top;
             }
@@ -151,7 +150,7 @@
             min-width: inherit;
             height: 53px;
             padding: 0;
-            background: linear-gradient(270deg, #f3f4f6 81.75%, rgba(243, 244, 246, 0) 100%);
+            background: $gradient-one;
             display: none;
             transition: all 0.1s linear;
             .row-action-tool {
@@ -162,10 +161,8 @@
               .popup-card {
                 .popup-option {
                   a {
-                    font-weight: 500;
-                    font-size: 14px;
+                    @include font($size: $t4-text, $color: $ink-regular-clr, $weight: 500);
                     line-height: 22px;
-                    color: #1d2129;
                   }
                 }
               }
@@ -181,7 +178,7 @@
     .cm-table > thead {
       position: sticky;
       top: 0;
-      background-color: #fff;
+      background-color: $white;
       z-index: 3;
     }
   }
@@ -233,18 +230,16 @@
           }
         }
         &__name {
-          font-size: $t4-text;
+          @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          margin-left: 4px;
-          color: $primary-text-clr;
+          margin-left: 4px;         
           p {
             margin: 0;
           }
         }
         &__action {
           padding: 5px 8px;
-          font-size: $t4-text;
-          color: $ink-lightest-clr;
+          @include font($size: $t4-text, $color: $ink-lightest-clr);
         }
         .dragger {
           display: none;
@@ -273,7 +268,7 @@
     align-items: center;
     width: 100%;
     padding: 16px 24px;
-    background-color: #fff;
+    background-color: $white;
     border: 1px solid $grey-lighter-clr;
     box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.3);
     z-index: 2;
@@ -285,13 +280,12 @@
       display: inline-flex;
       align-items: center;
       .page-move-btn {
-        font-size: 10px;
+        @include font($size: 10px, $color: $primary-text-clr);
         line-height: 12px;
-        color: $primary-text-clr;
         padding: 10px 11px;
         cursor: pointer;
         &.disabled {
-          color: #9ca7ae;
+          color: $disabled-clr;
           cursor: initial;
           pointer-events: none;
         }

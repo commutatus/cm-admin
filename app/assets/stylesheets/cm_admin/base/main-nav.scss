@@ -15,9 +15,8 @@
   &__lhs {
     .bread-crumb-area {
       .breadcrumb-text {
-        font-size: $t4-text;
+        @include font($size: $t4-text, $color: $ink-lighter-clr);
         line-height: 22px;     
-        color: $ink-lighter-clr;
         margin: 0 0 16px;
         a {
           color: inherit;
@@ -26,16 +25,13 @@
     }
     .nav-title-area {
       .title-text {
-        font-size: 24px;
-        font-weight: 600;
+        @include font($size: $font-size(24), $color: $primary-text-clr, $weight: 600);
         line-height: 32px;
-        color: $primary-text-clr;
         margin: 0 0 8px;
       }
       .title-sub-text {
-        font-size: $t4-text;
+        @include font($size: $t4-text, $color: $primary-text-clr);
         line-height: 22px;
-        color: $primary-text-clr;
         margin: 0;
       }
     }

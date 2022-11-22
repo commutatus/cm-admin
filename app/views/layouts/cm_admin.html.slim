@@ -19,7 +19,7 @@ html
       = render 'layouts/left_sidebar_nav'
       .panel-area
         - if defined?(@action) && (@action&.layout_type.to_s == 'cm_association_show' || @action.parent == "show")
-          .show-page.page-container
+          .show-page.cm-page-container
             .show-page__tabs.sticky-container.page-top-bar
               .cm-tabs-bar
                 == render 'cm_admin/main/top_navbar'
@@ -27,7 +27,7 @@ html
             .show-page__inner.scrollable
               = yield
         - elsif defined?(@action) && (@action&.layout_type.to_s == 'cm_association_index' || @action.parent == "index")
-          .show-page.page-container
+          .show-page.cm-page-container
             .show-page__tabs.sticky-container.page-top-bar
               .cm-tabs-bar
                 == render 'cm_admin/main/top_navbar'
