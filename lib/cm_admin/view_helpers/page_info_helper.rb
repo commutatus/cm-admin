@@ -82,8 +82,8 @@ module CmAdmin
       end
 
       def custom_action_title(custom_action)
-        if custom_action.custom_name.present?
-          custom_action.custom_name.to_s
+        if custom_action.display_name.present?
+          custom_action.display_name.to_s
         else
           custom_action.name.to_s.titleize
         end
