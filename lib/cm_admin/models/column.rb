@@ -29,7 +29,7 @@ module CmAdmin
       def format_header
         header_value = if self.header.present?
                          self.header
-                       elsif self.association_type.to_s == "polymorphic"
+                       elsif self.field_type.to_s == 'association'
                          self.association_name
                        else
                          self.field_name
