@@ -52,7 +52,8 @@ $white: #FFFFFF;
 $black: #000000;
 
 // Gradient Colors
-$gradient-one: linear-gradient(270deg, #f3f4f6 81.75%, rgba(243, 244, 246, 0) 100%);
+$gradient-one: linear-gradient(270deg, $grey-lighter-clr 81.75%, rgba(243, 244, 246, 0) 100%);
+$cta-hover-gradient: linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), $brand-color;
 
 /* Typography */
 $primary-font: 'Open Sans', sans-serif;

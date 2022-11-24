@@ -9,7 +9,7 @@
   transition: all .2s linear;
   &:hover {
     color: $white;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), $brand-color;
+    background: $cta-hover-gradient;
     transform: scale(1.05);
   }
   &:focus {

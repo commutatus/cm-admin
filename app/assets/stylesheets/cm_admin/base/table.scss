@@ -108,15 +108,11 @@
             z-index: 2;
             background-color: $white;
           }
-
           &:nth-last-child(1) {
             box-shadow: none;
           }
           &:hover {
             background-color: $grey-lighter-clr;
-            td:nth-child(1) {
-              background-color: $grey-lighter-clr;
-            }
             td:nth-child(1) {
               background-color: $grey-lighter-clr;
             }

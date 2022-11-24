@@ -64,7 +64,7 @@
         &__rhs {
           width: 80%;
           p {
-            @include font($size: $t4-text, $color: #172b4d);
+            @include font($size: $t4-text, $color: $primary-text-clr);
             line-height: 19px;
             margin: 0;
           }
