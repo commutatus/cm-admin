@@ -1,13 +1,12 @@
-.admin-table-index
-  .table-top
-    p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-    // .table-top__column-action
-    //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
-    //    span
-    //      i.fa.fa-columns.bolder
-    //    span
-    //      i.fa.fa-angle-down
-.new-admin-table.scrollable
+.table-top
+  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  // .table-top__column-action
+  //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
+  //    span
+  //      i.fa.fa-columns.bolder
+  //    span
+  //      i.fa.fa-angle-down
+.new-admin-table
   table.cm-table
     thead.cm-table__header
       tr.header-row
@@ -37,9 +36,9 @@
           - if @model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
 
-.cm-pagination
-  .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
-  .cm-pagination__rhs
-    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+  .cm-pagination
+    .cm-pagination__lhs Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
+    .cm-pagination__rhs
+      == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
 
 = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }

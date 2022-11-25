@@ -5,28 +5,27 @@
   
   &__tabs {
     .cm-tabs-bar {
-      background-color: #FFF;
+      background-color: $white;
       width: 100%;
       .nav-pills {
-        margin-left: 20px;
+        margin-left: 10px;
       }
       .nav-link {
         position: static;
         left: 0%;
         right: 0%;
-        font-size: 14px;
+        @include font($size: $t4-text, $color: $ink-lighter-clr);
         line-height: 22px;
         flex: none;
         order: 0;
         flex-grow: 0;
-        color: #6B7586;
-        background-color: #FFF;
+        background-color: $white;
         border-radius: 0px;
       }
       .nav-link.active {
-        color: #6554E0;
-        border-bottom: 3px #6554E0 solid;
-        background-color: #FFF;
+        color: $brand-color;
+        border-bottom: 3px $brand-color solid;
+        background-color: $white;
       }
     }
   }
@@ -65,12 +64,15 @@
         &__rhs {
           width: 80%;
           p {
-            @include font($size: $t4-text, $color: #172b4d);
+            @include font($size: $t4-text, $color: $primary-text-clr);
             line-height: 19px;
             margin: 0;
           }
         }
       }
     }
+  }
+  .filters-bar {
+    background-color: $grey-lightest-clr;
   }
 }

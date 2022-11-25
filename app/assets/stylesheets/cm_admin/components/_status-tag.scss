@@ -6,6 +6,7 @@
   padding: 4px;
   color: $primary-text-clr;
   background: $grey-lighter-clr;
+  border-radius: 2px;
   &.success {
     color: $green-regular-clr;
     background: $green-lightest-clr;
@@ -25,7 +26,7 @@
   cursor: pointer;
   user-select: none;
   &:hover {
-    background-color: #F3F4F6;
+    background-color: $grey-lighter-clr;
     .filter-chip-remove {
       display: block;
     }
@@ -42,7 +43,7 @@
     top: 0;
     right: 0;
     padding: 4px 16px;
-    background: linear-gradient(270deg, #F3F4F6 81.75%, rgba(243, 244, 246, 0) 100%);
+    background: $gradient-one;
     border-radius: $radius-4;
     i {
       font-size: 10px;

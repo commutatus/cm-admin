@@ -13,8 +13,7 @@
   z-index: 1;
 
   .tab-item {
-    font-size: 14px;
-    color: $ink-lighter-clr;
+    @include font($size: $t4-text, $color: $ink-lightest-clr);
     padding: 16px 0;
     margin-right: 24px;
     cursor: pointer;
