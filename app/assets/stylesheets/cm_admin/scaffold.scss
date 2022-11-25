@@ -2,7 +2,7 @@
 
 .jGrowl {
   color: $ink-regular-clr !important;
-  font-size: 14px !important;
+  font-size: $t4-text !important;
   .success{
     background-color: $green-light-clr !important;
   }
@@ -17,7 +17,7 @@
 
 .nested-field-wrapper {
   label {
-    font-size: 14px;
+    font-size: $t4-text;
     margin-bottom: 16px;
   }
   .nested-fields {

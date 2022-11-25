@@ -143,9 +143,8 @@
       }
     }
     .cannot-sort {
-      font-size: $t6-text;
+      @include font($size: $t6-text, $color: $ink-lightest-clr);
       line-height: 16px;
-      color: $ink-lightest-clr;
       margin-bottom: 9px;
       padding: 0 16px;
     }

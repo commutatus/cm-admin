@@ -76,14 +76,12 @@
     .form-field {
       margin-bottom: 20px;
       .form-label {
-        font-weight: 600;
-        color: #172b4d;
-        font-size: 14px;
+        @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
         margin-bottom: 0.5rem;
       }
       .form-input {
         label {
-          @include font($size: $t4-text, $color: #172b4d, $weight: bold);
+          @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
         }
         input {
           width: 100%;
@@ -129,16 +127,12 @@
       }
 
       .radio-label {
-        color: #172b4d;
-        font-size: 16px;
-        font-weight: 600;
+        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
         margin-left: 8px;
       }
 
       .checkbox-label {
-        color: #172b4d;
-        font-size: 16px;
-        font-weight: 600;
+        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
         margin-left: 8px;
       }
     }
@@ -163,7 +157,7 @@
   .field-item {
     margin: 0 5px;
     label {
-      @include font($size: $t4-text, $color: #172b4d, $weight: bold);
+      @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
       margin-bottom: 4px;
     }
     input {
@@ -191,6 +185,6 @@
 }
 
 .add-field-btn {
-  font-size: 14px;
+  font-size: $t4-text;
   margin: 10px 0;
 }
