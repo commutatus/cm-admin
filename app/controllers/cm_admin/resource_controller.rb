@@ -193,7 +193,9 @@ module CmAdmin
     end
 
     def resource_params(params)
-      permittable_fields = @model.additional_permitted_fields + @model.ar_model.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+      columns = @model.ar_model.column_names
+      columns += @model.ar_model.stored_attributes.values.flatten
+      permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
       permittable_fields += @model.ar_model.name.constantize.reflect_on_all_associations.map {|x|
         next if x.options[:polymorphic]
         if x.class.name.include?('HasOne')
@@ -207,7 +209,7 @@ module CmAdmin
       nested_fields = nested_tables.uniq.map {|table|
         Hash[
           table.to_s + '_attributes',
-          table.to_s.classify.constantize.columns.map(&:name).reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+          table.to_s.classify.constantize.column_names.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
         ]
       }
       permittable_fields += nested_fields
