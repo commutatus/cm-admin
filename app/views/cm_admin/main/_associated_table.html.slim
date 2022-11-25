@@ -1,20 +1,19 @@
-.admin-table-index
-  .table-top
-    - if @associated_model.filters.present? && @action.partial.nil?
-      .index-page__filters
-        == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
-    p.table-top__total-count = "#{@associated_ar_object.pagy.count} #{@action.child_records.to_s.gsub('_', ' ')} found"
-    .table-top__column-action
-      - if @associated_model && @associated_model.available_actions.map(&:name).include?('new')
-        - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first
-        - polymorphic_name = (association && association.inverse_of && association.inverse_of.options[:polymorphic]) ? association.inverse_of.name : ''
-        a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/new?associated_id=#{@ar_object.id}&associated_class=#{@ar_object.class.name.underscore}&polymorphic_name=#{polymorphic_name}&referrer=#{request.path}"
-          button.secondary-btn.column-btn Add
-      / button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
-      /   span
-      /     i.fa.fa-columns.bolder
-      /   span
-      /     i.fa.fa-angle-down
+.table-top
+  - if @associated_model.filters.present? && @action.partial.nil?
+    .cm-index-page__filters
+      == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
+  p.table-top__total-count = "#{humanized_ar_collection_count(@associated_ar_object.pagy.count, @action.child_records.to_s)}"
+  .table-top__column-action
+    - if @associated_model && @associated_model.available_actions.map(&:name).include?('new') && has_valid_policy(@associated_model.name, 'new')
+      - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first
+      - polymorphic_name = (association && association.inverse_of && association.inverse_of.options[:polymorphic]) ? association.inverse_of.name : ''
+      a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/new?associated_id=#{@ar_object.id}&associated_class=#{@ar_object.class.name.underscore}&polymorphic_name=#{polymorphic_name}&referrer=#{request.path}"
+        button.secondary-btn.column-btn Add
+    / button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
+    /   span
+    /     i.fa.fa-columns.bolder
+    /   span
+    /     i.fa.fa-angle-down
 
 .new-admin-table.scrollable
   table.cm-table
@@ -35,16 +34,20 @@
           /     input.cm-checkbox type="checkbox"
           - @model.available_fields[@action.name.to_sym].each_with_index do |column, index|
             td class="text-ellipsis"
-              - if index == 0 && @associated_model && @associated_model.available_actions.map(&:name).include?('show')
-                a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
-              - else
-                span class="#{column.cm_css_class}" = show_field_value(ar_object, column)
+              span class="#{column.field_type.to_s} #{column.cm_css_class} "
+                - if index == 0 && is_show_action_available(@associated_model)
+                  a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/#{ar_object.id}" = show_field_value(ar_object, column)
+                - else
+                  = show_field_value(ar_object, column)
+                  - if column.field_type == :drawer
+                    = render partial: column.drawer_partial, locals: { ar_object: ar_object }
+                    
           - if @associated_model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @associated_model, ar_object: ar_object }
 
-.cm-pagination
-  .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
-  .cm-pagination__rhs
-    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
+  .cm-pagination
+    .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
+    .cm-pagination__rhs
+      == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
 
 = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @associated_model, ar_collection: @associated_ar_object }

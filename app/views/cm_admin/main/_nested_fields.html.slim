@@ -1,8 +1,9 @@
-.nested-fields
+.nested-fields class=assoc_name
   - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
     .row
       .col-sm-10
         = input_field_for_column(f, field)
       .col-sm-2
-        - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-          = link_to_remove_association "x", f
+        - unless field.input_type == :hidden
+          - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+            = link_to_remove_association "x", f

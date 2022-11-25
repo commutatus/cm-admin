@@ -2,6 +2,7 @@ module CmAdmin
   module ViewHelpers
     module FieldDisplayHelper
       def show_field(ar_object, field)
+        return unless field.display_if.call(ar_object)
         content_tag(:div, class: "info-split") do
           concat show_field_label(ar_object, field)
           concat value_with_prefix_and_suffix(ar_object, field)
@@ -10,7 +11,14 @@ module CmAdmin
 
       def show_field_label(ar_object, field)
         content_tag(:div, class: "info-split__lhs") do
-          p = field.label.present? ? field.label.to_s : field.field_name.to_s.titleize
+          field_label = if field.label.present?
+                          field.label.to_s
+                        elsif field.association_type.to_s == "polymorphic"
+                          ar_object.send(field.association_name).class.to_s.titleize
+                        else
+                          field.field_name.to_s.titleize
+                        end
+          p = field_label
         end
       end
 
@@ -34,6 +42,9 @@ module CmAdmin
         when :datetime
           self.extend LocalTimeHelper
           local_time(ar_object.send(field.field_name).strftime(field.format || "%d/%m/%Y").to_s) if ar_object.send(field.field_name)
+        when :date
+          self.extend LocalTimeHelper
+          local_date(ar_object.send(field.field_name), (field.format || '%B %e, %Y'))
         when :text
           ar_object.send(field.field_name)
         when :custom
@@ -69,6 +80,14 @@ module CmAdmin
               image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50)
             end
           end
+        when :association
+          if field.association_type.to_s == 'polymorphic'
+            association_name = ar_object.send(field.association_name).class.to_s.underscore
+            field_name = find_field_name(field, association_name)
+            link_to ar_object.send(field.association_name).send(field_name), cm_admin.send("#{association_name}_show_path", ar_object.send(field.association_name).id)
+          elsif ['belongs_to', 'has_one'].include? field.association_type.to_s
+            link_to ar_object.send(field.association_name).send(field.field_name), cm_admin.send("#{field.association_name}_show_path", ar_object.send(field.association_name).id)
+          end
         end
       end
 
@@ -85,6 +104,12 @@ module CmAdmin
               end
             end.join("\n").html_safe
           end
+        end
+      end
+
+      def find_field_name(field, association_name)
+        field.field_name.each do |hash|
+          return hash[association_name.to_sym] if hash.has_key?(association_name.to_sym)
         end
       end
     end

@@ -19,7 +19,7 @@ module CmAdmin
 
         case filter_type
         when :search
-          db_column_name = (Array.new << db_column_name).flatten.map(&:to_sym)
+          db_column_name = (Array.new << db_column_name).flatten.map{|x| x.class.eql?(Hash) ? x : x.to_sym}
         else
           db_column_name = db_column_name.is_a?(Array) ? db_column_name[0].to_sym : db_column_name.to_sym
         end
@@ -47,23 +47,37 @@ module CmAdmin
         def cm_search_filter(scope_value, records, filters)
           return nil if scope_value.blank?
           table_name = records.table_name
-
           filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+            query_variables = []
+            filter.db_column_name.each do |col|
+              if col.is_a?(Symbol)
+                query_variables << "#{table_name.pluralize}.#{col}"
+              elsif col.is_a?(Hash)
+                col.map do |key, value|
+                  value.map {|val| query_variables << "#{key.to_s.pluralize}.#{val}" }
+                end
+              end
+            end
             terms = scope_value.downcase.split(/\s+/)
             terms = terms.map { |e|
               (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
             }
             sql = ""
-            filter.db_column_name.each.with_index do |column, i|
-              sql.concat("#{table_name}.#{column} ILIKE ?")
-              sql.concat(' OR ') unless filter.db_column_name.size.eql?(i+1)
+            query_variables.each.with_index do |column, i|
+              sql.concat("#{column} ILIKE ?")
+              sql.concat(' OR ') unless query_variables.size.eql?(i+1)
+            end
+
+            if filter.db_column_name.map{|x| x.is_a?(Hash)}.include?(true)
+              associations_hash = filter.db_column_name.select{|x| x if x.is_a?(Hash)}.last
+              records = records.joins(associations_hash.keys)
             end
 
             records = records.where(
               terms.map { |term|
                 sql
               }.join(' AND '),
-              *terms.map { |e| [e] * filter.db_column_name.size }.flatten
+              *terms.map { |e| [e] * query_variables.size }.flatten
             )
           end
           records

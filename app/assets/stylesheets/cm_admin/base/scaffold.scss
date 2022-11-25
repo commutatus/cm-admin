@@ -64,15 +64,15 @@ a {
   opacity: 1 !important;
 }
 
-.page-container {
+.cm-page-container {
   height: 100vh;
 }
 
 .sticky-container {
   position: sticky;
   top: 0;
-  background-color: #fff;
-  z-index: 1;
+  background-color: $white;
+  z-index: 4;
 }
 
 .scrollable {
@@ -116,4 +116,47 @@ a {
   top: 0;
   opacity: 0;
   z-index: -1;
+}
+
+//select 2 styles
+.select2-container {
+  .selection {
+    .select2-selection {
+      padding: 8px 16px;
+      background-color: $white;
+      border: 1px solid $grey-light-clr;
+      border-radius: $radius-4;
+      height: 40px;
+      .select2-selection__rendered {
+        padding-left: 0;
+        @include font($size: $t4-text, $color: $primary-text-clr);
+        line-height: 22px;
+      }
+      .select2-selection__arrow {
+        top: 6px;
+      }
+    }
+  }
+  .select2-dropdown {
+    border: 1px solid $grey-lighter-clr;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+    .select2-results {
+      .select2-results__options {
+        .select2-results__option {
+          padding: 9px 16px;
+          @include font($size: $t4-text, $color: $primary-text-clr);
+          line-height: 22px;
+        }
+      }
+      .select2-results__option--highlighted.select2-results__option--selectable {
+        background: $grey-lighter-clr;
+        color: $primary-text-clr;   
+      }
+      .select2-results__option--selected {
+        color: $brand-color !important;   
+        background-color: $grey-lighter-clr !important;
+      }
+    }
+  }
 }

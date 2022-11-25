@@ -54,9 +54,9 @@ module CmAdmin
         yield if block
       end
 
-      def cm_show_section(section_name, &block)
+      def cm_show_section(section_name, display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, display_if, &block)
       end
 
       def form_field(field_name, options={}, arg=nil)
@@ -77,10 +77,23 @@ module CmAdmin
       def column(field_name, options={})
         @available_fields[@current_action.name.to_sym] ||= []
         if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
-          raise "Only one column can be locked in a table."
+          raise 'Only one column can be locked in a table.'
         end
 
-        unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
+        duplicate_columns = @available_fields[@current_action.name.to_sym].filter{|x| x.field_name.to_sym == field_name}
+        terminate = false
+
+        if duplicate_columns.size.positive?
+          duplicate_columns.each do |column|
+            if options[:field_type].to_s != 'association'
+              terminate = true
+            elsif options[:field_type].to_s == 'association' && column.association_name.to_s == options[:association_name].to_s
+              terminate = true
+            end
+          end
+        end
+
+        unless terminate
           @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
         end
       end

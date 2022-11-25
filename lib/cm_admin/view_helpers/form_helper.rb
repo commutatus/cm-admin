@@ -50,6 +50,7 @@ module CmAdmin
           available_fields_hash.each do |key, fields_array|
             if key == :fields
               fields_array.each do |field|
+                next unless field.display_if.call(f.object)
                 if field.input_type.eql?(:hidden)
                   concat input_field_for_column(f, field)
                 else

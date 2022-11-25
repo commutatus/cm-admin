@@ -21,21 +21,18 @@
       align-items: center;
       justify-content: space-between;
       padding: 24px;
-      background: #F8F9FA;
+      background: $grey-lightest-clr;
       &__lhs {
         .title {
+          @include font($size: $t1-text, $color: $primary-text-clr, $weight: 600);
           font-family: $primary-font;
-          font-size: $t1-text;
-          font-weight: 600;
           line-height: 28px;
-          color: $primary-text-clr;
           margin-bottom: 8px;
         }
         .description {
+          @include font($size: $t4-text, $color: $primary-text-clr);
           font-family: $primary-font;
-          font-size: $t4-text;
           line-height: 22px;
-          color: $primary-text-clr;
           margin-bottom: 0;
         }
       }
@@ -46,10 +43,9 @@
     .body {
       padding: 24px;
       .info-text {
+        @include font($size: $t4-text, $color: $primary-text-clr);
         font-family: $primary-font;
-        font-size: $t4-text;
         line-height: 22px;
-        color: $primary-text-clr;
       }
     }
   }

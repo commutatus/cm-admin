@@ -62,11 +62,12 @@ module CmAdmin
 
     def cm_destroy(params)
       @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      redirect_url = request.referrer || cm_admin.send("#{@model.name.underscore}_index_path")
       respond_to do |format|
         if @ar_object.destroy
-          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
-          format.html { redirect_back fallback_location: cm_admin.send("#{@model.name.underscore}_index_path"), notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
+          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
         end
       end
     end
@@ -152,22 +153,25 @@ module CmAdmin
     end
 
     def custom_controller_action(action_name, params)
-      current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
-      if current_action
-        @current_action = current_action
-        @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
-        if @current_action.child_records
-          child_records = @ar_object.send(@current_action.child_records)
-          @associated_model = CmAdmin::Model.find_by(name: @model.ar_model.reflect_on_association(@current_action.child_records).klass.name)
-          if child_records.is_a? ActiveRecord::Relation
-            @associated_ar_object = filter_by(params, child_records, @associated_model.filter_params(params))
-          else
-            @associated_ar_object = child_records
-          end
-          return @ar_object, @associated_model, @associated_ar_object
-        end
-        return @ar_object
-      end
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
+      return unless @current_action
+
+      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      return @ar_object unless @current_action.child_records
+
+      child_records = @ar_object.send(@current_action.child_records)
+      @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
+      @associated_model = if @reflection.klass.column_names.include?('type')
+                            CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
+                          else
+                            CmAdmin::Model.find_by(name: @reflection.klass.name)
+                          end
+      @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
+                                filter_by(params, child_records, @associated_model.filter_params(params))
+                              else
+                                child_records
+                              end
+      return @ar_object, @associated_model, @associated_ar_object
     end
 
     def filter_by(params, records, filter_params={}, sort_params={})
@@ -175,7 +179,7 @@ module CmAdmin
       sort_column = "created_at"
       sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-      
+
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
       records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
       final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
