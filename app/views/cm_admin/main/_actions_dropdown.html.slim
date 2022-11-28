@@ -38,10 +38,10 @@
                 .popup-option
                   span
                     i class="#{custom_action.icon_name}"
-                  = custom_action.name.humanize
+                  = custom_action_title(custom_action)
             - when :modal
               = link_to '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" } do
                 .popup-option
                   span
                     i class="#{custom_action.icon_name}"
-                  = custom_action.name.humanize
+                  = custom_action_title(custom_action)

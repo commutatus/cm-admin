@@ -7,7 +7,7 @@
         .modal-dialog
           .modal-content
             .modal-header
-              h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
+              h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action_title(custom_action)
               button.btn-close aria-label='Close' data-bs-dismiss='modal'
             .modal-body
               = render partial: custom_action.partial, locals: { ar_object: ar_object }
