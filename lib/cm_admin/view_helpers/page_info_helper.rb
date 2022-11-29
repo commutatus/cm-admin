@@ -84,6 +84,10 @@ module CmAdmin
       def custom_action_title(custom_action)
          custom_action.display_name.to_s.presence || custom_action.name.to_s.titleize
       end
+
+      def tab_display_name(nav_item_name)
+        nav_item_name.instance_of?(Symbol) ? nav_item_name.to_s.titleize : nav_item_name.to_s
+      end
     end
   end
 end
