@@ -18,11 +18,11 @@ module CmAdmin
   class << self
 
     def rails6?
-      Rails::VERSION::MAJOR >= 6
+      Rails::VERSION::MAJOR == 6
     end
   
     def rails7?
-      Rails::VERSION::MAJOR >= 7
+      Rails::VERSION::MAJOR == 7
     end
   
     def use_importmap?
