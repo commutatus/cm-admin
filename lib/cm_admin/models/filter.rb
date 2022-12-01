@@ -70,7 +70,7 @@ module CmAdmin
 
             if filter.db_column_name.map{|x| x.is_a?(Hash)}.include?(true)
               associations_hash = filter.db_column_name.select{|x| x if x.is_a?(Hash)}.last
-              records = records.joins(associations_hash.keys)
+              records = records.left_joins(associations_hash.keys).distinct
             end
 
             records = records.where(
