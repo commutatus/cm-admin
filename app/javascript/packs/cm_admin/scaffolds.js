@@ -16,6 +16,9 @@ $(document).on('turbolinks:load', function () {
       animation: 150
     });
   }
+  var headerElemHeight = $('.page-top-bar').height() + 64
+  var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
+  $('.new-admin-table').css("maxHeight", calculatedHeight);
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {

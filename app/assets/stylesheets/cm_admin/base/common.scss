@@ -163,10 +163,10 @@
   border-radius: $circle;
 }
 .border-top {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid $grey-regular-clr;
 }
 .border-bottom {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid $grey-regular-clr;
 }
 
 //common styles gose here
@@ -185,7 +185,7 @@
 }
 
 .error-text {
-  font-size: 14px;
+  font-size: $t4-text;
   color: $error-clr;
   margin: 5px 0;
   animation: shakeError 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;

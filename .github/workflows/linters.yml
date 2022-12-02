@@ -1,0 +1,31 @@
+# .github/workflows/linters.yml
+name: linters
+on: [pull_request]
+
+jobs:
+  linters:
+    name: runner / linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+      - uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
+        with:
+          ruby-version: 3.0.0
+      - name: rubocop
+        uses: reviewdog/action-rubocop@v1
+        with:
+          rubocop_version: 1.30.0
+          rubocop_extensions: rubocop-rails:2.14.2
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check # Possible values are github-pr-check, github-pr-review
+      - name: reek
+        uses: reviewdog/action-reek@v1
+        with:
+          reek_version: 6.1.1
+      - name: runner / stylelint
+        run: npx stylelint **/*.scss
+      - name: coffeelint
+        uses: reviewdog/action-coffeelint@v1
+        with:
+          reporter: github-pr-review
