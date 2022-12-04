@@ -20,3 +20,4 @@ development:
 
 test:
   <<: *default
+  database: dummy_prototype_test
