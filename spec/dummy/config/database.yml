@@ -1,11 +1,3 @@
-default: &default
-  adapter: postgresql
-  host: localhost
-  encoding: unicode
-  username: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
 
 development:
   adapter:  postgresql
@@ -19,5 +11,12 @@ development:
   port: 5432
 
 test:
-  <<: *default
-  database: dummy_prototype_test
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: dummy_test
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  template: template0
+  port: 5432
