@@ -10,14 +10,18 @@ jobs:
       postgres:
         image: postgres:11
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: rails
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: dummy_test
         ports: ['5432:5432']
         options:
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    env:
+      RAILS_ENV: test 
+      DATABASE_URL: "postgres://rails:postgres:@localhost:5432/dummy_test"
     steps:
       - uses: actions/checkout@v2
       - name: Setup Ruby
@@ -25,12 +29,6 @@ jobs:
         with:
           ruby-version: 2.7
       - name: Build and run test
-        env:
-          DATABASE_URL: postgres://postgres:@localhost:5432/dummy_test
-          RAILS_ENV: test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: dummy_test
         run: |
           sudo apt-get -yqq install libpq-dev
           gem install bundler:1.17.3
