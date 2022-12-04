@@ -20,3 +20,12 @@ test:
   password: Federation123
   template: template0
   port: 5432
+
+default: &default
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
