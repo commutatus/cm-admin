@@ -23,7 +23,7 @@ jobs:
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.7.0
+          ruby-version: 2.7
       - name: Build and run test
         run: |
           sudo apt-get -yqq install libpq-dev
