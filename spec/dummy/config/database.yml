@@ -11,15 +11,7 @@ development:
   port: 5432
 
 test:
-  adapter:  postgresql
-  host:     localhost
-  encoding: unicode
-  database: dummy_test
-  pool:     5
-  username: manikandandayalan
-  password: Federation123
-  template: template0
-  port: 5432
+  <<: *default
 
 default: &default
   adapter: postgresql
