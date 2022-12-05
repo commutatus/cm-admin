@@ -21,7 +21,7 @@ jobs:
           --health-retries 5
     env:
       RAILS_ENV: test 
-      DATABASE_URL: "postgres://postgres:postgres:@localhost:5432/dummy_test"
+      DATABASE_URL: "postgres://postgres:@localhost:5432/dummy_test"
     steps:
       - uses: actions/checkout@v2
       - name: Setup Ruby
