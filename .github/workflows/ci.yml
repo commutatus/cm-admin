@@ -26,7 +26,7 @@ jobs:
           ruby-version: 2.7
       - name: Build and run test
         env:
-          DATABASE_URL: postgres://postgres:@localhost:5432/dummy_rails_test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_rails_test
           RAILS_ENV: test
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
