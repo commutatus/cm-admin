@@ -32,9 +32,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: dummy_test
         run: |
-          sudo apt-get -yqq install libpq-dev
-          gem install bundler:1.17.3
-          bundle install --jobs 4 --retry 3
-          bundle exec rails db:create
-          bundle exec rails db:migrate
+          cd spec/dummy_app
+          bundle exec rake db:create db:migrate
+          cd ../../
           RAILS_ENV=test bundle exec rake
