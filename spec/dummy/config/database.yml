@@ -1,3 +1,12 @@
+default: &default
+  adapter: postgresql
+  host: localhost
+  encoding: unicode
+  database: <%= ENV["POSTGRES_DB"] %>
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
 development:
   adapter:  postgresql
@@ -14,9 +23,9 @@ test:
   adapter:  postgresql
   host:     localhost
   encoding: unicode
-  database: <%= ENV["POSTGRES_DB"] %>
-  username: <%= ENV["POSTGRES_USER"] %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: dummy_test
+  pool:     5
+  username: manikandandayalan
+  password: Federation123
   template: template0
   port: 5432
