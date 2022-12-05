@@ -4,44 +4,31 @@ require_relative 'spec_helper'
 
 
 RSpec.describe CmAdmin::Configuration, type: :request do
-  # it "has a version number" do
-  #   expect(CmAdmin::VERSION).not_to be nil
-  # end
+  
 
-  # it "does something useful" do
-  #   expect(false).to eq(true)
-  # end
-
-  # it 'Check all included models' do
-    # binding.pry
-    # CmAdmin.config.included_models = [FileImport]
-    # expect(CmAdmin.config.cm_admin_models.collect(&:name)).to eq(["FileImport", "Post"])
-  # end
-
-
-  it 'create a post' do
+  it 'Visit posts page and add post' do
     visit('/admin/posts')
     click_link('Add')
-    fill_in 'post[name]', with: 'Post name'
-    fill_in 'post[title]', with: 'Post title'
-    fill_in 'post[content]', with: 'Post content'
+    fill_in 'post[name]', with: 'Welcome post'
+    fill_in 'post[content]', with: 'Details of onboarding'
     click_button 'Save'
-    # binding.pry
-
-    # expect(page).to have_content('new post')
-    # expect(page).to have_content('new post1')
   end
 
-  it 'has correct input field names' do
+  it 'create post and go to post details page' do
     visit('/admin/posts')
     click_link('Add')
-    expect(page).to have_content('Section heading')
-    expect(page).to have_selector('label[for=post_Name]')
-    expect(page).to have_selector("input#post_Name[name='post[name]']")
-    expect(page).to have_selector('label[for=post_Title]')
-    expect(page).to have_selector("input#post_title[name='post[title]']")
-    expect(page).to have_selector('label[for=post_Content]')
-    expect(page).to have_selector("input#post_content[name='post[content]']")
+    fill_in 'post[name]', with: 'Welcome post'
+    fill_in 'post[content]', with: 'Details of onboarding'
+    click_button 'Save'
+
+    expect(page).to have_content('Welcome post')
+    expect(page).to have_content('Details of onboarding')
+  end
+
+  it 'Delete post ' do
+    @post = Post.create(name: "new blog post", content: "blog post details")
+    visit("/admin/posts/#{@post.id}")
+    visit post_destroy_path(@post.id)
   end
 
   
