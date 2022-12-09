@@ -1,46 +1,25 @@
-/ .nested-fields class=assoc_name
-/   - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
-/       .field-input
-/         = input_field_for_column(f, field)
-/       .field-remove-action
-/         - unless field.input_type == :hidden
-/           - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-/             = link_to_remove_association "", f, class: 'fa fa-times'
-             
-.accordion.nested-form-accordion
-  .accordion-item
+- if @model.available_fields[ action(action_name) ][assoc_name].count == 1
+  .nested-single-field.nested-fields class=assoc_name
+    - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
+        .field-input
+          = input_field_for_column(f, field)
+        .field-remove-action
+          - unless field.input_type == :hidden
+            - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+              = link_to_remove_association "", f, class: 'fa fa-times'
+- else
+  .accordion-item.nested-fields
     h2#headingOne.accordion-header
-      button.accordion-button[type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"]
-        | Chapter 1 
-      button.ghost-btn.accordion-delete-btn
-        i.fa.fa-trash[aria-hidden="true"]
-    #collapseOne.accordion-collapse.collapse.show[aria-labelledby="headingOne" data-bs-parent="#accordionExample"]
+      button.accordion-button[type="button" data-bs-toggle="collapse" data-bs-target="##{assoc_name}-#{f.object.id}" aria-expanded="true" aria-controls="collapseOne"]
+        | Chapter 1
+      .field-remove-action
+        - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+          = link_to_remove_association "", f, class: 'fa fa-trash ghost-btn accordion-delete-btn'
+    div.accordion-collapse.collapse.show[aria-labelledby="headingOne" id="#{assoc_name}-#{f.object.id}"]
       .accordion-body
-       .form-field
-        .field-label-wrapper
-          label.field-label Label 
-        .field-input-wrapper
-          input.normal-input placeholder="Search"
-        .form-field
-          .field-label-wrapper
-            label.field-label Label 
-          .field-input-wrapper
-            input.normal-input placeholder="Search"
-  .accordion-item
-    h2#headingTwo.accordion-header
-      button.accordion-button.collapsed[type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"]
-        |  Chapter 2 
-      button.ghost-btn.accordion-delete-btn
-        i.fa.fa-trash[aria-hidden="true"]
-    #collapseTwo.accordion-collapse.collapse[aria-labelledby="headingTwo" data-bs-parent="#accordionExample"]
-      .accordion-body
-        .form-field
-          .field-label-wrapper
-            label.field-label Label 
-          .field-input-wrapper
-            input.normal-input placeholder="Search"
-        .form-field
-          .field-label-wrapper
-            label.field-label Label 
-          .field-input-wrapper
-            input.normal-input placeholder="Search"
+        - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
+          .form-field
+            .field-label-wrapper
+              label.field-label = field.field_name.to_s.titleize 
+            .field-input-wrapper
+              = input_field_for_column(f, field)

@@ -1,10 +1,9 @@
-.nested-field-wrapper
+.nested-field-wrapper data-table-name=table_name data-model-name=table_name.to_s.classify
   label.nested-field-label = table_name.to_s.titleize
-  - initialized_record_count = 1
-  = f.fields_for table_name do |record|
-    - if record.object.persisted? || initialized_record_count == 1
-      = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: table_name }
-    - initialized_record_count += 1 if record.object.new_record?
-  - if @reflections.select {|x| x if x.name == table_name}.first.macro == :has_many
-    .links
-      = link_to_add_association "+ Add #{table_name.to_s.titleize}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: table_name }}, class: 'd-inline-block secondary-btn mt-2'
+  .accordion.nested-form-accordion class=table_name
+    = f.fields_for table_name do |record|
+      - if record.object.persisted?
+        = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: table_name }
+    - if @reflections.select {|x| x if x.name == table_name}.first.macro == :has_many
+      .links
+        = link_to_add_association "+ Add #{table_name.to_s.titleize}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: table_name }}, class: 'd-inline-block secondary-btn mt-2'
