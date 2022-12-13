@@ -1,6 +1,7 @@
-- if @model.available_fields[ action(action_name) ][assoc_name].count == 1
-  .nested-single-field.nested-fields class=assoc_name
-    - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
+- fields = @model.available_fields[ action(action_name) ][assoc_name]
+- if fields.count == 1
+  .nested-single-field.nested-fields data-class-name=assoc_name
+    - fields.each do |field|
         .field-input
           = input_field_for_column(f, field)
         .field-remove-action
@@ -17,7 +18,7 @@
           = link_to_remove_association "", f, class: 'fa fa-trash ghost-btn accordion-delete-btn'
     div.accordion-collapse.collapse.show[aria-labelledby="headingOne" id="#{assoc_name}-#{f.object.id}"]
       .accordion-body
-        - @model.available_fields[ action(action_name) ][assoc_name].each do |field|
+        - fields.each do |field|
           .form-field
             .field-label-wrapper
               label.field-label = field.field_name.to_s.titleize 
