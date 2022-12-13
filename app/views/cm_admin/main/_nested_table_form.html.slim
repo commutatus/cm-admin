@@ -1,6 +1,6 @@
 .nested-field-wrapper data-table-name=table_name data-model-name=table_name.to_s.classify
   label.nested-field-label = table_name.to_s.titleize
-  .accordion.nested-form-accordion class=table_name
+  .accordion.nested-form-accordion
     = f.fields_for table_name do |record|
       - if record.object.persisted?
         = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: table_name }
