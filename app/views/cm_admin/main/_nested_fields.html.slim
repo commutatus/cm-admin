@@ -1,6 +1,6 @@
 - fields = @model.available_fields[ action(action_name) ][assoc_name]
 - if fields.count == 1
-  .nested-single-field.nested-fields data-class-name=assoc_name
+  .nested-single-field.nested-fields
     - fields.each do |field|
         .field-input
           = input_field_for_column(f, field)
