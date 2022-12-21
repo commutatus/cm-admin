@@ -91,6 +91,14 @@ module CmAdmin
       end
     end
 
+    def cm_history(params)
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: 'history')
+      resource_identifier
+      respond_to do |format|
+        format.html { render '/cm_admin/main/history' }
+      end
+    end
+
     def cm_custom_method(params)
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       resource_identifier

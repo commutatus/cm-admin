@@ -1,0 +1,17 @@
+.show-page.cm-page-container
+  .show-page__tabs.sticky-container.page-top-bar
+    .cm-tabs-bar
+      == render 'cm_admin/main/top_navbar'
+      == render 'cm_admin/main/tabs'
+  .show-page__inner.scrollable
+    .history-box
+      - @ar_object.action_trails.each do |at|
+        .history-item
+          .profile-pic 
+            img alt=("profile") src="https://www.pngitem.com/pimgs/m/264-2647677_avatar-icon-human-user-avatar-svg-hd-png.png"
+          .history-info
+            span.bold-text = at.actor.first_name
+            span.normal-text = at.trail_type.titleize
+            span.normal-text the
+            span.bold-text = at.entity_type
+            span.light-text = at.created_at.strftime("%B")

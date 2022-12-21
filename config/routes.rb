@@ -16,9 +16,17 @@ CmAdmin::Engine.routes.draw do
         send(:post, 'import', to: "#{model.name.underscore}#import", as: "#{model.name.underscore}_import")
       end
     end
+    
     model.available_actions.sort_by {|act| act.name}.each do |act|
       scope model.name.tableize do
-        send(act.verb, act.path.present? ? act.path : act.name, to: "#{model.name.underscore}##{act.name}", as: "#{model.name.underscore}_#{act.name}")
+        # Define route only when action trail related field is present
+        if act.name == 'history'
+          if defined?(model.ar_model.new.current_action_name)
+            send(:get, ':id/history', to: "#{model.name.underscore}#history", as: "#{model.name.underscore}_history")
+          end
+        else
+          send(act.verb, act.path.present? ? act.path : act.name, to: "#{model.name.underscore}##{act.name}", as: "#{model.name.underscore}_#{act.name}")
+        end
       end
     end
   end
