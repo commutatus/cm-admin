@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚀 Discussions and Proposals
+    url: https://github.com/commutatus/cm-admin/discussions
+    about: Visit our GitHub Discussions page to suggest an idea to make CM Admin better.
