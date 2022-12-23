@@ -1,6 +1,11 @@
 ---
 name: 🐛 Bug report
 about: Report a reproducible bug and help us improve.
+title: '[Bug]: '
+labels: 'bug'
+assignees:
+  - anbublacky
+  - AdityaTiwari2102
 ---
 
 <!-- Before creating a bug report, try disabling browser extensions to see if the bug is still present. -->
