@@ -1,6 +1,6 @@
 ---
 name: 🐛 Bug report
-description: Report a reproducible bug and help us improve.
+about: Report a reproducible bug and help us improve.
 ---
 
 <!-- Before creating a bug report, try disabling browser extensions to see if the bug is still present. -->
