@@ -7070,7 +7070,7 @@
   dependencies:
     "stylelint-config-recommended" "^8.0.0"
 
-"stylelint-scss@^4.0.0", "stylelint-scss@^4.3.0":
+"stylelint-scss@^4.0.0":
   "integrity" "sha512-GvSaKCA3tipzZHoz+nNO7S02ZqOsdBzMiCx9poSmLlb3tdJlGddEX/8QzCOD8O7GQan9bjsvLMsO5xiw6IhhIQ=="
   "resolved" "https://registry.npmjs.org/stylelint-scss/-/stylelint-scss-4.3.0.tgz"
   "version" "4.3.0"
