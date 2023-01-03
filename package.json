@@ -23,6 +23,7 @@
   "devDependencies": {
     "stylelint": "^14.16.1",
     "stylelint-config-standard-scss": "^5.0.0",
+    "stylelint-scss": "^4.3.0",
     "webpack-dev-server": "^4.9.3"
   }
 }
