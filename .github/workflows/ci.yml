@@ -26,7 +26,7 @@ jobs:
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
+          ruby-version: 2.7
           bundler-cache: true
       - name: Build and run test
         env:
