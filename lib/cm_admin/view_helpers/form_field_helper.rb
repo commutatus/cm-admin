@@ -31,6 +31,10 @@ module CmAdmin
           return f.file_field field.field_name, multiple: true, class: "normal-input #{required_class}"
         when :hidden
           return f.hidden_field field.field_name, value: value, name: field.html_attr[:name] || "#{f.object_name}[#{field.field_name}]"
+        when :check_box
+          return f.check_box field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: field.disabled
+        when :radio_button
+          format_radio_button_options(value, f)
         end
       end
 
@@ -43,6 +47,27 @@ module CmAdmin
           collection = field.collection
         else
           collection = []
+        end
+      end
+
+      def format_radio_button_options(options, f)
+        content_tag :div do
+          options.each do |val, key|
+            concat format_radio_option(val, key, f)
+          end
+        end
+      end
+  
+      def format_radio_option(val, key, f)
+        content_tag :div, class: 'cm-radio-section' do
+          concat format_radio_button(val, f)
+          concat content_tag(:div, key, class: 'cm-radio-label')
+        end
+      end
+
+      def format_radio_button(val, f)
+        content_tag :div, class: 'cm-radio-tag' do
+          concat f.radio_button :level, val, class: "normal-input cm-radio"
         end
       end
     end
