@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.7
-          bundler-cache: true
+          # bundler-cache: true
       - name: Build and run test
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_test
