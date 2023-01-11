@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ['2.7', '3.0', '3.1']
+        ruby: ['2.7', '3.0']
+        gemfile: [gemfiles/rails_5.0.gemfile]
     
     services:
       postgres:
@@ -29,6 +30,7 @@ jobs:
           bundler-cache: true
       - name: Build and run test
         env:
+          BUNDLE_GEMFILE: ../../${{ matrix.gemfile }}
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_test
           RAILS_ENV: test
           POSTGRES_USER: postgres
