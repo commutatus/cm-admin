@@ -6,6 +6,7 @@ gem "rails", "~> 6.1.0"
 gem "haml"
 gem "devise", "~> 4.7"
 gem "sassc-rails", "~> 2.1"
+gem 'webpacker', '~> 5.0'
 gem "pg"
 
 
