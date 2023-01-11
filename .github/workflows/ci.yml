@@ -30,7 +30,7 @@ jobs:
           bundler-cache: true
       - name: Build and run test
         env:
-          BUNDLE_GEMFILE: ../../${{ matrix.gemfile }}
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_test
           RAILS_ENV: test
           POSTGRES_USER: postgres
