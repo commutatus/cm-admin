@@ -34,6 +34,32 @@ namespace :cm_admin do
             end
         end
     end
+
+    desc 'CI env for Github Action'
+    task :prepare_ci_env do
+      adapter = 'postgresql'
+      database = 'dummy_test'
+      username = 'postgres'
+        
+      configuration = {
+        'test' => {
+          'adapter' => adapter,
+          'database' => database,
+          'username' => username,
+          'password' => 'postgres',
+          'host' => '127.0.0.1',
+          'encoding' => 'utf8',
+          'pool' => 5,
+          'timeout' => 5000,
+        },
+      }
+
+      filename = Rails.root.join('config/database.yml')
+
+      File.open(filename, 'w') do |f|
+        f.write(configuration.to_yaml)
+      end
+    end
 end
 
 def yarn_install_available?

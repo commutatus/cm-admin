@@ -33,16 +33,12 @@ jobs:
           # bundler-cache: true
       - name: Setup application
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_test
           RAILS_ENV: test
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: dummy_test
         run: |
           cd spec/dummy
           gem install bundler:2.3.3
           bundle install
-          bundle exec rake db:create db:migrate
+          bundle exec rake cm_admin:prepare_ci_env db:create db:migrate
           cd ../../
       - name: Run tests
         run: |
