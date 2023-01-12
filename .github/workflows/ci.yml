@@ -45,4 +45,6 @@ jobs:
           bundle exec rake db:create db:migrate
           cd ../../
       - name: Run tests
-        run: bundle exec rspec
+        run: |
+          bundle install
+          bundle exec rspec
