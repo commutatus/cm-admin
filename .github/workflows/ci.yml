@@ -45,4 +45,4 @@ jobs:
           bundle exec rake db:create db:migrate
           cd ../../
       - name: Run tests
-        run: bundle exec rake
+        run: bundle exec rspec
