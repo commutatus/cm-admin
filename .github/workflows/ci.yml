@@ -30,7 +30,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
+          # bundler-cache: true
       - name: Setup application
         env:
           BUNDLE_GEMFILE: ../../${{ matrix.gemfile }}
