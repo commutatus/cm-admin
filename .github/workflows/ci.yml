@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         ruby: ['2.7']
-        gemfile: [gemfiles/rails_6.1.gemfile]
+        # gemfile: [gemfiles/rails_6.1.gemfile]
     
     services:
       postgres:
@@ -22,8 +22,8 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-    env:
-      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    # env:
+    #   BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v3
       - uses: ruby/setup-ruby@v1
@@ -32,7 +32,7 @@ jobs:
           bundler-cache: true
       - name: Build and run test
         env:
-          BUNDLE_GEMFILE: ../../${{ matrix.gemfile }}
+          # BUNDLE_GEMFILE: ../../${{ matrix.gemfile }}
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/dummy_test
           RAILS_ENV: test
           POSTGRES_USER: postgres
@@ -44,4 +44,5 @@ jobs:
           bundle install
           bundle exec rake db:create db:migrate
           cd ../../
+          bundle install
           RAILS_ENV=test bundle exec rake
