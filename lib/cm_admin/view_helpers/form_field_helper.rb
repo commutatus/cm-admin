@@ -6,6 +6,7 @@ module CmAdmin
         value = field.helper_method ? send(field.helper_method, f.object, field.field_name) : f.object.send(field.field_name)
         is_required = f.object._validators[field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
+        target_action = @model.available_actions.select{|x| x.name == field.target[:action_name].to_s}.first if field.target.present?
         case field.input_type
         when :integer
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
@@ -14,7 +15,11 @@ module CmAdmin
         when :string
           return f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_select
-          return f.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)), {include_blank: field.placeholder.to_s}, class: "normal-input #{required_class} select-2", disabled: field.disabled
+          return f.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)),
+                          { include_blank: field.placeholder.to_s },
+                          class: "normal-input #{required_class} select-2 #{target_action.present? ? 'linked-field-request' : ''}",
+                          disabled: field.disabled,
+                          data: { target_action: target_action&.name, target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : '' }
         when :multi_select
           return f.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled, multiple: true
         when :date

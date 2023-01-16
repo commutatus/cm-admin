@@ -75,6 +75,51 @@ $(document).on('click', '.drawer-close', function(e) {
   }, 300);
 });
 
+$(document).on('change', '.linked-field-request', function(e) {
+  e.stopPropagation();
+  request_url = $(this).data('target-url').replace(':param_1', $(this).val())
+  $.ajax(request_url, {
+    type: 'GET',
+    success: function(data) {
+      apply_response_to_field(data)
+    },
+    error: function(jqxhr, textStatus, errorThrown) {
+      console.log(errorThrown, textStatus);
+    }
+  });
+});
+
+function apply_response_to_field(response) {
+  console.log(response['fields'])
+  $.each(response['fields'], function(key, value) {
+    if (value['target_type'] == 'select') {
+      update_options_in_select(value['target_value'])
+    }
+    else if (value['target_type'] == 'input') {
+      update_options_input_value(value['target_value'])
+    }
+  })
+}
+
+function update_options_input_value(field_obj) {
+  console.log("====================")
+  console.log("field_obj", field_obj)
+  input_tag = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
+  input_tag.val(field_obj['field_value'])
+}
+
+function update_options_in_select(options) {
+  console.log("=====================")
+  console.log(options)
+  select_tag = $('#' + options['table'] + '_' + options['field_name'])
+  select_tag.empty();
+  console.log(options['field_value'])
+  $.each(options['field_value'], function(key, value) {
+    select_tag.append($("<option></option>")
+      .attr("value", value[1]).text(value[0]));
+  });
+}
+
 $(document).on('cocoon:after-insert', '.nested-field-wrapper', function(e) {
   e.stopPropagation();
   replaceAccordionTitle($(this))
