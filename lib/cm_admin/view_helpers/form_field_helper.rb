@@ -1,41 +1,41 @@
 module CmAdmin
   module ViewHelpers
     module FormFieldHelper
-      def input_field_for_column(f, field)
-        return unless field.display_if.call(f.object)
+      def input_field_for_column(form_obj, cm_field)
+        return unless cm_field.display_if.call(f.object)
 
-        value = field.helper_method ? send(field.helper_method, f.object, field.field_name) : f.object.send(field.field_name)
-        is_required = f.object._validators[field.field_name].map(&:kind).include?(:presence)
+        value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
+        is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
-        case field.input_type
+        case cm_field.input_type
         when :integer
-          f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
+          form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
         when :decimal
-          f.number_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'decimal-only' }
+          form_obj.number_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'decimal-only' }
         when :string
-          f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
+          form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_select
-          f.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)), {include_blank: field.placeholder.to_s}, class: "normal-input #{required_class} select-2", disabled: field.disabled
+          form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)), {include_blank: cm_field.placeholder.to_s}, class: "normal-input #{required_class} select-2", disabled: cm_field.disabled
         when :multi_select
-          f.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)), {include_blank: "Select #{field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: field.disabled, multiple: true
+          form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)), {include_blank: "Select #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: cm_field.disabled, multiple: true
         when :date
-          f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value&.strftime('%d-%m-%Y'), placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
+          form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value&.strftime('%d-%m-%Y'), placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-only' }
         when :date_time
-          f.text_field field.field_name, class: "normal-input #{required_class}", disabled: field.disabled, value: value, placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-time' }
+          form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}", data: { behaviour: 'date-time' }
         when :text
-          f.text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
+          form_obj.text_area cm_field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :rich_text
-          f.rich_text_area field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{field.field_name.to_s.downcase.gsub('_', ' ')}"
+          form_obj.rich_text_area cm_field.field_name, class: "normal-input #{required_class}", placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_file_upload
-          f.file_field field.field_name, class: "normal-input #{required_class}"
+          form_obj.file_field cm_field.field_name, class: "normal-input #{required_class}"
         when :multi_file_upload
-          f.file_field field.field_name, multiple: true, class: "normal-input #{required_class}"
+          form_obj.file_field cm_field.field_name, multiple: true, class: "normal-input #{required_class}"
         when :hidden
-          f.hidden_field field.field_name, value: value, name: field.html_attr[:name] || "#{f.object_name}[#{field.field_name}]"
+          form_obj.hidden_field cm_field.field_name, value: value, name: cm_field.html_attr[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
         when :check_box
-          format_check_box_options(value, f, field, required_class)
+          format_check_box_options(value, form_obj, cm_field, required_class)
         when :radio_button
-          format_radio_button_options(value, f)
+          format_radio_button_options(value, form_obj)
         end
       end
       
@@ -43,10 +43,10 @@ module CmAdmin
       # Refactor: Collection argument can be removed.
       # helper_method argument will accept a method where value can be passed.
       def select_collection_value(object, field)
-        if field.helper_method
-          collection = send(field.helper_method, object, field.field_name)
-        elsif field.collection
-          collection = field.collection
+        if cm_field.helper_method
+          collection = send(cm_field.helper_method, object, cm_field.field_name)
+        elsif cm_field.collection
+          collection = cm_field.collection
         else
           collection = []
         end
