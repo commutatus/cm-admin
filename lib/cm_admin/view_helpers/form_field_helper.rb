@@ -2,7 +2,7 @@ module CmAdmin
   module ViewHelpers
     module FormFieldHelper
       def input_field_for_column(form_obj, cm_field)
-        return unless cm_field.display_if.call(f.object)
+        return unless cm_field.display_if.call(form_obj.object)
 
         value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
         is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
@@ -42,7 +42,7 @@ module CmAdmin
 
       # Refactor: Collection argument can be removed.
       # helper_method argument will accept a method where value can be passed.
-      def select_collection_value(object, field)
+      def select_collection_value(object, cm_field)
         if cm_field.helper_method
           collection = send(cm_field.helper_method, object, cm_field.field_name)
         elsif cm_field.collection
@@ -52,54 +52,54 @@ module CmAdmin
         end
       end
 
-      def format_check_box_options(value, form_field, cm_field, required_class)
+      def format_check_box_options(value, form_obj, cm_field, required_class)
         if value.class == Array
-          format_check_box_array(value, form_field, cm_field, required_class)
+          format_check_box_array(value, form_obj, cm_field, required_class)
         else
-          form_field.check_box cm_field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled
+          form_obj.check_box cm_field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled
         end
       end
 
-      def format_check_box_array(options, form_field, cm_field, required_class)
+      def format_check_box_array(options, form_obj, cm_field, required_class)
         content_tag :div do
           options.each do |key, val|
-            concat format_check_box(val, key, form_field, cm_field, required_class)
+            concat format_check_box(val, key, form_obj, cm_field, required_class)
           end
         end
       end
 
-      def format_check_box(val, key, form_field, cm_field, required_class)
+      def format_check_box(val, key, form_obj, cm_field, required_class)
         content_tag :div, class: 'cm-checkbox-section' do
-          concat format_check_box_tag(val, form_field, cm_field, required_class)
+          concat format_check_box_tag(val, form_obj, cm_field, required_class)
           concat content_tag(:div, key, class: 'cm-checkbox-label')
         end
       end
 
-      def format_check_box_tag(val, form_field, cm_field, required_class)
+      def format_check_box_tag(val, form_obj, cm_field, required_class)
         content_tag :div, class: 'cm-radio-tag' do
-          concat form_field.check_box cm_field.field_name, { class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled, name: "#{@model.name.underscore}[#{cm_field.field_name}][]" }, val
+          concat form_obj.check_box cm_field.field_name, { class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled, name: "#{@model.name.underscore}[#{cm_field.field_name}][]" }, val
         end
       end
 
 
-      def format_radio_button_options(options, form_field)
+      def format_radio_button_options(options, form_obj)
         content_tag :div do
           options.each do |val, key|
-            concat format_radio_option(val, key, form_field)
+            concat format_radio_option(val, key, form_obj)
           end
         end
       end
   
-      def format_radio_option(val, key, form_field)
+      def format_radio_option(val, key, form_obj)
         content_tag :div, class: 'cm-radio-section' do
-          concat format_radio_button(val, form_field)
+          concat format_radio_button(val, form_obj)
           concat content_tag(:div, key, class: 'cm-radio-label')
         end
       end
 
-      def format_radio_button(val, form_field)
+      def format_radio_button(val, form_obj)
         content_tag :div, class: 'cm-radio-tag' do
-          concat form_field.radio_button :level, val, class: 'normal-input cm-radio'
+          concat form_obj.radio_button :level, val, class: 'normal-input cm-radio'
         end
       end
     end
