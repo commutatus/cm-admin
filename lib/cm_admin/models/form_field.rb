@@ -3,10 +3,10 @@ module CmAdmin
     class FormField
       attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method, :placeholder, :display_if, :html_attr
 
-      VALID_INPUT_TYPES = %[
-        integer decimal string single_select multi_select date date_time text,
+      VALID_INPUT_TYPES = %i[
+        integer decimal string single_select multi_select date date_time text
         single_file_upload multi_file_upload hidden rich_text check_box radio_button
-      ].freeze
+      ]
 
       def initialize(field_name, input_type, attributes = {})
         @field_name = field_name
