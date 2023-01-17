@@ -56,7 +56,7 @@ module CmAdmin
         if value.class == Array
           format_check_box_array(value, form_field, cm_field, required_class)
         else
-          return form_field.check_box cm_field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled
+          form_field.check_box cm_field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled
         end
       end
 
