@@ -195,9 +195,11 @@ module CmAdmin
     end
 
     def resource_params(params)
-      columns = @model.ar_model.column_names
+      columns = @model.ar_model.columns_hash.map {|key, ar_adapter|
+        ar_adapter.sql_type_metadata.sql_type.ends_with?('[]') ? Hash[ar_adapter.name, []] : ar_adapter.name.to_sym
+      }
       columns += @model.ar_model.stored_attributes.values.flatten
-      permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+      permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }
       permittable_fields += @model.ar_model.name.constantize.reflect_on_all_associations.map {|x|
         next if x.options[:polymorphic]
         if x.class.name.include?('HasOne')
@@ -216,7 +218,6 @@ module CmAdmin
       }
       permittable_fields += nested_fields
       @model.ar_model.columns.map { |col| permittable_fields << col.name.split('_cents') if col.name.include?('_cents') }
-
       params.require(@model.name.underscore.to_sym).permit(*permittable_fields)
     end
 
