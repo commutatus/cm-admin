@@ -98,26 +98,29 @@ function apply_response_to_field(response) {
     else if (value['target_type'] == 'input') {
       update_options_input_value(value['target_value'])
     }
+    else if (value['target_type'] == 'toggle_visibility') {
+      toggle_field_visibility(value['target_value'])
+    }
   })
 }
 
 function update_options_input_value(field_obj) {
-  console.log("====================")
-  console.log("field_obj", field_obj)
   input_tag = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
   input_tag.val(field_obj['field_value'])
 }
 
-function update_options_in_select(options) {
-  console.log("=====================")
-  console.log(options)
-  select_tag = $('#' + options['table'] + '_' + options['field_name'])
+function update_options_in_select(field_obj) {
+  select_tag = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
   select_tag.empty();
-  console.log(options['field_value'])
-  $.each(options['field_value'], function(key, value) {
+  $.each(field_obj['field_value'], function(key, value) {
     select_tag.append($("<option></option>")
       .attr("value", value[1]).text(value[0]));
   });
+}
+
+function toggle_field_visibility(field_obj) {
+  element = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
+  element.closest('.input-wrapper').toggleClass('hidden')
 }
 
 $(document).on('cocoon:after-insert', '.nested-field-wrapper', function(e) {

@@ -38,7 +38,7 @@ module CmAdmin
         when :hidden
           form_obj.hidden_field cm_field.field_name, value: value, name: cm_field.html_attr[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
         when :check_box
-          format_check_box_options(value, form_obj, cm_field, required_class)
+          format_check_box_options(value, form_obj, cm_field, required_class, target_action)
         when :radio_button
           format_radio_button_options(value, form_obj)
         end
@@ -57,32 +57,49 @@ module CmAdmin
         end
       end
 
-      def format_check_box_options(value, form_obj, cm_field, required_class)
+      def format_check_box_options(value, form_obj, cm_field, required_class, target_action)
         if value.class == Array
-          format_check_box_array(value, form_obj, cm_field, required_class)
+          format_check_box_array(value, form_obj, cm_field, required_class, target_action)
         else
-          form_obj.check_box cm_field.field_name, class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled
+          form_obj.check_box cm_field.field_name,
+                             {
+                               class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                               disabled: cm_field.disabled,
+                               data: {
+                                 target_action: target_action&.name,
+                                 target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : ''
+                               }
+                             }
         end
       end
 
-      def format_check_box_array(options, form_obj, cm_field, required_class)
+      def format_check_box_array(options, form_obj, cm_field, required_class, target_action)
         content_tag :div do
           options.each do |key, val|
-            concat format_check_box(val, key, form_obj, cm_field, required_class)
+            concat format_check_box(val, key, form_obj, cm_field, required_class, target_action)
           end
         end
       end
 
-      def format_check_box(val, key, form_obj, cm_field, required_class)
+      def format_check_box(val, key, form_obj, cm_field, required_class, target_action)
         content_tag :div, class: 'cm-checkbox-section' do
-          concat format_check_box_tag(val, form_obj, cm_field, required_class)
+          concat format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
           concat content_tag(:div, key, class: 'cm-checkbox-label')
         end
       end
 
-      def format_check_box_tag(val, form_obj, cm_field, required_class)
+      def format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
         content_tag :div, class: 'cm-radio-tag' do
-          concat form_obj.check_box cm_field.field_name, { class: "normal-input cm-checkbox #{required_class}", disabled: cm_field.disabled, name: "#{@model.name.underscore}[#{cm_field.field_name}][]" }, val
+          concat form_obj.check_box cm_field.field_name,
+                                    {
+                                      class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                                      disabled: cm_field.disabled,
+                                      name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
+                                      data: {
+                                        target_action: target_action&.name,
+                                        target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : ''
+                                      }
+                                    }, val
         end
       end
 
