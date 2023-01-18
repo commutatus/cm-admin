@@ -7,7 +7,7 @@ module CmAdmin
         value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
         is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
-        target_action = @model.available_actions.select{|x| x.name == field.target[:action_name].to_s}.first if field.target.present?
+        target_action = @model.available_actions.select{|x| x.name == cm_field.target[:action_name].to_s}.first if cm_field.target.present?
         case cm_field.input_type
         when :integer
           form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.humanize.downcase}", data: { behaviour: 'integer-only' }
@@ -16,10 +16,10 @@ module CmAdmin
         when :string
           form_obj.text_field cm_field.field_name, class: "normal-input #{required_class}", disabled: cm_field.disabled, value: value, placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
         when :single_select
-          form_obj.select field.field_name, options_for_select(select_collection_value(f.object, field), f.object.send(field.field_name)),
-                          { include_blank: field.placeholder.to_s },
+          form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
+                          { include_blank: cm_field.placeholder.to_s },
                           class: "normal-input #{required_class} select-2 #{target_action.present? ? 'linked-field-request' : ''}",
-                          disabled: field.disabled,
+                          disabled: cm_field.disabled,
                           data: { target_action: target_action&.name, target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : '' }
         when :multi_select
           form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)), {include_blank: "Select #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: cm_field.disabled, multiple: true
