@@ -20,7 +20,7 @@ module CmAdmin
                           { include_blank: cm_field.placeholder.to_s },
                           class: "normal-input #{required_class} select-2",
                           disabled: cm_field.disabled,
-                          data: { field_type: "linked-field", target_action: target_action&.name, target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : '' }
+                          data: { field_type: 'linked-field', target_action: target_action&.name, target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : '' }
         when :multi_select
           form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)), {include_blank: "Select #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"}, class: "normal-input #{required_class} select-2", disabled: cm_field.disabled, multiple: true
         when :date
