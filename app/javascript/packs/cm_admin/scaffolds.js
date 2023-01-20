@@ -75,7 +75,7 @@ $(document).on('click', '.drawer-close', function(e) {
   }, 300);
 });
 
-$(document).on('change', '.linked-field-request', function(e) {
+$(document).on('change', '[data-field-type="linked-field"]', function(e) {
   e.stopPropagation();
   request_url = $(this).data('target-url').replace(':param_1', $(this).val())
   $.ajax(request_url, {
@@ -84,22 +84,22 @@ $(document).on('change', '.linked-field-request', function(e) {
       apply_response_to_field(data)
     },
     error: function(jqxhr, textStatus, errorThrown) {
-      console.log(errorThrown, textStatus);
+      alert('Something went wrong. Please try again later.\n' + errorThrown);
     }
   });
 });
 
 function apply_response_to_field(response) {
-  console.log(response['fields'])
   $.each(response['fields'], function(key, value) {
-    if (value['target_type'] == 'select') {
-      update_options_in_select(value['target_value'])
-    }
-    else if (value['target_type'] == 'input') {
-      update_options_input_value(value['target_value'])
-    }
-    else if (value['target_type'] == 'toggle_visibility') {
-      toggle_field_visibility(value['target_value'])
+    switch(value['target_type']) {
+      case 'select':
+        update_options_in_select(value['target_value'])
+        break;
+      case 'input':
+        update_options_input_value(value['target_value'])
+        break;
+      case 'toggle_visibility':
+        toggle_field_visibility(value['target_value'])
     }
   })
 }
