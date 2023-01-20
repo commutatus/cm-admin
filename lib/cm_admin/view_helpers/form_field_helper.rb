@@ -97,7 +97,7 @@ module CmAdmin
                                       name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
                                       data: {
                                         target_action: target_action&.name,
-                                        target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : ''
+                                        target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
                                       }
                                     }, val
         end
