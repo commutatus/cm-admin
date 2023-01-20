@@ -67,7 +67,7 @@ module CmAdmin
                                disabled: cm_field.disabled,
                                data: {
                                  target_action: target_action&.name,
-                                 target_url: target_action&.name ? cm_admin.send(@model.name.underscore + '_' + target_action&.name + '_path', ':param_1') : ''
+                                 target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
                                }
                              }
         end
