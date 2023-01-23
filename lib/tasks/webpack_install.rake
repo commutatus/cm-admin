@@ -51,7 +51,7 @@ def enhance_assets_precompile
     end
 end
 
-if Rails::VERSION::MAJOR == 6
+if CmAdmin::Engine.rails6?
   # Compile packs after we've compiled all other assets during precompilation
   skip_webpacker_precompile = %w(no false n f).include?(ENV["WEBPACKER_PRECOMPILE"])
 
