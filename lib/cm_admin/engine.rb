@@ -1,5 +1,6 @@
 require 'rails'
 require 'importmap-rails'
+require 'cm_admin/version_manager'
 
 module CmAdmin
   class Engine < Rails::Engine
@@ -23,23 +24,7 @@ module CmAdmin
       CmAdmin::Engine.routes.find_script_name({})
     end
 
-    def rails6?
-      Rails::VERSION::MAJOR == 6
-    end
-  
-    def rails7?
-      Rails::VERSION::MAJOR == 7
-    end
-
-    def use_importmap?
-      rails7? && File.exist?("config/importmap.rb")
-    end
-  
-    def use_webpacker?
-      rails6? && defined?(Webpacker) == 'constant'
-    end
-
-    if rails6?
+    if VersionManager.rails6?
       initializer "webpacker.proxy" do |app|
         insert_middleware = begin
           CmAdmin.webpacker.config.dev_server.present?
@@ -54,7 +39,7 @@ module CmAdmin
           webpacker: CmAdmin.webpacker
         )
       end
-    elsif rails7?
+    elsif VersionManager.rails7?
       initializer "cm_admin.importmap", before: "importmap" do |app|
         # NOTE: this will add pins from this engine to the main app
         # https://github.com/rails/importmap-rails#composing-import-maps

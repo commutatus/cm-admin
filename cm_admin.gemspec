@@ -1,4 +1,5 @@
 require_relative 'lib/cm_admin/version'
+require_relative 'lib/cm_admin/version_manager'
 
 Gem::Specification.new do |spec|
   spec.name          = "cm-admin"
@@ -36,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'webpacker', '~> 5.4.3'
   spec.add_runtime_dependency 'csv-importer', '~> 0.8.2'
   spec.add_dependency 'importmap-rails'
+  
 end
