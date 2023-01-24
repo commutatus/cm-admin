@@ -23,7 +23,7 @@ module CmAdmin
     include Pagy::Backend
     include Models::Blocks
     include Models::DslMethod
-    attr_accessor :available_actions, :actions_set, :available_fields, :permitted_fields,
+    attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
       :current_action, :params, :filters, :available_tabs, :icon_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
@@ -33,6 +33,7 @@ module CmAdmin
       @is_visible_on_sidebar = true
       @icon_name = 'fa fa-th-large'
       @available_actions ||= []
+      @additional_permitted_fields ||= []
       @current_action = nil
       @available_tabs ||= []
       @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
@@ -92,6 +93,10 @@ module CmAdmin
 
     def set_icon(name)
       @icon_name = name
+    end
+
+    def permit_additional_fields(fields=[])
+      @additional_permitted_fields = fields
     end
 
     # Shared between export controller and resource controller

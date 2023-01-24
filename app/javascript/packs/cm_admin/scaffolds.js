@@ -16,6 +16,9 @@ $(document).on('turbolinks:load', function () {
       animation: 150
     });
   }
+  var headerElemHeight = $('.page-top-bar').height() + 64
+  var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
+  $('.new-admin-table').css("maxHeight", calculatedHeight);
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {
@@ -71,3 +74,33 @@ $(document).on('click', '.drawer-close', function(e) {
     $('.cm-drawer').addClass('hidden');
   }, 300);
 });
+
+$(document).on('cocoon:after-insert', '.nested-field-wrapper', function(e) {
+  e.stopPropagation();
+  replaceAccordionTitle($(this))
+});
+
+$(document).on('cocoon:after-remove', '.nested-field-wrapper', function(e) {
+  e.stopPropagation();
+  replaceAccordionTitle($(this))
+});
+
+$(document).ready( function () {
+  $('.nested-field-wrapper').each(function() {
+    replaceAccordionTitle($(this))
+  })
+});
+
+var replaceAccordionTitle = function(element) {
+  var i = 0;
+  var table_name = $(element).data('table-name')
+  var model_name = $(element).data('model-name')
+  $(element).find('.accordion-item:visible').each(function() {
+    i++;
+    var accordion_title = model_name + ' ' + i
+    var accordion_id = table_name + '-' + i
+    $(this).find('.accordion-button').text(accordion_title);
+    $(this).find('.accordion-button').attr('data-bs-target', '#' + accordion_id);
+    $(this).find('.accordion-collapse').attr('id', accordion_id);
+  });
+}

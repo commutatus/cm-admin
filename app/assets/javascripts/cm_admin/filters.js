@@ -70,7 +70,7 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
     success: function(data) {
       var queryParam = jQuery.param(queryString)
       window.history.pushState("", "", url + '?' + queryParam);
-      $('.index-page__table-container').html(data);
+      $('.cm-index-page__table-container').html(data);
     },
     error: function(jqxhr, textStatus, errorThrown) {
       console.log(errorThrown, textStatus);

@@ -71,14 +71,22 @@ module CmAdmin
 
       def custom_action_button(custom_action, current_action_name)
         if current_action_name == "index"
-          link_to custom_action.name.titleize, @model.ar_model.table_name + '/' + custom_action.path, class: 'secondary-btn ml-2', method: custom_action.verb
+          link_to custom_action_title(custom_action), @model.ar_model.table_name + '/' + custom_action.path, class: 'secondary-btn ml-2', method: custom_action.verb
         elsif current_action_name == "show"
-          link_to custom_action.name.titleize, custom_action.path.gsub(':id', params[:id]), class: 'secondary-btn ml-2', method: custom_action.verb
+          link_to custom_action_title(custom_action), custom_action.path.gsub(':id', params[:id]), class: 'secondary-btn ml-2', method: custom_action.verb
         end
       end
 
       def custom_modal_button(custom_action)
-        link_to custom_action.name.titleize, '', class: 'secondary-btn ml-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal" }
+        link_to custom_action_title(custom_action), '', class: 'secondary-btn ml-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal" }
+      end
+
+      def custom_action_title(custom_action)
+         custom_action.display_name.to_s.presence || custom_action.name.to_s.titleize
+      end
+
+      def tab_display_name(nav_item_name)
+        nav_item_name.instance_of?(Symbol) ? nav_item_name.to_s.titleize : nav_item_name.to_s
       end
     end
   end

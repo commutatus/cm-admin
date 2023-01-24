@@ -41,8 +41,7 @@
       position: absolute;
       top: 14px;
       left: 24px;
-      font-size: $t4-text;
-      color: $ink-lightest-clr;
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
     }
   }
 
@@ -51,8 +50,7 @@
     padding: 16px 0;
     overflow-y: auto;
     .menu-item {
-      font-size: $t4-text;
-      color: $ink-lightest-clr;
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
       padding: 8px 24px;
       transition: all 0.2s linear;
       cursor: pointer;
@@ -72,8 +70,7 @@
 
     .menu-sub-list {
       .menu-sub-item {
-        font-size: $t4-text;
-        color: $ink-lightest-clr;
+        @include font($size: $t4-text, $color: $ink-lightest-clr);
         padding: 8px 8px 8px 45px;
         transition: all 0.2s linear;
         &:hover {
@@ -127,9 +124,8 @@
       display: inline-flex;
       align-items: center;
       position: relative;
-      font-size: $t4-text;
+      @include font($size: $t4-text, $color: $ink-lightest-clr);
       line-height: 22px;
-      color: $ink-lightest-clr;
       cursor: pointer;
       .profile-avatar {
         display: inline-flex;
@@ -138,9 +134,7 @@
         width: 22px;
         height: 22px;
         margin-right: 8px;
-        color: $white;
-        font-size: 10px;
-        font-weight: 900;
+        @include font($size: 10px, $color: $white, $weight: 900);
         background-color: $brand-color;
         border-radius: $circle;
         vertical-align: middle;
@@ -164,15 +158,13 @@
         box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
         &__left {
           .name-text {
-            font-size: $t4-text;
+            @include font($size: $t4-text, $color: $primary-text-clr);
             line-height: 22px;
-            color: $primary-text-clr;
             margin: 0;
           }
           .email-text {
-            font-size: $t4-text;
+            @include font($size: $t4-text, $color: $ink-lightest-clr);
             line-height: 22px;
-            color: $ink-lightest-clr;
             margin: 0;
           }
         }
@@ -193,9 +185,8 @@
         box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
         .page-link {
           display: block;
-          font-size: $t4-text;
+          @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          color: $primary-text-clr;
           padding: 4px 16px;
           border: none;
           transition: all 0.2s linear;
@@ -208,9 +199,8 @@
         padding: 8px 0;
         .auth-link {
           display: block;
-          font-size: $t4-text;
+          @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          color: $primary-text-clr;
           padding: 4px 16px;
           transition: all 0.2s linear;
           &:hover {

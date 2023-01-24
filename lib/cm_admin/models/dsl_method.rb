@@ -77,10 +77,23 @@ module CmAdmin
       def column(field_name, options={})
         @available_fields[@current_action.name.to_sym] ||= []
         if @available_fields[@current_action.name.to_sym].select{|x| x.lockable}.size > 0 && options[:lockable]
-          raise "Only one column can be locked in a table."
+          raise 'Only one column can be locked in a table.'
         end
 
-        unless @available_fields[@current_action.name.to_sym].map{|x| x.field_name.to_sym}.include?(field_name)
+        duplicate_columns = @available_fields[@current_action.name.to_sym].filter{|x| x.field_name.to_sym == field_name}
+        terminate = false
+
+        if duplicate_columns.size.positive?
+          duplicate_columns.each do |column|
+            if options[:field_type].to_s != 'association'
+              terminate = true
+            elsif options[:field_type].to_s == 'association' && column.association_name.to_s == options[:association_name].to_s
+              terminate = true
+            end
+          end
+        end
+
+        unless terminate
           @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Column.new(field_name, options)
         end
       end
@@ -107,9 +120,9 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
+      def custom_action(name: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
         action = CmAdmin::Models::CustomAction.new(
-                    name: name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
+                    name: name, display_name: display_name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
                     parent: self.current_action.name, display_type: display_type, display_if: display_if,
                     action_type: :custom, route_type: route_type, icon_name: icon_name, &block)
         @available_actions << action

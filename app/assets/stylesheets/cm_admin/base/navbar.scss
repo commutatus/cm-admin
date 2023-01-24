@@ -6,8 +6,9 @@
   left: 225px;
   display: flex;
   justify-content: space-between;
-  min-height: 140px;
-  padding: 24px 24px 16px;
+  align-items: flex-start;
+  min-height: 102px;
+  padding: 24px;
   background-color: $white;
   z-index: 2;
   &__lhs {
