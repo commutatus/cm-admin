@@ -1,5 +1,4 @@
 require_relative 'lib/cm_admin/version'
-require_relative 'lib/cm_admin/version_manager'
 
 Gem::Specification.new do |spec|
   spec.name          = "cm-admin"
