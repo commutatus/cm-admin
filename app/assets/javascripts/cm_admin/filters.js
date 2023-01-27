@@ -1,5 +1,21 @@
 var currentRequest = null;
 
+var CmFilter = {
+  // Generate or remove elements of the dropdown based on the search value.
+  dropdown_search: function(element) {
+    var filter = element.val().toUpperCase();
+    var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
+    for (var i = 0; i < dropdownElements.length; i++) {
+      var txtValue = $(dropdownElements[i]).children().text();
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        $(dropdownElements[i]).css('display', 'flex');
+      } else {
+        $(dropdownElements[i]).css('display', 'none');
+      }
+    }
+  }
+}
+
 // Main method which will structure the existing filter values with the newly
 // applied filter. Send and receive the value from the backend.
 var getFilteredData = function(filterType, filterValue, filterColumn=null) {
@@ -40,7 +56,7 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
     }
     filterParams = jQuery.param(queryString)
     var availableParams = searchParams + '&' + filterParams
-    queryString = getParamsAsObject(availableParams)
+    var queryString = getParamsAsObject(availableParams)
   }
 
   return currentRequest = $.ajax(url, {
@@ -259,7 +275,7 @@ $(document).on('click', '.apply-area', function(e) {
       filterValueText.push($(checkedElements[i]).parent().text())
     }
 
-    truncatedFilterValue = filterValueText[0]
+    var truncatedFilterValue = filterValueText[0]
     if (filterValue.length > 1) {
       truncatedFilterValue += ' + ' + (filterValue.length - 1) + ' more'
     }
@@ -286,7 +302,7 @@ $(document).on('click', '.filter-chip-remove', function(e) {
 
   var searchParams = window.location.search
   if (searchParams.length > 0) {
-    queryString = getParamsAsObject(searchParams)
+    var queryString = getParamsAsObject(searchParams)
     if (queryString['filters'][filterType] != undefined) {
       delete(queryString['filters'][filterType][filterColumn])
       var queryParam = jQuery.param(queryString)
@@ -318,30 +334,3 @@ $(document).on('click', '[data-behaviour="selected-chip"]', function(e) {
     $(selectElement).parent().siblings(':last').removeClass('active')
   }
 })
-
-CmFilter = {
-  // Generate or remove elements of the dropdown based on the search value.
-  dropdown_search: function(element) {
-    var filter = element.val().toUpperCase();
-    var dropdownElements = element.parents(':nth(1)').find('.list-area').children();
-    for (var i = 0; i < dropdownElements.length; i++) {
-      txtValue = $(dropdownElements[i]).children().text();
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        $(dropdownElements[i]).css('display', 'flex');
-      } else {
-        $(dropdownElements[i]).css('display', 'none');
-      }
-    }
-  },
-  quick_input_search: function(element) {
-    var filter = element.val().toUpperCase();
-    var searchElements = element.parents(':nth(3)').find('.list-area').children();
-    searchElements.removeClass('visible').addClass('hidden')
-    for (var i = 0; i < searchElements.length; i++) {
-      txtValue = $(searchElements[i]).children().text();
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        $(searchElements[i]).removeClass('hidden').addClass('visible');
-      }
-    }
-  }
-}

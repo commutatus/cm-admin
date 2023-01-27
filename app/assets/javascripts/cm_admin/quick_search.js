@@ -1,3 +1,17 @@
+var CmFilter = {
+  quick_input_search: function(element) {
+    var filter = element.val().toUpperCase();
+    var searchElements = element.parents(':nth(3)').find('.list-area').children();
+    searchElements.removeClass('visible').addClass('hidden')
+    for (var i = 0; i < searchElements.length; i++) {
+      var txtValue = $(searchElements[i]).children().text();
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        $(searchElements[i]).removeClass('hidden').addClass('visible');
+      }
+    }
+  }
+}
+
 $(document).on("keydown", function(e) {
   if (e.keyCode == 75 && e.metaKey) {
     $('#quickSearchModal').modal('show')
@@ -12,7 +26,7 @@ $(document).on('keydown', function(e){
     if(e.which === 40){
       if(liSelected){
         liSelected.removeClass('active-item');
-        next = liSelected.next();
+        var next = liSelected.next();
         if(next.length > 0){
           liSelected = next.addClass('active-item');
           selected = next.text();
@@ -44,8 +58,7 @@ $(document).on('keydown', function(e){
       }
     }
     if(liSelected && e.which === 13) {
-      console.log("Selected item id ", liSelected)
-      href = liSelected.attr('href')
+      var href = liSelected.attr('href')
       window.location = href
     }
   }

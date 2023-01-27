@@ -14,9 +14,9 @@ module CmAdmin
   @@authorized_roles ||= []
   @@included_models ||= []
   @@cm_admin_models ||= []
-  
 
   class << self
+
     def webpacker
       @webpacker ||= ::Webpacker::Instance.new(
         root_path: CmAdmin::Engine.root,
@@ -25,7 +25,12 @@ module CmAdmin
     end
 
     def configure(&block)
-      instance_eval(&block)
+      # instance_eval(&block)
+      @config ||= Configuration.new
+      yield(@config)
+    end
+
+    def layout
     end
 
     def config
