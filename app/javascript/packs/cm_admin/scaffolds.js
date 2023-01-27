@@ -77,7 +77,10 @@ $(document).on('click', '.drawer-close', function(e) {
 
 $(document).on('change', '[data-field-type="linked-field"]', function(e) {
   e.stopPropagation();
-  request_url = $(this).data('target-url').replace(':param_1', $(this).val())
+  params = {}
+  params[$(this).data('field-name')] = $(this).val()
+  request_url = $(this).data('target-url') + '?' + $.param(params);
+  console.log(request_url)
   $.ajax(request_url, {
     type: 'GET',
     success: function(data) {
