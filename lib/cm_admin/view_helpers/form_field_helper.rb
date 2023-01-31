@@ -128,10 +128,11 @@ module CmAdmin
         else
           form_obj.check_box cm_field.field_name,
                              {
-                               class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                               class: "normal-input cm-checkbox #{required_class}",
                                disabled: cm_field.disabled,
                                data: {
-                                 field_name: cm_field.field_name, 
+                                 field_name: cm_field.field_name,
+                                 field_type: 'linked-field',
                                  target_action: target_action&.name,
                                  target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
                                }
@@ -162,6 +163,8 @@ module CmAdmin
                                       disabled: cm_field.disabled,
                                       name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
                                       data: {
+                                        field_name: cm_field.field_name,
+                                        field_type: 'linked-field',
                                         target_action: target_action&.name,
                                         target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
                                       }
