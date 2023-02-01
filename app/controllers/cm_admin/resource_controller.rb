@@ -183,6 +183,9 @@ module CmAdmin
       sort_params = {sort_column: sort_column, sort_direction: sort_direction}
 
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
+      @model.scopes.each do |scope|
+        records = records.send(scope)
+      end
       records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
       final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
       pagy, records = pagy(final_data)

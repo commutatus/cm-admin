@@ -24,7 +24,7 @@ module CmAdmin
     include Models::Blocks
     include Models::DslMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
-      :current_action, :params, :filters, :available_tabs, :icon_name
+      :current_action, :params, :filters, :available_tabs, :icon_name, :scopes
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
     def initialize(entity, &block)
@@ -39,6 +39,7 @@ module CmAdmin
       @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
       @params = nil
       @filters ||= []
+      @scopes ||= []
       instance_eval(&block) if block_given?
       actions unless @actions_set
       $available_actions = @available_actions.dup
