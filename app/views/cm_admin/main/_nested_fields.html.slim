@@ -1,4 +1,4 @@
-- fields = @model.available_fields[ action(action_name) ][assoc_name]
+- fields = section.nested_table_fields[assoc_name]
 - if fields.count == 1
   .nested-single-field.nested-fields
     - fields.each do |field|
