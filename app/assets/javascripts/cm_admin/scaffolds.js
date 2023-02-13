@@ -41,6 +41,12 @@ $(document).on('turbolinks:load', function () {
   flatpickr("[data-behaviour='date-only']", {
     dateFormat: "d-m-Y"
   })
+  setup_select_2_ajax()
+})
+
+setup_select_2_ajax();
+
+function setup_select_2_ajax(){
   $(".select-2-ajax").each(function(index, element){
     $(element).select2({
       ajax: {
@@ -61,27 +67,4 @@ $(document).on('turbolinks:load', function () {
       minimumInputLength: 1
     });
   });
-})
-
-
-
-$(".select-2-ajax").each(function(index, element){
-  $(element).select2({
-    ajax: {
-      url: $(element)[0]['dataset'].ajaxUrl,
-      dataType: 'json',
-      processResults: (data, params) => {
-        const results = data.items.map(item => {
-          return {
-            id: item.id,
-            text: item.full_name || item.name,
-          };
-        });
-        return {
-          results: results,
-        }
-      },
-    },
-    minimumInputLength: 1
-  });
-});
+}
