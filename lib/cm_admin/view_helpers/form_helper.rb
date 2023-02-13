@@ -69,13 +69,13 @@ module CmAdmin
               end)
             end
           end
-          concat set_nested_form_fields(resource, form_obj, section)
+          concat set_nested_form_fields(form_obj, section)
         end
       end
 
-      def set_nested_form_fields(resource, form_obj, section)
+      def set_nested_form_fields(form_obj, section)
         content_tag(:div) do
-          section.nested_table_fields.each do |key, fields_array|
+          section.nested_table_fields.keys.each do |key|
             concat(render partial: '/cm_admin/main/nested_table_form', locals: {f: form_obj, table_name: key, section: section})
           end
         end
