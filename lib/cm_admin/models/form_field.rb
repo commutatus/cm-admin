@@ -2,7 +2,7 @@ module CmAdmin
   module Models
     class FormField
       attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method,
-                    :placeholder, :display_if, :html_attr, :target
+                    :placeholder, :display_if, :html_attr, :target, :ajax_url
 
       VALID_INPUT_TYPES = %i[
         integer decimal string single_select multi_select date date_time text

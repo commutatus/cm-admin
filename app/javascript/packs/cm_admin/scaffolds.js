@@ -19,6 +19,27 @@ $(document).on('turbolinks:load', function () {
   var headerElemHeight = $('.page-top-bar').height() + 64
   var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
   $('.new-admin-table').css("maxHeight", calculatedHeight);
+
+  $(".select-2-ajax").each(function(index, element){
+    $(element).select2({
+      ajax: {
+        url: $(element)[0]['dataset'].ajaxUrl,
+        dataType: 'json',
+        processResults: (data, params) => {
+          const results = data.items.map(item => {
+            return {
+              id: item.id,
+              text: item.full_name || item.name,
+            };
+          });
+          return {
+            results: results,
+          }
+        },
+      },
+      minimumInputLength: 1
+    });
+  });
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {

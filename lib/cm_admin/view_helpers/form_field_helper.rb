@@ -8,10 +8,10 @@ module CmAdmin
         is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
         target_action = @model.available_actions.select{|x| x.name == cm_field.target[:action_name].to_s}.first if cm_field.target.present?
-        send("cm_#{cm_field.input_type}_field", form_obj, cm_field, value, required_class, target_action)
+        send("cm_#{cm_field.input_type}_field", form_obj, cm_field, value, required_class, target_action, cm_field.ajax_url)
       end
 
-      def cm_integer_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_integer_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
@@ -20,7 +20,7 @@ module CmAdmin
                             data: { behaviour: 'integer-only' }
       end
 
-      def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.number_field cm_field.field_name,
                               class: "normal-input #{required_class}",
                               disabled: cm_field.disabled,
@@ -29,7 +29,7 @@ module CmAdmin
                               data: { behaviour: 'decimal-only' }
       end
 
-      def cm_string_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_string_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
@@ -37,28 +37,31 @@ module CmAdmin
                             placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
       end
 
-      def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
+      def cm_single_select_field(form_obj, cm_field, value, required_class, target_action, ajax_url)
+        class_name = ajax_url.present? ? 'select-2-ajax' : 'select-2'
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder.to_s },
-                        class: "normal-input #{required_class} select-2",
+                        class: "normal-input #{required_class} #{class_name}",
                         disabled: cm_field.disabled,
                         data: {
                           field_name: cm_field.field_name,
                           field_type: 'linked-field',
                           target_action: target_action&.name,
-                          target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
+                          target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : '',
+                          ajax_url: ajax_url
                         }
       end
 
-      def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action)
+      def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action, ajax_url)
+        class_name = ajax_url.present? ? 'select-2-ajax' : 'select-2'
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: "Select #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}" },
-                        class: "normal-input #{required_class} select-2",
+                        class: "normal-input #{required_class} #{class_name}",
                         disabled: cm_field.disabled, multiple: true
       end
 
-      def cm_date_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_date_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
@@ -67,7 +70,7 @@ module CmAdmin
                             data: { behaviour: 'date-only' }
       end
 
-      def cm_date_time_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_date_time_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
@@ -76,35 +79,35 @@ module CmAdmin
                             data: { behaviour: 'date-time' }
       end
 
-      def cm_text_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_text_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_area cm_field.field_name,
                            class: "normal-input #{required_class}",
                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
       end
 
-      def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.rich_text_area cm_field.field_name,
                                 class: "normal-input #{required_class}",
                                 placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
       end
 
-      def cm_single_file_upload_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_single_file_upload_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.file_field cm_field.field_name, class: "normal-input #{required_class}"
       end
 
-      def cm_single_multi_upload_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_single_multi_upload_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.file_field cm_field.field_name, multiple: true, class: "normal-input #{required_class}"
       end
 
-      def cm_check_box_field(form_obj, cm_field, value, required_class, target_action)
+      def cm_check_box_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
         format_check_box_options(value, form_obj, cm_field, required_class, target_action)
       end
 
-      def cm_radio_button_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_radio_button_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         format_radio_button_options(value, form_obj)
       end
 
-      def cm_hidden_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_hidden_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.hidden_field cm_field.field_name,
                               value: value,
                               name: cm_field.html_attr[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
