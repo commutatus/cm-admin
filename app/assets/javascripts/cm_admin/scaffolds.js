@@ -56,7 +56,7 @@ function setup_select_2_ajax(){
           const results = data.items.map(item => {
             return {
               id: item.id,
-              text: item.full_name || item.name,
+              text: item.text,
             };
           });
           return {
