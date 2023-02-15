@@ -20,26 +20,7 @@ $(document).on('turbolinks:load', function () {
   var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
   $('.new-admin-table').css("maxHeight", calculatedHeight);
 
-  $(".select-2-ajax").each(function(index, element){
-    $(element).select2({
-      ajax: {
-        url: $(element)[0]['dataset'].ajaxUrl,
-        dataType: 'json',
-        processResults: (data, params) => {
-          const results = data.items.map(item => {
-            return {
-              id: item.id,
-              text: item.text,
-            };
-          });
-          return {
-            results: results,
-          }
-        },
-      },
-      minimumInputLength: 1
-    });
-  });
+  setup _select_2_ajax()
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {
@@ -174,5 +155,22 @@ var replaceAccordionTitle = function(element) {
     $(this).find('.accordion-button').text(accordion_title);
     $(this).find('.accordion-button').attr('data-bs-target', '#' + accordion_id);
     $(this).find('.accordion-collapse').attr('id', accordion_id);
+  });
+}
+
+function setup_select_2_ajax(){
+  $(".select-2-ajax").each(function(index, element){
+    $(element).select2({
+      ajax: {
+        url: $(element)[0]['dataset'].ajaxUrl,
+        dataType: 'json',
+        processResults: (data, params) => {
+          return {
+            results: data,
+          }
+        },
+      },
+      minimumInputLength: 1
+    });
   });
 }
