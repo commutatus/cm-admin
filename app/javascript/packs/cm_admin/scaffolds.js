@@ -20,7 +20,7 @@ $(document).on('turbolinks:load', function () {
   var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
   $('.new-admin-table').css("maxHeight", calculatedHeight);
 
-  setup _select_2_ajax()
+  setup_select_2_ajax()
 });
 
 $(document).on("keypress keyup blur", "[data-behaviour='decimal-only'], [data-behaviour='filter'][data-filter-type='range']", function (e) {
