@@ -140,14 +140,6 @@ module CmAdmin
       end
 
       def sort_column(column = :created_at)
-        model = if @current_action.child_records
-          CmAdmin::Model.find_by(name: @current_action.child_records.to_s.classify)
-        else
-          self
-        end
-        db_columns = model.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
-        raise "Sorting for custom column #{column} does not exist." unless db_columns.include?(column.to_sym)
-
         @current_action.sort_column = column.to_sym if @current_action
       end
     end

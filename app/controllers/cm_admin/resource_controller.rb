@@ -178,13 +178,16 @@ module CmAdmin
 
     def filter_by(params, records, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
-      sort_column = "created_at"
-      sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
-      sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-
+      cm_model = @associated_model || @model
+      db_columns = cm_model.ar_model&.columns&.map{|x| x.name.to_sym}
+      if db_columns.include?(@current_action.sort_column)
+        sort_column = @current_action.sort_column
+      else
+        sort_column = 'created_at'
+      end
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
-      records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
-      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
+      records = records.order("#{sort_column} #{@current_action.sort_direction}")
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, cm_model.filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
