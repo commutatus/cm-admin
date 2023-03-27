@@ -9,10 +9,6 @@ module CmAdmin
         yield
       end
 
-      def scope_list(scopes=[])
-        self.scopes = scopes
-      end
-
       def cm_show(page_title: nil, page_description: nil, partial: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @current_action.set_values(page_title, page_description, partial)
@@ -40,6 +36,12 @@ module CmAdmin
       def page_description(description)
         if @current_action
           @current_action.page_description = description
+        end
+      end
+
+      def scope_list(scopes=[])
+        if @current_action
+          @current_action.scopes = scopes
         end
       end
 

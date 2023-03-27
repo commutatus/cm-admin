@@ -180,7 +180,7 @@ module CmAdmin
     end
 
     def apply_scopes(records)
-      @model.scopes.each do |scope|
+      @current_action.scopes.each do |scope|
         records = records.send(scope)
       end
       records

@@ -6,7 +6,7 @@ module CmAdmin
       include Actions::Blocks
       attr_accessor :name, :display_name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
         :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
-        :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name
+        :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes
 
       VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
 
@@ -34,6 +34,7 @@ module CmAdmin
         self.action_type = :default
         self.sort_column = :created_at
         self.sort_direction = :desc
+        self.scopes ||= []
         self.icon_name = 'fa fa-th-large'
       end
 
