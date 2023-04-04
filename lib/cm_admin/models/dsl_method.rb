@@ -40,9 +40,9 @@ module CmAdmin
       end
 
       def scope_list(scopes=[])
-        if @current_action
-          @current_action.scopes = scopes
-        end
+        return unless @current_action
+
+        @current_action.scopes = scopes
       end
 
       def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: nil, &block)
