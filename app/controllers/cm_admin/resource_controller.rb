@@ -208,8 +208,8 @@ module CmAdmin
           Hash[x.name.to_s.gsub('_attachment', ''), []]
         end
       }.compact
-      nested_tables = @model.available_fields[:new].map{|section| section.nested_table_fields}.map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map{|section| section.nested_table_fields}.map(&:keys).flatten
+      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).keys.flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
       nested_fields = nested_tables.uniq.map {|table|
         Hash[
           table.to_s + '_attributes',
