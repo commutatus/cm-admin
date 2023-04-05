@@ -8,7 +8,9 @@ module CmAdmin
     def cm_index(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params, nil, @model.filter_params(params))
+      records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
+      records = apply_scopes(records)
+      @ar_object = filter_by(params, records, @model.filter_params(params))
       # resource_identifier
       respond_to do |format|
         if request.xhr?
@@ -114,12 +116,14 @@ module CmAdmin
             data = @action.parent == "index" ? @ar_object.data : @ar_object
             format.html { render @action.partial }
           else
-            ar_object = @action.code_block.call(@ar_object)
-            if ar_object.errors.empty?
-              redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@ar_object.id}"
+            response_object = @action.code_block.call(@response_object)
+            if response_object.class == Hash
+              format.json { render json: response_object }
+            elsif response_object.errors.empty?
+              redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@response_object.id}"
               format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
             else
-              error_messages = ar_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
+              error_messages = response_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
               format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
             end
           end
@@ -132,8 +136,8 @@ module CmAdmin
       authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
-      nested_tables = @model.available_fields[:new].except(:fields).keys
-      nested_tables += @model.available_fields[:edit].except(:fields).keys
+      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first
@@ -168,6 +172,7 @@ module CmAdmin
       return @ar_object unless @current_action.child_records
 
       child_records = @ar_object.send(@current_action.child_records)
+      child_records = apply_scopes(child_records)
       @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
       @associated_model = if @reflection.klass.column_names.include?('type')
                             CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
@@ -182,15 +187,25 @@ module CmAdmin
       return @ar_object, @associated_model, @associated_ar_object
     end
 
+    def apply_scopes(records)
+      @current_action.scopes.each do |scope|
+        records = records.send(scope)
+      end
+      records
+    end
+
     def filter_by(params, records, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
-      sort_column = "created_at"
-      sort_direction = %w[asc desc].include?(sort_params[:sort_direction]) ? sort_params[:sort_direction] : "asc"
-      sort_params = {sort_column: sort_column, sort_direction: sort_direction}
-
+      cm_model = @associated_model || @model
+      db_columns = cm_model.ar_model&.columns&.map{|x| x.name.to_sym}
+      if db_columns.include?(@current_action.sort_column)
+        sort_column = @current_action.sort_column
+      else
+        sort_column = 'created_at'
+      end
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
-      records = records.order("#{@current_action.sort_column} #{@current_action.sort_direction}")
-      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, @associated_model ? @associated_model.filters : @model.filters)
+      records = records.order("#{sort_column} #{@current_action.sort_direction}")
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, cm_model.filters)
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
@@ -201,9 +216,11 @@ module CmAdmin
     end
 
     def resource_params(params)
-      columns = @model.ar_model.column_names
+      columns = @model.ar_model.columns_hash.map {|key, ar_adapter|
+        ar_adapter.sql_type_metadata.sql_type.ends_with?('[]') ? Hash[ar_adapter.name, []] : ar_adapter.name.to_sym
+      }
       columns += @model.ar_model.stored_attributes.values.flatten
-      permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym)
+      permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }
       permittable_fields += @model.ar_model.name.constantize.reflect_on_all_associations.map {|x|
         next if x.options[:polymorphic]
         if x.class.name.include?('HasOne')
@@ -212,8 +229,8 @@ module CmAdmin
           Hash[x.name.to_s.gsub('_attachment', ''), []]
         end
       }.compact
-      nested_tables = @model.available_fields[:new].except(:fields).keys
-      nested_tables += @model.available_fields[:edit].except(:fields).keys
+      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).keys.flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
       nested_fields = nested_tables.uniq.map {|table|
         Hash[
           table.to_s + '_attributes',
@@ -222,7 +239,6 @@ module CmAdmin
       }
       permittable_fields += nested_fields
       @model.ar_model.columns.map { |col| permittable_fields << col.name.split('_cents') if col.name.include?('_cents') }
-
       params.require(@model.name.underscore.to_sym).permit(*permittable_fields)
     end
 

@@ -1,8 +1,13 @@
 module CmAdmin
   module Models
     class FormField
-      attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method, :placeholder, :display_if, :html_attr
-      VALID_INPUT_TYPES = [:integer, :decimal, :string, :single_select, :multi_select, :date, :date_time, :text, :single_file_upload, :multi_file_upload, :hidden, :rich_text].freeze
+      attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method,
+                    :placeholder, :display_if, :html_attr, :target
+
+      VALID_INPUT_TYPES = %i[
+        integer decimal string single_select multi_select date date_time text
+        single_file_upload multi_file_upload hidden rich_text check_box radio_button
+      ].freeze
 
       def initialize(field_name, input_type, attributes = {})
         @field_name = field_name
@@ -20,6 +25,7 @@ module CmAdmin
         self.input_type = :string
         self.placeholder = "Enter #{self.field_name.to_s.downcase.gsub('_', ' ')}"
         self.html_attr = {}
+        self.target = {}
       end
     end
   end

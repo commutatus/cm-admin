@@ -39,6 +39,12 @@ module CmAdmin
         end
       end
 
+      def scope_list(scopes=[])
+        return unless @current_action
+
+        @current_action.scopes = scopes
+      end
+
       def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: nil, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
@@ -54,24 +60,14 @@ module CmAdmin
         yield if block
       end
 
-      def cm_show_section(section_name, display_if: nil, &block)
+      def cm_section(section_name, display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, display_if, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, &block)
       end
 
-      def form_field(field_name, options={}, arg=nil)
-        unless @current_action.is_nested_field
-          @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        else
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        end
-      end
-
-      def nested_form_field(field_name, &block)
-        @current_action.is_nested_field = true
-        @current_action.nested_table_name = field_name
-        yield
+      # This method is deprecated. Use cm_section instead.
+      def cm_show_section(section_name, display_if: nil, &block)
+        cm_section(section_name, display_if: display_if, &block)
       end
 
       def column(field_name, options={})
@@ -140,14 +136,6 @@ module CmAdmin
       end
 
       def sort_column(column = :created_at)
-        model = if @current_action.child_records
-          CmAdmin::Model.find_by(name: @current_action.child_records.to_s.classify)
-        else
-          self
-        end
-        db_columns = model.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
-        raise "Sorting for custom column #{column} does not exist." unless db_columns.include?(column.to_sym)
-
         @current_action.sort_column = column.to_sym if @current_action
       end
     end

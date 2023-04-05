@@ -9,10 +9,10 @@ require('flatpickr')
 require("jgrowl")
 require("trix")
 require('./scaffolds.js')
-require('./form_validation.js')
-require('./quick_search.js')
-require('./filters.js')
-require('./exports.js')
+require('/app/assets/javascripts/cm_admin/form_validation.js')
+require('/app/assets/javascripts/cm_admin/quick_search.js')
+require('/app/assets/javascripts/cm_admin/filters.js')
+require('/app/assets/javascripts/cm_admin/exports.js')
 
 import jQuery from 'jquery'
 import LocalTime from "local-time"

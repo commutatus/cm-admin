@@ -75,6 +75,57 @@ $(document).on('click', '.drawer-close', function(e) {
   }, 300);
 });
 
+$(document).on('change', '[data-field-type="linked-field"]', function(e) {
+  e.stopPropagation();
+  params = {}
+  params[$(this).data('field-name')] = $(this).val()
+  request_url = $(this).data('target-url') + '?' + $.param(params);
+  console.log(request_url)
+  $.ajax(request_url, {
+    type: 'GET',
+    success: function(data) {
+      apply_response_to_field(data)
+    },
+    error: function(jqxhr, textStatus, errorThrown) {
+      alert('Something went wrong. Please try again later.\n' + errorThrown);
+    }
+  });
+});
+
+function apply_response_to_field(response) {
+  $.each(response['fields'], function(key, value) {
+    switch(value['target_type']) {
+      case 'select':
+        update_options_in_select(value['target_value'])
+        break;
+      case 'input':
+        update_options_input_value(value['target_value'])
+        break;
+      case 'toggle_visibility':
+        toggle_field_visibility(value['target_value'])
+    }
+  })
+}
+
+function update_options_input_value(field_obj) {
+  input_tag = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
+  input_tag.val(field_obj['field_value'])
+}
+
+function update_options_in_select(field_obj) {
+  select_tag = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
+  select_tag.empty();
+  $.each(field_obj['field_value'], function(key, value) {
+    select_tag.append($("<option></option>")
+      .attr("value", value[1]).text(value[0]));
+  });
+}
+
+function toggle_field_visibility(field_obj) {
+  element = $('#' + field_obj['table'] + '_' + field_obj['field_name'])
+  element.closest('.input-wrapper').toggleClass('hidden')
+}
+
 $(document).on('cocoon:after-insert', '.nested-field-wrapper', function(e) {
   e.stopPropagation();
   replaceAccordionTitle($(this))
