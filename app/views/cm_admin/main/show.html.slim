@@ -12,5 +12,5 @@
           .info-section
             p.section-heading = section.section_name
             .paper
-              - section.available_section_fields.each do |field|
+              - section.section_fields.each do |field|
                 = show_field(@ar_object, field)
