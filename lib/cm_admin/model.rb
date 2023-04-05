@@ -8,7 +8,7 @@ require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
 require_relative 'models/export'
-require_relative 'models/cm_show_section'
+require_relative 'models/section'
 require_relative 'models/tab'
 require_relative 'models/dsl_method'
 require 'pagy'
@@ -36,7 +36,7 @@ module CmAdmin
       @additional_permitted_fields ||= []
       @current_action = nil
       @available_tabs ||= []
-      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
+      @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?

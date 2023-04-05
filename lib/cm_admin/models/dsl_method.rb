@@ -54,24 +54,14 @@ module CmAdmin
         yield if block
       end
 
-      def cm_show_section(section_name, display_if: nil, &block)
+      def cm_section(section_name, display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, display_if, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, &block)
       end
 
-      def form_field(field_name, options={}, arg=nil)
-        unless @current_action.is_nested_field
-          @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        else
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        end
-      end
-
-      def nested_form_field(field_name, &block)
-        @current_action.is_nested_field = true
-        @current_action.nested_table_name = field_name
-        yield
+      # This method is deprecated. Use cm_section instead.
+      def cm_show_section(section_name, display_if: nil, &block)
+        cm_section(section_name, display_if: display_if, &block)
       end
 
       def column(field_name, options={})

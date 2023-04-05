@@ -16,6 +16,10 @@
   }
   .form-wrapper {
     .form-container {
+      margin-top: 32px;
+      &:nth-child(1) {
+        margin-top: 0;
+      }
       .form-title {
         @include font($size: $t3-text, $color: $primary-text-clr, $weight: bold);
         line-height: 24px;
