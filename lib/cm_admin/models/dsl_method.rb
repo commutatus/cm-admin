@@ -39,6 +39,12 @@ module CmAdmin
         end
       end
 
+      def scope_list(scopes=[])
+        return unless @current_action
+
+        @current_action.scopes = scopes
+      end
+
       def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: nil, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')

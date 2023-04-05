@@ -8,7 +8,9 @@ module CmAdmin
     def cm_index(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'index')
       # Based on the params the filter and pagination object to be set
-      @ar_object = filter_by(params, nil, @model.filter_params(params))
+      records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
+      records = apply_scopes(records)
+      @ar_object = filter_by(params, records, @model.filter_params(params))
       # resource_identifier
       respond_to do |format|
         if request.xhr?
@@ -162,6 +164,7 @@ module CmAdmin
       return @ar_object unless @current_action.child_records
 
       child_records = @ar_object.send(@current_action.child_records)
+      child_records = apply_scopes(child_records)
       @reflection = @model.ar_model.reflect_on_association(@current_action.child_records)
       @associated_model = if @reflection.klass.column_names.include?('type')
                             CmAdmin::Model.find_by(name: @reflection.plural_name.classify)
@@ -174,6 +177,13 @@ module CmAdmin
                                 child_records
                               end
       return @ar_object, @associated_model, @associated_ar_object
+    end
+
+    def apply_scopes(records)
+      @current_action.scopes.each do |scope|
+        records = records.send(scope)
+      end
+      records
     end
 
     def filter_by(params, records, filter_params={}, sort_params={})
