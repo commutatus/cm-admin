@@ -129,7 +129,7 @@ module CmAdmin
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
       nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first
@@ -221,8 +221,8 @@ module CmAdmin
           Hash[x.name.to_s.gsub('_attachment', ''), []]
         end
       }.compact
-      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).keys.flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
+      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
       nested_fields = nested_tables.uniq.map {|table|
         Hash[
           table.to_s + '_attributes',

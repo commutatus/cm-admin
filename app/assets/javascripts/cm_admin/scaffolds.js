@@ -42,3 +42,7 @@ $(document).on('turbolinks:load', function () {
     dateFormat: "d-m-Y"
   })
 })
+
+$(document).on('click', '.menu-item', function(e) {
+  $('.profile-popup').toggleClass('hidden');
+});
