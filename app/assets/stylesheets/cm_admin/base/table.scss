@@ -149,6 +149,7 @@
             background: $gradient-one;
             display: none;
             transition: all 0.1s linear;
+            z-index: 3;
             .row-action-tool {
               display: flex;
               align-items: center;
@@ -175,7 +176,7 @@
       position: sticky;
       top: 0;
       background-color: $white;
-      z-index: 3;
+      z-index: 4;
     }
   }
 
