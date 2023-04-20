@@ -12,16 +12,16 @@
 
     .sidebar-menu__tabs-wrapper
 
-  - if defined?(current_user)
+  - if defined?(user_full_name)
     .sidebar__footer
       .menu-item
         .profile-name
           span.profile-avatar J
-          | #{current_user.full_name}
+          | #{user_full_name}
       .profile-popup.hidden
         .profile-info
           .profile-info__left
-            p.name-text = current_user.full_name
+            p.name-text = user_full_name
             p.email-text = current_user.email
           .profile-info__right
         .auth-option
