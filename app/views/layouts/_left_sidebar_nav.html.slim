@@ -12,23 +12,19 @@
 
     .sidebar-menu__tabs-wrapper
 
-
-  .sidebar__footer
-    .profile-name
-      span.profile-avatar J
-      | John Doe
-    .profile-popup.hidden
-      .profile-info
-        .profile-info__left
-          p.name-text John Doe
-          p.email-text johndoe@commutatus.com
-        .profile-info__right J   
-      .page-options 
-        = link_to '/', class: 'page-link'
-          | Profile
-        = link_to '', class: 'page-link'
-          | Settings
-      .auth-option
-        = link_to '/sign-out', method: :delete, class: 'auth-link'
-          | Logout
+  - if defined?(user_full_name)
+    .sidebar__footer
+      .menu-item
+        .profile-name
+          span.profile-avatar J
+          | #{user_full_name}
+      .profile-popup.hidden
+        .profile-info
+          .profile-info__left
+            p.name-text = user_full_name
+            p.email-text = current_user.email
+          .profile-info__right
+        .auth-option
+          = link_to destroy_user_session_path, method: :delete, class: 'auth-link', data: { turbo_method: :delete }
+            | Logout
 = render 'layouts/quick_links'

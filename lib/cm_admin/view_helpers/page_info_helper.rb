@@ -88,6 +88,12 @@ module CmAdmin
       def tab_display_name(nav_item_name)
         nav_item_name.instance_of?(Symbol) ? nav_item_name.to_s.titleize : nav_item_name.to_s
       end
+
+      def user_full_name
+        return false unless current_user
+        return current_user.full_name if defined?(current_user.full_name)
+        current_user.email.split('@').first
+      end
     end
   end
 end
