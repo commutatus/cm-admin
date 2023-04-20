@@ -1,0 +1,49 @@
+@import "../helpers/index.scss";
+
+// History page styles
+.history-box {
+  width: 752px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid $grey-light-clr;
+  border-radius: 4px;
+  .history-item {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    grid-gap: 8px;
+    align-items: center;
+    margin-bottom: 32px;
+    &:nth-last-child(1) {
+      margin-bottom: 0;
+    }
+    .profile-pic {
+      img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+    .history-info {
+      display: inline-flex;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      line-height: 22px;
+      .bold-text {
+        font-weight: 600;
+        color: #1d21d9;
+        margin-right: 4px;
+      }
+      .normal-text {
+        font-weight: 400;
+        color: #1d21d9;
+        margin-right: 4px;
+      }
+      .light-text {
+        font-weight: 400;
+        color: $ink-lighter-clr;
+        margin-right: 4px;
+      }
+    }
+  }
+}

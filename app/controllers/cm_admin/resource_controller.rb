@@ -93,6 +93,14 @@ module CmAdmin
       end
     end
 
+    def cm_history(params)
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: 'history')
+      resource_identifier
+      respond_to do |format|
+        format.html { render '/cm_admin/main/history' }
+      end
+    end
+
     def cm_custom_method(params)
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       resource_identifier
@@ -129,7 +137,7 @@ module CmAdmin
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
       nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).keys.flatten
+      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first

@@ -28,6 +28,10 @@ module CmAdmin
       verb: :delete,
       path: ':id'
     },
+    history: {
+      verb: :get,
+      path: ':id/history'
+    },
     custom_action: {
       verb: :post
     }
