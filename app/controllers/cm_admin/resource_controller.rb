@@ -102,8 +102,14 @@ module CmAdmin
     end
 
     def cm_custom_method(params)
-      scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
-      resource_identifier
+      records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
+      @current_action = @action
+      if  @action.parent == 'index'
+        records = apply_scopes(records)
+        @ar_object = filter_by(params, records, @model.filter_params(params))
+      else
+        resource_identifier
+      end
       respond_to do |format|
         if @action.action_type == :custom
           if @action.child_records
