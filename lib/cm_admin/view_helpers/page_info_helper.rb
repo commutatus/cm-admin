@@ -65,7 +65,7 @@ module CmAdmin
             when :modal
               custom_modal_button(custom_action)
             when :page
-              link_to custom_action_title(custom_action), @model.ar_model.table_name + '/' + custom_action.path, class: 'secondary-btn ml-2', method: custom_action.verb
+              link_to custom_action_title(custom_action), "#{@model.ar_model.table_name}/#{custom_action.path}", class: 'secondary-btn ml-2', method: custom_action.verb
             end
           end
         end
