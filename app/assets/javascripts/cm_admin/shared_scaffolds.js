@@ -22,11 +22,7 @@ $(document).on('click', '.row-action-cell', function(e) {
     $('.row-action-cell').removeClass('opacity-1')
     $(this).addClass('opacity-1');
   }
-  if ($(this).find('.table-export-popup').hasClass('hidden')) {
-    return $(this).find('.table-export-popup').removeClass('hidden');
-  } else {
-    return $(this).find('.table-export-popup').addClass('hidden');
-  }
+  $(this).find('.table-export-popup').toggle('hidden')
 });
 
 
