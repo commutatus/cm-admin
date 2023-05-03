@@ -34,7 +34,7 @@
           - if custom_action.display_if.call(ar_object)
             - case custom_action.display_type
             - when :button
-              = link_to cm_admin.send("#{cm_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+              = button_to cm_admin.send("#{cm_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
                 .popup-option
                   span
                     i class="#{custom_action.icon_name}"
