@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (1.0.6)
+    cm-admin (1.0.7)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
@@ -113,14 +113,14 @@ GEM
     i18n (1.11.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    importmap-rails (1.1.5)
+    importmap-rails (1.1.6)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
     json (2.6.2)
     local_time (2.1.0)
-    loofah (2.20.0)
+    loofah (2.21.3)
       crass (~> 1.0.2)
-      nokogiri (>= 1.5.9)
+      nokogiri (>= 1.12.0)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -140,7 +140,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.14.3-arm64-darwin)
+    nokogiri (1.15.0-arm64-darwin)
       racc (~> 1.4)
     pagy (4.11.0)
     parallel (1.22.1)
@@ -223,7 +223,7 @@ GEM
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
     temple (0.8.2)
-    thor (1.2.1)
+    thor (1.2.2)
     thread_safe (0.3.6)
     tilt (2.0.10)
     timeout (0.3.2)
@@ -242,7 +242,7 @@ GEM
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.7)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   arm64-darwin-20
