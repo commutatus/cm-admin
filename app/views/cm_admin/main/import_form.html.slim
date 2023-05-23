@@ -28,8 +28,8 @@
               ul.steps-list
                 li
                   | Download this 
-                  a href="#" template file
+                  a href="#{@model.importer.sample_file_path}" template file
                 li Add your data on the file without changing the format
-                li Save the file as a csv, xls or xlsx
+                li Save the file as a csv
                 li Upload the file in the field above
         = f.button :submit, class: "cta-btn import-btn", value: 'Import data'

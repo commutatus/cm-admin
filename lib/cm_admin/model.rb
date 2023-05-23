@@ -83,8 +83,8 @@ module CmAdmin
       @actions_set = true
     end
 
-    def importable(class_name:, importer_type:)
-      @importer = CmAdmin::Models::Importer.new(class_name, importer_type)
+    def importable(class_name:, importer_type:, sample_file_path: nil)
+      @importer = CmAdmin::Models::Importer.new(class_name, importer_type, sample_file_path)
     end
 
     def visible_on_sidebar(visible_option)

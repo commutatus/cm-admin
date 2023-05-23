@@ -232,7 +232,7 @@ module CmAdmin
         if x.class.name.include?('HasOne')
           x.name.to_s.gsub('_attachment', '').gsub('rich_text_', '').to_sym
         elsif x.class.name.include?('HasMany')
-          Hash[x.name.to_s.gsub('_attachment', ''), []]
+          Hash[x.name.to_s.gsub('_attachments', ''), []]
         end
       }.compact
       nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
