@@ -88,11 +88,11 @@ module CmAdmin
                                 placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
       end
 
-      def cm_single_file_upload_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         form_obj.file_field cm_field.field_name, class: "normal-input #{required_class}"
       end
 
-      def cm_multi_file_upload_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         form_obj.file_field cm_field.field_name, multiple: true, class: "normal-input #{required_class}"
       end
 
