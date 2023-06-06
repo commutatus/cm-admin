@@ -26,22 +26,18 @@ import '@fortawesome/fontawesome-free'
 import jqueryJgrowl from 'jgrowl';
 
 
-flatpickr("[data-behaviour='date-only']", {
-  dateFormat: "d-m-Y"
-})
-flatpickr("[data-behaviour='date-time']", {
-  enableTime: true
-})
-flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
-  mode: 'range'
-})
-$('.select-2').select2();
-$(document).on('turbolinks:load', function () {
-  $('.select-2').select2();
+document.addEventListener("turbo:load", function () {
   flatpickr("[data-behaviour='date-only']", {
     dateFormat: "d-m-Y"
   })
-})
+  flatpickr("[data-behaviour='date-time']", {
+    enableTime: true
+  })
+  flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
+    mode: 'range'
+  })
+  $('.select-2').select2();
+});
 
 $(document).on('click', '.menu-item', function(e) {
   $('.profile-popup').toggleClass('hidden');
