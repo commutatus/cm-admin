@@ -77,7 +77,15 @@ module CmAdmin
         when :image
           content_tag(:div, class: 'd-flex') do
             if ar_object.send(field.field_name).attached?
-              image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height)
+              if ar_object.send(field.field_name).class.name.include?('One')
+                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height, class: 'rounded')
+              elsif ar_object.send(field.field_name).class.name.include?('Many')
+                ar_object.send(field.field_name).map do |asset|
+                  content_tag(:div) do
+                    image_tag(asset.url, height: field.height, width: field.height, class: 'rounded mr-1')
+                  end
+                end.join("\n").html_safe
+              end
             else
               image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50)
             end
