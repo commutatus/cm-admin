@@ -78,11 +78,11 @@ module CmAdmin
           content_tag(:div, class: 'd-flex') do
             if ar_object.send(field.field_name).attached?
               if has_one_image_attached?(ar_object, field)
-                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height, class: 'rounded')
+                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
               elsif has_many_image_attached?(ar_object, field)
                 ar_object.send(field.field_name).map do |asset|
                   content_tag(:div) do
-                    image_tag(asset.url, height: field.height, width: field.height, class: 'rounded mr-1')
+                    image_tag(asset.url, height: field.height, width: field.width, class: 'rounded mr-1')
                   end
                 end.join("\n").html_safe
               end
