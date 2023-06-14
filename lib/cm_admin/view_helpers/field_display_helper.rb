@@ -78,7 +78,7 @@ module CmAdmin
           content_tag(:div, class: 'd-flex') do
             if ar_object.send(field.field_name).attached?
               if ar_object.send(field.field_name).class.name.include?('One')
-                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height, class: 'rounded')
+                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
               elsif ar_object.send(field.field_name).class.name.include?('Many')
                 ar_object.send(field.field_name).map do |asset|
                   content_tag(:div) do
