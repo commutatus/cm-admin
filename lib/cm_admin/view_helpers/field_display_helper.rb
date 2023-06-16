@@ -78,10 +78,12 @@ module CmAdmin
           content_tag(:div, class: 'd-flex') do
             if ar_object.send(field.field_name).attached?
               if has_one_image_attached?(ar_object, field)
-                image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
+                content_tag :a, href: rails_blob_path(ar_object.send(field.field_name)), target: '_blank' do
+                  image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
+                end
               elsif has_many_image_attached?(ar_object, field)
                 ar_object.send(field.field_name).map do |asset|
-                  content_tag(:div) do
+                  content_tag :a, href: rails_blob_path(asset), target: '_blank' do
                     image_tag(asset.url, height: field.height, width: field.width, class: 'rounded mr-1')
                   end
                 end.join("\n").html_safe
