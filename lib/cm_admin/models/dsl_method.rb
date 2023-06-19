@@ -127,6 +127,14 @@ module CmAdmin
         # self.class.class_eval(&block)
       end
 
+      def batch_action(name: nil, display_name: nil, display_if: lambda { |arg| return true }, redirection_url: nil, icon_name: nil, &block)
+        batch_action = CmAdmin::Models::BatchAction.new(
+          name: name, display_name: display_name, display_if: display_if,
+          redirection_url: redirection_url, icon_name: icon_name, &block
+        )
+        @batch_actions << batch_action
+      end
+
       def filter(db_column_name, filter_type, options={})
         @filters << CmAdmin::Models::Filter.new(db_column_name: db_column_name, filter_type: filter_type, options: options)
       end

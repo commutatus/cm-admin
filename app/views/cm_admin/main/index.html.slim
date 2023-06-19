@@ -1,3 +1,4 @@
+
 .cm-index-page.cm-page-container
   .sticky-container.page-top-bar
     == render 'cm_admin/main/top_navbar'
@@ -9,7 +10,7 @@
       == render @action.partial
     - else
       == render 'cm_admin/main/table'
-
+  = byebug
   = column_pop_up(@model)
   = manage_column_pop_up(@model)
 
