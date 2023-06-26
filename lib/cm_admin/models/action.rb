@@ -47,6 +47,8 @@ module CmAdmin
       def controller_action_name
         if self.action_type == :custom
           'cm_custom_method'
+        elsif self.action_type == :batch_action
+          'cm_batch_action'
         elsif self.parent
           'cm_' + self.parent
         else

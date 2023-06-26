@@ -1,28 +1,38 @@
 .table-top
   p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  // .table-top__column-action
-  //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
-  //    span
-  //      i.fa.fa-columns.bolder
-  //    span
-  //      i.fa.fa-angle-down
+  / .table-top__column-action
+  /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
+  /    span
+  /      i.fa.fa-columns.bolder
+  /    span
+  /      i.fa.fa-angle-down
+- if flash[:alert].present?
+  .alert.alert-danger role="alert"
+    = flash[:alert].html_safe
+
+.table-top.batch_actions.hidden
+  - @model.available_actions.each do |action|
+    - if action.action_type == :batch_action
+      = button_to cm_admin.send("#{@model.name.underscore}_#{action.name}_path"), method: :post do
+        span
+          i class="#{action.icon_name}"
 .new-admin-table
   table.cm-table
     thead.cm-table__header
       tr.header-row
-        // Select all checkbox feature to be added later
-        / th.check-box-space
-        /   span
-        /     input.cm-checkbox type="checkbox"
+        / Select all checkbox feature to be added later
+        th.check-box-space
+          span
+            input.cm-checkbox type="checkbox" data-behaviour="select-all-checbox"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user)
             th = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
-          / td.check-box-space
-          /   span
-          /     input.cm-checkbox type="checkbox"
+          td.check-box-space
+            span
+              input.cm-checkbox type="checkbox"  data-behaviour="bulk-checbox" data-object-id="#{ar_object.id}"
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user)
               td.text-ellipsis
