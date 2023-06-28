@@ -23,7 +23,7 @@
         / Select all checkbox feature to be added later
         th.check-box-space
           span
-            input.cm-checkbox type="checkbox" data-behaviour="select-all-checbox"
+            input.cm-checkbox type="checkbox" data-behaviour="select-all-checkbox"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user)
             th = column.header
@@ -32,7 +32,7 @@
         tr.body-row
           td.check-box-space
             span
-              input.cm-checkbox type="checkbox"  data-behaviour="bulk-checbox" data-object-id="#{ar_object.id}"
+              input.cm-checkbox type="checkbox"  data-behaviour="bulk-checkbox" data-object-id="#{ar_object.id}"
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user)
               td.text-ellipsis
