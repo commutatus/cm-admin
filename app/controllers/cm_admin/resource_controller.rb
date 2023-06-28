@@ -94,16 +94,16 @@ module CmAdmin
     end
 
     def cm_batch_action(params)
-      @model = Model.find_by({name: controller_name.titleize})
+      @model = Model.find_by({ name: controller_name.titleize })
       @batch_action_processor = CmAdmin::BatchActionProcessor.new(@action, @model, params).perform_batch_action
       respond_to do |format|
         if @batch_action_processor.invalid_records.empty?
-          format.html { redirect_to request.referrer, notice: "#{@action.name.titleize} is successful" }
+          format.html { redirect_to request.referrer, notice: "#{@action.name.humanize} is successful" }
         else
           error_messages = @batch_action_processor.invalid_records.map { |invalid_record|
             "<li>#{invalid_record.error_message}</li>"
           }.join
-          format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
+          format.html { redirect_to request.referrer, alert: "<b>#{@action.name.humanize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
         end
       end
     end

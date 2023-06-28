@@ -9,6 +9,9 @@
 - if flash[:alert].present?
   .alert.alert-danger role="alert"
     = flash[:alert].html_safe
+- elsif flash[:notice].present?
+  .alert.alert-success
+    = flash[:notice].html_safe
 
 .table-top.batch_actions.hidden
   - @model.available_actions.each do |action|
