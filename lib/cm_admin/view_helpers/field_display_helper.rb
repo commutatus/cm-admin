@@ -77,7 +77,17 @@ module CmAdmin
         when :image
           content_tag(:div, class: 'd-flex') do
             if ar_object.send(field.field_name).attached?
-              image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.height)
+              if has_one_image_attached?(ar_object, field)
+                content_tag :a, href: rails_blob_path(ar_object.send(field.field_name)), target: '_blank' do
+                  image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
+                end
+              elsif has_many_image_attached?(ar_object, field)
+                ar_object.send(field.field_name).map do |asset|
+                  content_tag :a, href: rails_blob_path(asset), target: '_blank' do
+                    image_tag(asset.url, height: field.height, width: field.width, class: 'rounded mr-1')
+                  end
+                end.join("\n").html_safe
+              end
             else
               image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50)
             end
@@ -95,11 +105,11 @@ module CmAdmin
 
       def show_attachment_value(ar_object, field)
         if ar_object.send(field.field_name).attached?
-          if ar_object.send(field.field_name).class.name.include?('One')
+          if has_one_image_attached?(ar_object, field)
             content_tag :a, href: rails_blob_path(ar_object.send(field.field_name), disposition: "attachment") do
               ar_object.send(field.field_name).filename.to_s
             end
-          elsif ar_object.send(field.field_name).class.name.include?('Many')
+          elsif has_many_image_attached?(ar_object, field)
             ar_object.send(field.field_name).map do |asset|
               content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
                 asset.filename.to_s
@@ -114,6 +124,15 @@ module CmAdmin
           return hash[association_name.to_sym] if hash.has_key?(association_name.to_sym)
         end
       end
+
+      def has_one_image_attached?(ar_object, field)
+        ar_object.send(field.field_name).class.name.include?('One')
+      end
+
+      def has_many_image_attached?(ar_object, field)
+        ar_object.send(field.field_name).class.name.include?('Many')
+      end
+
     end
   end
 end
