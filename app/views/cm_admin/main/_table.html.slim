@@ -1,11 +1,11 @@
 .table-top
   p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  // .table-top__column-action
-  //  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
-  //    span
-  //      i.fa.fa-columns.bolder
-  //    span
-  //      i.fa.fa-angle-down
+  .table-top__column-action
+   button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
+     span
+       i.fa.fa-columns.bolder
+     span
+       i.fa.fa-angle-down
 .new-admin-table
   table.cm-table
     thead.cm-table__header
@@ -14,7 +14,7 @@
         / th.check-box-space
         /   span
         /     input.cm-checkbox type="checkbox"
-        - @model.available_fields[:index].each do |column|
+        - @selected_columns.each do |column|
           - if column.display_if.call(Current.user)
             th = column.header
     tbody.cm-table__body
@@ -23,7 +23,8 @@
           / td.check-box-space
           /   span
           /     input.cm-checkbox type="checkbox"
-          - @model.available_fields[:index].each_with_index do |column, index|
+
+          - @selected_columns.each_with_index do |column, index|
             - if column.display_if.call(Current.user)
               td.text-ellipsis
                 span class="#{column.field_type.to_s} #{column.cm_css_class} "

@@ -11,6 +11,18 @@ module CmAdmin
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       records = apply_scopes(records)
       @ar_object = filter_by(params, records, @model.filter_params(params))
+      managed_column = ManagedColumn.where(user_id: Current.user.id, table_name: @model.name.underscore).first
+      if managed_column.present? && managed_column.arranged_columns&.dig("column_list")&.map{|column_hash| column_hash['is_enabled'] }.include?(true)
+        @selected_columns = managed_column.arranged_columns.dig("column_list").map { |column_hash|
+          @model.available_fields[:index].select{ |field| field.field_name.to_s == column_hash['column_name'] && column_hash['is_enabled']  }
+        }.flatten
+        @ordered_columns = managed_column.arranged_columns.dig("column_list").map { |column_hash|
+          @model.available_fields[:index].select{ |field| field.field_name.to_s == column_hash['column_name']}
+        }.flatten
+      else
+        @selected_columns = @model.available_fields[:index]
+        @ordered_columns = @model.available_fields[:index]
+      end
       # resource_identifier
       respond_to do |format|
         if request.xhr?
@@ -90,6 +102,27 @@ module CmAdmin
       @model = Model.find_by({name: controller_name.titleize})
       respond_to do |format|
         format.html { render '/cm_admin/main/import_form' }
+      end
+    end
+
+    def manage_column
+      managed_column = ManagedColumn.where(user_id: Current.user.id, table_name: params[:managed_column][:table_name]).first_or_initialize
+      sorted_columns_arr = []
+      params[:managed_column][:sorted_columns].each do |column_name|
+        sorted_columns_arr << {
+          column_name: column_name,
+          is_enabled: params[:managed_column][:enabled_columns]&.include?(column_name)
+        }
+      end
+      managed_column.arranged_columns = {
+        column_list: sorted_columns_arr
+      }
+      respond_to do |format|
+        if managed_column.save!
+          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), notice: "Your setting is successfully saved." }
+        else
+          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), alert: "Your setting is not saved." }
+        end
       end
     end
 
