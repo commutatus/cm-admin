@@ -15,17 +15,14 @@ class CmAdmin::BatchActionProcessor
       column_name = @model.available_fields[:index].first.field_name
       begin
         @current_action.code_block.call(id)
-      rescue => e
-        error_message = case e.class.name
-                        when 'NoMethodError'
-                          "#{e.message.slice(0..(e.message.index(' for')))} at #{ar_object.send(column_name)}"
-                        when 'ActiveRecord::RecordInvalid'
-                          "#{e.message} at #{ar_object.send(column_name)}"
-                        else
-                          e.message
-                        end
-        @invalid_records << OpenStruct.new({ row_identifier: ar_object.send(column_name), error_message: error_message })
+      rescue NoMethodError, NameError => e
+        @error_message = "#{e.message.slice(0..(e.message.index(' for')))} at #{ar_object.send(column_name)}"
+      rescue ActiveRecord::RecordInvalid => e
+        @error_message = "#{e.message} at #{ar_object.send(column_name)}"
+      rescue StandardError => e
+        @error_message = e.message
       end
+      @invalid_records << OpenStruct.new({ row_identifier: ar_object.send(column_name), error_message: @error_message }) if @error_message
     end
     self
   end
