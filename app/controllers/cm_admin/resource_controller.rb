@@ -12,12 +12,12 @@ module CmAdmin
       records = apply_scopes(records)
       @ar_object = filter_by(params, records, @model.filter_params(params))
       managed_column = ManagedColumn.where(user_id: Current.user.id, table_name: @model.name.underscore).first
-      if managed_column.present? && managed_column.arranged_columns&.dig("column_list")&.map{|column_hash| column_hash['is_enabled'] }.include?(true)
-        @selected_columns = managed_column.arranged_columns.dig("column_list").map { |column_hash|
-          @model.available_fields[:index].select{ |field| field.field_name.to_s == column_hash['column_name'] && column_hash['is_enabled']  }
+      if managed_column.present? && managed_column.arranged_columns&.dig('column_list')&.map { |column_hash| column_hash['is_enabled'] }.include?(true)
+        @selected_columns = managed_column.arranged_columns.dig('column_list').map { |column_hash|
+          @model.available_fields[:index].select { |field| field.field_name.to_s == column_hash['column_name'] && column_hash['is_enabled']  }
         }.flatten
-        @ordered_columns = managed_column.arranged_columns.dig("column_list").map { |column_hash|
-          @model.available_fields[:index].select{ |field| field.field_name.to_s == column_hash['column_name']}
+        @ordered_columns = managed_column.arranged_columns.dig('column_list').map { |column_hash|
+          @model.available_fields[:index].select { |field| field.field_name.to_s == column_hash['column_name']}
         }.flatten
       else
         @selected_columns = @model.available_fields[:index]
@@ -119,9 +119,9 @@ module CmAdmin
       }
       respond_to do |format|
         if managed_column.save!
-          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), notice: "Your setting is successfully saved." }
+          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), notice: 'Your setting is successfully saved.' }
         else
-          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), alert: "Your setting is not saved." }
+          format.html { redirect_back fallback_location: cm_admin.send("#{managed_column.table_name}_index_path"), alert: 'Your setting is not saved.' }
         end
       end
     end
