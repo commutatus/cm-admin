@@ -1,0 +1,9 @@
+detectors:
+  IrresponsibleModule:
+    enabled: false
+  UncommunicativeVariableName:
+    enabled: true
+    accept:
+      - e
+  TooManyStatements:
+    enabled: false
