@@ -16,7 +16,7 @@
 .table-top.hidden data-section="batch-action"
   - @model.available_actions.each do |action|
     - if action.action_type == :batch_action
-      = button_to cm_admin.send("#{@model.name.underscore}_#{action.name}_path"), method: :post do
+      = button_to cm_admin.send("#{@model.name.underscore}_#{action.name}_path"), method: :post, params: {selected_ids: ''} do
         span
           i class="#{action.icon_name}"
 .new-admin-table

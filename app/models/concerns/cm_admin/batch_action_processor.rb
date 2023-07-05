@@ -10,7 +10,7 @@ class CmAdmin::BatchActionProcessor
   end
 
   def perform_batch_action
-    @params[:selected_ids].each do |id|
+    @params[:selected_ids].split(',').each do |id|
       ar_object = @model.ar_model.find(id)
       column_name = @model.available_fields[:index].first.field_name
       begin
