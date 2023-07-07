@@ -21,7 +21,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "stylelint": "^14.16.1",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard-scss": "^5.0.0",
     "webpack-dev-server": "^4.9.3"
   }
