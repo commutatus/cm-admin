@@ -14,7 +14,7 @@ module CmAdmin
                     content_tag(:span, class: 'menu-icon') do
                       concat tag.i class: "#{model.icon_name}"
                     end +
-                    model.name.underscore.titleize.pluralize
+                    model.name.titleize.pluralize
                   end
                 end
               elsif navigation_type == "quick_links"
