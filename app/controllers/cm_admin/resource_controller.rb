@@ -238,7 +238,7 @@ module CmAdmin
       nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
       nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
       nested_fields = nested_tables.uniq.map {|assoc_name|
-        table_name = @ar_object._reflections[assoc_name.to_s].klass.table_name
+        table_name = @model.ar_model.reflections[assoc_name.to_s].klass.table_name
         Hash[
           "#{table_name}_attributes",
           table_name.to_s.classify.constantize.column_names.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
