@@ -19,13 +19,13 @@
               | Edit
         - if destroy_action.present?
           - if @associated_model
-            = link_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id, referrer: request.path), method: :delete do
+            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id, referrer: request.path), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
               .popup-option
                 span
                   i.fa.fa-trash
                 | Destroy
           - else  
-            = link_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id), method: :delete do
+            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
               .popup-option
                 span
                   i.fa.fa-trash
