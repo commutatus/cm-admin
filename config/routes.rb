@@ -16,6 +16,10 @@ CmAdmin::Engine.routes.draw do
         send(:post, 'import', to: "#{model.name.underscore}#import", as: "#{model.name.underscore}_import")
       end
     end
+
+    scope model.name.tableize do
+      send(:post, 'manage_column', to: "#{model.name.underscore}#manage_column", as: "#{model.name.underscore}_manage_column")
+    end
     
     model.available_actions.sort_by {|act| act.name}.each do |act|
       scope model.name.tableize do

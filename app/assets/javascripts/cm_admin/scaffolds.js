@@ -37,6 +37,13 @@ document.addEventListener("turbo:load", function () {
     mode: 'range'
   })
   $('.select-2').select2();
+  var el = document.getElementsByClassName('columns-list')
+  if(el[0]) {
+    Sortable.create(el[0],{
+      handle: '.dragger',
+      animation: 150
+    });
+  }
 });
 
 $(document).on('click', '.menu-item', function(e) {
