@@ -2,7 +2,7 @@
 
 .show-page {
   overflow: auto;
-  
+
   &__tabs {
     .cm-tabs-bar {
       background-color: $white;
@@ -48,26 +48,20 @@
         border-radius: $radius-4;
       }
       .info-split {
-        display: flex;
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        grid-column-gap: 24px;
         margin-bottom: 24px;
         &:nth-last-child(1) {
           margin-bottom: 0;
         }
         &__lhs {
-          width: 20%;
-          p {
-            @include font($size: $t4-text, $color: $ink-lighter-clr);
-            line-height: 22px;
-            margin: 0;
-          }
+          @include font($size: $t4-text, $color: #6b7586);
+          line-height: 22px;
         }
         &__rhs {
-          width: 80%;
-          p {
-            @include font($size: $t4-text, $color: $primary-text-clr);
-            line-height: 19px;
-            margin: 0;
-          }
+          @include font($size: $t4-text, $color: $primary-text-clr);
+          line-height: 19px;
         }
       }
     }
