@@ -16,8 +16,8 @@
     .sidebar__footer
       .menu-item
         .profile-name
-          span.profile-avatar J
-          | #{user_full_name}
+          span.profile-avatar #{user_full_name.first.titleize}
+          | #{user_full_name.titleize}
       .profile-popup.hidden
         .profile-info
           .profile-info__left

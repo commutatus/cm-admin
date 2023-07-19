@@ -161,7 +161,7 @@ input.cm-checkbox[type="checkbox"] {
   }
   &:checked:after {
     background: $brand-color;
-    content: "\f00c";
+    content: "\2713";
     font-family: FontAwesome !important;
     color: $white;
     border: none;
@@ -173,7 +173,7 @@ input.cm-checkbox[type="checkbox"] {
     }
     &:checked:after {
       background: $grey-light-clr;
-      content: "\f00c";
+      content: "\2713";
       font-family: FontAwesome !important;
       color: $white;
       border: none;
