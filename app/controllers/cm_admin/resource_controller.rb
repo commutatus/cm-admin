@@ -93,14 +93,14 @@ module CmAdmin
       end
     end
 
-    def cm_batch_action(params)
+    def cm_bulk_action(params)
       @model = Model.find_by({ name: controller_name.titleize })
-      @batch_action_processor = CmAdmin::BatchActionProcessor.new(@action, @model, params).perform_batch_action
+      @bulk_action_processor = CmAdmin::BulkActionProcessor.new(@action, @model, params).perform_bulk_action
       respond_to do |format|
-        if @batch_action_processor.invalid_records.empty?
+        if @bulk_action_processor.invalid_records.empty?
           format.html { redirect_to request.referrer, notice: "#{@action.name.humanize} is successful" }
         else
-          error_messages = @batch_action_processor.invalid_records.map { |invalid_record|
+          error_messages = @bulk_action_processor.invalid_records.map { |invalid_record|
             "<li>#{invalid_record.error_message}</li>"
           }.join
           format.html { redirect_to request.referrer, alert: "<b>#{@action.name.humanize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }

@@ -2,7 +2,7 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/importer'
 require_relative 'models/custom_action'
-require_relative 'models/batch_action'
+require_relative 'models/bulk_action'
 require_relative 'models/field'
 require_relative 'models/form_field'
 require_relative 'models/blocks'
@@ -25,7 +25,7 @@ module CmAdmin
     include Models::Blocks
     include Models::DslMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
-      :current_action, :params, :filters, :available_tabs, :icon_name, :batch_actions
+      :current_action, :params, :filters, :available_tabs, :icon_name, :bulk_actions
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
     def initialize(entity, &block)
@@ -34,7 +34,7 @@ module CmAdmin
       @is_visible_on_sidebar = true
       @icon_name = 'fa fa-th-large'
       @available_actions ||= []
-      @batch_actions ||= []
+      @bulk_actions ||= []
       @additional_permitted_fields ||= []
       @current_action = nil
       @available_tabs ||= []

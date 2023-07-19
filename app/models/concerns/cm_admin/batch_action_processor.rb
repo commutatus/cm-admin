@@ -1,4 +1,4 @@
-class CmAdmin::BatchActionProcessor
+class CmAdmin::BulkActionProcessor
   extend ActiveSupport::Concern
   attr_accessor :invalid_records
 
@@ -9,7 +9,7 @@ class CmAdmin::BatchActionProcessor
     @params = params
   end
 
-  def perform_batch_action
+  def perform_bulk_action
     @params[:selected_ids].split(',').each do |id|
       ar_object = @model.ar_model.find(id)
       column_name = @model.available_fields[:index].first.field_name
