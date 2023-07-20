@@ -56,7 +56,7 @@
           margin-bottom: 0;
         }
         &__lhs {
-          @include font($size: $t4-text, $color: #6b7586);
+          @include font($size: $t4-text, $color: $ink-lighter-clr);
           line-height: 22px;
         }
         &__rhs {
