@@ -3,7 +3,7 @@
     - if cm_admin.method_defined?(:"#{@model.name.underscore}_index_path") && (@model.current_action.name == 'show' || @model.current_action.layout_type.present?)
       .bread-crumb-area
         .breadcrumb-text
-          = link_to @model.name.titleize.pluralize + ' /', cm_admin.send(:"#{@model.name.underscore}_index_path")
+          = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path")
     .nav-title-area
       p.title-text = action_title
       p.title-sub-text = action_description
