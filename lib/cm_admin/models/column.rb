@@ -7,7 +7,7 @@ module CmAdmin
 
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round, :height, :width,
       :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class,
-      :display_if, :association_name, :association_type
+      :display_if, :association_name, :association_type, :custom_link
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
