@@ -7,7 +7,7 @@ module CmAdmin
 
       attr_accessor :field_name, :field_type, :header, :format, :prefix, :suffix, :exportable, :round, :height, :width,
       :cm_css_class, :link, :url, :custom_method, :helper_method, :managable, :lockable, :drawer_partial, :tag_class,
-      :display_if, :association_name, :association_type
+      :display_if, :association_name, :association_type, :viewable
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -41,12 +41,13 @@ module CmAdmin
         self.exportable = true
         self.managable = true
         self.lockable = false
+        self.viewable = true
         self.tag_class = {}
       end
 
       class << self
-        def find_by(model, search_hash)
-          model.available_fields.find { |i| i.name == search_hash[:name] }
+        def find_by(model, action_name, search_hash)
+          model.available_fields[action_name].find { |i| i.field_name == search_hash[:name] }
         end
       end
     end
