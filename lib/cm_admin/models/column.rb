@@ -47,7 +47,7 @@ module CmAdmin
 
       class << self
         def find_by(model, action_name, search_hash)
-          model.available_fields[action_name].find { |i| i.field_name == search_hash[:name] }
+          model.available_fields[action_name].find { |column| column.field_name == search_hash[:name] }
         end
       end
     end

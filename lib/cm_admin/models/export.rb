@@ -16,13 +16,12 @@ module CmAdmin
           return file_path
         end
 
-
         def format_records(records, model, selected_column_names, helpers)
           deserialized_columns = CmAdmin::Utils.deserialize_csv_columns(selected_column_names, :as_json_params)
           # This includes isn't recursve, a full solution should be recursive
           records_arr = []
           records.includes(deserialized_columns[:include].keys).find_each do |record|
-            record_hash = record.as_json({only: selected_column_names.map(&:to_sym)})
+            record_hash = record.as_json({ only: selected_column_names.map(&:to_sym) })
             selected_column_names.each do |column_name|
               break unless model.available_fields[:index].map(&:field_name).include?(column_name.to_sym)
 
@@ -38,10 +37,10 @@ module CmAdmin
           records_arr
         end
 
-        def create_workbook(cm_model, records, class_name, file_path)
+        def create_workbook(cm_model, records, _class_name, file_path)
           flattened_records = records.map { |record| CmAdmin::Utils.flatten_hash(record) }
           # columns = flattened_records.map{|x| x.keys}.flatten.uniq.sort
-          columns = exportable_columns(cm_model).select {|column| flattened_records.first.keys.include?(column.field_name.to_s) }
+          columns = exportable_columns(cm_model).select { |column| flattened_records.first.keys.include?(column.field_name.to_s) }
           size_arr = []
           columns.size.times { size_arr << 22 }
           xl = Axlsx::Package.new
@@ -50,13 +49,13 @@ module CmAdmin
             flattened_records.each do |record|
               sheet.add_row(columns.map { |column| record[column.field_name.to_s] })
             end
-          sheet.column_widths(*size_arr)
+            sheet.column_widths(*size_arr)
           end
           xl.serialize(file_path)
         end
 
         def exportable_columns(klass)
-          klass.available_fields[:index].select { |field| field.exportable }
+          klass.available_fields[:index].select(&:exportable)
         end
 
       end
