@@ -15,7 +15,7 @@
         /   span
         /     input.cm-checkbox type="checkbox"
         - @model.available_fields[:index].each do |column|
-          - if column.display_if.call(Current.user)
+          - if column.display_if.call(Current.user) && column.viewable
             th = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
@@ -24,7 +24,7 @@
           /   span
           /     input.cm-checkbox type="checkbox"
           - @model.available_fields[:index].each_with_index do |column, index|
-            - if column.display_if.call(Current.user)
+            - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis
                 span class="#{column.field_type.to_s} #{column.cm_css_class} "
                   - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
