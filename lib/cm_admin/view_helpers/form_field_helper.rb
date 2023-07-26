@@ -39,7 +39,7 @@ module CmAdmin
 
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}}" },
+                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.humanize(capitalize: false)}}" },
                         class: "normal-input #{required_class} select-2",
                         disabled: cm_field.disabled,
                         data: {
