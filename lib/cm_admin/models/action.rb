@@ -45,12 +45,14 @@ module CmAdmin
       end
 
       def controller_action_name
-        if self.action_type == :custom
+        if action_type == :custom
           'cm_custom_method'
-        elsif self.parent
-          'cm_' + self.parent
+        elsif action_type == :bulk_action
+          'cm_bulk_action'
+        elsif parent
+          "cm_#{parent}"
         else
-          'cm_' + name
+          "cm_#{name}"
         end
       end
 
