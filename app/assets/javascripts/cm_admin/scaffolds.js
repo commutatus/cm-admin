@@ -42,3 +42,5 @@ document.addEventListener("turbo:load", function () {
 $(document).on('click', '.menu-item', function(e) {
   $('.profile-popup').toggleClass('hidden');
 });
+
+window.addEventListener('popstate', e => window.location.reload() );

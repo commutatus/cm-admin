@@ -117,8 +117,8 @@
         cursor: pointer;
       }
     }
-    
-    .upload-placeholder-1 { 
+
+    .upload-placeholder-1 {
       @include font($size: $t4-text, $color: $ink-lighter-clr, $weight: 600);
     }
     .upload-placeholder-2 {
@@ -161,7 +161,7 @@ input.cm-checkbox[type="checkbox"] {
   }
   &:checked:after {
     background: $brand-color;
-    content: "\2713";
+    content: "\f00c";
     font-family: FontAwesome !important;
     color: $white;
     border: none;
@@ -173,7 +173,7 @@ input.cm-checkbox[type="checkbox"] {
     }
     &:checked:after {
       background: $grey-light-clr;
-      content: "\2713";
+      content: "\f00c";
       font-family: FontAwesome !important;
       color: $white;
       border: none;
@@ -262,7 +262,7 @@ input.cm-radio[type="radio"] {
     right: 0;
     bottom: 0;
     background: $grey-light-clr;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
   }
 
   .slider:before {
@@ -273,7 +273,7 @@ input.cm-radio[type="radio"] {
     left: 2px;
     bottom: 2px;
     background-color: $white;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
   }
 
   input:checked + .slider {
