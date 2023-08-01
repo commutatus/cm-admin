@@ -35,7 +35,7 @@
         tr.body-row
           td.check-box-space
             span
-              input.cm-checkbox type="checkbox"  data-behaviour="bulk-action-checkbox" data-entity-id="#{ar_object.id}"
+              input.cm-checkbox type="checkbox"  data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis
