@@ -127,10 +127,11 @@ module CmAdmin
         # self.class.class_eval(&block)
       end
 
-      def bulk_action(name: nil, display_name: nil, display_if: lambda { |arg| return true }, redirection_url: nil, icon_name: nil, &block)
+      def bulk_action(name: nil, display_name: nil, display_if: lambda { |arg| return true }, redirection_url: nil, icon_name: nil, verb: nil, display_type: nil, route_type: nil, partial: nil, &block)
         bulk_action = CmAdmin::Models::BulkAction.new(
           name: name, display_name: display_name, display_if: display_if,
-          redirection_url: redirection_url, icon_name: icon_name, action_type: :bulk_action, &block
+          redirection_url: redirection_url, icon_name: icon_name, action_type: :bulk_action,
+          verb: verb, display_type: display_type, route_type: route_type, partial: partial, &block
         )
         @available_actions << bulk_action
       end

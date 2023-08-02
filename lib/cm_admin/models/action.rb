@@ -36,6 +36,10 @@ module CmAdmin
         self.sort_direction = :desc
         self.scopes ||= []
         self.icon_name = 'fa fa-th-large'
+        self.verb = :get
+        self.route_type = nil
+        self.display_type = nil
+
       end
 
       def set_values(page_title, page_description, partial)

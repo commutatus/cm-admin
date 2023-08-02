@@ -1,4 +1,7 @@
-- @model.available_actions.select{|act| act if act.display_type == :modal}.each do |custom_action|
+- custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal }
+- if @associated_model
+  - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
+- custom_action_with_modals.each do |custom_action|
   .modal.fade id="#{custom_action.name.classify}Modal" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
     .modal-dialog
       .modal-content

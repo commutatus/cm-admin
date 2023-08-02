@@ -3,7 +3,6 @@ require_relative 'actions/blocks'
 module CmAdmin
   module Models
     class BulkAction < Action
-      include Actions::Blocks
 
       def initialize(attributes = {}, &block)
         super

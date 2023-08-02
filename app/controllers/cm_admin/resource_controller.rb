@@ -94,7 +94,7 @@ module CmAdmin
     end
 
     def cm_bulk_action(params)
-      @model = Model.find_by({ name: controller_name.titleize })
+      @model = Model.find_by({ name: controller_name.classify })
       @bulk_action_processor = CmAdmin::BulkActionProcessor.new(@action, @model, params).perform_bulk_action
       respond_to do |format|
         if @bulk_action_processor.invalid_records.empty?
