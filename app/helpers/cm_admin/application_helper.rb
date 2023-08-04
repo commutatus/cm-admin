@@ -68,5 +68,9 @@ module CmAdmin
       model.available_actions.map(&:name).include?('show') &&
       has_valid_policy(model.name, 'show')
     end
+
+    def actions_filter(model, action_type)
+      model.available_actions.select { |action| action.action_type == action_type && has_valid_policy(model.name, action.name) }
+    end
   end
 end
