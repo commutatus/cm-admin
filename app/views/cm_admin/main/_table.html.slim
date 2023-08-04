@@ -13,29 +13,29 @@
   .alert.alert-success
     = flash[:notice].html_safe
 
-.table-top.hidden data-section="bulk-action"
-  - @model.available_actions.each do |action|
-    - if action.action_type == :bulk_action
-      = button_to cm_admin.send("#{@model.name.underscore}_#{action.name}_path"), method: :post, params: {selected_ids: ''} do
-        span
-          i class="#{action.icon_name}"
+- bulk_actions = @model.available_actions.select { |action| action.action_type == :bulk_action && has_valid_policy(@model.name, action.name) }
+- if bulk_actions.present?
+  .table-top.hidden data-section="bulk-action"
+    - bulk_actions.each do |action|
+      = custom_action_items(action, 'index')
 .new-admin-table
   table.cm-table
     thead.cm-table__header
       tr.header-row
-        / Select all checkbox feature to be added later
-        th.check-box-space
-          span
-            input.cm-checkbox type="checkbox" data-behaviour="bulk-action-select-all"
+        - if bulk_actions.present?
+          th.check-box-space
+            span
+              input.cm-checkbox type="checkbox" data-behaviour="bulk-action-select-all"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
             th = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
-          td.check-box-space
-            span
-              input.cm-checkbox type="checkbox"  data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
+          - if bulk_actions.present?
+            td.check-box-space
+              span
+                input.cm-checkbox type="checkbox"  data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis
@@ -54,4 +54,4 @@
     .cm-pagination__rhs
       == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
 
-= render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }
+/ = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }

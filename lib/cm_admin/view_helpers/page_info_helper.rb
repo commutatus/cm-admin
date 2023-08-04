@@ -60,6 +60,8 @@ module CmAdmin
         if custom_action.name.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{custom_action.name}?")
           if custom_action.display_if.call(@ar_object)
             case custom_action.display_type
+            when :icon_only
+              custom_action_icon(custom_action, current_action_name)
             when :button
               custom_action_button(custom_action, current_action_name)
             when :modal
@@ -67,6 +69,14 @@ module CmAdmin
             when :page
               link_to custom_action_title(custom_action), "#{@model.ar_model.table_name}/#{custom_action.path}", class: 'secondary-btn ml-2', method: custom_action.verb
             end
+          end
+        end
+      end
+
+      def custom_action_icon(custom_action, current_action_name)
+        button_to cm_admin.send("#{@model.name.underscore}_#{custom_action.name}_path"), method: :post, params: {selected_ids: ''} do
+          content_tag(:span) do
+            content_tag(:i, '', class: custom_action.icon_name)
           end
         end
       end

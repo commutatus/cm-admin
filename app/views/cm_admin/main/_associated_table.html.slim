@@ -14,25 +14,35 @@
     /     i.fa.fa-columns.bolder
     /   span
     /     i.fa.fa-angle-down
-
+- if flash[:alert].present?
+  .alert.alert-danger role="alert"
+    = flash[:alert].html_safe
+- elsif flash[:notice].present?
+  .alert.alert-success
+    = flash[:notice].html_safe
+- bulk_actions = @associated_model.available_actions.select { |action| action.action_type == :bulk_action && has_valid_policy(@associated_model.name, action.name) }
+- if bulk_actions.present?
+  .table-top.hidden data-section="bulk-action"
+    - bulk_actions.each do |action|
+      = custom_action_items(action, 'index')
 .new-admin-table.scrollable
   table.cm-table
     thead.cm-table__header
       tr.header-row
-        // To be added once bulk-select is finalized
-        / th.check-box-space
-        /   span
-        /     input.cm-checkbox type="checkbox"
+        - if bulk_actions.present?
+          th.check-box-space
+            span
+              input.cm-checkbox type="checkbox" data-behaviour="bulk-action-select-all"
         - @model.available_fields[@action.name.to_sym].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
             th = column.header
     tbody.cm-table__body
       - @associated_ar_object.data.each do |ar_object|
         tr.body-row
-          // To be added once bulk-select is finalized
-          / td.check-box-space
-          /   span
-          /     input.cm-checkbox type="checkbox"
+          - if bulk_actions.present?
+            td.check-box-space
+              span
+                input.cm-checkbox type="checkbox" data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
           - @model.available_fields[@action.name.to_sym].each_with_index do |column, index|
             - if column.display_if.call(Current.user) && column.viewable
               td class="text-ellipsis"
