@@ -20,7 +20,7 @@
 - elsif flash[:notice].present?
   .alert.alert-success
     = flash[:notice].html_safe
-- bulk_actions = @associated_model.available_actions.select { |action| action.action_type == :bulk_action && has_valid_policy(@associated_model.name, action.name) }
+- bulk_actions = actions_filter(@associated_model, :bulk_action)
 - if bulk_actions.present?
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
