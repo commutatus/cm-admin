@@ -54,6 +54,10 @@ module CmAdmin
       end
     end
 
+    def actions_filter(action_type)
+      @available_actions.select { |action| action.action_type == action_type }
+    end
+
     def custom_controller_action(action_name, params)
       current_action = CmAdmin::Models::Action.find_by(self, name: action_name.to_s)
       if current_action

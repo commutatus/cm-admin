@@ -13,7 +13,7 @@
   .alert.alert-success
     = flash[:notice].html_safe
 
-- bulk_actions = @model.available_actions.select {|action| action.action_type == :bulk_action }
+- bulk_actions = @model.actions_filter(:bulk_action)
 - if bulk_actions.present?
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
