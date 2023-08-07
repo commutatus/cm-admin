@@ -1,54 +1,55 @@
 /* ==== Color Variables ==== */
 
 /* Brand Color */
-$brand-color: #6554E0;
+$brand-color: #6554e0;
+$brand-hover-color: #e6e4fa;
 
 /* Semantic Color */
-$informative-clr: #2F80ED;
-$error-clr: #F83636;
-$warning-clr: #FFC845;
-$positive-clr: #30C39E;
-$disabled-clr: #9CA7AE;
+$informative-clr: #2f80ed;
+$error-clr: #f83636;
+$warning-clr: #ffc845;
+$positive-clr: #30c39e;
+$disabled-clr: #9ca7ae;
 
 /* Blue Colors */
-$blue-regular-clr: #2F80ED;
-$blue-light-clr: #CDE1FB;
-$blue-lightest-clr: #EEF5FE;
+$blue-regular-clr: #2f80ed;
+$blue-light-clr: #cde1fb;
+$blue-lightest-clr: #eef5fe;
 
 /* Red Colors */
-$red-regular-clr: #F83636;
-$red-light-clr: #FDCFCF;
-$red-lightest-clr: #FEEFEF;
+$red-regular-clr: #f83636;
+$red-light-clr: #fdcfcf;
+$red-lightest-clr: #feefef;
 
 /* Yellow Colors */
-$yellow-regular-clr: #FFC845;
-$yellow-light-clr: #FFEFC7;
-$yellow-lightest-clr: #FFF8E9;
+$yellow-regular-clr: #ffc845;
+$yellow-light-clr: #ffefc7;
+$yellow-lightest-clr: #fff8e9;
 
 /* Green Colors */
-$green-regular-clr: #30C39E;
-$green-light-clr: #C1EDE2;
-$green-lightest-clr: #EEFAF7;
+$green-regular-clr: #30c39e;
+$green-light-clr: #c1ede2;
+$green-lightest-clr: #eefaf7;
 
 /* Grey Colors */
-$grey-regular-clr: #C7CED5;
-$grey-light-clr: #D9DEE3;
-$grey-lighter-clr: #F3F4F6;
-$grey-lightest-clr: #F8F9FA;
+$grey-regular-clr: #c7ced5;
+$grey-light-clr: #d9dee3;
+$grey-lighter-clr: #f3f4f6;
+$grey-lightest-clr: #f8f9fa;
 $grey-dark-clr: #828282;
 
 /* Ink Colors */
-$ink-regular-clr: #1D2129;
-$ink-light-clr: #3B4352;
-$ink-lighter-clr: #6B7586;
-$ink-lightest-clr: #9CA7AE;
+$ink-regular-clr: #1d2129;
+$ink-light-clr: #3b4352;
+$ink-lighter-clr: #6b7586;
+$ink-lightest-clr: #9ca7ae;
 
 /* Text Colors */
-$primary-text-clr: #1D2129;
-$subdued-text-clr: #D9DEE3;
+$primary-text-clr: #1d2129;
+$subdued-text-clr: #d9dee3;
 
 /* Common Colors */
-$white: #FFFFFF;
+$white: #ffffff;
 $black: #000000;
 
 // Gradient Colors
@@ -56,7 +57,7 @@ $gradient-one: linear-gradient(270deg, $grey-lighter-clr 81.75%, rgba(243, 244, 
 $cta-hover-gradient: linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), $brand-color;
 
 /* Typography */
-$primary-font: 'Open Sans', sans-serif;
+$primary-font: "Open Sans", sans-serif;
 $font-size: (
   24: 24px,
   18: 18px,
