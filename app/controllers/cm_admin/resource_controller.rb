@@ -93,7 +93,22 @@ module CmAdmin
       end
     end
 
-    def cm_history(params)
+    def cm_bulk_action(params)
+      @model = Model.find_by({ name: controller_name.classify })
+      @bulk_action_processor = CmAdmin::BulkActionProcessor.new(@action, @model, params).perform_bulk_action
+      respond_to do |format|
+        if @bulk_action_processor.invalid_records.empty?
+          format.html { redirect_to request.referrer, notice: "#{@action.name.humanize} is successful" }
+        else
+          error_messages = @bulk_action_processor.invalid_records.map { |invalid_record|
+            "<li>#{invalid_record.error_message}</li>"
+          }.join
+          format.html { redirect_to request.referrer, alert: "<b>#{@action.name.humanize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
+        end
+      end
+    end
+
+    def cm_history(_params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'history')
       resource_identifier
       respond_to do |format|
