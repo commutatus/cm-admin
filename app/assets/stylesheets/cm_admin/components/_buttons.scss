@@ -37,7 +37,7 @@
   white-space: nowrap;
   &:hover {
     color: $brand-color;
-    background-color: #e6e4fa;
+    background-color: $brand-hover-color;
     transform: scale(1.05);
   }
   &:focus {
