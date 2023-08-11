@@ -106,12 +106,12 @@ module CmAdmin
           return nil if scope_value.nil?
 
           scope_value.each do |key, value|
-            if value.present?
-              value = value.split(' to ')
-              from = value[0].presence
-              to = value[1].presence
-              records = records.where(key => from..to)
-            end
+            next unless value.present?
+
+            value = value.split(' to ')
+            from = value[0].presence
+            to = value[1].presence
+            records = records.where(key => from..to)
           end
           records
         end
