@@ -18,12 +18,12 @@ module CmAdmin
       def structure_data(db_column_name, filter_type)
         filter_type = filter_type.is_a?(Array) ? filter_type[0].to_sym : filter_type.to_sym
 
-        case filter_type
-        when :search
-          db_column_name = (Array.new << db_column_name).flatten.map{|x| x.class.eql?(Hash) ? x : x.to_sym}
-        else
-          db_column_name = db_column_name.is_a?(Array) ? db_column_name[0].to_sym : db_column_name.to_sym
-        end
+        db_column_name = case filter_type
+                         when :search
+                           ([] << db_column_name).flatten.map { |x| x.instance_of?(Hash) ? x : x.to_sym }
+                         else
+                           db_column_name.is_a?(Array) ? db_column_name[0].to_sym : db_column_name.to_sym
+                         end
         [db_column_name, filter_type]
       end
 
