@@ -7,7 +7,7 @@ module CmAdmin
         value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
         is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
-        target_action = @model.available_actions.select{|x| x.name == cm_field.target[:action_name].to_s}.first if cm_field.target.present?
+        target_action = @model.available_actions.select { |x| x.name == cm_field.target[:action_name].to_s }.first if cm_field.target.present?
         send("cm_#{cm_field.input_type}_field", form_obj, cm_field, value, required_class, target_action)
       end
 
@@ -16,7 +16,7 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.humanize.downcase}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'integer-only' }
       end
 
@@ -25,7 +25,7 @@ module CmAdmin
                               class: "normal-input #{required_class}",
                               disabled: cm_field.disabled,
                               value: value,
-                              placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                              placeholder: cm_field.placeholder,
                               data: { behaviour: 'decimal-only' }
       end
 
@@ -34,12 +34,12 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                            placeholder: cm_field.placeholder
       end
 
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.humanize(capitalize: false)}}" },
+                        { include_blank: cm_field.placeholder },
                         class: "normal-input #{required_class} select-2",
                         disabled: cm_field.disabled,
                         data: {
@@ -53,7 +53,7 @@ module CmAdmin
       def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.humanize(capitalize: false)}" },
+                        { include_blank: cm_field.placeholder },
                         class: "normal-input #{required_class} select-2",
                         disabled: cm_field.disabled, multiple: true
       end
@@ -63,7 +63,7 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value&.strftime('%d-%m-%Y'),
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-only' }
       end
 
@@ -72,20 +72,20 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-time' }
       end
 
       def cm_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_area cm_field.field_name,
                            class: "normal-input #{required_class}",
-                           placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                           placeholder: cm_field.placeholder
       end
 
       def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.rich_text_area cm_field.field_name,
                                 class: "normal-input #{required_class}",
-                                placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                                placeholder: cm_field.placeholder
       end
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
@@ -114,16 +114,16 @@ module CmAdmin
       # helper_method argument will accept a method where value can be passed.
       def select_collection_value(object, cm_field)
         if cm_field.helper_method
-          collection = send(cm_field.helper_method, object, cm_field.field_name)
+          send(cm_field.helper_method, object, cm_field.field_name)
         elsif cm_field.collection
-          collection = cm_field.collection
+          cm_field.collection
         else
-          collection = []
+          []
         end
       end
 
       def format_check_box_options(value, form_obj, cm_field, required_class, target_action)
-        if value.class == Array
+        if value.instance_of?(Array)
           format_check_box_array(value, form_obj, cm_field, required_class, target_action)
         else
           form_obj.check_box cm_field.field_name,
@@ -131,7 +131,7 @@ module CmAdmin
                                class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                disabled: cm_field.disabled,
                                data: {
-                                 field_name: cm_field.field_name, 
+                                 field_name: cm_field.field_name,
                                  target_action: target_action&.name,
                                  target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
                                }
@@ -169,7 +169,6 @@ module CmAdmin
         end
       end
 
-
       def format_radio_button_options(options, form_obj)
         content_tag :div do
           options.each do |val, key|
@@ -177,7 +176,7 @@ module CmAdmin
           end
         end
       end
-  
+
       def format_radio_option(val, key, form_obj)
         content_tag :div, class: 'cm-radio-section' do
           concat format_radio_button(val, form_obj)
