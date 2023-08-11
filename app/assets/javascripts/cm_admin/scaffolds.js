@@ -16,7 +16,6 @@ import 'bootstrap'
 import '@popperjs/core'
 import 'flatpickr'
 import 'jgrowl'
-jqueryJgrowl()
 import Select2 from "select2"
 Select2()
 
@@ -37,6 +36,7 @@ document.addEventListener("turbo:load", function () {
     mode: 'range'
   })
   $('.select-2').select2();
+  jqueryJgrowl()
 });
 
 $(document).on('click', '.menu-item', function(e) {
