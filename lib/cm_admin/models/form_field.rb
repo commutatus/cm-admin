@@ -17,10 +17,10 @@ module CmAdmin
         @field_name = field_name
         set_default_values
         attributes.each do |key, value|
-          self.send("#{key.to_s}=", value)
+          send("#{key}=", value)
         end
         set_default_placeholder
-        self.display_if = lambda { |arg| return true } if self.display_if.nil?
+        self.display_if = lambda { |arg| return true } if display_if.nil?
         raise ArgumentError, "Kindly select a valid input type like #{VALID_INPUT_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{self.input_type} for form field #{field_name}" unless VALID_INPUT_TYPES.include?(self.input_type.to_sym)
       end
 
