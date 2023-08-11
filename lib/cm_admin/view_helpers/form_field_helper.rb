@@ -16,7 +16,7 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.humanize.downcase}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'integer-only' }
       end
 
@@ -25,7 +25,7 @@ module CmAdmin
                               class: "normal-input #{required_class}",
                               disabled: cm_field.disabled,
                               value: value,
-                              placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                              placeholder: cm_field.placeholder,
                               data: { behaviour: 'decimal-only' }
       end
 
@@ -34,12 +34,12 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                            placeholder: cm_field.placeholder
       end
 
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.humanize(capitalize: false)}}" },
+                        { include_blank: cm_field.placeholder },
                         class: "normal-input #{required_class} select-2",
                         disabled: cm_field.disabled,
                         data: {
@@ -53,7 +53,7 @@ module CmAdmin
       def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        { include_blank: cm_field.placeholder.to_s.presence || "Select #{cm_field.field_name.to_s.humanize(capitalize: false)}" },
+                        { include_blank: cm_field.placeholder },
                         class: "normal-input #{required_class} select-2",
                         disabled: cm_field.disabled, multiple: true
       end
@@ -63,7 +63,7 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value&.strftime('%d-%m-%Y'),
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-only' }
       end
 
@@ -72,20 +72,20 @@ module CmAdmin
                             class: "normal-input #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
-                            placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}",
+                            placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-time' }
       end
 
       def cm_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_area cm_field.field_name,
                            class: "normal-input #{required_class}",
-                           placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                           placeholder: cm_field.placeholder
       end
 
       def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.rich_text_area cm_field.field_name,
                                 class: "normal-input #{required_class}",
-                                placeholder: "Enter #{cm_field.field_name.to_s.downcase.gsub('_', ' ')}"
+                                placeholder: cm_field.placeholder
       end
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
