@@ -37,9 +37,9 @@ module CmAdmin
 
         self.placeholder = case input_type&.to_sym
                            when :single_select, :multi_select, :date, :date_time
-                             "Select #{humanized_val(field_name)}"
+                             "Select #{humanized_field_value(field_name)}"
                            else
-                             "Enter #{humanized_val(field_name)}"
+                             "Enter #{humanized_field_value(field_name)}"
                            end
       end
     end

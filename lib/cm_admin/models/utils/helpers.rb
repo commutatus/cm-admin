@@ -5,8 +5,8 @@ module CmAdmin
         extend ActiveSupport::Concern
 
         # Returns the humanized value of the field.
-        def humanized_val(field, capitalize: false)
-          field.to_s.humanize(capitalize: capitalize)
+        def humanized_field_value(name, capitalize: false)
+          name.to_s.humanize(capitalize: capitalize)
         end
       end
     end

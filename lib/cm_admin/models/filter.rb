@@ -40,9 +40,9 @@ module CmAdmin
                       when :search
                         'Search'
                       when :single_select, :multi_select
-                        "Select/search #{humanized_val(db_column_name)}"
+                        "Select/search #{humanized_field_value(db_column_name)}"
                       else
-                        "Enter #{humanized_val(db_column_name)}"
+                        "Enter #{humanized_field_value(db_column_name)}"
                       end
         self.placeholder = placeholder
       end
