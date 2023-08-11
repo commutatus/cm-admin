@@ -1,6 +1,10 @@
+require_relative 'utils/helpers'
+
 module CmAdmin
   module Models
     class Filter
+      include Utils::Helpers
+
       attr_accessor :db_column_name, :filter_type, :placeholder, :collection
 
       VALID_FILTER_TYPES = Set[:date, :multi_select, :range, :search, :single_select].freeze
@@ -36,9 +40,9 @@ module CmAdmin
                       when :search
                         'Search'
                       when :single_select, :multi_select
-                        "Select/search #{db_column_name.to_s.humanize(capitalize: false)}"
+                        "Select/search #{humanized_val(db_column_name)}"
                       else
-                        "Enter #{db_column_name.to_s.humanize(capitalize: false)}"
+                        "Enter #{humanized_val(db_column_name)}"
                       end
         self.placeholder = placeholder
       end
