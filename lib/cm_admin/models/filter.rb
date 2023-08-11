@@ -47,13 +47,14 @@ module CmAdmin
         def filtered_data(filter_params, records, filters)
           if filter_params
             filter_params.each do |scope_type, scope_value|
-              scope_name = if scope_type.eql?('date') || scope_type.eql?('range')
-                'date_and_range'
-              elsif scope_type.eql?('single_select') || scope_type.eql?('multi_select')
-                'dropdown'
-              else
-                scope_type
-              end
+              scope_name = case scope_type
+                           when 'date', 'range'
+                             'date_and_range'
+                           when 'single_select', 'multi_select'
+                             'dropdown'
+                           else
+                             scope_type
+                           end
               records = self.send("cm_#{scope_name}_filter", scope_value, records, filters) if scope_value.present?
             end
           end
