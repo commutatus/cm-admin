@@ -114,11 +114,11 @@ module CmAdmin
       # helper_method argument will accept a method where value can be passed.
       def select_collection_value(object, cm_field)
         if cm_field.helper_method
-          collection = send(cm_field.helper_method, object, cm_field.field_name)
+          send(cm_field.helper_method, object, cm_field.field_name)
         elsif cm_field.collection
-          collection = cm_field.collection
+          cm_field.collection
         else
-          collection = []
+          []
         end
       end
 
