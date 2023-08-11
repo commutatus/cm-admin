@@ -69,9 +69,10 @@ module CmAdmin
           filters.select { |x| x if x.filter_type.eql?(:search) }.each do |filter|
             query_variables = []
             filter.db_column_name.each do |col|
-              if col.is_a?(Symbol)
+              case col
+              when Symbol
                 query_variables << "#{table_name.pluralize}.#{col}"
-              elsif col.is_a?(Hash)
+              when Hash
                 col.map do |key, value|
                   value.map { |val| query_variables << "#{key.to_s.pluralize}.#{val}" }
                 end
