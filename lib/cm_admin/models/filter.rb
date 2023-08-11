@@ -9,6 +9,7 @@ module CmAdmin
         raise TypeError, "Can't have array of multiple columns for #{filter_type} filter" if db_column_name.is_a?(Array) && db_column_name.size > 1 && !filter_type.to_sym.eql?(:search)
         raise ArgumentError, "Kindly select a valid filter type like #{VALID_FILTER_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{filter_type} for column #{db_column_name}" unless VALID_FILTER_TYPES.include?(filter_type.to_sym)
         @db_column_name, @filter_type = structure_data(db_column_name, filter_type)
+        set_default_values
         options.each do |key, value|
           self.send("#{key.to_s}=", value)
         end
@@ -24,6 +25,21 @@ module CmAdmin
           db_column_name = db_column_name.is_a?(Array) ? db_column_name[0].to_sym : db_column_name.to_sym
         end
         [db_column_name, filter_type]
+      end
+
+      # Set default placeholder for the filter.
+      # Date and range filter will not have any placeholder.
+      # Else condition is added for fallback.
+      def set_default_values
+        placeholder = case filter_type
+                      when :search
+                        'Search'
+                      when :single_select, :multi_select
+                        "Select/search #{db_column_name.to_s.humanize(capitalize: false)}"
+                      else
+                        "Enter #{db_column_name.to_s.humanize(capitalize: false)}"
+                      end
+        self.placeholder = placeholder
       end
 
       # Methods to filter the records based on the filter type.
