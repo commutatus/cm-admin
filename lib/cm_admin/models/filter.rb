@@ -8,10 +8,11 @@ module CmAdmin
       def initialize(db_column_name:, filter_type:, options: {})
         raise TypeError, "Can't have array of multiple columns for #{filter_type} filter" if db_column_name.is_a?(Array) && db_column_name.size > 1 && !filter_type.to_sym.eql?(:search)
         raise ArgumentError, "Kindly select a valid filter type like #{VALID_FILTER_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{filter_type} for column #{db_column_name}" unless VALID_FILTER_TYPES.include?(filter_type.to_sym)
+
         @db_column_name, @filter_type = structure_data(db_column_name, filter_type)
         set_default_values
         options.each do |key, value|
-          self.send("#{key.to_s}=", value)
+          send("#{key}=", value)
         end
       end
 
@@ -55,7 +56,7 @@ module CmAdmin
                            else
                              scope_type
                            end
-              records = self.send("cm_#{scope_name}_filter", scope_value, records, filters) if scope_value.present?
+              records = send("cm_#{scope_name}_filter", scope_value, records, filters) if scope_value.present?
             end
           end
           records
@@ -63,15 +64,16 @@ module CmAdmin
 
         def cm_search_filter(scope_value, records, filters)
           return nil if scope_value.blank?
+
           table_name = records.table_name
-          filters.select{|x| x if x.filter_type.eql?(:search)}.each do |filter|
+          filters.select { |x| x if x.filter_type.eql?(:search) }.each do |filter|
             query_variables = []
             filter.db_column_name.each do |col|
               if col.is_a?(Symbol)
                 query_variables << "#{table_name.pluralize}.#{col}"
               elsif col.is_a?(Hash)
                 col.map do |key, value|
-                  value.map {|val| query_variables << "#{key.to_s.pluralize}.#{val}" }
+                  value.map { |val| query_variables << "#{key.to_s.pluralize}.#{val}" }
                 end
               end
             end
@@ -79,14 +81,14 @@ module CmAdmin
             terms = terms.map { |e|
               (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
             }
-            sql = ""
+            sql = ''
             query_variables.each.with_index do |column, i|
               sql.concat("#{column} ILIKE ?")
-              sql.concat(' OR ') unless query_variables.size.eql?(i+1)
+              sql.concat(' OR ') unless query_variables.size.eql?(i + 1)
             end
 
-            if filter.db_column_name.map{|x| x.is_a?(Hash)}.include?(true)
-              associations_hash = filter.db_column_name.select{|x| x if x.is_a?(Hash)}.last
+            if filter.db_column_name.map { |x| x.is_a?(Hash) }.include?(true)
+              associations_hash = filter.db_column_name.select { |x| x if x.is_a?(Hash) }.last
               records = records.left_joins(associations_hash.keys).distinct
             end
 
@@ -102,6 +104,7 @@ module CmAdmin
 
         def cm_date_and_range_filter(scope_value, records, filters)
           return nil if scope_value.nil?
+
           scope_value.each do |key, value|
             if value.present?
               value = value.split(' to ')
@@ -115,6 +118,7 @@ module CmAdmin
 
         def cm_dropdown_filter(scope_value, records, filters)
           return nil if scope_value.nil?
+
           scope_value.each do |key, value|
             records = records.where(key => value) if value.present?
           end

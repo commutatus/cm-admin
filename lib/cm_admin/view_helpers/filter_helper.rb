@@ -169,7 +169,7 @@ module CmAdmin
         else
           value_mapped_text = value
         end
-        
+
         concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
           concat filter_chip(value_mapped_text, filter)
 
