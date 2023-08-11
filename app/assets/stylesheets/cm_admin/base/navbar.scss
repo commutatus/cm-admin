@@ -11,6 +11,7 @@
   padding: 24px;
   background-color: $white;
   z-index: 2;
+  gap: 16px;
   &__lhs {
     .bread-crumb-area {
       .breadcrumb-text {
@@ -46,12 +47,12 @@
         top: 45px;
         width: 156px;
         padding: 8px 0;
-        animation: fadeIn .2s ease-in-out;
+        animation: fadeIn 0.2s ease-in-out;
         .popup-option {
           padding: 8px 16px;
           @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          transition: all .2s linear;
+          transition: all 0.2s linear;
           cursor: pointer;
           &:hover {
             background-color: $grey-lighter-clr;
