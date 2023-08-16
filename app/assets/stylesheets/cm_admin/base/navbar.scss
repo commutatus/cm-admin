@@ -1,42 +1,17 @@
 @import "../helpers/index.scss";
+@import "bootstrap/scss/bootstrap";
 
-.cm-navbar {
-  top: 0;
-  right: 0;
-  left: 225px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  min-height: 102px;
-  padding: 24px;
-  background-color: $white;
-  z-index: 2;
-  &__lhs {
-    .bread-crumb-area {
-      .breadcrumb-text {
-        @include font($size: $t4-text, $color: $ink-lighter-clr);
-        line-height: 22px;
-        margin: 0 0 16px;
-        a {
-          color: inherit;
-        }
-      }
-    }
-    .nav-title-area {
-      .title-text {
-        @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
-        line-height: 32px;
-        margin: 0 0 8px;
-      }
-      .title-sub-text {
-        @include font($size: $t4-text, $color: $primary-text-clr);
-        line-height: 22px;
-        margin: 0;
-      }
+.entity-header {
+  min-height: 109px;
+  background-color: var(--bs-white);
+  &__info {
+    .breadcrumb {
+      @include font($size: $t4-text, $color: var(--bs-tertiary-color));
+      line-height: 22px;
     }
   }
 
-  &__rhs {
+  &__actions {
     display: flex;
     align-items: center;
 
@@ -46,12 +21,12 @@
         top: 45px;
         width: 156px;
         padding: 8px 0;
-        animation: fadeIn .2s ease-in-out;
+        animation: fadeIn 0.2s ease-in-out;
         .popup-option {
           padding: 8px 16px;
           @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          transition: all .2s linear;
+          transition: all 0.2s linear;
           cursor: pointer;
           &:hover {
             background-color: $grey-lighter-clr;
