@@ -1,4 +1,4 @@
-@import '../helpers/index.scss';
+@import "../helpers/index.scss";
 
 .cta-btn {
   padding: 5px 10px;
@@ -6,7 +6,8 @@
   background-color: $brand-color;
   border: none;
   border-radius: $radius-4;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
+  white-space: nowrap;
   &:hover {
     color: $white;
     background: $cta-hover-gradient;
@@ -32,10 +33,11 @@
   background-color: $white;
   border: 1px solid $brand-color;
   border-radius: $radius-4;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
+  white-space: nowrap;
   &:hover {
     color: $brand-color;
-    background-color: #E6E4FA;
+    background-color: $brand-hover-color;
     transform: scale(1.05);
   }
   &:focus {
@@ -55,11 +57,12 @@
 
 .secondary-btn {
   padding: 5px 10px;
-  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold); 
+  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
   background-color: $white;
   border: 1px solid $ink-regular-clr;
   border-radius: $radius-4;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
+  white-space: nowrap;
   &:hover {
     color: $primary-text-clr;
     background-color: $grey-light-clr;
@@ -82,17 +85,18 @@
     margin: 0 4px 0 8px;
   }
   span:nth-child(3) {
-    @include font($size: 10px, $color: $ink-lighter-clr, $weight: bold); 
+    @include font($size: 10px, $color: $ink-lighter-clr, $weight: bold);
   }
 }
 
 .gray-border-btn {
   padding: 5px 10px;
-  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold); 
+  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
   background-color: $white;
   border: 1px solid $ink-regular-clr;
   border-radius: $radius-4;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
+  white-space: nowrap;
   &:hover {
     color: $primary-text-clr;
     background-color: $grey-light-clr;
@@ -115,11 +119,12 @@
 
 .ghost-btn {
   padding: 5px 10px;
-  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold); 
+  @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
   background-color: transparent;
   border: none;
   border-radius: $radius-4;
-  transition: all .2s linear;
+  transition: all 0.2s linear;
+  white-space: nowrap;
   &:hover {
     color: $primary-text-clr;
     background: $grey-light-clr;
@@ -142,6 +147,7 @@
 .text-btn {
   border: none;
   background-color: transparent;
+  white-space: nowrap;
   &:focus {
     outline: none;
   }
