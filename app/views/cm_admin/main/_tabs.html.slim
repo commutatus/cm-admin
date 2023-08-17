@@ -1,4 +1,4 @@
-ul.nav.nav-pills
+ul.nav.nav-pills.ml-2
   - @model.available_tabs.each do |nav_item|
     - if nav_item.display_if.call(@ar_object)
       - if nav_item.custom_action.empty? || (nav_item.custom_action.present? && policy([:cm_admin, @model.name.classify.constantize]).send(:"#{nav_item.custom_action}?"))
