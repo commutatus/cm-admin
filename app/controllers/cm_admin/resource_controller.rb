@@ -137,15 +137,19 @@ module CmAdmin
             data = @action.parent == "index" ? @ar_object.data : @ar_object
             format.html { render @action.partial }
           else
-            response_object = @action.code_block.call(@response_object)
-            if response_object.class == Hash
-              format.json { render json: response_object }
-            elsif response_object.errors.empty?
-              redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@response_object.id}"
-              format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
-            else
-              error_messages = response_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
-              format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
+            begin
+              response_object = @action.code_block.call(@response_object)
+              if response_object.class == Hash
+                format.json { render json: response_object }
+              elsif response_object.errors.empty?
+                redirect_url = @model.current_action.redirection_url || @action.redirection_url || request.referrer || "/cm_admin/#{@model.ar_model.table_name}/#{@response_object.id}"
+                format.html { redirect_to redirect_url, notice: "#{@action.name.titleize} is successful" }
+              else
+                error_messages = response_object.errors.full_messages.map{|error_message| "<li>#{error_message}</li>"}.join
+                format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
+              end
+            rescue => exception
+              format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><p>#{exception.message}</p>" }
             end
           end
         end
