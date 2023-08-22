@@ -1,5 +1,50 @@
+<<<<<<< Updated upstream
 @import '../helpers/index.scss';
+=======
+@import "../helpers/index.scss";
+@import "bootstrap/scss/bootstrap";
+>>>>>>> Stashed changes
 
+// Custom style for icon btn
+.btn-icon {
+  i {
+    margin-right: 4px;
+  }
+}
+
+// New buttons with bootstrap button styles
+.btn-cta {
+  @extend .btn.btn-primary.btn-sm.btn-icon;
+}
+
+.cmad-btn-primary {
+  @extend .btn.btn-outline-primary.btn-sm.btn-icon;
+}
+
+.cmad-btn-secondary {
+  @extend .btn.btn-outline-secondary.btn-sm.btn-icon;
+}
+
+.cmad-btn-ghost {
+  @extend .btn.btn-light.btn-sm.btn-icon;
+}
+
+.cmad-btn-danger {
+  @extend .btn.btn-outline-danger.btn-sm.btn-icon;
+}
+
+.cmad-btn-link {
+  @extend .btn.btn-link.btn-sm.btn-icon;
+  text-decoration: underline;
+}
+
+// button mixin - We can use if needed
+// @include button-variant($background: #6554e0, $border: #6554e0);
+
+//Outline button mixin - We can use if needed
+// @include button-outline-variant($color: #6554e0);
+
+// Old buttons styles
 .cta-btn {
   padding: 5px 10px;
   @include font($size: $t4-text, $color: $white, $weight: bold);
