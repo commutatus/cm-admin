@@ -53,7 +53,7 @@ module CmAdmin
           concat hidden_field_tag 'class_name', klass.name.to_s, id: 'export-to-file-klass'
           concat checkbox_row(klass)
           concat tag.hr
-          concat submit_tag 'Export', class: 'btn btn-primary btn-bordered export-to-file-btn'
+          concat submit_tag 'Export', class: 'cmad-btn-primary export-to-file-btn'
         end
       end
     end

@@ -25,7 +25,7 @@
       line-height: 22px;
       margin-bottom: 0;
     }
-  }   
+  }
   &__body {
     padding: 16px 24px;
     .body-title {
@@ -63,9 +63,6 @@
 
     .actions-wrapper {
       margin-top: 32px;
-      button {
-        padding: 5px 10px;
-      }
     }
 
     //form UI
@@ -90,7 +87,7 @@
           margin-bottom: 16px;
           text-transform: uppercase;
         }
-        .steps-wrapper  {
+        .steps-wrapper {
           .steps-title {
             @include font($size: size(16), $weight: bold);
             font-family: $primary-font;
@@ -116,10 +113,6 @@
           }
         }
       }
-      .import-btn {
-        padding: 5px 10px;
-      }
     }
-   
   }
 }

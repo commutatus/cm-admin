@@ -5,11 +5,9 @@
 - if custom_actions.any? || edit_action.present? || destroy_action.present?
   td.row-action-cell
     .row-action-tool
-      button.secondary-btn.tool-btn
+      button.cmad-btn-ghost.dropdown-toggle
         span
           i.fa.fa-bars.bolder
-        span
-          i.fa.fa-angle-down
       .popup-card.table-export-popup.hidden
         - if edit_action.present?
           = link_to cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id) do

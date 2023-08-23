@@ -94,7 +94,7 @@ module CmAdmin
           end
           concat split_form_into_section(resource, form_obj, sections_array)
           concat tag.br
-          concat form_obj.submit 'Save', class: 'cta-btn mt-3 form_submit', data: {form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
+          concat form_obj.submit 'Save', class: 'cmad-btn-cta mt-3 form_submit', data: {form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
         end
       end
     end
