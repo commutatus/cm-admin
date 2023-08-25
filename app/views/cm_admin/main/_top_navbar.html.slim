@@ -12,7 +12,7 @@
       - if has_valid_policy(@model.name, :exportable)
         .export-container
           .dropdown
-            button.cmad-btn-secondary.dropdown-toggle data-bs-toggle='dropdown'
+            button.btn-secondary.dropdown-toggle data-bs-toggle='dropdown'
                 i.fa.fa-arrow-down
                 | Export
             ul.dropdown-menu.export-popup
@@ -20,10 +20,10 @@
                 .popup-option.pointer data-bs-toggle='modal' data-bs-target='#exportmodal'
                   span Export
       - if @model.importer && has_valid_policy(@model.name, :importable)
-        = link_to 'Import', cm_admin.send(:"#{@model.name.underscore}_import_path"), class: 'cmad-btn-primary ml-2'
+        = link_to 'Import', cm_admin.send(:"#{@model.name.underscore}_import_path"), class: 'btn-primary ml-2'
       - new_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('new')}
       - if new_action.any? && policy([:cm_admin, @model.name.classify.constantize]).new?
-        = link_to 'Add', cm_admin.send(:"#{@model.name.underscore}_new_path"), class: 'cmad-btn-primary ml-2'
+        = link_to 'Add', cm_admin.send(:"#{@model.name.underscore}_new_path"), class: 'btn-primary ml-2'
       - @model.available_actions.select{|act| act if act.route_type == 'collection'}.each do |custom_action|
         = custom_action_items(custom_action, 'index')
     - elsif @model.current_action.name == 'show'
@@ -32,4 +32,4 @@
 
       - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
       - if edit_action.any? && policy([:cm_admin, @model.name.classify.constantize]).edit?
-        = link_to "Edit #{@model.name.titleize.pluralize}", cm_admin.send(:"#{@model.name.underscore}_edit_path", @ar_object), class: 'cmad-btn-primary ml-2'
+        = link_to "Edit #{@model.name.titleize.pluralize}", cm_admin.send(:"#{@model.name.underscore}_edit_path", @ar_object), class: 'btn-primary ml-2'

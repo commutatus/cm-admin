@@ -65,8 +65,8 @@ module CmAdmin
 
       def manage_column_footer
         concat(content_tag(:div, class: 'modal-footer') do
-          concat tag.button 'Close', class: 'cmad-btn-secondary', data: {bs_dismiss: 'modal'}
-          concat tag.button 'Save', class: 'cmad-btn-cta'
+          concat tag.button 'Close', class: 'btn-secondary', data: {bs_dismiss: 'modal'}
+          concat tag.button 'Save', class: 'btn-cta'
         end)
         return
       end
