@@ -1,25 +1,14 @@
 @import "../helpers/index.scss";
+@import "bootstrap/scss/bootstrap";
 
 .show-page {
   overflow: auto;
 
-  &__tabs {
-    .cm-tabs-bar {
-      background-color: $white;
-      width: 100%;
-      .nav-pills {
-        margin-left: 10px;
-      }
+  &__header {
+    .tabs {
+      @extend .nav.nav-pills.ml-2;
       .nav-link {
-        position: static;
-        left: 0%;
-        right: 0%;
         @include font($size: $t4-text, $color: $ink-lighter-clr);
-        line-height: 22px;
-        flex: none;
-        order: 0;
-        flex-grow: 0;
-        background-color: $white;
         border-radius: 0px;
       }
       .nav-link.active {

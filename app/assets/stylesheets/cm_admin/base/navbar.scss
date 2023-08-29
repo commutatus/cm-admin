@@ -1,46 +1,19 @@
 @import "../helpers/index.scss";
+@import "bootstrap/scss/bootstrap";
 
-.cm-navbar {
-  top: 0;
-  right: 0;
-  left: 225px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  min-height: 102px;
-  padding: 24px;
-  background-color: $white;
-  z-index: 2;
-  gap: 16px;
-  &__lhs {
-    .bread-crumb-area {
-      .breadcrumb-text {
-        @include font($size: $t4-text, $color: $ink-lighter-clr);
-        line-height: 22px;
-        margin: 0 0 16px;
-        a {
-          color: inherit;
-        }
-      }
-    }
-    .nav-title-area {
-      .title-text {
-        @include font($size: 24px, $color: $primary-text-clr, $weight: 600);
-        line-height: 32px;
-        margin: 0 0 8px;
-      }
-      .title-sub-text {
-        @include font($size: $t4-text, $color: $primary-text-clr);
-        line-height: 22px;
-        margin: 0;
-      }
+.entity-header {
+  @extend .d-flex.justify-content-between.align-items-start.p-4;
+  min-height: 109px; // Height needs to be removed once all the layouts are revamped
+  background-color: var(--bs-white);
+  &__info {
+    .breadcrumb {
+      @include font($size: $t4-text, $color: var(--bs-tertiary-color));
+      line-height: 22px;
     }
   }
 
-  &__rhs {
-    display: flex;
-    align-items: center;
-
+  &__actions {
+    @extend .d-flex.align-items-start;
     .export-container {
       position: relative;
       .export-popup {

@@ -1,13 +1,11 @@
-.cm-navbar
-  .cm-navbar__lhs
+.entity-header
+  .entity-header__info
     - if cm_admin.method_defined?(:"#{@model.name.underscore}_index_path") && (@model.current_action.name == 'show' || @model.current_action.layout_type.present?)
-      .bread-crumb-area
-        .breadcrumb-text
-          = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path")
-    .nav-title-area
-      p.title-text = action_title
-      p.title-sub-text = action_description
-  .cm-navbar__rhs
+      .breadcrumb
+        = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path"), class: 'text-reset'
+    h4 = action_title
+    p.mb-0.text-body-secondary = action_description
+  .entity-header__actions
     - if @model.current_action.name == 'index'
       - if has_valid_policy(@model.name, :exportable)
         .export-container

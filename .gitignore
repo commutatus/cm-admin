@@ -11,3 +11,4 @@ public/cm-admin-packs/
 # rspec failure tracking
 .rspec_status
 .rubocop-*
+.DS_Store
