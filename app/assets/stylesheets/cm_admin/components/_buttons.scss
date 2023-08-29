@@ -40,12 +40,3 @@
 
 //Outline button mixin - We can use if needed
 // @include button-outline-variant($color: #6554e0);
-
-.text-btn {
-  border: none;
-  background-color: transparent;
-  white-space: nowrap;
-  &:focus {
-    outline: none;
-  }
-}
