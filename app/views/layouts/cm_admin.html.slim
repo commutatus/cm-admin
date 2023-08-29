@@ -25,22 +25,20 @@ html
       .panel-area
         - if defined?(@action) && (@action&.layout_type.to_s == 'cm_association_show' || @action.parent == "show")
           .show-page.cm-page-container
-            .show-page__tabs.sticky-container.page-top-bar
-              .cm-tabs-bar
-                == render 'cm_admin/main/top_navbar'
-                == render 'cm_admin/main/tabs'
+            .show-page__header.sticky-container.page-top-bar
+              == render 'cm_admin/main/top_navbar'
+              == render 'cm_admin/main/tabs'
             .show-page__inner.scrollable
               = yield
         - elsif defined?(@action) && (@action&.layout_type.to_s == 'cm_association_index' || @action.parent == "index")
           .show-page.cm-page-container
-            .show-page__tabs.sticky-container.page-top-bar
-              .cm-tabs-bar
-                == render 'cm_admin/main/top_navbar'
-                - if @ar_object.model_name
-                  == render 'cm_admin/main/tabs'
-                - if @associated_model && @associated_model.filters.present?
-                  .filters-bar
-                    == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
+            .show-page__header.sticky-container.page-top-bar
+              == render 'cm_admin/main/top_navbar'
+              - if @ar_object.model_name
+                == render 'cm_admin/main/tabs'
+              - if @associated_model && @associated_model.filters.present?
+                .filters-bar
+                  == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
             = yield
         - else
           = yield
