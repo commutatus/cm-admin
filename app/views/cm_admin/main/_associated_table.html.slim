@@ -8,7 +8,7 @@
       - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first
       - polymorphic_name = (association && association.inverse_of && association.inverse_of.options[:polymorphic]) ? association.inverse_of.name : ''
       a href="#{CmAdmin::Engine.mount_path}/#{@associated_model.name.tableize}/new?associated_id=#{@ar_object.id}&associated_class=#{@ar_object.class.name.underscore}&polymorphic_name=#{polymorphic_name}&referrer=#{request.path}"
-        button.secondary-btn.column-btn Add
+        button.btn-secondary Add
     / button.secondary-btn.column-btn data-target="#columnActionModal" data-toggle="modal" type="button"
     /   span
     /     i.fa.fa-columns.bolder

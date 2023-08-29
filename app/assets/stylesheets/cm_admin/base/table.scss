@@ -34,21 +34,13 @@
       line-height: 22px;
       margin: 0;
     }
-    &__column-action {
-      .column-btn {
-        padding: 4px 8px;
-        span:nth-child(2) {
-          margin: 0 0 0 4px;
-        }
-      }
-    }
   }
 
   //Table UI styles
   .new-admin-table {
     min-width: 720px;
     max-width: fit-content;
-    // max-height: calc(100vh - 240px); Height is dynamic 
+    // max-height: calc(100vh - 240px); Height is dynamic
     overflow: auto;
     .cm-table {
       table-layout: fixed;
@@ -170,10 +162,6 @@
                   padding: 0px;
                 }
               }
-              .tool-btn {
-                background-color: transparent;
-                border: none;
-              }
             }
           }
         }
@@ -236,7 +224,7 @@
         &__name {
           @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;
-          margin-left: 4px;         
+          margin-left: 4px;
           p {
             margin: 0;
           }

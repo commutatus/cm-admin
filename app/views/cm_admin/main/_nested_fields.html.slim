@@ -15,7 +15,8 @@
         | Chapter 1
       .field-remove-action
         - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-          = link_to_remove_association "", f, class: 'fa fa-trash ghost-btn accordion-delete-btn'
+          .accordion-delete-btn
+            = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
     div.accordion-collapse.collapse.show[aria-labelledby="headingOne" id="#{assoc_name}-#{f.object.id}"]
       .accordion-body
         - fields.each do |field|
