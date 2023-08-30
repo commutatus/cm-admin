@@ -15,7 +15,7 @@ module CmAdmin
     include ActionView::Helpers::TagHelper
 
     def exportable(_klass, html_class: [])
-      tag.a 'Export as excel', class: html_class.append('filter-btn modal-btn mr-2'), data: { toggle: 'modal', target: '#exportmodal' } do
+      tag.a 'Export as excel', class: html_class.append('filter-btn modal-btn me-2'), data: { toggle: 'modal', target: '#exportmodal' } do
         concat tag.i class: 'fa fa-download'
         concat tag.span ' Export'
       end
