@@ -1,15 +1,23 @@
 @import "../helpers/index.scss";
+@import "bootstrap/scss/bootstrap";
 
 .status-tag {
-  font-size: $t4-text;
-  line-height: 22px;
-  padding: 4px;
-  color: $primary-text-clr;
-  background: $grey-lighter-clr;
-  border-radius: 2px;
-  &.success {
-    color: $green-regular-clr;
-    background: $green-lightest-clr;
+  @extend .badge;
+  &.active {
+    background: var(--blue-100, #e7f1ff);
+    color: var(--blue-700, #084298);
+  }
+  &.completed {
+    background: var(--green-100, #d1e7dd);
+    color: var(--green-700, #0f5132);
+  }
+  &.neutral {
+    background: var(--bs-gray-300);
+    color: var(--bs-gray-700);
+  }
+  &.danger {
+    background: var(--red-100, #f8d7da);
+    color: var(--red-700, #842029);
   }
 }
 
