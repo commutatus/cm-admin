@@ -1,5 +1,5 @@
 @import "../helpers/index.scss";
-@import "bootstrap/scss/bootstrap";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 .status-tag {
   @extend .badge;
