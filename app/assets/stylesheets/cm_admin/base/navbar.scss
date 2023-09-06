@@ -1,5 +1,5 @@
 @import "../helpers/index.scss";
-@import "bootstrap/scss/bootstrap";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 .entity-header {
   @extend .d-flex.justify-content-between.align-items-start.p-4;
