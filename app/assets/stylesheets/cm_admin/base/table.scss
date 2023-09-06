@@ -274,9 +274,8 @@
     .pagination-actions {
       @extend .pagination;
       gap: 4px;
-      a {
-        width: 31px;
-        height: 31px;
+      span {
+        @extend .d-inline-flex;
       }
     }
   }

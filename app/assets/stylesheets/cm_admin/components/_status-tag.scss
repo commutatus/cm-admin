@@ -7,6 +7,26 @@
     background: var(--blue-100, #e7f1ff);
     color: var(--blue-700, #084298);
   }
+  &.active-one {
+    background: var(--Blue-100, #e7f1ff);
+    color: var(--Blue-700, #084298);
+  }
+  &.active-two {
+    background: var(--Yellow-100, #fff3cd);
+    color: var(--Yellow-700, #997404);
+  }
+  &.active-three {
+    background: var(--Orange-100, #ffe5d0);
+    color: var(--Orange-700, #984c0c);
+  }
+  &.active-four {
+    background: var(--Indigo-100, #e0cffc);
+    color: var(--Indigo-700, #3d0a91);
+  }
+  &.active-five {
+    background: var(--Cyan-100, #cff4fc);
+    color: var(--Cyan-700, #087990);
+  }
   &.completed {
     background: var(--green-100, #d1e7dd);
     color: var(--green-700, #0f5132);

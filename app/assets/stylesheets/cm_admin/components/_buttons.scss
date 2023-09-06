@@ -1,37 +1,35 @@
 @import "../helpers/index.scss";
 @import "bootstrap/scss/bootstrap";
 
-// Custom style for icon btn
-.btn-icon {
-  i {
-    margin-right: 4px;
-  }
+.btn-icon-spacing {
+  @extend .d-inline-flex, .align-items-center, .justify-content-center;
+  gap: 4px;
 }
 
 // New buttons with bootstrap button styles
 .cm-admin .btn-cta {
   @include button-variant($primary, $primary);
-  @extend .btn.btn-sm.btn-icon;
+  @extend .btn, .btn-sm, .btn-icon-spacing;
 }
 
 .cm-admin .btn-primary {
-  @extend .btn.btn-outline-primary.btn-sm.btn-icon;
+  @extend .btn, .btn-outline-primary, .btn-sm, .btn-icon-spacing;
 }
 
 .cm-admin .btn-secondary {
-  @extend .btn.btn-outline-secondary.btn-sm.btn-icon;
+  @extend .btn, .btn-outline-secondary, .btn-sm, .btn-icon-spacing;
 }
 
 .cm-admin .btn-ghost {
-  @extend .btn.btn-light.btn-sm.btn-icon;
+  @extend .btn, .btn-light, .btn-sm, .btn-icon-spacing;
 }
 
 .cm-admin .btn-danger {
-  @extend .btn.btn-outline-danger.btn-sm.btn-icon;
+  @extend .btn, .btn-outline-danger, .btn-sm, .btn-icon-spacing;
 }
 
 .cm-admin .btn-link {
-  @extend .btn.btn-link.btn-sm.btn-icon;
+  @extend .btn, .btn-link, .btn-sm, .btn-icon-spacing;
   text-decoration: underline;
 }
 
