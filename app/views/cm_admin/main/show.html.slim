@@ -6,10 +6,13 @@
     - if @action.partial
       == render @action.partial
     - else
-      - @model.available_fields[:show].each do |section|
-        - if section.display_if.call(@ar_object)
-          .info-section
-            p.section-heading = section.section_name
-            .paper
-              - section.section_fields.each do |field|
-                = show_field(@ar_object, field)
+      - @model.available_fields[:show].each do |row|
+        .row
+          - row.sections.each do |section|
+            div class="#{section.col_size ? 'col-' + section.col_size.to_s : 'col'}"
+              - if section.display_if.call(@ar_object)
+                .info-section
+                  p.section-heading = section.section_name
+                  .paper
+                    - section.section_fields.each do |field|
+                      = show_field(@ar_object, field)

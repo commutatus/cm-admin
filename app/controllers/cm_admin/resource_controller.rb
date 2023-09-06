@@ -161,8 +161,8 @@ module CmAdmin
       authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
-      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables = @model.available_fields[:new].map(&:sections).flatten.map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables += @model.available_fields[:edit].map(&:sections).flatten.map(&:nested_table_fields).map(&:keys).flatten
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first
