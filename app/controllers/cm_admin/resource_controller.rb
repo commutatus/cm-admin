@@ -156,13 +156,25 @@ module CmAdmin
       end
     end
 
+    def get_nested_table_fields(fields)
+      nested_table_fields = []
+      fields.each do |field|
+        if field.class == CmAdmin::Models::Row
+          nested_table_fields += field.sections.map(&:nested_table_fields).map(&:keys).flatten
+        elsif field.class == CmAdmin::Models::Section
+          nested_table_fields += field.nested_table_fields.map(&:keys).flatten
+        end
+      end
+      nested_table_fields.flatten
+    end
+
     def resource_identifier
       @ar_object, @associated_model, @associated_ar_object = custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
       authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
-      nested_tables = @model.available_fields[:new].map(&:sections).flatten.map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:sections).flatten.map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables = get_nested_table_fields(@model.available_fields[:new])
+      nested_tables += get_nested_table_fields(@model.available_fields[:edit])
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first

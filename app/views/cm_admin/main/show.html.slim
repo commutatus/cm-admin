@@ -6,13 +6,10 @@
     - if @action.partial
       == render @action.partial
     - else
-      - @model.available_fields[:show].each do |row|
+      - @model.available_fields[:show].each do |entity|
         .row
-          - row.sections.each do |section|
-            div class="#{section.col_size ? 'col-' + section.col_size.to_s : 'col'}"
-              - if section.display_if.call(@ar_object)
-                .info-section
-                  p.section-heading = section.section_name
-                  .paper
-                    - section.section_fields.each do |field|
-                      = show_field(@ar_object, field)
+          - if entity.class == CmAdmin::Models::Row
+            - entity.sections.each do |section|
+              = render partial: 'cm_admin/main/show_section', locals: { section: section }
+          - elsif entity.class == CmAdmin::Models::Section
+            = render partial: 'cm_admin/main/show_section', locals: { section: entity }
