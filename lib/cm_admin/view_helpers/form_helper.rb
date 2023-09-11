@@ -84,11 +84,12 @@ module CmAdmin
       end
 
       def set_form_fields(resource, form_obj, fields)
-        content_tag(:div, class: 'row') do
-          fields.each do |field|
+        fields.each do |field|
+          concat(content_tag(:div, class: 'row') do
             concat set_form_field(resource, form_obj, field)
-          end
+          end)
         end
+        return
       end
 
       def set_form_field(resource, form_obj, field)
