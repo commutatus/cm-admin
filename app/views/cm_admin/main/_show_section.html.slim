@@ -1,5 +1,5 @@
-div class="#{section.col_size ? 'col-' + section.col_size.to_s : 'col'}"
-  - if section.display_if.call(@ar_object)
+- if section.display_if.call(@ar_object)
+  div class="#{section.col_size ? 'col-' + section.col_size.to_s : 'col'}"
     .info-section
       p.section-heading = section.section_name
       .paper

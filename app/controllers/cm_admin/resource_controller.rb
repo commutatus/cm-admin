@@ -266,8 +266,8 @@ module CmAdmin
           Hash[x.name.to_s.gsub('_attachments', ''), []]
         end
       }.compact
-      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables = get_nested_table_fields(@model.available_fields[:new])
+      nested_tables += get_nested_table_fields(@model.available_fields[:edit])
       nested_fields = nested_tables.uniq.map {|assoc_name|
         table_name = @model.ar_model.reflections[assoc_name.to_s].klass.table_name
         Hash[
