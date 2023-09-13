@@ -2,9 +2,12 @@
 @import "../dependency/bootstrap/scss/bootstrap";
 
 .show-page {
+  height: 100vh;
   overflow: auto;
 
   &__header {
+    @extend .position-sticky, .top-0, .bg-white;
+    z-index: 5;
     .tabs {
       @extend .nav.nav-pills.ms-2;
       .nav-link {
@@ -21,35 +24,26 @@
 
   &__inner {
     padding: 24px;
-    .info-section {
-      margin-bottom: 32px;
-
+    overflow: auto;
+    .section {
+      margin-bottom: 16px;
       .section-heading {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
-        line-height: 24px;
-        margin: 0 0 16px;
+        @extend .h6, .fw-semibold;
+        color: $primary-text-clr;
       }
-      .paper {
-        padding: 24px;
-        background-color: $white;
-        border: 1px solid $grey-light-clr;
-        border-radius: $radius-4;
-      }
-      .info-split {
+      .card-info {
         display: grid;
-        grid-template-columns: 140px 1fr;
+        grid-template-columns: 120px 1fr;
         grid-column-gap: 24px;
-        margin-bottom: 24px;
+        margin-bottom: 8px;
         &:nth-last-child(1) {
           margin-bottom: 0;
         }
-        &__lhs {
+        &__label {
           @include font($size: $t4-text, $color: $ink-lighter-clr);
-          line-height: 22px;
         }
-        &__rhs {
+        &__description {
           @include font($size: $t4-text, $color: $primary-text-clr);
-          line-height: 19px;
         }
       }
     }

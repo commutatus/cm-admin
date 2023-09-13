@@ -1,6 +1,7 @@
 - @model.available_fields[@action.name.to_sym].each do |section|
-  .info-section
+  .section
     p.section-heading = section.section_name
-    .paper
-      - section.section_fields.each do |field|
-        = show_field(@associated_ar_object, field)
+    .card
+      .card-body
+        - section.section_fields.each do |field|
+          = show_field(@associated_ar_object, field)
