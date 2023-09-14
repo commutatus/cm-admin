@@ -1,4 +1,5 @@
 @import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 @function size($size) {
   @return map-get($font-size, $size);
@@ -9,26 +10,28 @@
 }
 
 .form-page {
-  padding: 24px;
   background-color: $white;
-  .form-wrapper {
-    .form-container {
-      margin-top: 32px;
-      &:nth-child(1) {
-        margin-top: 0;
-      }
-      .form-title {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: bold);
-        line-height: 24px;
-        margin: 0 0 16px;
-      }
-      &__inner {
-        padding: 24px;
-        border: 1px solid $grey-light-clr;
-        border-radius: $radius-4;
-        .form-field {
-          max-width: 320px;
-        }
+  &__header {
+    @extend .position-sticky, .top-0, .bg-white;
+    z-index: 5;
+  }
+  &__body {
+    padding: 24px;
+  }
+  .form-container {
+    margin-top: 32px;
+    &:nth-child(1) {
+      margin-top: 0;
+    }
+    .form-title {
+      @extend .h6, .fw-semibold;
+      color: $primary-text-clr;
+    }
+    &__inner {
+      @extend .card, .p-4;
+      background-color: var(--bs-gray-100);
+      .form-field {
+        max-width: 320px;
       }
     }
   }
@@ -53,7 +56,9 @@
       &:focus {
         border-color: #66afe9 !important;
         outline: 0 !important;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+        box-shadow:
+          inset 0 1px 1px rgba(0, 0, 0, 0.075),
+          0 0 8px rgba(102, 175, 233, 0.6) !important;
       }
     }
   }
@@ -207,7 +212,9 @@
           &:focus {
             border-color: #66afe9 !important;
             outline: 0 !important;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+            box-shadow:
+              inset 0 1px 1px rgba(0, 0, 0, 0.075),
+              0 0 8px rgba(102, 175, 233, 0.6) !important;
           }
         }
       }
