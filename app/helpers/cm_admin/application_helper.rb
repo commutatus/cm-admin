@@ -33,8 +33,8 @@ module CmAdmin
     end
 
     def error_header
-      content_tag :div, class: 'info-split' do
-        concat content_tag(:div, "Row number", class: 'info-split__lhs')
+      content_tag :div, class: 'card-info' do
+        concat content_tag(:div, "Row number", class: 'card-info__label')
         concat content_tag(:div, "Error")
       end
     end
@@ -48,8 +48,8 @@ module CmAdmin
     end
 
     def format_error_item(row_item)
-      content_tag :div, class: 'info-split' do
-        concat content_tag(:div, row_item[0], class: 'info-split__lhs')
+      content_tag :div, class: 'info-point' do
+        concat content_tag(:div, row_item[0], class: 'card-info__label')
         concat format_error(row_item[2])
       end
     end

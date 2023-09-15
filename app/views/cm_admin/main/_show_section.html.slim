@@ -1,0 +1,8 @@
+- if section.display_if.call(@ar_object)
+  div class="#{section.col_size ? 'col-' + section.col_size.to_s : 'col'}"
+    .section
+      p.section-heading = section.section_name
+      .card
+        .card-body
+          - section.section_fields.each do |field|
+            = show_field(@ar_object, field)
