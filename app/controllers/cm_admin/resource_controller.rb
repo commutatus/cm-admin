@@ -194,6 +194,9 @@ module CmAdmin
           redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
         end
         if @ar_object.save
+          if params['attachment_destroy_ids'].present?
+            ActiveStorage::Attachment.where(id: params['attachment_destroy_ids']).destroy_all
+          end
           format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
           format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
