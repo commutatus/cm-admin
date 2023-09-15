@@ -3,14 +3,14 @@ module CmAdmin
     module FieldDisplayHelper
       def show_field(ar_object, field)
         return unless field.display_if.call(ar_object)
-        content_tag(:div, class: "info-split") do
+        content_tag(:div, class: "card-info") do
           concat show_field_label(ar_object, field)
           concat value_with_prefix_and_suffix(ar_object, field)
         end
       end
 
       def show_field_label(ar_object, field)
-        content_tag(:div, class: "info-split__lhs") do
+        content_tag(:div, class: "card-info__label") do
           field_label = if field.label.present?
                           field.label.to_s
                         elsif field.association_type.to_s == "polymorphic"
@@ -24,7 +24,7 @@ module CmAdmin
 
       def value_with_prefix_and_suffix(ar_object, field)
         value = show_field_value(ar_object, field)
-        content_tag(:div, class: "info-split__rhs") do
+        content_tag(:div, class: "card-info__description") do
           concat field.prefix
           concat value
           concat field.suffix

@@ -9,7 +9,7 @@ body {
   width: 100%;
   margin: 0px;
   padding: 0px;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   background-color: $grey-lightest-clr !important;
 }
 
@@ -34,7 +34,6 @@ body {
     }
   }
 }
-
 
 a:hover,
 a {
@@ -79,9 +78,12 @@ a {
   overflow: auto;
 }
 
+// TODO: Check and remove the input-wrapper styles later
 .input-wrapper {
   margin-bottom: 24px;
-  input, select, .select2 {
+  input,
+  select,
+  .select2 {
     width: 320px;
   }
   textarea {
@@ -89,6 +91,7 @@ a {
   }
 }
 
+// TODO: Check and remove the input-wrapper styles later
 .input-wrapper.disabled {
   input:disabled {
     background-color: $grey-lightest-clr;
@@ -153,10 +156,10 @@ a {
       }
       .select2-results__option--highlighted.select2-results__option--selectable {
         background: $grey-lighter-clr;
-        color: $primary-text-clr;   
+        color: $primary-text-clr;
       }
       .select2-results__option--selected {
-        color: $brand-color !important;   
+        color: $brand-color !important;
         background-color: $grey-lighter-clr !important;
       }
     }

@@ -13,7 +13,7 @@ module CmAdmin
 
       def cm_integer_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
-                            class: "normal-input #{required_class}",
+                            class: "field-control #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
                             placeholder: cm_field.placeholder,
@@ -22,7 +22,7 @@ module CmAdmin
 
       def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.number_field cm_field.field_name,
-                              class: "normal-input #{required_class}",
+                              class: "field-control #{required_class}",
                               disabled: cm_field.disabled,
                               value: value,
                               placeholder: cm_field.placeholder,
@@ -31,7 +31,7 @@ module CmAdmin
 
       def cm_string_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
-                            class: "normal-input #{required_class}",
+                            class: "field-control #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
                             placeholder: cm_field.placeholder
@@ -40,7 +40,7 @@ module CmAdmin
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder },
-                        class: "normal-input #{required_class} select-2",
+                        class: "field-control #{required_class} select-2",
                         disabled: cm_field.disabled,
                         data: {
                           field_name: cm_field.field_name,
@@ -54,13 +54,13 @@ module CmAdmin
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder },
-                        class: "normal-input #{required_class} select-2",
+                        class: "field-control #{required_class} select-2",
                         disabled: cm_field.disabled, multiple: true
       end
 
       def cm_date_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
-                            class: "normal-input #{required_class}",
+                            class: "field-control #{required_class}",
                             disabled: cm_field.disabled,
                             value: value&.strftime('%d-%m-%Y'),
                             placeholder: cm_field.placeholder,
@@ -69,7 +69,7 @@ module CmAdmin
 
       def cm_date_time_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
-                            class: "normal-input #{required_class}",
+                            class: "field-control #{required_class}",
                             disabled: cm_field.disabled,
                             value: value,
                             placeholder: cm_field.placeholder,
@@ -78,13 +78,13 @@ module CmAdmin
 
       def cm_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_area cm_field.field_name,
-                           class: "normal-input #{required_class}",
+                           class: "field-control #{required_class}",
                            placeholder: cm_field.placeholder
       end
 
       def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.rich_text_area cm_field.field_name,
-                                class: "normal-input #{required_class}",
+                                class: "field-control #{required_class}",
                                 placeholder: cm_field.placeholder
       end
 
@@ -152,7 +152,7 @@ module CmAdmin
         else
           form_obj.check_box cm_field.field_name,
                              {
-                               class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                               class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                disabled: cm_field.disabled,
                                data: {
                                  field_name: cm_field.field_name,
@@ -182,7 +182,7 @@ module CmAdmin
         content_tag :div, class: 'cm-radio-tag' do
           concat form_obj.check_box cm_field.field_name,
                                     {
-                                      class: "normal-input cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                                      class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                       disabled: cm_field.disabled,
                                       name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
                                       data: {
@@ -210,7 +210,7 @@ module CmAdmin
 
       def format_radio_button(val, form_obj)
         content_tag :div, class: 'cm-radio-tag' do
-          concat form_obj.radio_button :level, val, class: 'normal-input cm-radio'
+          concat form_obj.radio_button :level, val, class: 'field-control cm-radio'
         end
       end
     end
