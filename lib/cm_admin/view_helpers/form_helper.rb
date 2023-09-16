@@ -66,13 +66,14 @@ module CmAdmin
       end
 
       def create_row_inside_section(resource, form_obj, rows)
-        content_tag :div, class: 'row' do
-          rows.each do |row|
+        rows.each do |row|
+          concat(content_tag(:div, class: 'row') do
             row.row_fields.each do |field|
               concat set_form_field(resource, form_obj, field)
             end
-          end
+          end)
         end
+        return
       end
 
       def set_form_for_fields(resource, form_obj, section)
