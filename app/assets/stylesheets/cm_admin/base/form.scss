@@ -19,10 +19,7 @@
     padding: 24px;
   }
   .form-container {
-    margin-top: 32px;
-    &:nth-child(1) {
-      margin-top: 0;
-    }
+    margin-bottom: 24px;
     .form-title {
       @extend .h6, .fw-semibold;
       color: $primary-text-clr;
