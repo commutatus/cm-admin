@@ -89,11 +89,35 @@ module CmAdmin
       end
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
-        form_obj.file_field cm_field.field_name, class: "field-control #{required_class}"
+        content_tag(:div) do
+          form_obj.file_field cm_field.field_name, class: "normal-input #{required_class}"
+          concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
+        end
       end
 
       def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
-        form_obj.file_field cm_field.field_name, multiple: true, class: "field-control #{required_class}"
+        content_tag(:div) do
+          concat form_obj.file_field cm_field.field_name, multiple: true, class: "normal-input #{required_class}"
+          concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
+        end
+      end
+
+      def attachment_list(form_obj, cm_field, _value, required_class, _target_action)
+        attached = form_obj.object.send(cm_field.field_name)
+        content_tag(:div) do
+          if attached.class == ActiveStorage::Attached::Many
+            attached.each do |attachment|
+              concat attachment_with_icon(attachment)
+            end
+          end
+        end
+      end
+
+      def attachment_with_icon(attachment)
+        content_tag(:div, class: 'destroy-attachment', data: { ar_id: attachment.id}) do
+          concat content_tag(:i, '', class: 'fa-solid fa-trash-can')
+          concat content_tag(:span, attachment.filename.to_s)
+        end
       end
 
       def cm_check_box_field(form_obj, cm_field, value, required_class, target_action)

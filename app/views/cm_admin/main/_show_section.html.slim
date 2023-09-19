@@ -6,3 +6,5 @@
         .card-body
           - section.section_fields.each do |field|
             = show_field(@ar_object, field)
+          - section.nested_table_fields.each do |key, value|
+            = render partial: 'cm_admin/main/nested_table_section', locals: { table_name: key, table_fields: value }

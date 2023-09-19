@@ -22,7 +22,12 @@ module CmAdmin
       end
 
       def field(field_name, options={})
-        @section_fields << CmAdmin::Models::Field.new(field_name, options)
+        if @current_action.is_nested_field
+          @nested_table_fields[@current_action.nested_table_name] ||= []
+          @nested_table_fields[@current_action.nested_table_name] << CmAdmin::Models::Field.new(field_name, options)
+        else
+          @section_fields << CmAdmin::Models::Field.new(field_name, options)
+        end
       end
 
       def form_field(field_name, options={}, arg=nil)

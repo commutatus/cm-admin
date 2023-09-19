@@ -1,0 +1,8 @@
+.mb-3 style=("max-width: 752px;") 
+  .row.p-3 data-section="bulk-action"
+    .bulk-action-description
+      = custom_action.modal_configuration[:description]
+    br
+    .bulk-action-form
+      = simple_form_for(ar_object, url: cm_admin.send("#{ar_object.class.name.underscore}_#{custom_action.name}_path", ar_object.id), method: custom_action.verb) do |f|
+        = f.button :submit, custom_action.modal_configuration[:confirmation_text] || 'Update', class: "btn btn-primary mt-3"

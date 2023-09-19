@@ -43,4 +43,10 @@ $(document).on('click', '.menu-item', function(e) {
   $('.profile-popup').toggleClass('hidden');
 });
 
+$(document).on('click', '.destroy-attachment', function(e) {
+  var ar_id = $(this).data('ar-id')
+  $(this).addClass('hidden')
+  $(this).append('<input type="text" name="attachment_destroy_ids[]" value="' + ar_id + '"/>')
+})
+
 window.addEventListener('popstate', e => window.location.reload() );
