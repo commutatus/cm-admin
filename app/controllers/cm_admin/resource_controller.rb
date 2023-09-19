@@ -280,7 +280,6 @@ module CmAdmin
           column_names.reject { |column_name| CmAdmin::REJECTABLE_FIELDS.include?(column_name) }.map(&:to_sym) + [:id, :_destroy]
         ]
       }
-      byebug
       permittable_fields += nested_fields
       @model.ar_model.columns.map { |col| permittable_fields << col.name.split('_cents') if col.name.include?('_cents') }
       params.require(@model.name.underscore.to_sym).permit(*permittable_fields)
