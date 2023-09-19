@@ -2,8 +2,8 @@
 - if @associated_model
   - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
 - custom_action_with_modals.each do |custom_action|
-  - if @current_action.name == 'index'
+  - if @current_action&.name == 'index'
     - @ar_object.data.each do |ar_object|
       = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
-  - elsif @current_action.name == 'show'
+  - elsif @current_action&.name == 'show'
     = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object }
