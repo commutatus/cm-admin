@@ -90,7 +90,7 @@ module CmAdmin
       end
 
       def custom_modal_button(custom_action)
-        link_to custom_action_title(custom_action), '', class: 'btn-secondary ms-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal" }
+        link_to custom_action_title(custom_action), '', class: 'btn-secondary ms-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{@ar_object.id}" }
       end
 
       def custom_action_title(custom_action)
