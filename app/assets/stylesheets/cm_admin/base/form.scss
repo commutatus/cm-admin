@@ -27,17 +27,20 @@
     &__inner {
       @extend .card, .p-4;
       background-color: var(--bs-gray-100);
-      .form-field {
-        @extend .mb-4;
-        .field-label {
-          @extend .form-label;
-        }
-        .field-control {
-          @extend .form-control;
-        }
-      }
     }
   }
+}
+
+.form-field {
+  @extend .mb-4;
+}
+
+.field-label {
+  @extend .form-label;
+}
+
+.field-control {
+  @extend .form-control;
 }
 
 //cocoon field styles
@@ -77,9 +80,12 @@
   }
 }
 
-.add-field-btn {
-  font-size: $t4-text;
-  margin: 10px 0;
+//Nested form table styles
+.nested-form-table {
+  @extend .table, .table-light, .table-hover, .table-bordered;
+  .item-delete-cell {
+    // @extend .d-flex, .justify-content-center, .align-items-center;
+  }
 }
 
 // Nested form styles
