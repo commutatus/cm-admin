@@ -1,20 +1,19 @@
 - table_name = @ar_object._reflections[assoc_name.to_s].klass.table_name.to_sym
 .nested-field-wrapper data-table-name=assoc_name data-model-name=assoc_name.to_s.classify
   label.field-label = assoc_name.to_s.titleize
-  .accordion.nested-form-accordion
-    - fields = section.nested_table_fields[assoc_name]
-    table.nested-form-table
-      thead
-        tr
+  - fields = section.nested_table_fields[assoc_name]
+  table.nested-form-table
+    thead
+      tr
+        th
+          | 
+        - fields.each do |field|
           th
-            | 
-          - fields.each do |field|
-            th
-              = field.field_name.to_s.titleize 
-      tbody.insert-cocoon-position
-        = f.fields_for table_name do |record|
-          - if record.object.persisted?
-            = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: assoc_name, section: section, fields: fields }
-    - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-      .links
-        = link_to_add_association "+ Add #{assoc_name.to_s.titleize}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: assoc_name, section: section, fields: fields }}, data: { association_insertion_node: '.insert-cocoon-position' }, class: 'btn-secondary'
+            = field.field_name.to_s.titleize 
+    tbody.insert-cocoon-position
+      = f.fields_for table_name do |record|
+        - if record.object.persisted?
+          = render partial: '/cm_admin/main/nested_fields', locals: { f: record, assoc_name: assoc_name, section: section, fields: fields }
+  - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+    .links
+      = link_to_add_association "+ Add #{assoc_name.to_s.titleize}", f, table_name, partial: '/cm_admin/main/nested_fields', render_options:  {locals: { assoc_name: assoc_name, section: section, fields: fields }}, data: { association_insertion_node: '.insert-cocoon-position', association_insertion_method: 'append' }, class: 'btn-secondary'
