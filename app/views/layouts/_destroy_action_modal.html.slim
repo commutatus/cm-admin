@@ -1,0 +1,16 @@
+.modal.fade id="#{@model.name.classify}DestroyModal-#{ar_object.id}" aria-hidden="true" aria-labelledby="#{@model.name.classify}DestroyModalLabel" tabindex="1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title id="#{@model.name.classify}DestroyModalLabel" = "#{@model.name.classify} Destroy"
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+      .modal-body
+        .custom-modal-body
+          .modal-info data-section="bulk-action"
+            | Are you sure you want to delete this #{@model.name.classify}
+          .modal-footer
+            = button_to cm_admin.send("#{@model.name.underscore}_destroy_path", ar_object.id), method: :delete, class: "btn btn-primary" do
+              span
+                i.fa.fa-trash
+              | Destroy
+              

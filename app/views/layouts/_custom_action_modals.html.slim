@@ -1,9 +1,16 @@
 - custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal }
+- destroy_action = available_actions(@model, 'destroy')
 - if @associated_model
   - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
-- custom_action_with_modals.each do |custom_action|
-  - if @current_action&.name == 'index'
-    - @ar_object.data.each do |ar_object|
+
+- if @current_action&.name == 'index'
+  - @ar_object.data.each do |ar_object|
+    - custom_action_with_modals.each do |custom_action|
       = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
-  - elsif @current_action&.name == 'show'
+    - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: ar_object }
+- elsif @current_action&.name == 'show'
+  - custom_action_with_modals.each do |custom_action|
     = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object }
+  - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: @ar_object }

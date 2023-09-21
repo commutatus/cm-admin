@@ -22,8 +22,8 @@
                 span
                   i.fa.fa-trash
                 | Destroy
-          - else  
-            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
+          - else
+            = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{ar_object.id.to_s}" } do  
               .popup-option
                 span
                   i.fa.fa-trash
