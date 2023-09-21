@@ -1,4 +1,5 @@
 @import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 .cm-index-page {
   background-color: $white;
@@ -306,4 +307,9 @@
       }
     }
   }
+}
+
+//Nested table styles
+.nested-table {
+  @extend .table, .table-light, .table-hover, .table-bordered;
 }

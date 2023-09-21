@@ -273,9 +273,11 @@ module CmAdmin
       nested_tables += get_nested_table_fields(@model.available_fields[:edit])
       nested_fields = nested_tables.uniq.map {|assoc_name|
         table_name = @model.ar_model.reflections[assoc_name.to_s].klass.table_name
+        column_names = table_name.to_s.classify.constantize.column_names
+        column_names = column_names.map {|column_name| column_name.gsub('_cents', '') }
         Hash[
           "#{table_name}_attributes",
-          table_name.to_s.classify.constantize.column_names.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+          column_names.reject { |column_name| CmAdmin::REJECTABLE_FIELDS.include?(column_name) }.map(&:to_sym) + [:id, :_destroy]
         ]
       }
       permittable_fields += nested_fields

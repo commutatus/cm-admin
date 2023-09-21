@@ -6,6 +6,6 @@ ul.tabs
           - nav_item_action_name = nav_item.custom_action.present? ? nav_item.custom_action : 'show'
           = link_to tab_display_name(nav_item.nav_item_name), cm_admin.send("#{@ar_object.model_name.singular}_#{nav_item_action_name}_path", @ar_object.id), class: "nav-link #{ nav_item_action_name == action_name ? 'active' : ''}"
   // current_action_name is defined when action trail is added to that model
-  - if defined?(@ar_object.current_action_name)
+  - if policy([:cm_admin, @model.name.classify.constantize]).send(:history?)
     li.nav-item
       = link_to 'History', cm_admin.send("#{@ar_object.model_name.singular}_history_path", @ar_object.id), class: "nav-link #{ action_name == 'history' ? 'active' : ''}"

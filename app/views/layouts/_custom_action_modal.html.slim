@@ -1,0 +1,11 @@
+.modal.fade id="#{custom_action.name.classify}Modal-#{ar_object.id}" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
+  .modal-dialog
+    .modal-content
+      .modal-header
+        h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.modal_configuration[:title] || custom_action.name.classify
+        button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
+      .modal-body
+        - if custom_action.partial
+          = render partial: custom_action.partial
+        - else
+          = render partial: 'cm_admin/main/custom_action_modal_form', locals: { custom_action: custom_action, ar_object: ar_object }
