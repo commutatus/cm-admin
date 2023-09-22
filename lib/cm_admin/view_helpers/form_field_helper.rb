@@ -117,8 +117,10 @@ module CmAdmin
 
       def attachment_with_icon(attachment)
         content_tag(:div, class: 'destroy-attachment', data: { ar_id: attachment.id}) do
-          concat content_tag(:i, '', class: 'fa-solid fa-trash-can')
-          concat content_tag(:span, attachment.filename.to_s)
+          concat(content_tag(:button, '', class: 'btn-ghost') do
+            concat tag.i(class: 'fa-solid fa-trash-can')
+          end)
+          concat content_tag(:span, attachment.filename.to_s, class: 'btn-link')
         end
       end
 
