@@ -90,14 +90,14 @@ module CmAdmin
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, class: "normal-input #{required_class}"
+          concat form_obj.file_field cm_field.field_name, class: "form-control #{required_class}"
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
       def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, multiple: true, class: "normal-input #{required_class}"
+          concat form_obj.file_field cm_field.field_name, multiple: true, class: "form-control #{required_class}"
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
