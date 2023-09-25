@@ -8,7 +8,11 @@
 
 // New buttons with bootstrap button styles
 .cm-admin .btn-cta {
-  @include button-variant($primary, $primary);
+  --bs-btn-color: var(--bs-white) !important;
+  --bs-btn-bg: var(--bs-primary) !important;
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: #{shade-color($primary, 10%)};
   @extend .btn, .btn-sm, .btn-icon-spacing;
 }
 

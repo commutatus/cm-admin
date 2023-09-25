@@ -1,7 +1,7 @@
 tr.nested-fields
   td.item-delete-cell
     - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-      = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
+      = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
   - fields.each do |field|
     td 
       = input_field_for_column(f, field)
