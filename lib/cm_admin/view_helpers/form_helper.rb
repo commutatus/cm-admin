@@ -42,6 +42,8 @@ module CmAdmin
             if entity.class == CmAdmin::Models::Row
               concat create_rows(resource, form_obj, entity)
             elsif entity.class == CmAdmin::Models::Section
+              next unless entity.display_if.call(form_obj.object)
+
               concat(content_tag(:div, class: 'row') do
                 concat create_sections(resource, form_obj, entity)
               end)
@@ -53,6 +55,8 @@ module CmAdmin
       def create_rows(resource, form_obj, row)
         content_tag :div, class: 'row' do
           row.sections.each do |section|
+            next unless section.display_if.call(form_obj.object)
+
             concat create_sections(resource, form_obj, section)
           end
         end

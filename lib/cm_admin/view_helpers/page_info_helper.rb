@@ -23,25 +23,6 @@ module CmAdmin
         end
       end
 
-      def action_description
-        show_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
-        if @model.current_action.page_description
-          title = @model.current_action.page_description
-        elsif show_action.page_description
-          title = show_action.page_description
-        else
-          title = "#{@model.name}"
-          case action_name
-          when 'index'
-            title + " list record"
-          when 'new'
-            title + " new record"
-          when 'edit'
-            title + " edit record"
-          end
-        end
-      end
-
       def page_url(action_name=@action.name, ar_object=nil)
         base_path = CmAdmin::Engine.mount_path + '/' + @model.name.downcase.pluralize
         case action_name

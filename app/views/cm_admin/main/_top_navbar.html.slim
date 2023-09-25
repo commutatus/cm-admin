@@ -4,7 +4,8 @@
       .breadcrumb
         = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path"), class: 'text-reset'
     h4 = action_title
-    p.mb-0.text-body-secondary = action_description
+    - if @model.current_action.page_description
+      p.mb-0.text-body-secondary = @model.current_action.page_description
   .entity-header__actions
     - if @model.current_action.name == 'index'
       - if has_valid_policy(@model.name, :exportable)

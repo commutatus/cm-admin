@@ -44,6 +44,11 @@
   @extend .form-control;
 }
 
+//upload attachment style
+.destroy-attachment {
+  margin-top: 4px;
+}
+
 // Nested form styles
 .nested-field-wrapper {
   .nested-single-field {
