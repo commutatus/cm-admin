@@ -280,3 +280,8 @@
     }
   }
 }
+
+//Nested table styles
+.nested-table {
+  @extend .table, .table-light, .table-hover, .table-bordered;
+}

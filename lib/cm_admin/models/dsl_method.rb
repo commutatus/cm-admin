@@ -60,9 +60,14 @@ module CmAdmin
         yield if block
       end
 
-      def cm_section(section_name, display_if: nil, &block)
+      def row(display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Row.new(@current_action, @model, display_if, &block)
+      end
+
+      def cm_section(section_name, display_if: nil, col_size: nil, &block)
+        @available_fields[@current_action.name.to_sym] ||= []
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, col_size, &block)
       end
 
       # This method is deprecated. Use cm_section instead.
@@ -116,13 +121,13 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, page_title: nil, page_description: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
+      def custom_action(name: nil, page_title: nil, page_description: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, modal_configuration: {}, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
         action = CmAdmin::Models::CustomAction.new(
           page_title: page_title, page_description: page_description,
           name: name, display_name: display_name, verb: verb, layout: layout,
           layout_type: layout_type, partial: partial, path: path,
           parent: self.current_action.name, display_type: display_type, display_if: display_if,
-          action_type: :custom, route_type: route_type, icon_name: icon_name, &block)
+          action_type: :custom, route_type: route_type, icon_name: icon_name, modal_configuration: modal_configuration, &block)
         @available_actions << action
         # self.class.class_eval(&block)
       end

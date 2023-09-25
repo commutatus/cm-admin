@@ -1,19 +1,19 @@
-== render 'cm_admin/main/top_navbar'
 .form-page
-  .form-page__inner
-    .form-wrapper
-      - if @ar_object.errors.present?
-        .flag-alert.mb-4
-          p.alert-header
-              span
-                i.fa.fa-exclamation-triangle
-              | Attention
-          .alert-body
-            p.body-title 
-              | Error saving #{@ar_object.class}
-            p.body-info
-              ul
-                - @ar_object.errors.full_messages.each do |error_message|
-                  li = error_message
+  .form-page__header
+    == render 'cm_admin/main/top_navbar'
+  .form-page__body
+    - if @ar_object.errors.present?
+      .flag-alert.mb-4
+        p.alert-header
+            span
+              i.fa.fa-exclamation-triangle
+            | Attention
+        .alert-body
+          p.body-title 
+            | Error saving #{@ar_object.class}
+          p.body-info
+            ul
+              - @ar_object.errors.full_messages.each do |error_message|
+                li = error_message
 
-      = generate_form(@ar_object, @model)
+    = generate_form(@ar_object, @model)

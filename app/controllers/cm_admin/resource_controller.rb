@@ -156,13 +156,25 @@ module CmAdmin
       end
     end
 
+    def get_nested_table_fields(fields)
+      nested_table_fields = []
+      fields.each do |field|
+        if field.class == CmAdmin::Models::Row
+          nested_table_fields += field.sections.map(&:nested_table_fields).map(&:keys).flatten
+        elsif field.class == CmAdmin::Models::Section
+          nested_table_fields += field.nested_table_fields.map(&:keys).flatten
+        end
+      end
+      nested_table_fields.flatten
+    end
+
     def resource_identifier
       @ar_object, @associated_model, @associated_ar_object = custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
       authorize controller_name.classify.constantize, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
       @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
-      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables = get_nested_table_fields(@model.available_fields[:new])
+      nested_tables += get_nested_table_fields(@model.available_fields[:edit])
       @reflections = @model.ar_model.reflect_on_all_associations
       nested_tables.each do |table_name|
         reflection = @reflections.select {|x| x if x.name == table_name}.first
@@ -182,6 +194,9 @@ module CmAdmin
           redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
         end
         if @ar_object.save
+          if params['attachment_destroy_ids'].present?
+            ActiveStorage::Attachment.where(id: params['attachment_destroy_ids']).destroy_all
+          end
           format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
           format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
@@ -254,13 +269,15 @@ module CmAdmin
           Hash[x.name.to_s.gsub('_attachments', ''), []]
         end
       }.compact
-      nested_tables = @model.available_fields[:new].map(&:nested_table_fields).map(&:keys).flatten
-      nested_tables += @model.available_fields[:edit].map(&:nested_table_fields).map(&:keys).flatten
+      nested_tables = get_nested_table_fields(@model.available_fields[:new])
+      nested_tables += get_nested_table_fields(@model.available_fields[:edit])
       nested_fields = nested_tables.uniq.map {|assoc_name|
         table_name = @model.ar_model.reflections[assoc_name.to_s].klass.table_name
+        column_names = table_name.to_s.classify.constantize.column_names
+        column_names = column_names.map {|column_name| column_name.gsub('_cents', '') }
         Hash[
           "#{table_name}_attributes",
-          table_name.to_s.classify.constantize.column_names.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }.map(&:to_sym) + [:id, :_destroy]
+          column_names.reject { |column_name| CmAdmin::REJECTABLE_FIELDS.include?(column_name) }.map(&:to_sym) + [:id, :_destroy]
         ]
       }
       permittable_fields += nested_fields

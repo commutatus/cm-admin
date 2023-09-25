@@ -4,7 +4,8 @@
       .breadcrumb
         = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path"), class: 'text-reset'
     h4 = action_title
-    p.mb-0.text-body-secondary = action_description
+    - if @model.current_action.page_description
+      p.mb-0.text-body-secondary = @model.current_action.page_description
   .entity-header__actions
     - if @model.current_action.name == 'index'
       - if has_valid_policy(@model.name, :exportable)
@@ -29,5 +30,11 @@
         = custom_action_items(custom_action, 'show')
 
       - edit_action = @model.available_actions.select{|act| act if act.action_type.eql?(:default) && act.name.eql?('edit')}
+      - destroy_action = available_actions(@model, 'destroy')
       - if edit_action.any? && policy([:cm_admin, @model.name.classify.constantize]).edit?
         = link_to "Edit #{@model.name.titleize.pluralize}", cm_admin.send(:"#{@model.name.underscore}_edit_path", @ar_object), class: 'btn-primary ms-2'
+      - if destroy_action
+        = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{@ar_object.id.to_s}" }, class: 'btn-primary ms-2' do
+          span
+            i.fa.fa-trash
+          | Destroy
