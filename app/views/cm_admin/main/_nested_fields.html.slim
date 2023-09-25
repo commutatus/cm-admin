@@ -1,46 +1,7 @@
-- if fields.count == 1
-  .nested-single-field.nested-fields
-    - fields.each do |field|
-        .field-input
-          = input_field_for_column(f, field)
-        .field-remove-action
-          - unless field.input_type == :hidden
-            - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-              = link_to_remove_association "", f, class: 'fa fa-times'
-- else
-  tr
-    td.item-delete-cell
-      - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-        = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
-    - fields.each do |field|
-      td
-        = input_field_for_column(f, field)
-
-
-  / .field-remove-action
-  /   - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-  /     .accordion-delete-btn
-  /       = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
-  / - fields.each do |field|
-  /   .form-field
-  /     .field-label-wrapper
-  /       label.field-label = field.field_name.to_s.titleize 
-  /     .field-input-wrapper
-  /       = input_field_for_column(f, field)
-        
-  / .accordion-item.nested-fields
-  /   h2#headingOne.accordion-header
-  /     button.accordion-button[type="button" data-bs-toggle="collapse" data-bs-target="##{assoc_name}-#{f.object.id}" aria-expanded="true" aria-controls="collapseOne"]
-  /       | Chapter 1
-  /     .field-remove-action
-  /       - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-  /         .accordion-delete-btn
-  /           = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
-  /   div.accordion-collapse.collapse.show[aria-labelledby="headingOne" id="#{assoc_name}-#{f.object.id}"]
-  /     .accordion-body
-  /       - fields.each do |field|
-  /         .form-field
-  /           .field-label-wrapper
-  /             label.field-label = field.field_name.to_s.titleize 
-  /           .field-input-wrapper
-  /             = input_field_for_column(f, field)
+tr.nested-fields
+  td.item-delete-cell
+    - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+      = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
+  - fields.each do |field|
+    td 
+      = input_field_for_column(f, field)
