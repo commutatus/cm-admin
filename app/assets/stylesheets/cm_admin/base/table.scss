@@ -252,58 +252,30 @@
     }
   }
 
-  .cm-pagination {
-    position: sticky;
+  .pagination-bar {
+    @extend .position-sticky,
+      .bottom-0,
+      .start-0,
+      .d-flex,
+      .justify-content-between,
+      .align-items-center,
+      .w-100,
+      .py-2,
+      .px-4,
+      .bg-white !optional;
     bottom: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 16px 24px;
-    background-color: $white;
     border: 1px solid $grey-lighter-clr;
     box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.3);
     z-index: 2;
-    &__lhs {
-      @include font($size: $t4-text, $color: $ink-lightest-clr, $weight: bold);
-      line-height: 22px;
+    .count-text {
+      @include font($size: $t4-text, $color: var(--bs-body-color));
     }
-    &__rhs {
-      display: inline-flex;
-      align-items: center;
-      .page-move-btn {
-        @include font($size: 10px, $color: $primary-text-clr);
-        line-height: 12px;
-        padding: 10px 11px;
-        cursor: pointer;
-        &.disabled {
-          color: $disabled-clr;
-          cursor: initial;
-          pointer-events: none;
-        }
-      }
-      .page-num-btn {
-        @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 32px;
-        height: 32px;
-        margin: 0 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        &:hover {
-          border: 1px solid $grey-light-clr;
-        }
-        &.active {
-          color: $primary-text-clr;
-          background-color: $grey-lightest-clr;
-          border: 1px solid $grey-light-clr;
-          border-radius: $radius-4;
-          cursor: initial;
-          pointer-events: none;
-        }
+    .pagination-actions {
+      @extend .pagination;
+      gap: 4px;
+      span {
+        @extend .d-inline-flex;
       }
     }
   }

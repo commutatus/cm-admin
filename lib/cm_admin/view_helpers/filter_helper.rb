@@ -19,8 +19,9 @@ module CmAdmin
       end
 
       def add_filters_dropdown(filters)
-        concat(content_tag(:div, class: 'dropdown add-filter-btn', data: {bs_toggle: 'dropdown'}) do
-          tag.span '+ Add filter'
+        concat(content_tag(:button, class: 'dropdown btn-ghost', data: {bs_toggle: 'dropdown'}) do
+          concat tag.i(class: 'fas fa-filter')
+          concat tag.span 'Filter'
         end)
 
         concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
@@ -86,15 +87,12 @@ module CmAdmin
 
       def add_search_filter(filter)
         tag.div class: 'filter-search mr-3' do
-          tag.div class: 'form-field' do
-            tag.div class: 'field-input-wrapper' do
-              concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}) do
-                tag.span class: 'search-input-icon' do
-                  tag.i class: 'fa fa-search'
-                end
-              end)
-            end
-          end
+          concat(content_tag(:div, class: 'input-group input-group-sm') do
+            concat(content_tag(:span, class: 'input-group-text') do
+              tag.i class: 'fa fa-search'
+            end)
+            concat tag.input type: 'string', class: 'form-control', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}
+          end)
         end
       end
 

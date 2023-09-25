@@ -1,23 +1,23 @@
 - link = pagy_link_proc(pagy)
 
-nav.pagy_nav.pagination role="navigation" aria-label="pager"
+nav.pagination-actions role="navigation" aria-label="pager"
 
   - if pagy.prev
-    span ==> link.call(pagy.prev, '<', 'aria-label="previous" class="page-move-btn"')
+    span ==> link.call(pagy.prev, '<i class="fas fa-chevron-left"></i>'.html_safe, 'aria-label="previous" class="btn-ghost"')
   - else
-    span ==> link.call('#', '<', 'class="page-move-btn disabled"')
+    span ==> link.call('#', '<i class="fas fa-chevron-left"></i>'.html_safe, 'class="btn-ghost disabled"')
 
   - pagy.series.each do |item|        # series example: [1, :gap, 7, 8, "9", 10, 11, :gap, 36]
     - if item.is_a?(Integer)          # page link
-      span ==> link.call(item, item, 'class="page-num-btn"')
+      span ==> link.call(item, item, 'class="btn-ghost"')
 
     - elsif item.is_a?(String)        # current page
-      span ==> link.call(item, item, 'class="page-num-btn active"')
+      span ==> link.call(item, item, 'class="btn-ghost active"')
 
     - elsif item == :gap              # page gap
       span.page.gap ==> pagy_t('pagy.nav.gap')
 
   - if pagy.next
-    span == link.call(pagy.next, '>', 'aria-label="next" class="page-move-btn"')
+    span == link.call(pagy.next, '<i class="fas fa-chevron-right"></i>'.html_safe, 'aria-label="next" class="btn-ghost"')
   - else
-    span ==> link.call('#', '>', 'class="page-move-btn disabled"')
+    span ==> link.call('#', '<i class="fas fa-chevron-right"></i>'.html_safe, 'class="btn-ghost disabled"')
