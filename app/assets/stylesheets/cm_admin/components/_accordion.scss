@@ -1,8 +1,8 @@
-@import "../helpers/index.scss";
+@import "../helpers/index";
 @import "../dependency/bootstrap/scss/bootstrap";
 
 .cm-admin .accordion {
   @extend .accordion;
-  --bs-accordion-active-bg: #f8f9fa;
-  --bs-accordion-btn-bg: #f8f9fa;
+  --bs-accordion-active-bg: var(--bs-gray-100);
+  --bs-accordion-btn-bg: var(--bs-gray-100);
 }

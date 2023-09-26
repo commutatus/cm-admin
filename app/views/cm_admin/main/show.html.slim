@@ -3,6 +3,43 @@
     == render 'cm_admin/main/top_navbar'
     == render 'cm_admin/main/tabs'
   .show-page__inner
+    .accordion
+      .accordion-item
+        h2.accordion-header
+          button.accordion-button[type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"]
+            |  Accordion Item #1 
+        #collapseOne.accordion-collapse.collapse.show[data-bs-parent="#accordionExample"]
+          .accordion-body
+            strong
+              | This is the first item's accordion body.
+            |  It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the 
+            code
+              | .accordion-body
+            | , though the transition does limit overflow. 
+      .accordion-item
+        h2.accordion-header
+          button.accordion-button.collapsed[type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"]
+            |  Accordion Item #2 
+        #collapseTwo.accordion-collapse.collapse[data-bs-parent="#accordionExample"]
+          .accordion-body
+            strong
+              | This is the second item's accordion body.
+            |  It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the 
+            code
+              | .accordion-body
+            | , though the transition does limit overflow. 
+      .accordion-item
+        h2.accordion-header
+          button.accordion-button.collapsed[type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"]
+            |  Accordion Item #3 
+        #collapseThree.accordion-collapse.collapse[data-bs-parent="#accordionExample"]
+          .accordion-body
+            strong
+              | This is the third item's accordion body.
+            |  It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the 
+            code
+              | .accordion-body
+            | , though the transition does limit overflow. 
     - if @action.partial
       == render @action.partial
     - else
