@@ -34,30 +34,6 @@
   }
 }
 
-//Search input styles
-.search-input {
-  position: relative;
-  width: 100%;
-  padding: 5px 0 5px 38px;
-  @include font($size: $t4-text, $color: $primary-text-clr);
-  line-height: 22px;
-  background-color: $white;
-  border: 1px solid $grey-light-clr;
-  border-radius: $radius-4;
-  &::placeholder {
-    color: $ink-lightest-clr;
-  }
-  &:focus {
-    outline: 3px auto rgba(47, 128, 237, 0.3);
-  }
-}
-.search-input-icon {
-  position: absolute;
-  top: 8px;
-  left: 16px;
-  @include font($size: $t4-text, $color: $ink-lightest-clr);
-}
-
 //Normal input styles
 .normal-input {
   width: 100%;
