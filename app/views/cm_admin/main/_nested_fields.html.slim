@@ -1,7 +1,28 @@
-tr.nested-fields
-  td.item-delete-cell
-    - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
-      = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
-  - fields.each do |field|
-    td 
-      = input_field_for_column(f, field)
+- if nested_table_field.display_type == :table
+  tr.nested-fields
+    td.item-delete-cell
+      - if f.object._reflections[assoc_name.to_s]&.macro == :has_many
+        = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
+    - nested_table_field.fields.each do |field|
+      td 
+        = input_field_for_column(f, field)
+- else 
+  .accordion-item.nested-fields
+    h2#headingOne.accordion-header
+      button.accordion-button[type="button" data-bs-toggle="collapse" data-bs-target="##{assoc_name}-#{f.object.id}" aria-expanded="true" aria-controls="collapseOne"]
+        | Chapter 1
+      .field-remove-action
+        - if f.object._reflections[assoc_name.to_s]&.macro == :has_many
+          .accordion-delete-btn
+            = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
+    div.accordion-collapse.collapse.show[aria-labelledby="headingOne" id="#{assoc_name}-#{f.object.id}"]
+      .accordion-body
+        - nested_table_field.fields.each do |field|
+          .form-field
+            .field-label-wrapper
+              label.field-label = field.field_name.to_s.titleize 
+            .field-input-wrapper
+              = input_field_for_column(f, field)
+- if nested_table_field.associated_fields.present?
+  - nested_table_field.associated_fields.each do |associated_nested_field|
+    = render partial: '/cm_admin/main/nested_table_form', locals: { f: f, nested_table_field: associated_nested_field }

@@ -1,17 +1,17 @@
 .card-info 
-  p.card-info__label = table_name.to_s.titleize
+  p.card-info__label = nested_field.field_name.to_s.titleize
   .card-info__description
-    - associated_records = @ar_object.send(table_name)
+    - associated_records = @ar_object.send(nested_field.field_name)
     table.nested-table
       thead
         tr
-          - table_fields.each do |field|
+          - nested_field.fields.each do |field|
             th scope="col"
               = field.label
       tbody
         - associated_records.each do |record|
           tr
-            - table_fields.each do |field|
+            - nested_field.fields.each do |field|
               td
                 = record.send(field.field_name)
           
