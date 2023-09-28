@@ -138,14 +138,14 @@ var replaceAccordionTitle = function (element) {
   var table_name = $(element).data("table-name");
   var model_name = $(element).data("model-name");
   $(element)
-    .find(".accordion-item:visible")
+    .find(".card-item:visible")
     .each(function () {
       i++;
       var accordion_title = model_name + " " + i;
       var accordion_id = table_name + "-" + i;
-      $(this).find(".accordion-button").text(accordion_title);
+      $(this).find(".card-title").text(accordion_title);
       $(this)
-        .find(".accordion-button")
+        .find(".card-title")
         .attr("data-bs-target", "#" + accordion_id);
       $(this).find(".accordion-collapse").attr("id", accordion_id);
     });
