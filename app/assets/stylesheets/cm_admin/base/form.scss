@@ -66,6 +66,10 @@
   background-color: var(--bs-gray-100);
   background-blend-mode: multiply;
   mix-blend-mode: multiply;
+  .card-title {
+    font-size: $t4-text;
+    color: var(--bs-tertiary-color);
+  }
 }
 
 //Nested form table styles
