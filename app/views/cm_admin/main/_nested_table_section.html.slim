@@ -16,13 +16,12 @@
                 td
                   = record.send(field.field_name)
 - else
-  
   - associated_records.each do |record|
-    - nested_field.fields.each do |field|
-      = show_field(record, field)  
+    .card
+      .card-body
+        - nested_field.fields.each do |field|
+          = show_field(record, field)  
 
-    - if nested_field.associated_fields.present?
-      .card
-        .card-body
+        - if nested_field.associated_fields.present?
           - nested_field.associated_fields.each do |associated_nested_field|
             = render partial: 'cm_admin/main/nested_table_section', locals: { nested_field: associated_nested_field, ar_object: record }
