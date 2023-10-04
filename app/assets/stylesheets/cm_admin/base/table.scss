@@ -282,6 +282,10 @@
 }
 
 //Nested table styles
-.nested-table {
-  @extend .table, .table-light, .table-hover, .table-bordered;
+.nested-table-wrapper {
+  overflow-y: scroll;
+  .nested-table {
+    @extend .table, .table-light, .table-hover, .table-bordered;
+    width: max-content;
+  }
 }

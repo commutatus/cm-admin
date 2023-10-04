@@ -49,26 +49,27 @@
   margin-top: 4px;
 }
 
-.field-remove-action {
-  font-size: $t3-text;
-  text-align: center;
-  a {
-    color: $primary-text-clr;
-    &:hover {
-      color: $primary-text-clr;
-    }
-  }
-}
-
 //Form card UI
 .form-card {
   @extend .card, .mt-3;
   background-color: var(--bs-gray-100);
   background-blend-mode: multiply;
   mix-blend-mode: multiply;
+  &:hover {
+    .card-delete {
+      visibility: visible;
+    }
+  }
+  .card-title-wrapper {
+    @extend .d-flex, .align-items-center, .mb-3;
+  }
   .card-title {
     font-size: $t4-text;
     color: var(--bs-tertiary-color);
+    margin: 0;
+  }
+  .card-delete {
+    visibility: hidden;
   }
 }
 

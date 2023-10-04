@@ -9,11 +9,11 @@
   .form-card
     .card-body
       .card-item.nested-fields
-        h6.card-title
-          | Title 1
-          .field-remove-action
-            .accordion-delete-btn
-              = link_to_remove_association "", f, class: 'fa fa-trash btn-ghost'
+        .card-title-wrapper
+          h6.card-title
+            | Title 1
+          .card-delete
+            = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
         div
           - nested_table_field.fields.each do |field|
             .form-field

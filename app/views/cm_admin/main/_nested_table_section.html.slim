@@ -2,7 +2,7 @@
 - if nested_field.display_type == :table
   .card-info 
     p.card-info__label = nested_field.field_name.to_s.titleize
-    .card-info__description
+    .card-info__description.nested-table-wrapper
       table.nested-table
         thead
           tr
@@ -17,7 +17,7 @@
                   = record.send(field.field_name)
 - else
   - associated_records.each do |record|
-    .card
+    .card.mb-3
       .card-body
         - nested_field.fields.each do |field|
           = show_field(record, field)  
