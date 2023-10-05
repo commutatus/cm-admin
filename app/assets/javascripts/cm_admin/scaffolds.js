@@ -35,7 +35,9 @@ document.addEventListener("turbo:load", function () {
   flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
     mode: 'range'
   })
-  $('.select-2').select2();
+  $('.select-2').select2({
+    theme: "bootstrap-5",
+  });
   jqueryJgrowl()
 });
 
