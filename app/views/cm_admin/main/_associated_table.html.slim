@@ -2,7 +2,25 @@
   - if @associated_model.filters.present? && @action.partial.nil?
     .cm-index-page__filters
       == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
-  p.table-top__total-count = "#{humanized_ar_collection_count(@associated_ar_object.pagy.count, @action.child_records.to_s)}"
+  .table-top__count-action
+    p.total-count = "#{humanized_ar_collection_count(@associated_ar_object.pagy.count, @action.child_records.to_s)}"
+    - bulk_actions = actions_filter(@associated_model, :bulk_action)
+    - if bulk_actions.present?
+      .bulk-action-dropdown.hidden data-section="bulk-action"
+        button.btn.btn-secondary.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-expanded="false"]
+          |  Dropdown button 
+        ul.dropdown-menu
+          li
+            a.dropdown-item[href="#"]
+              | Action
+          li
+            a.dropdown-item[href="#"]
+              | Another action
+          li
+            a.dropdown-item[href="#"]
+              | Something else here
+        / - bulk_actions.each do |action|
+        /   = custom_action_items(action, 'index')
   .table-top__column-action
     - if @associated_model && @associated_model.available_actions.map(&:name).include?('new') && has_valid_policy(@associated_model.name, 'new')
       - association = @ar_object.class.reflect_on_all_associations.select{|x| x.name == @associated_model.name.tableize.to_sym }.first
@@ -20,11 +38,7 @@
 - elsif flash[:notice].present?
   .alert.alert-success
     = flash[:notice].html_safe
-- bulk_actions = actions_filter(@associated_model, :bulk_action)
-- if bulk_actions.present?
-  .table-top.hidden data-section="bulk-action"
-    - bulk_actions.each do |action|
-      = custom_action_items(action, 'index')
+
 .new-admin-table.scrollable
   table.cm-table
     thead.cm-table__header

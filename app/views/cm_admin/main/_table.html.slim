@@ -1,23 +1,36 @@
 .table-top
-  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  .table-top__count-action
+    p.total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+    - bulk_actions = actions_filter(@model, :bulk_action)
+    - if bulk_actions.present?
+      .bulk-action-dropdown.hidden data-section="bulk-action"
+        button.btn.btn-link.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-expanded="false"]
+          |  Bulk Actions
+        ul.dropdown-menu
+          li
+            a.dropdown-item[href="#"]
+              | Action
+          li
+            a.dropdown-item[href="#"]
+              | Another action
+          li
+            a.dropdown-item[href="#"]
+              | Something else here
+          / - bulk_actions.each do |action|
+          /   = custom_action_items(action, 'index')
   / .table-top__column-action
   /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
   /    span
   /      i.fa.fa-columns.bolder
   /    span
   /      i.fa.fa-angle-down
+  
 - if flash[:alert].present?
   .alert.alert-danger role="alert"
     = flash[:alert].html_safe
 - elsif flash[:notice].present?
   .alert.alert-success
     = flash[:notice].html_safe
-
-- bulk_actions = actions_filter(@model, :bulk_action)
-- if bulk_actions.present?
-  .table-top.hidden data-section="bulk-action"
-    - bulk_actions.each do |action|
-      = custom_action_items(action, 'index')
 .new-admin-table
   table.cm-table
     thead.cm-table__header
