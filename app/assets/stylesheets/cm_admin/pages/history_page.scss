@@ -1,48 +1,35 @@
 @import "../helpers/index.scss";
 
-// History page styles
-.history-box {
-  width: 752px;
-  padding: 24px;
-  background: #ffffff;
-  border: 1px solid $grey-light-clr;
-  border-radius: 4px;
+.history-items-list {
+  position: relative;
+  list-style: none;
+  padding: 0;
   .history-item {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    grid-gap: 8px;
-    align-items: center;
-    margin-bottom: 32px;
-    &:nth-last-child(1) {
-      margin-bottom: 0;
+    position: relative;
+    padding: 0 0 40px 8px;
+    &::after {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: -3px;
+      display: block;
+      height: 5px;
+      width: 5px;
+      background-color: var(--bs-secondary-color);
+      border-radius: $circle;
     }
-    .profile-pic {
-      img {
-        width: 32px;
-        height: 32px;
-        object-fit: cover;
-        border-radius: 50%;
-      }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: -1px;
+      height: 100%;
+      border-left: 1px solid var(--bs-border-color);
     }
-    .history-info {
-      display: inline-flex;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 14px;
-      line-height: 22px;
-      .bold-text {
-        font-weight: 600;
-        color: #1d21d9;
-        margin-right: 4px;
-      }
-      .normal-text {
-        font-weight: 400;
-        color: #1d21d9;
-        margin-right: 4px;
-      }
-      .light-text {
-        font-weight: 400;
-        color: $ink-lighter-clr;
-        margin-right: 4px;
+    &:last-child {
+      padding-bottom: 0;
+      &::before {
+        border: none;
       }
     }
   }
