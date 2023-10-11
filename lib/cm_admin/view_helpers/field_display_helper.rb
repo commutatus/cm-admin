@@ -111,8 +111,10 @@ module CmAdmin
             end
           elsif has_many_image_attached?(ar_object, field)
             ar_object.send(field.field_name).map do |asset|
-              content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
-                asset.filename.to_s
+              content_tag(:div) do
+                content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
+                  asset.filename.to_s
+                end
               end
             end.join("\n").html_safe
           end
