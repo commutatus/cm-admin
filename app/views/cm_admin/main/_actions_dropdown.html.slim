@@ -10,7 +10,11 @@
           i.fa.fa-bars.bolder
       .popup-card.table-export-popup.hidden
         - if edit_action.present?
-          = link_to cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id) do
+          - if @associated_model
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id, referrer: request.path)
+          - else
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id)
+          = link_to path do
             .popup-option
               span
                 i.fa.fa-edit
