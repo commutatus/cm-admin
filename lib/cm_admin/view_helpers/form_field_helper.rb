@@ -104,13 +104,15 @@ module CmAdmin
 
       def attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         attached = form_obj.object.send(cm_field.field_name)
+        return if attached.instance_of?(Paperclip::Attachment)
+        
         content_tag(:div) do
           if attached.class == ActiveStorage::Attached::Many
             attached.each do |attachment|
               concat attachment_with_icon(attachment)
             end
           else
-            concat attachment_with_icon(attached)
+            concat attachment_with_icon(attached) if attached
           end
         end
       end
