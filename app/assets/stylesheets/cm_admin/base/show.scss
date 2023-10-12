@@ -39,6 +39,9 @@
         &:nth-last-child(1) {
           margin-bottom: 0;
         }
+        &__title {
+          @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
+        }
         &__label {
           @include font($size: $t4-text, $color: $ink-lighter-clr);
         }

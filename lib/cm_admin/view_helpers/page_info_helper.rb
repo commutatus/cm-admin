@@ -92,6 +92,14 @@ module CmAdmin
         return current_user.full_name if defined?(current_user.full_name)
         current_user.email.split('@').first
       end
+
+      def nested_section_title(record, nested_form_field)
+        if nested_form_field.header.present?
+          record.send(nested_form_field.header)
+        else
+          nested_form_field.field_name.to_s.titleize
+        end
+      end
     end
   end
 end

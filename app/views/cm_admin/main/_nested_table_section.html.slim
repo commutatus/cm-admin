@@ -1,7 +1,8 @@
 - associated_records = ar_object.send(nested_field.field_name)
 - if nested_field.display_type == :table
-  .card-info 
-    p.card-info__label = nested_field.field_name.to_s.titleize
+  div class="#{nested_field.label ? 'card-info' : ''}"
+    - if nested_field.label
+      p.card-info__label = nested_field.label.to_s.titleize
     .card-info__description.nested-table-wrapper
       table.nested-table
         thead
@@ -19,6 +20,8 @@
   - associated_records.each do |record|
     .card.mb-3
       .card-body
+        .card-info
+          .card-info__title = nested_section_title(record, nested_field)
         - nested_field.fields.each do |field|
           = show_field(record, field)  
 
