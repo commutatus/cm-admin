@@ -55,13 +55,13 @@
   background-color: var(--bs-gray-100);
   background-blend-mode: multiply;
   mix-blend-mode: multiply;
-  &:hover {
-    .card-delete {
-      visibility: visible;
-    }
-  }
   .card-title-wrapper {
     @extend .d-flex, .align-items-center, .mb-3;
+    &:hover {
+      div:last-of-type {
+        visibility: visible;
+      }
+    }
   }
   .card-title {
     font-size: $t4-text;
