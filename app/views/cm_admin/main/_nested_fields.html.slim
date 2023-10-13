@@ -6,9 +6,9 @@
       td 
         = input_field_for_column(f, field)
 - else
-  .form-card
+  .form-card.nested-fields
     .card-body
-      .card-item.nested-fields
+      .card-item data-card-name=assoc_name
         .card-title-wrapper
           h6.card-title
             | Title 1

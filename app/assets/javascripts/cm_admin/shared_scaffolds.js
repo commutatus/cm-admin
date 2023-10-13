@@ -138,7 +138,7 @@ var replaceAccordionTitle = function (element) {
   var table_name = $(element).data("table-name");
   var model_name = $(element).data("model-name");
   $(element)
-    .find(".card-item:visible")
+    .find("[data-card-name='" + table_name + "']")
     .each(function () {
       i++;
       var accordion_title = model_name + " " + i;
