@@ -90,27 +90,29 @@ module CmAdmin
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, class: "form-control #{required_class}"
+          concat form_obj.file_field cm_field.field_name, class: "form-control #{required_class}", disabled: cm_field.disabled
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
       def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, multiple: true, class: "form-control #{required_class}"
+          concat form_obj.file_field cm_field.field_name, multiple: true, class: "form-control #{required_class}", disabled: cm_field.disabled
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
       def attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         attached = form_obj.object.send(cm_field.field_name)
+        return if attached.instance_of?(Paperclip::Attachment)
+        
         content_tag(:div) do
           if attached.class == ActiveStorage::Attached::Many
             attached.each do |attachment|
               concat attachment_with_icon(attachment)
             end
           else
-            concat attachment_with_icon(attached)
+            concat attachment_with_icon(attached) if attached
           end
         end
       end

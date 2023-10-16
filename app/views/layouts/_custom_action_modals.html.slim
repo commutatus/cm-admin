@@ -1,9 +1,11 @@
-- custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal }
+- custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :custom }
+- bulk_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :bulk_action }
 - destroy_action = available_actions(@model, 'destroy')
 - if @associated_model
   - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
-
 - if @current_action&.name == 'index'
+  - bulk_action_with_modals.each do |bulk_action|
+    = render partial: '/layouts/custom_action_modal', locals: { custom_action: bulk_action, ar_object: nil }
   - @ar_object.data.each do |ar_object|
     - custom_action_with_modals.each do |custom_action|
       = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
