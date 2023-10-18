@@ -3,7 +3,7 @@ require_relative 'actions/blocks'
 module CmAdmin
   module Models
     class CustomAction < Action
-      attr_accessor :modal_configuration
+      attr_accessor :modal_configuration, :url_params
 
       def initialize(attributes = {}, &block)
         super

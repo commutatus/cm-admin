@@ -48,7 +48,7 @@ module CmAdmin
             when :modal
               custom_modal_button(custom_action)
             when :page
-              path = cm_admin.send("#{@model.name.underscore}_#{custom_action.name}_path", @ar_object.id)
+              path = cm_admin.send("#{@model.name.underscore}_#{custom_action.name}_path", @ar_object.id, custom_action.url_params)
               link_to custom_action_title(custom_action), path, class: 'btn-secondary ms-2', method: custom_action.verb
             end
           end
