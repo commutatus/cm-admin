@@ -1,7 +1,26 @@
-tr.nested-fields
-  td.item-delete-cell
-    - if @reflections.select {|x| x if x.name == assoc_name}.first.macro == :has_many
+- if nested_table_field.display_type == :table
+  tr.nested-fields
+    td.item-delete-cell
       = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
-  - fields.each do |field|
-    td 
-      = input_field_for_column(f, field)
+    - nested_table_field.fields.each do |field|
+      td 
+        = input_field_for_column(f, field)
+- else
+  .form-card.nested-fields
+    .card-body
+      .card-item data-card-name=assoc_name
+        .card-title-wrapper
+          h6.card-title
+            | Title 1
+          .card-delete
+            = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
+        div
+          - nested_table_field.fields.each do |field|
+            .form-field
+              .field-label-wrapper
+                label.field-label = field.field_name.to_s.titleize 
+              .field-input-wrapper
+                = input_field_for_column(f, field)
+      - if nested_table_field.associated_fields.present?
+        - nested_table_field.associated_fields.each do |associated_nested_field|
+          = render partial: '/cm_admin/main/nested_table_form', locals: { f: f, nested_table_field: associated_nested_field }

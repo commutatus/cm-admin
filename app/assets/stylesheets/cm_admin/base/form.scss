@@ -49,32 +49,45 @@
   margin-top: 4px;
 }
 
-// Nested form styles
-.nested-field-wrapper {
-  .nested-single-field {
-    display: grid;
-    grid-template-columns: 1fr 32px;
-    align-items: center;
-    width: 352px;
-    margin-bottom: 8px;
-    .field-remove-action {
-      font-size: $t3-text;
-      text-align: center;
-      a {
-        color: $primary-text-clr;
-        &:hover {
-          color: $primary-text-clr;
-        }
+//Form card UI
+.form-card {
+  @extend .card, .mt-3;
+  background-color: var(--bs-gray-100);
+  background-blend-mode: multiply;
+  mix-blend-mode: multiply;
+  .card-title-wrapper {
+    @extend .d-flex, .align-items-center, .mb-3;
+    &:hover {
+      div:last-of-type {
+        visibility: visible;
       }
     }
+  }
+  .card-title {
+    font-size: $t4-text;
+    color: var(--bs-tertiary-color);
+    margin: 0;
+  }
+  .card-delete {
+    visibility: hidden;
   }
 }
 
 //Nested form table styles
-.nested-form-table {
-  @extend .table, .table-light, .table-hover, .table-bordered;
-  .item-delete-cell {
-    vertical-align: middle;
-    text-align: center;
+.nested-form-table-wrapper {
+  overflow-y: scroll;
+  .nested-form-table {
+    @extend .table, .table-light, .table-hover, .table-bordered, .m-0;
+    width: max-content;
+    .item-delete-cell {
+      vertical-align: middle;
+      text-align: center;
+    }
   }
+}
+
+.nested-table-footer {
+  padding: 8px;
+  border: 1px solid var(--bs-border-color);
+  border-top: 0;
 }

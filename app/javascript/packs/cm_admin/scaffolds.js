@@ -1,5 +1,7 @@
 $(document).on('turbolinks:load', function () {
-  $('.select-2').select2();
+  $('.select-2').select2({
+    theme: "bootstrap-5",
+  });
   flatpickr("[data-behaviour='date-only']", {
     dateFormat: "d-m-Y"
   })
