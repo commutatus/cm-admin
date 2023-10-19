@@ -135,7 +135,9 @@ module CmAdmin
             end
           elsif @action.display_type == :page
             data = @action.parent == "index" ? @ar_object.data : @ar_object
-            format.html { render @action.partial }
+            # TODO: To set a default value for @action.layout, Since it is used in render above,
+            # Need to check and fix it.
+            format.html { render @action.partial, layout: @action.layout || 'cm_admin' }
           else
             begin
               response_object = @action.code_block.call(@response_object)
