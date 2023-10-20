@@ -49,6 +49,10 @@ module CmAdmin
           local_date(ar_object.send(field.field_name), (field.format || '%B %e, %Y'))
         when :text
           ar_object.send(field.field_name)
+        when :money
+          humanized_money(ar_object.send(field.field_name))
+        when :money_with_symbol
+          humanized_money_with_symbol(ar_object.send(field.field_name))
         when :custom
           send(field.helper_method, ar_object, field.field_name)
         when :link
