@@ -8,6 +8,8 @@
   .cm-index-page__table-container
     - if @action.partial
       == render @action.partial
+    - elsif params[:list_type] == 'card'
+      == render 'cm_admin/main/card'
     - else
       == render 'cm_admin/main/table'
   = column_pop_up(@model)

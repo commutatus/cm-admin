@@ -10,7 +10,7 @@
             | Attention
         .alert-body
           p.body-title 
-            | Error saving #{@ar_object.class}
+            | Error: unable to save #{@ar_object.class.downcase}
           p.body-info
             ul
               - @ar_object.errors.full_messages.each do |error_message|

@@ -1,0 +1,64 @@
+.table-top
+  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  / .table-top__column-action
+  /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
+  /    span
+  /      i.fa.fa-columns.bolder
+  /    span
+  /      i.fa.fa-angle-down
+- if flash[:alert].present?
+  .alert.alert-danger role="alert"
+    = flash[:alert].html_safe
+- elsif flash[:notice].present?
+  .alert.alert-success
+    = flash[:notice].html_safe
+
+- bulk_actions = actions_filter(@model, :bulk_action)
+- if bulk_actions.present?
+  .table-top.hidden data-section="bulk-action"
+    - bulk_actions.each do |action|
+      = custom_action_items(action, 'index')
+.new-admin-table
+  .cm-card
+    - @ar_object.data.each_slice(3) do |chunk|
+      .row
+        - chunk.each do |ar_object|
+          .card[style="width: 18rem;"]
+            img.card-img-top[src="..." alt="..."]
+            .card-body
+              - @model.available_fields[:index].each_with_index do |column, index|
+                - if column.display_if.call(Current.user) && column.viewable
+                  - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
+                    h5.card-title
+                      = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
+                  - else
+                    p.card-text
+                      = show_field_value(ar_object, column)
+                      - if column.field_type == :drawer
+                        = render partial: column.drawer_partial, locals: { ar_object: ar_object }
+
+    / tbody.cm-table__body
+    /   - @ar_object.data.each do |ar_object|
+    /     tr.body-row
+    /       - if bulk_actions.present?
+    /         td.check-box-space
+    /           span
+    /             input.cm-checkbox type="checkbox"  data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
+    /       - @model.available_fields[:index].each_with_index do |column, index|
+    /         - if column.display_if.call(Current.user) && column.viewable
+    /           td.text-ellipsis
+    /             span class="#{column.field_type.to_s} #{column.cm_css_class} "
+    /               - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
+    /                 = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
+    /               - else
+    /                 = show_field_value(ar_object, column)
+    /                 - if column.field_type == :drawer
+    /                   = render partial: column.drawer_partial, locals: { ar_object: ar_object }
+    /       - if @model
+    /         == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
+
+  .pagination-bar
+    p.count-text.m-0 Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
+    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
+
+/ = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }
