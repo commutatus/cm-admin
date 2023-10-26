@@ -28,7 +28,7 @@
               input.cm-checkbox type="checkbox" data-behaviour="bulk-action-select-all"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
-            th = column.header
+            th data-field-type="#{column.field_type || 'string'}" = column.header
     tbody.cm-table__body
       - @ar_object.data.each do |ar_object|
         tr.body-row
