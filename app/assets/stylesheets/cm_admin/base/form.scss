@@ -73,21 +73,6 @@
   }
 }
 
-//Nested form table styles
-.nested-form-table-wrapper {
-  overflow-y: scroll;
-  .nested-form-table {
-    @extend .table, .table-light, .table-hover, .table-bordered, .m-0;
-    width: max-content;
-    .item-delete-cell {
-      vertical-align: middle;
-      text-align: center;
-    }
-  }
-}
-
-.nested-table-footer {
-  padding: 8px;
-  border: 1px solid var(--bs-border-color);
-  border-top: 0;
+.nested-field-wrapper {
+  width: max-content;
 }

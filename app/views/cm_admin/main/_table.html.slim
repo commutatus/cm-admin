@@ -18,37 +18,34 @@
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
       = custom_action_items(action, 'index')
-.new-admin-table
-  table.cm-table
-    thead.cm-table__header
-      tr.header-row
+.table-wrapper
+  table.custom-table
+    thead
+      tr
         - if bulk_actions.present?
           th.check-box-space
-            span
-              input.cm-checkbox type="checkbox" data-behaviour="bulk-action-select-all"
+            input.form-check-input type="checkbox" data-behaviour="bulk-action-select-all"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
             th data-field-type="#{column.field_type || 'string'}" = column.header
-    tbody.cm-table__body
+        th
+    tbody
       - @ar_object.data.each do |ar_object|
         tr.body-row
           - if bulk_actions.present?
             td.check-box-space
-              span
-                input.cm-checkbox type="checkbox" data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
+              input.form-check-input type="checkbox" data-behaviour="bulk-action-checkbox" data-ar-object-id="#{ar_object.id}"
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis data-field-type="#{column.field_type || 'string'}"
-                span class="#{column.field_type.to_s} #{column.cm_css_class} "
-                  - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
-                    = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
-                  - else
-                    = show_field_value(ar_object, column)
-                    - if column.field_type == :drawer
-                      = render partial: column.drawer_partial, locals: { ar_object: ar_object }
+                - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
+                  = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
+                - else
+                  = show_field_value(ar_object, column)
+                  - if column.field_type == :drawer
+                    = render partial: column.drawer_partial, locals: { ar_object: ar_object }
           - if @model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
-
   .pagination-bar
     p.count-text.m-0 Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }

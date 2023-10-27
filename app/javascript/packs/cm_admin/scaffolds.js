@@ -20,5 +20,5 @@ $(document).on('turbolinks:load', function () {
   }
   var headerElemHeight = $('.page-top-bar').height() + 64
   var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
-  $('.new-admin-table').css("maxHeight", calculatedHeight);
+  $('.table-wrapper').css("maxHeight", calculatedHeight);
 });
