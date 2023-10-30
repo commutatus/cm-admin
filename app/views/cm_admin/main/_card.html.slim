@@ -1,6 +1,11 @@
 .table-top
   p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  / .table-top__column-action
+  .table-top__column-action
+    .btn-group[role="group" aria-label="Basic example"]
+      button.btn.btn-ghost[type="button"]
+        i.fa.fa-table
+      button.btn.btn-ghost[type="button"]
+        i.fa.fa-table-cells
   /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
   /    span
   /      i.fa.fa-columns.bolder
@@ -18,24 +23,56 @@
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
       = custom_action_items(action, 'index')
-.new-admin-table
-  .cm-card
-    - @ar_object.data.each_slice(3) do |chunk|
-      .row
-        - chunk.each do |ar_object|
-          .card[style="width: 18rem;"]
-            img.card-img-top[src="..." alt="..."]
+.card-list-container
+  - @ar_object.data.each_slice(3) do |chunk|
+    .card-grid
+      - chunk.each do |ar_object|
+        .col
+          .item-card
+            .card-menu
+              button.btn-ghost.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-expanded="false"]
+                i.fa.fa-ellipsis-vertical
+              ul.dropdown-menu
+                li
+                  a.dropdown-item[href="#"]
+                    | Action
+                li
+                  a.dropdown-item[href="#"]
+                    | Another action
+                li
+                  a.dropdown-item[href="#"]
+                    | Something else here
+            img.card-img-top[src="https://images.unsplash.com/photo-1658211312038-4293c7bdd37e?auto=format&fit=crop&q=80&w=3280&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="..."]
             .card-body
               - @model.available_fields[:index].each_with_index do |column, index|
                 - if column.display_if.call(Current.user) && column.viewable
                   - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
-                    h5.card-title
-                      = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
+                    h6.card-title
+                      | Coffee table
+                    .card-subtitle
+                      p.item-id
+                        | TB-6910 
+                        span 
+                          | Table
+                      p.m-0
+                        | Nadim
+                    / h6.card-title
+                    /   = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
                   - else
                     p.card-text
                       = show_field_value(ar_object, column)
                       - if column.field_type == :drawer
                         = render partial: column.drawer_partial, locals: { ar_object: ar_object }
+            .card-footer 
+              p.item-price
+                | L.E 100,000
+              .item-status  
+                span.status-tag.danger
+                 | Out of stock
+                span.status-tag.active.ms-1
+                 | Active
+                
+
 
     / tbody.cm-table__body
     /   - @ar_object.data.each do |ar_object|
