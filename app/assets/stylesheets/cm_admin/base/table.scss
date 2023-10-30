@@ -285,3 +285,16 @@
   border: 1px solid var(--bs-border-color);
   border-top: 0;
 }
+
+[data-table-name="po_pieces"] {
+  [data-field-type="integer"] {
+    width: 100px;
+    min-width: inherit !important;
+    max-width: inherit !important;
+  }
+  [data-field-type="decimal"] {
+    width: 100px;
+    min-width: inherit !important;
+    max-width: inherit !important;
+  }
+}
