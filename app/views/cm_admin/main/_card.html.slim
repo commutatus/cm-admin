@@ -24,8 +24,8 @@
     - bulk_actions.each do |action|
       = custom_action_items(action, 'index')
 .card-list-container
-  - @ar_object.data.each_slice(3) do |chunk|
-    .card-grid
+  .card-grid
+    - @ar_object.data.each_slice(3) do |chunk|
       - chunk.each do |ar_object|
         .col
           .item-card
@@ -68,9 +68,9 @@
                 | L.E 100,000
               .item-status  
                 span.status-tag.danger
-                 | Out of stock
+                  | Out of stock
                 span.status-tag.active.ms-1
-                 | Active
+                  | Active
                 
 
 

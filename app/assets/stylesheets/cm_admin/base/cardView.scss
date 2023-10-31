@@ -5,7 +5,7 @@
   overflow: hidden;
   padding-right: 24px;
   .card-grid {
-    @extend .row, .row-cols-4;
+    @extend .row, .row-cols-4, .g-3;
   }
   .item-card {
     @extend .card, .position-relative;
