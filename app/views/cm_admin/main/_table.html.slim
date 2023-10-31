@@ -1,6 +1,12 @@
 .table-top
   p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  / .table-top__column-action
+  .table-top__column-action
+    - if @current_action.card_layout
+      .btn-group[role="group" aria-label="Card Toggle"]
+        a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"
+          i.fa.fa-table
+        a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}&list_type=card"
+          i.fa.fa-table-cells
   /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
   /    span
   /      i.fa.fa-columns.bolder
