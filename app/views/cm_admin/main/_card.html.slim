@@ -1,10 +1,12 @@
+// Card view right now is application specific, so card partial will be overwritten in the application
+
 .table-top
   p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
   .table-top__column-action
     .btn-group[role="group" aria-label="Basic example"]
-      button.btn.btn-ghost[type="button"]
+      a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"
         i.fa.fa-table
-      button.btn.btn-ghost[type="button"]
+      a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}&list_type=card"
         i.fa.fa-table-cells
   /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
   /    span
@@ -30,18 +32,8 @@
         .col
           .item-card
             .card-menu
-              button.btn-ghost.dropdown-toggle[type="button" data-bs-toggle="dropdown" aria-expanded="false"]
-                i.fa.fa-ellipsis-vertical
-              ul.dropdown-menu
-                li
-                  a.dropdown-item[href="#"]
-                    | Action
-                li
-                  a.dropdown-item[href="#"]
-                    | Another action
-                li
-                  a.dropdown-item[href="#"]
-                    | Something else here
+              .row-action-cell
+                == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
             img.card-img-top[src="https://images.unsplash.com/photo-1658211312038-4293c7bdd37e?auto=format&fit=crop&q=80&w=3280&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="..."]
             .card-body
               - @model.available_fields[:index].each_with_index do |column, index|
