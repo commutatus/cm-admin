@@ -3,9 +3,9 @@ module CmAdmin
     module DslMethod
       extend ActiveSupport::Concern
 
-      def cm_index(page_title: nil, page_description: nil, partial: nil, &block)
+      def cm_index(page_title: nil, page_description: nil, partial: nil, card_layout: false, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
-        @current_action.set_values(page_title, page_description, partial)
+        @current_action.set_values(page_title, page_description, partial, card_layout)
         yield
       end
 

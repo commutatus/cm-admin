@@ -6,7 +6,7 @@ module CmAdmin
       include Actions::Blocks
       attr_accessor :name, :display_name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
         :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
-        :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes
+        :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes, :card_layout
 
       VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
 
@@ -39,13 +39,14 @@ module CmAdmin
         self.verb = :get
         self.route_type = nil
         self.display_type = nil
-
+        self.card_layout = false
       end
 
-      def set_values(page_title, page_description, partial)
+      def set_values(page_title, page_description, partial, card_layout=false)
         self.page_title = page_title
         self.page_description = page_description
         self.partial = partial
+        self.card_layout = card_layout
       end
 
       def controller_action_name

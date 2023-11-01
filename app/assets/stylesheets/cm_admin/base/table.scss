@@ -220,8 +220,7 @@
     bottom: 0;
     left: 0;
     border: 1px solid $grey-lighter-clr;
-    border-top: none;
-    box-shadow: inset 0px 1px 0px rgba(148, 151, 155, 0.3);
+    box-shadow: 0px 1px 0px 0px rgba(148, 151, 155, 0.3) inset;
     z-index: 2;
     .count-text {
       @include font($size: $t4-text, $color: var(--bs-body-color));
