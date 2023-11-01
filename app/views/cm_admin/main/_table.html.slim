@@ -27,7 +27,7 @@
             input.form-check-input type="checkbox" data-behaviour="bulk-action-select-all"
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
-            th data-field-type="#{column.field_type || 'string'}" = column.header
+            th data-field-type="#{column.field_type}" = column.header
         th
     tbody
       - @ar_object.data.each do |ar_object|
