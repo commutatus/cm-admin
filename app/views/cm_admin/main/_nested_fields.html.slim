@@ -3,7 +3,7 @@
     td.item-delete-cell
       = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
     - nested_table_field.fields.each do |field|
-      td data-field-type="#{field.input_type || 'string'}"
+      td data-field-type="#{field.input_type}"
         = input_field_for_column(f, field)
 - else
   .form-card.nested-fields
