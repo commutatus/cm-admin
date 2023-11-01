@@ -11,7 +11,7 @@
             th
               | 
             - nested_table_field.fields.each do |field|
-              th
+              th data-field-type="#{field.input_type}"
                 = field.field_name.to_s.titleize 
         tbody class="insert-cocoon-position-#{uniq_no}"
           = f.fields_for table_name do |record|

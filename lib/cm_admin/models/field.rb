@@ -25,6 +25,7 @@ module CmAdmin
       def set_default_values
         self.tag_class = {}
         self.col_size = nil
+        self.field_type = :string
       end
     end
   end
