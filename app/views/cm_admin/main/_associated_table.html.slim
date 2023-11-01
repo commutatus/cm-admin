@@ -25,8 +25,8 @@
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
       = custom_action_items(action, 'index')
-.new-admin-table.scrollable
-  table.cm-table
+.table-wrapper
+  table.index-table
     thead.cm-table__header
       tr.header-row
         - if bulk_actions.present?
@@ -57,8 +57,7 @@
           - if @associated_model
             == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @associated_model, ar_object: ar_object }
 
-  .cm-pagination
-    .cm-pagination__lhs Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
-    .cm-pagination__rhs
-      == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
+  .pagination-bar
+    p.count-text.m-0 Showing #{@associated_ar_object.pagy.from} to #{@associated_ar_object.pagy.to} out of #{@associated_ar_object.pagy.count}
+    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @associated_ar_object.pagy }
 = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @associated_model, ar_collection: @associated_ar_object }
