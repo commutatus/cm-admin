@@ -43,6 +43,7 @@ module CmAdmin
         self.lockable = false
         self.viewable = true
         self.tag_class = {}
+        self.field_type = :string
       end
 
       class << self
