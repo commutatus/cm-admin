@@ -1,4 +1,4 @@
-- custom_actions = available_actions(cm_model, 'custom_actions')
+- custom_actions = available_actions(cm_model, ar_object, 'custom_actions')
 - custom_actions_modals = custom_actions.select{ |act| act if act.display_type.eql?(:modal) }
 - ar_collection.data.each do |ar_object|
   - if custom_actions_modals.any?
