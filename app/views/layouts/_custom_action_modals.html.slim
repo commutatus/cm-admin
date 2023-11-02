@@ -1,6 +1,6 @@
 - custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :custom }
 - bulk_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :bulk_action }
-- destroy_action = available_actions(@model, 'destroy')
+- destroy_action = available_actions(@model, @ar_object, 'destroy')
 - if @associated_model
   - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
 - if @current_action&.name == 'index'

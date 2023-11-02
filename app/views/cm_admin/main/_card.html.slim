@@ -20,7 +20,7 @@
   .alert.alert-success
     = flash[:notice].html_safe
 
-- bulk_actions = actions_filter(@model, :bulk_action)
+- bulk_actions = actions_filter(@model, @ar_object, :bulk_action)
 - if bulk_actions.present?
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
@@ -38,7 +38,7 @@
             .card-body
               - @model.available_fields[:index].each_with_index do |column, index|
                 - if column.display_if.call(Current.user) && column.viewable
-                  - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
+                  - if index == 0 && is_show_action_available(@model, ar_object) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
                     h6.card-title
                       | Coffee table
                     .card-subtitle

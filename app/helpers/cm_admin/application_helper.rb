@@ -6,9 +6,11 @@ module CmAdmin
     end
 
     # Allow if policy is not defined.
-    def has_valid_policy(model_name, action_name)
-      return true unless policy([:cm_admin, model_name.classify.constantize]).methods.include?(:"#{action_name}?")
-      policy([:cm_admin, model_name.classify.constantize]).send(:"#{action_name}?")
+    def has_valid_policy(ar_object, action_name)
+      policy_object = ar_object.instance_of?(OpenStruct) ? @model.name.classify.constantize : ar_object
+      return true unless policy([:cm_admin, policy_object]).methods.include?(:"#{action_name}?")
+      
+      policy([:cm_admin, policy_object]).send(:"#{action_name}?")
     end
 
     def action(action_name)
@@ -63,14 +65,14 @@ module CmAdmin
       end
     end
 
-    def is_show_action_available(model)
+    def is_show_action_available(model, ar_object)
       model &&
       model.available_actions.map(&:name).include?('show') &&
-      has_valid_policy(model.name, 'show')
+      has_valid_policy(ar_object, 'show')
     end
 
-    def actions_filter(model, action_type)
-      model.available_actions.select { |action| action.action_type == action_type && has_valid_policy(model.name, action.name) }
+    def actions_filter(model, ar_object, action_type)
+      model.available_actions.select { |action| action.action_type == action_type && has_valid_policy(ar_object, action.name) }
     end
   end
 end

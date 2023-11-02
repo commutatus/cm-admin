@@ -19,7 +19,7 @@
   .alert.alert-success
     = flash[:notice].html_safe
 
-- bulk_actions = actions_filter(@model, :bulk_action)
+- bulk_actions = actions_filter(@model, @ar_object, :bulk_action)
 - if bulk_actions.present?
   .table-top.hidden data-section="bulk-action"
     - bulk_actions.each do |action|
@@ -44,7 +44,7 @@
           - @model.available_fields[:index].each_with_index do |column, index|
             - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis data-field-type="#{column.field_type || 'string'}"
-                - if index == 0 && is_show_action_available(@model) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
+                - if index == 0 && is_show_action_available(@model, ar_object) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
                   = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
                 - else
                   = show_field_value(ar_object, column)
