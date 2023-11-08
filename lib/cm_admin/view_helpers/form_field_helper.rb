@@ -3,8 +3,14 @@ module CmAdmin
     module FormFieldHelper
       def input_field_for_column(form_obj, cm_field)
         return unless cm_field.display_if.call(form_obj.object)
-
-        value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
+        if cm_field.helper_method
+          value = send(cm_field.helper_method, form_obj.object, cm_field.field_name)
+        elsif cm_field.input_type.to_s.include?('custom')
+          value = nil
+        else
+          value = form_obj.object.send(cm_field.field_name)
+        end
+        # value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
         is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
         required_class = is_required ? 'required' : ''
         target_action = @model.available_actions.select { |x| x.name == cm_field.target[:action_name].to_s }.first if cm_field.target.present?
@@ -14,7 +20,7 @@ module CmAdmin
       def cm_integer_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
                             class: "field-control #{required_class}",
-                            disabled: cm_field.disabled,
+                            disabled: cm_field.disabled.call(form_obj.object),
                             value: value,
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'integer-only' }
@@ -23,7 +29,7 @@ module CmAdmin
       def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.number_field cm_field.field_name,
                               class: "field-control #{required_class}",
-                              disabled: cm_field.disabled,
+                              disabled: cm_field.disabled.call(form_obj.object),
                               value: value,
                               placeholder: cm_field.placeholder,
                               data: { behaviour: 'decimal-only' }
@@ -32,16 +38,23 @@ module CmAdmin
       def cm_string_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
                             class: "field-control #{required_class}",
-                            disabled: cm_field.disabled,
+                            disabled: cm_field.disabled.call(form_obj.object),
                             value: value,
                             placeholder: cm_field.placeholder
+      end
+
+      def cm_custom_string_field(form_obj, cm_field, value, required_class, _target_action)
+        text_field_tag cm_field.html_attr[:name] || cm_field.field_name,
+                        value, class: "field-control #{required_class}",
+                        disabled: cm_field.disabled.call(form_obj.object),
+                        placeholder: cm_field.placeholder
       end
 
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name, options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder },
                         class: "field-control #{required_class} select-2",
-                        disabled: cm_field.disabled,
+                        disabled: cm_field.disabled.call(form_obj.object),
                         data: {
                           field_name: cm_field.field_name,
                           field_type: 'linked-field',
@@ -50,18 +63,42 @@ module CmAdmin
                         }
       end
 
+      def cm_custom_single_select_field(form_obj, cm_field, value, required_class, target_action)
+        select_tag cm_field.html_attr[:name] || cm_field.field_name,
+                    options_for_select(select_collection_value(form_obj.object, cm_field)),
+                    {
+                      include_blank: cm_field.placeholder,
+                      class: "field-control #{required_class} select-2",
+                      disabled: cm_field.disabled.call(form_obj.object),
+                      data: {
+                        field_name: cm_field.field_name,
+                        field_type: 'linked-field',
+                        target_action: target_action&.name,
+                        target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
+                      }
+                    }
+      end
+
       def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action)
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder },
                         class: "field-control #{required_class} select-2",
-                        disabled: cm_field.disabled, multiple: true
+                        disabled: cm_field.disabled.call(form_obj.object), multiple: true
       end
 
       def cm_date_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
                             class: "field-control #{required_class}",
-                            disabled: cm_field.disabled,
+                            disabled: cm_field.disabled.call(form_obj.object),
+                            placeholder: cm_field.placeholder,
+                            data: { behaviour: 'date-only' }
+      end
+
+      def cm_custom_date_field(form_obj, cm_field, value, required_class, _target_action)
+        text_field_tag cm_field.html_attr[:name] || cm_field.field_name, value&.strftime('%d-%m-%Y'),
+                            class: "field-control #{required_class}",
+                            disabled: cm_field.disabled.call(form_obj.object),
                             value: value&.strftime('%d-%m-%Y'),
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-only' }
@@ -70,7 +107,7 @@ module CmAdmin
       def cm_date_time_field(form_obj, cm_field, value, required_class, _target_action)
         form_obj.text_field cm_field.field_name,
                             class: "field-control #{required_class}",
-                            disabled: cm_field.disabled,
+                            disabled: cm_field.disabled.call(form_obj.object),
                             value: value,
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-time' }
@@ -90,14 +127,14 @@ module CmAdmin
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, class: "form-control #{required_class}", disabled: cm_field.disabled
+          concat form_obj.file_field cm_field.field_name, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
       def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, multiple: true, class: "form-control #{required_class}", disabled: cm_field.disabled
+          concat form_obj.file_field cm_field.field_name, multiple: true, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
@@ -159,7 +196,7 @@ module CmAdmin
           form_obj.check_box cm_field.field_name,
                              {
                                class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
-                               disabled: cm_field.disabled,
+                               disabled: cm_field.disabled.call(form_obj.object),
                                data: {
                                  field_name: cm_field.field_name,
                                  target_action: target_action&.name,
@@ -189,7 +226,7 @@ module CmAdmin
           concat form_obj.check_box cm_field.field_name,
                                     {
                                       class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
-                                      disabled: cm_field.disabled,
+                                      disabled: cm_field.disabled.call(form_obj.object),
                                       name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
                                       data: {
                                         target_action: target_action&.name,
