@@ -23,6 +23,7 @@ module CmAdmin
       end
 
       def set_default_values
+        self.precision = 2
         self.tag_class = {}
         self.col_size = nil
         self.field_type = :string
