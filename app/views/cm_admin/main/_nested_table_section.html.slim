@@ -15,7 +15,7 @@
             tr
               - nested_field.fields.each do |field|
                 td data-field-type="#{field.field_type}"
-                  = record.send(field.field_name)
+                  = show_field_value(record, field)  
 - else
   - associated_records.each do |record|
     .card.mb-3  data-table-name="#{nested_field.field_name}"
