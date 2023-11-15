@@ -5,7 +5,7 @@ module CmAdmin
     class Filter
       include Utils::Helpers
 
-      attr_accessor :db_column_name, :filter_type, :placeholder, :collection
+      attr_accessor :db_column_name, :filter_type, :placeholder, :collection, :filter_with
 
       VALID_FILTER_TYPES = Set[:date, :multi_select, :range, :search, :single_select].freeze
 
@@ -14,6 +14,7 @@ module CmAdmin
         raise ArgumentError, "Kindly select a valid filter type like #{VALID_FILTER_TYPES.sort.to_sentence(last_word_connector: ', or ')} instead of #{filter_type} for column #{db_column_name}" unless VALID_FILTER_TYPES.include?(filter_type.to_sym)
 
         @db_column_name, @filter_type = structure_data(db_column_name, filter_type)
+        @filter_with = nil
         set_default_values
         options.each do |key, value|
           send("#{key}=", value)
@@ -52,7 +53,7 @@ module CmAdmin
         def filtered_data(filter_params, records, filters)
           if filter_params
             filter_params.each do |scope_type, scope_value|
-              scope_name = case scope_type
+              filter_method = case scope_type
                            when 'date', 'range'
                              'date_and_range'
                            when 'single_select', 'multi_select'
@@ -60,7 +61,7 @@ module CmAdmin
                            else
                              scope_type
                            end
-              records = send("cm_#{scope_name}_filter", scope_value, records, filters) if scope_value.present?
+              records = send("cm_#{filter_method}_filter", scope_value, records, filters) if scope_value.present?
             end
           end
           records
@@ -71,52 +72,63 @@ module CmAdmin
 
           table_name = records.table_name
           filters.select { |x| x if x.filter_type.eql?(:search) }.each do |filter|
-            query_variables = []
-            filter.db_column_name.each do |col|
-              case col
-              when Symbol
-                query_variables << "#{table_name.pluralize}.#{col}"
-              when Hash
-                col.map do |key, value|
-                  value.map { |val| query_variables << "#{key.to_s.pluralize}.#{val}" }
+            if filter.filter_with.present?
+              return records.send(filter.filter_with, scope_value)
+            else
+              query_variables = []
+              filter.db_column_name.each do |col|
+                case col
+                when Symbol
+                  query_variables << "#{table_name.pluralize}.#{col}"
+                when Hash
+                  col.map do |key, value|
+                    value.map { |val| query_variables << "#{key.to_s.pluralize}.#{val}" }
+                  end
                 end
               end
-            end
-            terms = scope_value.downcase.split(/\s+/)
-            terms = terms.map { |e|
-              (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
-            }
-            sql = ''
-            query_variables.each.with_index do |column, i|
-              sql.concat("#{column} ILIKE ?")
-              sql.concat(' OR ') unless query_variables.size.eql?(i + 1)
-            end
+              terms = scope_value.downcase.split(/\s+/)
+              terms = terms.map { |e|
+                (e.gsub('*', '%').prepend('%') + '%').gsub(/%+/, '%')
+              }
+              sql = ''
+              query_variables.each.with_index do |column, i|
+                sql.concat("#{column} ILIKE ?")
+                sql.concat(' OR ') unless query_variables.size.eql?(i + 1)
+              end
 
-            if filter.db_column_name.map { |x| x.is_a?(Hash) }.include?(true)
-              associations_hash = filter.db_column_name.select { |x| x if x.is_a?(Hash) }.last
-              records = records.left_joins(associations_hash.keys).distinct
-            end
+              if filter.db_column_name.map { |x| x.is_a?(Hash) }.include?(true)
+                associations_hash = filter.db_column_name.select { |x| x if x.is_a?(Hash) }.last
+                records = records.left_joins(associations_hash.keys).distinct
+              end
 
-            records = records.where(
-              terms.map { |term|
-                sql
-              }.join(' AND '),
-              *terms.map { |e| [e] * query_variables.size }.flatten
-            )
+              records = records.where(
+                terms.map { |term|
+                  sql
+                }.join(' AND '),
+                *terms.map { |e| [e] * query_variables.size }.flatten
+              )
+              return records
+            end
           end
-          records
         end
 
         def cm_date_and_range_filter(scope_value, records, filters)
           return nil if scope_value.nil?
 
           scope_value.each do |key, value|
-            next unless value.present?
+            filters.select { |x| x if [:date, :range].include?(x.filter_type) && x.db_column_name.to_s == key.to_s }.each do |filter|
 
-            value = value.split(' to ')
-            from = value[0].presence
-            to = value[1].presence
-            records = records.where(key => from..to)
+              next unless value.present?
+
+              value = value.split(' to ')
+              from = value[0].presence
+              to = value[1].presence
+              if filter.filter_with.present?
+                records = records.send(filter.filter_with, from, to)
+              else
+                records = records.where(key => from..to)
+              end
+            end
           end
           records
         end
@@ -125,7 +137,13 @@ module CmAdmin
           return nil if scope_value.nil?
 
           scope_value.each do |key, value|
-            records = records.where(key => value) if value.present?
+            filters.select { |x| x if [:single_select, :multi_select].include?(x.filter_type) && x.db_column_name.to_s == key.to_s  }.each do |filter|
+              if filter.filter_with.present?
+                records = records.send(filter.filter_with, value) if value.present?
+              else
+                records = records.where(key => value) if value.present?
+              end
+            end
           end
           records
         end

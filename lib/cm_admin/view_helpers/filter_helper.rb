@@ -33,7 +33,7 @@ module CmAdmin
               concat(content_tag(:div, class: 'list-area') do
                 filters.each do |filter|
                   concat(content_tag(:div, class: 'pointer list-item', data: {behaviour: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
-                    tag.span filter.db_column_name.to_s.titleize
+                    tag.span filter.placeholder.to_s.titleize
                   end)
                 end
               end)
