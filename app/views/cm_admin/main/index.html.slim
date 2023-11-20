@@ -8,8 +8,10 @@
   .cm-index-page__table-container
     - if @action.partial
       == render @action.partial
-    - elsif params[:list_type] == 'card'
+    - elsif params[:view_type] == 'card' || @current_action.view_type == :card_view
       == render 'cm_admin/main/card'
+    - elsif params[:view_type] == 'kanban' || @current_action.view_type == :kanban
+      == render 'cm_admin/main/kanban'
     - else
       == render 'cm_admin/main/table'
   = column_pop_up(@model)
