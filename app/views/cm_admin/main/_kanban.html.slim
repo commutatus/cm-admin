@@ -29,8 +29,8 @@
 .kanban-container
   - @ar_object.data.each_slice(3) do |chunk|
     - chunk.each do |ar_object|
-      .kanban-card
-        .kanban-card__header
+      .kanban-list
+        .kanban-list__header
           p New
           p 3
         - @ar_object.data.each_slice(3) do |chunk|

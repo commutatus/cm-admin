@@ -1,4 +1,5 @@
 
+= hidden_field_tag :view_type, (@current_action.view_type || params[:view_type])
 .cm-index-page.cm-page-container
   .sticky-container.page-top-bar
     == render 'cm_admin/main/top_navbar'
@@ -14,6 +15,6 @@
       == render 'cm_admin/main/kanban'
     - else
       == render 'cm_admin/main/table'
-  = column_pop_up(@model)
-  = manage_column_pop_up(@model)
+    = column_pop_up(@model)
+    = manage_column_pop_up(@model)
 

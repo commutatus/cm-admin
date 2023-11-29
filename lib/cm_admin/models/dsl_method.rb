@@ -39,6 +39,15 @@ module CmAdmin
         end
       end
 
+      def kanban_view(column_name, exclude: [], only: [])
+        if @current_action
+          @current_action.kanban_attr[:column_name] = column_name
+          @current_action.kanban_attr[:exclude] = exclude
+          @current_action.kanban_attr[:only] = only
+        end
+
+      end
+
       def scope_list(scopes=[])
         return unless @current_action
 
