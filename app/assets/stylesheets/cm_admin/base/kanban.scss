@@ -5,6 +5,8 @@
   @extend .d-flex, .flex-nowrap;
   gap: 8px;
   max-width: 100%;
+  height: calc(100vh - 214px);
+  padding-right: 24px;
   overflow-x: auto;
   .kanban-list {
     min-width: 240px;
@@ -25,4 +27,11 @@
       }
     }
   }
+  .item-card {
+    margin-bottom: 8px;
+  }
+}
+
+.kanban-pagination {
+  justify-content: center !important;
 }

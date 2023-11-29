@@ -1,13 +1,13 @@
 // Card view right now is application specific, so card partial will be overwritten in the application
 
-.table-top
-  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  .table-top__column-action
-    .btn-group[role="group" aria-label="Basic example"]
-      a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"
-        i.fa.fa-table
-      a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}&view_type=card"
-        i.fa.fa-table-cells
+/ .table-top
+  / p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  / .table-top__column-action
+  /   .btn-group[role="group" aria-label="Basic example"]
+  /     a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"
+  /       i.fa.fa-table
+  /     a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}&view_type=card"
+  /       i.fa.fa-table-cells
   /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
   /    span
   /      i.fa.fa-columns.bolder
@@ -69,7 +69,7 @@
                   span.status-tag.active.ms-1
                     | Active
                 
-  .pagination-bar
+  .pagination-bar.kanban-pagination
     p.count-text.m-0 Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
     == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
 
