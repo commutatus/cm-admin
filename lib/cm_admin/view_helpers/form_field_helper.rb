@@ -91,6 +91,7 @@ module CmAdmin
         form_obj.text_field cm_field.field_name,
                             class: "field-control #{required_class}",
                             disabled: cm_field.disabled.call(form_obj.object),
+                            value: value&.strftime('%d-%m-%Y'),
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-only' }
       end
