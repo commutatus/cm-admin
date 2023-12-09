@@ -1,18 +1,3 @@
-// Card view right now is application specific, so card partial will be overwritten in the application
-
-/ .table-top
-  / p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
-  / .table-top__column-action
-  /   .btn-group[role="group" aria-label="Basic example"]
-  /     a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"
-  /       i.fa.fa-table
-  /     a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}&view_type=card"
-  /       i.fa.fa-table-cells
-  /  button.secondary-btn.column-btn data-bs-target="#columnActionModal" data-bs-toggle="modal"
-  /    span
-  /      i.fa.fa-columns.bolder
-  /    span
-  /      i.fa.fa-angle-down
 - if flash[:alert].present?
   .alert.alert-danger role="alert"
     = flash[:alert].html_safe
@@ -20,57 +5,17 @@
   .alert.alert-success
     = flash[:notice].html_safe
 
-- bulk_actions = actions_filter(@model, @ar_object, :bulk_action)
-- if bulk_actions.present?
-  .table-top.hidden data-section="bulk-action"
-    - bulk_actions.each do |action|
-      = custom_action_items(action, 'index')
-
 .kanban-container
-  - @ar_object.data.each_slice(3) do |chunk|
-    - chunk.each do |ar_object|
-      .kanban-list
-        .kanban-list__header
-          p New
-          p 3
-        - @ar_object.data.each_slice(3) do |chunk|
-          - chunk.each do |ar_object|
-            .item-card
-              .card-menu
-                .row-action-cell
-                  == render partial: 'cm_admin/main/actions_dropdown', locals: { cm_model: @model, ar_object: ar_object }
-              img.card-img-top[src="https://images.unsplash.com/photo-1658211312038-4293c7bdd37e?auto=format&fit=crop&q=80&w=3280&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="..."]
-              .card-body
-                - @model.available_fields[:index].each_with_index do |column, index|
-                  - if column.display_if.call(Current.user) && column.viewable
-                    - if index == 0 && is_show_action_available(@model, ar_object) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
-                      h6.card-title
-                        | Coffee table
-                      .card-subtitle
-                        p.item-id
-                          | TB-6910 
-                          span 
-                            | Table
-                        p.m-0
-                          | Nadim
-                      / h6.card-title
-                      /   = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
-                    - else
-                      p.card-text
-                        = show_field_value(ar_object, column)
-                        - if column.field_type == :drawer
-                          = render partial: column.drawer_partial, locals: { ar_object: ar_object }
-              .card-footer 
-                p.item-price
-                  | L.E 100,000
-                .item-status  
-                  span.status-tag.danger
-                    | Out of stock
-                  span.status-tag.active.ms-1
-                    | Active
+  - column_names = @ar_object.data.keys
+  = hidden_field_tag :kanban_column_names, column_names
+  - column_names.each do |column_name|
+    .kanban-list class="#{column_name}"
+      .kanban-list__header
+          p = column_name.to_s.titleize
+          p.counter = @ar_object.column_count[column_name].to_i
+      .cards 
+        = @ar_object.data[column_name]
                 
-  .pagination-bar.kanban-pagination
-    p.count-text.m-0 Showing #{@ar_object.pagy.from} to #{@ar_object.pagy.to} out of #{@ar_object.pagy.count}
-    == render partial: 'cm_admin/main/cm_pagy_nav', locals: { pagy: @ar_object.pagy }
-
-/ = render partial: 'cm_admin/main/member_custom_action_modal', locals: { cm_model: @model, ar_collection: @ar_object }
+.pagination-bar.kanban-pagination
+  .btn.btn-primary.kanban-show-more data-page=1 Show more
+= render partial: 'cm_admin/main/show_as_drawer'
