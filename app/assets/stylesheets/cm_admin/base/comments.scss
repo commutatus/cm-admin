@@ -1,0 +1,35 @@
+@import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
+
+.comments-wrapper {
+  padding: 24px;
+  .comment-card {
+    @extend .card;
+    margin: 8px 0;
+    background-color: $card-grey-lighter-clr;
+    border: none;
+    .comment {
+      @extend .d-flex;
+      gap: 8px;
+      .profile-pic {
+        width: 32px;
+        height: 32px;
+        @extend .rounded-circle;
+      }
+      .comment-info {
+        .user-name {
+          @extend .fw-semibold;
+          color: $ink-regular-clr;
+        }
+        .timing {
+          @extend .text-body-tertiary, .fw-normal;
+        }
+        .comment-text {
+          color: $ink-regular-clr;
+          max-width: 656px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
