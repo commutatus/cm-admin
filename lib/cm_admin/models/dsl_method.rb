@@ -3,9 +3,9 @@ module CmAdmin
     module DslMethod
       extend ActiveSupport::Concern
 
-      def cm_index(page_title: nil, page_description: nil, partial: nil, card_layout: false, &block)
+      def cm_index(page_title: nil, page_description: nil, partial: nil, view_type: :table, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
-        @current_action.set_values(page_title, page_description, partial, card_layout)
+        @current_action.set_values(page_title, page_description, partial, view_type)
         yield
       end
 
@@ -37,6 +37,15 @@ module CmAdmin
         if @current_action
           @current_action.page_description = description
         end
+      end
+
+      def kanban_view(column_name, exclude: [], only: [])
+        if @current_action
+          @current_action.kanban_attr[:column_name] = column_name
+          @current_action.kanban_attr[:exclude] = exclude
+          @current_action.kanban_attr[:only] = only
+        end
+
       end
 
       def scope_list(scopes=[])

@@ -47,5 +47,6 @@ html
         - else
           = yield
     = render 'layouts/cm_flash_message'
-    = render 'layouts/custom_action_modals'
+    - unless (@current_action.view_type || params[:view_type])
+      = render 'layouts/custom_action_modals'
 

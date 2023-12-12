@@ -10,10 +10,15 @@ module CmAdmin
       # Based on the params the filter and pagination object to be set
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       records = apply_scopes(records)
-      @ar_object = filter_by(params, records, @model.filter_params(params))
-      # resource_identifier
+      if (request.xhr? && params[:view_type] == 'kanban') || @current_action.view_type == :kanban
+        @ar_object = kanban_filter_by(params, records, @model.filter_params(params))
+      else
+        @ar_object = filter_by(params, records, @model.filter_params(params))
+      end
       respond_to do |format|
-        if request.xhr?
+        if request.xhr? && (params[:view_type] == 'kanban' || @current_action.view_type == :kanban)
+          format.json { render json: @ar_object }
+        elsif request.xhr?
           format.html { render partial: '/cm_admin/main/table' }
         else
           format.html { render '/cm_admin/main/' + action_name }
@@ -256,6 +261,45 @@ module CmAdmin
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
       return filtered_result
+    end
+
+    def kanban_filter_by(params, records, filter_params={}, sort_params={})
+      filtered_result = OpenStruct.new
+      cm_model = @associated_model || @model
+      db_columns = cm_model.ar_model&.columns&.map{|x| x.name.to_sym}
+      if db_columns.include?(@current_action.sort_column)
+        sort_column = @current_action.sort_column
+      else
+        sort_column = 'created_at'
+      end
+      records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve if records.nil?
+      # records = records.order("#{sort_column} #{@current_action.sort_direction}")
+      final_data = CmAdmin::Models::Filter.filtered_data(filter_params, records, cm_model.filters)
+      filtered_result.data = {}
+      filtered_result.paging = {}
+      filtered_result.paging['next_page'] = true
+      group_record_count = final_data.group(@current_action.kanban_attr[:column_name]).count
+      per_page = params[:per_page] || 20
+      page = params[:page] || 1
+      max_page = (group_record_count.values.max.to_i / per_page.to_f).ceil
+      filtered_result.paging['next_page'] = (page.to_i < max_page)
+      filtered_result.column_count = group_record_count.reject {|key, value| key.blank? }
+
+      column_names = @model.ar_model.send(@current_action.kanban_attr[:column_name].pluralize).keys
+      if @current_action.kanban_attr[:only].present?
+        column_names &= @current_action.kanban_attr[:only]
+      elsif @current_action.kanban_attr[:exclude].present?
+        column_names -= @current_action.kanban_attr[:exclude]
+      end
+      column_names.each do |column|
+        total_count = group_record_count[column]
+        filtered_result.data[column] = ''
+        next if page.to_i > (total_count.to_i / per_page.to_f).ceil
+
+        pagy, records = pagy(final_data.send(column), items: per_page.to_i)
+        filtered_result.data[column] = render_to_string partial: 'cm_admin/main/kanban_card', locals: { ar_collection: records}
+      end
+      filtered_result
     end
 
     def generate_nested_params(nested_table_field)

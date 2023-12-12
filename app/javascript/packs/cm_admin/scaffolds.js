@@ -18,6 +18,20 @@ $(document).on('turbolinks:load', function () {
       animation: 150
     });
   }
+
+  // var array = $('#searchKeywords').val().split(",");
+  // $.each(array,function(i){
+  //   alert(array[i]);
+  // });
+ 
+  // var el = document.getElementsByClassName('kanban-list')
+  // if(el[0]) {
+  //   Sortable.create(el,{
+  //     handle: '.kanban-item',
+  //     animation: 150
+  //   });
+  // }
+
   var headerElemHeight = $('.page-top-bar').height() + 64
   var calculatedHeight = "calc(100vh - " + headerElemHeight+"px"+")"
   $('.table-wrapper').css("maxHeight", calculatedHeight);
