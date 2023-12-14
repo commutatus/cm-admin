@@ -9,7 +9,7 @@
   width: 100%;
   height: 100%;
   z-index: 5;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, 0.7);
   &__container {
     position: relative;
     width: 360px;
@@ -52,32 +52,32 @@
 }
 
 .drawer-slide-in {
-  animation: slideInLeft .3s ease-in forwards;
+  animation: slideInLeft 0.3s ease-in forwards;
 }
 
 .drawer-slide-out {
-  animation: slideOutLeft .3s ease-in forwards;
+  animation: slideOutLeft 0.3s ease-in forwards;
 }
 
 @keyframes slideInLeft {
   0% {
-     left: -400px;
-     opacity: 0;
+    left: -400px;
+    opacity: 0;
   }
   100% {
-      left: 0;
-     opacity: 1;
+    left: 0;
+    opacity: 1;
   }
 }
 
 @keyframes slideOutLeft {
   0% {
-     left: 0;
-     opacity: 1;
+    left: 0;
+    opacity: 1;
   }
   100% {
-      left: -400px;
-     opacity: 0;
+    left: -400px;
+    opacity: 0;
   }
 }
 
@@ -85,4 +85,23 @@
   cursor: pointer;
   margin-left: 8px;
   @include font($size: $t4-text, $color: $brand-color);
+}
+
+//Kanban drawer styles
+.kanban-drawer {
+  .cm-drawer {
+    display: flex;
+    justify-content: flex-end;
+    &__actions {
+      display: flex;
+      flex-direction: column;
+      margin: 16px;
+    }
+    &__container {
+      width: 624px;
+      [class^="col-"] {
+        width: 100% !important;
+      }
+    }
+  }
 }
