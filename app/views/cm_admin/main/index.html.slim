@@ -11,7 +11,7 @@
       == render @action.partial
     - elsif params[:view_type] == 'table' || @current_action.view_type == :table 
       == render 'cm_admin/main/table'
-    - elsif params[:view_type] == 'card' || @current_action.view_type == :card_view
+    - elsif params[:view_type] == 'card' || @current_action.view_type == :card
       == render "cm_admin/#{@model.name.underscore}/card"
     - elsif params[:view_type] == 'kanban' || @current_action.view_type == :kanban
       == render 'cm_admin/main/kanban'
