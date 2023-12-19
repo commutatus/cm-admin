@@ -61,7 +61,7 @@ module CmAdmin
         else
           action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action,
                       layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model,
-                      action_type: :custom, display_type: :page)
+                      action_type: :custom, display_type: :page, model_name: self.name)
           @available_actions << action
           @current_action = action
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, display_if, &block)
@@ -137,7 +137,7 @@ module CmAdmin
           layout_type: layout_type, partial: partial, path: path,
           parent: self.current_action.name, display_type: display_type, display_if: display_if,
           action_type: :custom, route_type: route_type, icon_name: icon_name, modal_configuration: modal_configuration,
-          url_params: url_params, &block)
+          model_name: self.name, url_params: url_params, &block)
         @available_actions << action
         # self.class.class_eval(&block)
       end

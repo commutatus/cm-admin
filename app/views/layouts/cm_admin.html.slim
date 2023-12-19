@@ -47,6 +47,6 @@ html
         - else
           = yield
     = render 'layouts/cm_flash_message'
-    - unless (@current_action.view_type || params[:view_type])
+    - unless (@current_action.view_type == :kanban || params[:view_type] == 'kanban')
       = render 'layouts/custom_action_modals'
 
