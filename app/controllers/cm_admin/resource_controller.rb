@@ -10,7 +10,9 @@ module CmAdmin
       # Based on the params the filter and pagination object to be set
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       records = apply_scopes(records)
-      if (request.xhr? && params[:view_type] == 'kanban') || @current_action.view_type == :kanban
+      if (['table', 'card'].include?(params[:view_type]) || [:table, :card].include?(@current_action.view_type))
+        @ar_object = filter_by(params, records, @model.filter_params(params))
+      elsif (request.xhr? && params[:view_type] == 'kanban') || @current_action.view_type == :kanban
         @ar_object = kanban_filter_by(params, records, @model.filter_params(params))
       else
         @ar_object = filter_by(params, records, @model.filter_params(params))
@@ -32,7 +34,11 @@ module CmAdmin
       @ar_object = scoped_model.find(params[:id])
       resource_identifier
       respond_to do |format|
-        format.html { render '/cm_admin/main/' + action_name }
+        if request.xhr?
+          format.html { render partial: '/cm_admin/main/show_content' }
+        else
+          format.html { render '/cm_admin/main/' + action_name }
+        end
       end
     end
 
@@ -278,14 +284,14 @@ module CmAdmin
       filtered_result.data = {}
       filtered_result.paging = {}
       filtered_result.paging['next_page'] = true
-      group_record_count = final_data.group(@current_action.kanban_attr[:column_name]).count
+      group_record_count = final_data.group(params[:kanban_column_name] || @current_action.kanban_attr[:column_name]).count
       per_page = params[:per_page] || 20
       page = params[:page] || 1
       max_page = (group_record_count.values.max.to_i / per_page.to_f).ceil
       filtered_result.paging['next_page'] = (page.to_i < max_page)
       filtered_result.column_count = group_record_count.reject {|key, value| key.blank? }
 
-      column_names = @model.ar_model.send(@current_action.kanban_attr[:column_name].pluralize).keys
+      column_names = @model.ar_model.send(params[:kanban_column_name]&.pluralize || @current_action.kanban_attr[:column_name].pluralize).keys
       if @current_action.kanban_attr[:only].present?
         column_names &= @current_action.kanban_attr[:only]
       elsif @current_action.kanban_attr[:exclude].present?
