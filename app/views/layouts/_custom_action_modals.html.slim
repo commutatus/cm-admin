@@ -16,3 +16,9 @@
     = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object }
   - if destroy_action
       = render partial: '/layouts/destroy_action_modal', locals: { ar_object: @ar_object }
+- elsif @current_action&.action_type == :custom && @associated_ar_object&.data.present?
+  - @associated_ar_object.data.each do |ar_object|
+    - custom_action_with_modals.select{|custom_action| custom_action.model_name == @current_action.child_records.to_s.classify}.each do |custom_action|
+      = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
+    - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: ar_object }
