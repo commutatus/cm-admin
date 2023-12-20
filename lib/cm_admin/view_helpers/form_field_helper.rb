@@ -27,7 +27,7 @@ module CmAdmin
       end
 
       def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action)
-        form_obj.number_field cm_field.field_name,
+        form_obj.text_field cm_field.field_name,
                               class: "field-control #{required_class}",
                               disabled: cm_field.disabled.call(form_obj.object),
                               value: value,

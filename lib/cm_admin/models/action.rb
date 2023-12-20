@@ -7,7 +7,7 @@ module CmAdmin
       attr_accessor :name, :display_name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
         :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
         :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes, :view_type,
-        :kanban_attr
+        :kanban_attr, :model_name
 
       VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
 
