@@ -16,7 +16,8 @@ Gem::Specification.new do |spec|
 
   spec.metadata = {
     'homepage_uri' => spec.homepage,
-    'source_code_uri' => 'https://github.com/commutatus/cm-admin'
+    'source_code_uri' => 'https://github.com/commutatus/cm-admin',
+    'documentation_uri' => 'https://commutatus.notion.site/commutatus/CmAdmin-8be33279e1e940f8931c27122afa22c5'
   }
   # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
