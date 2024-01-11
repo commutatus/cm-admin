@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors       = %w[sajinmp anbublacky AdityaTiwari2102]
   spec.email         = ['sajinprasadkm@gmail.com', 'anbublacky@gmail.com', 'taditya.tiwari007@gmail.com']
 
-  spec.summary       = 'This is an admin panel gem'
-  spec.description   = 'This is an admin panel gem'
+  spec.summary       = 'CmAdmin is a robust gem designed to assist in creating admin panels for Rails applications'
+  spec.description   = 'CmAdmin providing a streamlined and efficient solution for building customized admin panels within the context of Rails applications. Its robust features empower developers to effortlessly generate and manage administrative interfaces with precision and ease.'
   spec.homepage      = 'https://github.com/commutatus/cm-admin'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.7.0'
