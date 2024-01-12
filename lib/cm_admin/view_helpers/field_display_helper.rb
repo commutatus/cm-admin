@@ -49,6 +49,8 @@ module CmAdmin
           local_date(ar_object.send(field.field_name), (field.format || '%B %e, %Y'))
         when :text
           ar_object.send(field.field_name)
+        when :rich_text
+          sanitize ar_object.send(field.field_name)
         when :money
           humanized_money(ar_object.send(field.field_name))
         when :money_with_symbol
@@ -138,7 +140,6 @@ module CmAdmin
       def has_many_image_attached?(ar_object, field)
         ar_object.send(field.field_name).class.name.include?('Many')
       end
-
     end
   end
 end
