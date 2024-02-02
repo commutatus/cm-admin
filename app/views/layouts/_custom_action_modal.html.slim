@@ -6,6 +6,6 @@
         button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
       .modal-body
         - if custom_action.partial
-          = render partial: custom_action.partial
+          = render partial: custom_action.partial, locals: { custom_action: custom_action, ar_object: ar_object }
         - else
           = render partial: 'cm_admin/main/custom_action_modal_form', locals: { custom_action: custom_action, ar_object: ar_object }
