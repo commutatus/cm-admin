@@ -31,7 +31,7 @@ html
           .show-page
             .show-page__header.page-top-bar
               == render 'cm_admin/main/top_navbar'
-              == render 'cm_admin/main/tabs'
+              == render 'cm_admin/main/tabs', via_xhr: false
             .show-page__inner
               = yield
         - elsif defined?(@action) && (@action&.layout_type.to_s == 'cm_association_index' || @action.parent == "index")
@@ -39,7 +39,7 @@ html
             .show-page__header.page-top-bar
               == render 'cm_admin/main/top_navbar'
               - if @ar_object.model_name
-                == render 'cm_admin/main/tabs'
+                == render 'cm_admin/main/tabs', via_xhr: false
               - if @associated_model && @associated_model.filters.present?
                 .filters-bar
                   == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
@@ -47,6 +47,6 @@ html
         - else
           = yield
     = render 'layouts/cm_flash_message'
-    - unless (@current_action.view_type == :kanban || params[:view_type] == 'kanban')
+    - unless (@current_action&.view_type == :kanban || params[:view_type] == 'kanban')
       = render 'layouts/custom_action_modals'
 

@@ -102,6 +102,9 @@
       [class^="col-"] {
         width: 100% !important;
       }
+      .show-page__inner {
+        height: calc(100vh - 126px);
+      }
     }
   }
 }
