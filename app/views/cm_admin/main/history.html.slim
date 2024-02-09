@@ -1,7 +1,7 @@
 .show-page
   .show-page__header.page-top-bar
     == render 'cm_admin/main/top_navbar'
-    == render 'cm_admin/main/tabs'
+    == render 'cm_admin/main/tabs', via_xhr: false
   .show-page__inner
     .card.col-7
       .card-body

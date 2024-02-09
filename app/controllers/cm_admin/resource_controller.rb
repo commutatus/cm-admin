@@ -35,7 +35,7 @@ module CmAdmin
       resource_identifier
       respond_to do |format|
         if request.xhr?
-          format.html { render partial: '/cm_admin/main/show_content' }
+          format.html { render partial: '/cm_admin/main/show_content', locals: { via_xhr: true } }
         else
           format.html { render '/cm_admin/main/' + action_name }
         end
@@ -162,7 +162,7 @@ module CmAdmin
                 format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><ul>#{error_messages}</ul>" }
               end
             rescue => exception
-              format.html { redirect_to request.referrer, alert: "<b>#{@action.name.titleize} is unsuccessful</b><br /><p>#{exception.message}</p>" }
+              format.html { redirect_to request.referrer, alert: "<div><b>#{@action.name.titleize} is unsuccessful</b><br /><ul><li>#{exception.message}</li></ul></div>" }
             end
           end
         end

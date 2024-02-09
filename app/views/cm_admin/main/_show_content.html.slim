@@ -1,6 +1,6 @@
 .show-page__header.page-top-bar
   == render 'cm_admin/main/top_navbar'
-  == render 'cm_admin/main/tabs'
+  == render 'cm_admin/main/tabs', via_xhr: defined?(via_xhr) ? via_xhr : false
 .show-page__inner
   - if @action.partial
     == render @action.partial
