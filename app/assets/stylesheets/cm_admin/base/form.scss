@@ -72,3 +72,31 @@
     visibility: hidden;
   }
 }
+
+.form-modal {
+  .form-info-text {
+    @extend .text-body, .mb-3;
+  }
+}
+
+// Simple form UI
+.simple_form {
+  .input {
+    @extend .mb-3;
+  }
+  label {
+    @extend .form-label;
+  }
+  input {
+    @extend .form-control;
+  }
+  input[type="submit"] {
+    width: auto;
+    float: right;
+    @extend .mt-3;
+  }
+  .select-2 {
+    appearance: auto;
+    @extend .form-control;
+  }
+}
