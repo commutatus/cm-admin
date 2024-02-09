@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (1.4.3)
+    cm-admin (1.4.4)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
@@ -142,8 +142,6 @@ GEM
       net-protocol
     nio4r (2.7.0)
     nokogiri (1.16.0-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-linux)
       racc (~> 1.4)
     pagy (4.11.0)
     parallel (1.22.1)
