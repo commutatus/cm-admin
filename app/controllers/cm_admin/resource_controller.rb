@@ -31,7 +31,7 @@ module CmAdmin
     def cm_show(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
-      @ar_object = scoped_model.find(params[:id])
+      @ar_object = fetch_ar_object(scoped_model, params[:id])
       resource_identifier
       respond_to do |format|
         if request.xhr?
@@ -53,7 +53,7 @@ module CmAdmin
 
     def cm_edit(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'edit')
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       resource_identifier
       respond_to do |format|
         format.html { render '/cm_admin/main/' + action_name }
@@ -61,7 +61,7 @@ module CmAdmin
     end
 
     def cm_update(params)
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       @ar_object.assign_attributes(resource_params(params))
       resource_identifier
       resource_responder
@@ -74,7 +74,7 @@ module CmAdmin
     end
 
     def cm_destroy(params)
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       redirect_url = request.referrer || cm_admin.send("#{@model.name.underscore}_index_path")
       respond_to do |format|
         if @ar_object.destroy
@@ -353,7 +353,10 @@ module CmAdmin
       params.require(@model.name.underscore.to_sym).permit(*permittable_fields)
     end
 
-    
+    def fetch_ar_object(model_object, id)
+      return model_object.friendly.find(id) if model_object.respond_to?(:friendly)
 
+      model_object.find(id)
+    end
   end
 end
