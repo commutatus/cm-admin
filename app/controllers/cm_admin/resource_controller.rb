@@ -185,7 +185,7 @@ module CmAdmin
       @ar_object, @associated_model, @associated_ar_object = custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
       authorize @ar_object, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
-      @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
+      @associated_ar_object = fetch_ar_object(aar_model, params[:aar_id]) if params[:aar_id]
       nested_fields = get_nested_table_fields(@model.available_fields[:new])
       nested_fields += get_nested_table_fields(@model.available_fields[:edit])
       @reflections = @model.ar_model.reflect_on_all_associations
