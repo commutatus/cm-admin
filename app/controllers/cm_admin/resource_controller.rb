@@ -202,12 +202,12 @@ module CmAdmin
 
     def resource_responder
       respond_to do |format|
-        if params["referrer"]
-          redirect_url = params["referrer"]
-        else
-          redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
-        end
         if @ar_object.save
+          redirect_url = if params['referrer']
+                           params['referrer']
+                         else
+                           cm_admin.send("#{@model.name.underscore}_show_path", @ar_object)
+                         end
           if params['attachment_destroy_ids'].present?
             ActiveStorage::Attachment.where(id: params['attachment_destroy_ids']).destroy_all
           end
