@@ -222,7 +222,7 @@ module CmAdmin
       @current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
       return unless @current_action
 
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       return @ar_object unless @current_action.child_records
 
       child_records = @ar_object.send(@current_action.child_records)
