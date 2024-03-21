@@ -45,7 +45,7 @@
             - if column.display_if.call(Current.user) && column.viewable
               td.text-ellipsis data-field-type="#{column.field_type || 'string'}"
                 - if index == 0 && is_show_action_available(@model, ar_object) && !([:link, :custom, :attachment, :drawer, :image].include?(column.field_type))
-                  = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object.id)
+                  = link_to ar_object.send(column.field_name), cm_admin.send("#{ar_object.model_name.singular}_show_path", ar_object)
                 - else
                   = show_field_value(ar_object, column)
                   - if column.field_type == :drawer
