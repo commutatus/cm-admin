@@ -11,9 +11,9 @@
       .popup-card.table-export-popup.hidden
         - if edit_action.present?
           - if @associated_model
-            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id, referrer: request.path)
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object, referrer: request.path)
           - else
-            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id)
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object)
           = link_to path do
             .popup-option
               span
@@ -21,13 +21,13 @@
               | Edit
         - if destroy_action.present?
           - if @associated_model
-            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id, referrer: request.path), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
+            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object, referrer: request.path), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
               .popup-option
                 span
                   i.fa.fa-trash
                 | Destroy
           - else
-            = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{ar_object.id.to_s}" } do  
+            = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{ar_object.id.to_s}" } do
               .popup-option
                 span
                   i.fa.fa-trash
