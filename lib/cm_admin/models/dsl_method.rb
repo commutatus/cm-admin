@@ -3,9 +3,9 @@ module CmAdmin
     module DslMethod
       extend ActiveSupport::Concern
 
-      def cm_index(page_title: nil, page_description: nil, partial: nil, &block)
+      def cm_index(page_title: nil, page_description: nil, partial: nil, view_type: :table, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
-        @current_action.set_values(page_title, page_description, partial)
+        @current_action.set_values(page_title, page_description, partial, view_type)
         yield
       end
 
@@ -39,6 +39,21 @@ module CmAdmin
         end
       end
 
+      def kanban_view(column_name, exclude: [], only: [])
+        if @current_action
+          @current_action.kanban_attr[:column_name] = column_name
+          @current_action.kanban_attr[:exclude] = exclude
+          @current_action.kanban_attr[:only] = only
+        end
+
+      end
+
+      def scope_list(scopes=[])
+        return unless @current_action
+
+        @current_action.scopes = scopes
+      end
+
       def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: nil, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
@@ -46,7 +61,7 @@ module CmAdmin
         else
           action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action,
                       layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model,
-                      action_type: :custom, display_type: :page)
+                      action_type: :custom, display_type: :page, model_name: self.name)
           @available_actions << action
           @current_action = action
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, display_if, &block)
@@ -54,24 +69,19 @@ module CmAdmin
         yield if block
       end
 
-      def cm_show_section(section_name, display_if: nil, &block)
+      def row(display_if: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::CmShowSection.new(section_name, display_if, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Row.new(@current_action, @model, display_if, &block)
       end
 
-      def form_field(field_name, options={}, arg=nil)
-        unless @current_action.is_nested_field
-          @available_fields[@current_action.name.to_sym][:fields] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        else
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] ||= []
-          @available_fields[@current_action.name.to_sym][@current_action.nested_table_name] << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
-        end
+      def cm_section(section_name, display_if: nil, col_size: nil, &block)
+        @available_fields[@current_action.name.to_sym] ||= []
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, col_size, &block)
       end
 
-      def nested_form_field(field_name, &block)
-        @current_action.is_nested_field = true
-        @current_action.nested_table_name = field_name
-        yield
+      # This method is deprecated. Use cm_section instead.
+      def cm_show_section(section_name, display_if: nil, &block)
+        cm_section(section_name, display_if: display_if, &block)
       end
 
       def column(field_name, options={})
@@ -120,13 +130,25 @@ module CmAdmin
       #     end
       #   end
       # end
-      def custom_action(name: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
+      def custom_action(name: nil, page_title: nil, page_description: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, modal_configuration: {}, url_params: {}, display_if: lambda { |arg| return true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
         action = CmAdmin::Models::CustomAction.new(
-                    name: name, display_name: display_name, verb: verb, layout: layout, layout_type: layout_type, partial: partial, path: path,
-                    parent: self.current_action.name, display_type: display_type, display_if: display_if,
-                    action_type: :custom, route_type: route_type, icon_name: icon_name, &block)
+          page_title: page_title, page_description: page_description,
+          name: name, display_name: display_name, verb: verb, layout: layout,
+          layout_type: layout_type, partial: partial, path: path,
+          parent: self.current_action.name, display_type: display_type, display_if: display_if,
+          action_type: :custom, route_type: route_type, icon_name: icon_name, modal_configuration: modal_configuration,
+          model_name: self.name, url_params: url_params, &block)
         @available_actions << action
         # self.class.class_eval(&block)
+      end
+
+      def bulk_action(name: nil, display_name: nil, display_if: lambda { |arg| return true }, redirection_url: nil, icon_name: nil, verb: nil, display_type: nil, modal_configuration: {}, route_type: nil, partial: nil, &block)
+        bulk_action = CmAdmin::Models::BulkAction.new(
+          name: name, display_name: display_name, display_if: display_if, modal_configuration: modal_configuration,
+          redirection_url: redirection_url, icon_name: icon_name, action_type: :bulk_action,
+          verb: verb, display_type: display_type, route_type: route_type, partial: partial, &block
+        )
+        @available_actions << bulk_action
       end
 
       def filter(db_column_name, filter_type, options={})
@@ -140,14 +162,6 @@ module CmAdmin
       end
 
       def sort_column(column = :created_at)
-        model = if @current_action.child_records
-          CmAdmin::Model.find_by(name: @current_action.child_records.to_s.classify)
-        else
-          self
-        end
-        db_columns = model.instance_variable_get(:@ar_model)&.columns&.map{|x| x.name.to_sym}
-        raise "Sorting for custom column #{column} does not exist." unless db_columns.include?(column.to_sym)
-
         @current_action.sort_column = column.to_sym if @current_action
       end
     end

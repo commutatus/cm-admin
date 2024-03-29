@@ -1,3 +1,3 @@
 module CmAdmin
-  VERSION = '7.0.2'
+  VERSION = '1.4.6'
 end

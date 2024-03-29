@@ -71,3 +71,121 @@
     }
   }
 }
+
+.sidebar__footer {
+  position: absolute;
+  bottom: 0;
+  z-index: 100;
+  width: 100%;
+  padding: 16px 0;
+  box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.15);
+  .menu-item {
+    @include font($size: $t4-text, $color: $ink-lightest-clr);
+    padding: 8px 24px;
+    @include transition-linear();
+    cursor: pointer;
+    &:hover {
+      color: $white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+  .profile-name {
+    @include flex($align: center);
+    position: relative;
+    line-height: 22px;
+    @include font($size: $t4-text, $color: $ink-lightest-clr);
+    cursor: pointer;
+    .profile-avatar {
+      @include flex($justify: center, $align: center);
+      width: 22px;
+      height: 22px;
+      margin-right: 8px;
+      @include font($size: 10px, $color: $white, $weight: 900);
+      background-color: $brand-color;
+      vertical-align: middle; 
+      border-radius: 50%;
+      img {
+        width: 22px;
+        border-radius: $circle;
+      }
+    }
+  }
+  .profile-popup {
+    position: absolute;
+    left: 228px;
+    bottom: 10px;
+    width: 268px;
+    min-height: 100px;
+    overflow: hidden;
+    background-color: $white;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
+    border-radius: $radius-4;
+    animation: fadeIn 0.2s linear;
+    .profile-info {
+      display: grid;
+      grid-template-columns: 1fr 32px;
+      grid-gap: 9px;
+      padding: 8px 16px;
+      box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+      &__left {
+        .name-text {
+          @include font($size: $t4-text);
+          line-height: 22px;
+          margin: 0;
+        }
+        .email-text {
+          @include font($size: $t4-text, $color: $ink-lightest-clr);
+          line-height: 22px;
+          margin: 0;
+          width: 200px;
+        }
+      }
+      &__right {
+        @include flex($justify: center, $align: center);
+        width: 32px;
+        height: 32px;
+        @include font($color: $white, $weight: 600);
+        background-color: $brand-color;
+        vertical-align: middle;
+        border-radius: 50%;
+        img {
+          width: 32px;
+          border-radius: $circle;
+        }
+      }
+    }
+    .page-options {
+      padding: 8px 0;
+      box-shadow: inset 0px -1px 0px rgba(148, 151, 155, 0.15);
+      .page-link {
+        display: block;
+        @include font($size: $t4-text);
+        line-height: 22px;
+        padding: 4px 16px;
+        border: none;
+        @include transition-linear();
+        &:hover {
+          background-color: $grey-lighter-clr;
+        }
+      }
+    }
+    .auth-option {
+      padding: 8px 0;
+      .auth-link {
+        background: none;
+        border: none;
+        width: 100%;
+        text-align: left;
+        padding: 0;
+        display: block;
+        @include font($size: $t4-text);
+        line-height: 22px;
+        padding: 4px 16px;
+        @include transition-linear();
+        &:hover {
+          background-color: $grey-lighter-clr;
+        }
+      }
+    }
+  }
+}

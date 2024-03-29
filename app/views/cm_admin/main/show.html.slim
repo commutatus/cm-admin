@@ -1,16 +1,2 @@
-.show-page.cm-page-container
-  .show-page__tabs.sticky-container.page-top-bar
-    .cm-tabs-bar
-      == render 'cm_admin/main/top_navbar'
-      == render 'cm_admin/main/tabs'
-  .show-page__inner.scrollable
-    - if @action.partial
-      == render @action.partial
-    - else
-      - @model.available_fields[:show].each do |section|
-        - if section.display_if.call(@ar_object)
-          .info-section
-            p.section-heading = section.section_name
-            .paper
-              - section.available_section_fields.each do |field|
-                = show_field(@ar_object, field)
+.show-page
+  = render partial: 'cm_admin/main/show_content', via_xhr: false

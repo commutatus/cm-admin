@@ -1,25 +1,17 @@
 @import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 .show-page {
+  height: 100vh;
   overflow: auto;
-  
-  &__tabs {
-    .cm-tabs-bar {
-      background-color: $white;
-      width: 100%;
-      .nav-pills {
-        margin-left: 10px;
-      }
+
+  &__header {
+    @extend .position-sticky, .top-0, .bg-white;
+    z-index: 5;
+    .tabs {
+      @extend .nav.nav-pills.ms-2;
       .nav-link {
-        position: static;
-        left: 0%;
-        right: 0%;
         @include font($size: $t4-text, $color: $ink-lighter-clr);
-        line-height: 22px;
-        flex: none;
-        order: 0;
-        flex-grow: 0;
-        background-color: $white;
         border-radius: 0px;
       }
       .nav-link.active {
@@ -32,42 +24,29 @@
 
   &__inner {
     padding: 24px;
-    .info-section {
-      margin-bottom: 32px;
-
+    overflow: auto;
+    .section {
+      margin-bottom: 24px;
       .section-heading {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
-        line-height: 24px;
-        margin: 0 0 16px;
+        @extend .h6, .fw-semibold;
+        color: $primary-text-clr;
       }
-      .paper {
-        max-width: 752px;
-        padding: 24px;
-        background-color: $white;
-        border: 1px solid $grey-light-clr;
-        border-radius: $radius-4;
-      }
-      .info-split {
-        display: flex;
-        margin-bottom: 24px;
+      .card-info {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        grid-column-gap: 24px;
+        margin-bottom: 8px;
         &:nth-last-child(1) {
           margin-bottom: 0;
         }
-        &__lhs {
-          width: 20%;
-          p {
-            @include font($size: $t4-text, $color: $ink-lighter-clr);
-            line-height: 22px;
-            margin: 0;
-          }
+        &__title {
+          @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
         }
-        &__rhs {
-          width: 80%;
-          p {
-            @include font($size: $t4-text, $color: $primary-text-clr);
-            line-height: 19px;
-            margin: 0;
-          }
+        &__label {
+          @include font($size: $t4-text, $color: $ink-lighter-clr);
+        }
+        &__description {
+          @include font($size: $t4-text, $color: $primary-text-clr);
         }
       }
     }

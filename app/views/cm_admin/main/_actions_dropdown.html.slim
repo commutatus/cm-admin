@@ -1,31 +1,33 @@
-- edit_action = available_actions(cm_model, 'edit')
-- destroy_action = available_actions(cm_model, 'destroy')
-- custom_actions = available_actions(cm_model, 'custom_actions')
+- edit_action = available_actions(cm_model, ar_object, 'edit')
+- destroy_action = available_actions(cm_model, ar_object, 'destroy')
+- custom_actions = available_actions(cm_model, ar_object, 'custom_actions')
 - current_model = @associated_model || @model
-- if custom_actions.any? || edit_action.present? || destroy_action.present?
+- if custom_actions.map { |custom_action| custom_action.display_if.call(ar_object) }.any? || edit_action.present? || destroy_action.present?
   td.row-action-cell
     .row-action-tool
-      button.secondary-btn.tool-btn
+      button.btn-ghost.dropdown-toggle
         span
           i.fa.fa-bars.bolder
-        span
-          i.fa.fa-angle-down
       .popup-card.table-export-popup.hidden
         - if edit_action.present?
-          = link_to cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object.id) do
+          - if @associated_model
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object, referrer: request.path)
+          - else
+            - path = cm_admin.send("#{current_model.name.underscore}_edit_path", ar_object)
+          = link_to path do
             .popup-option
               span
                 i.fa.fa-edit
               | Edit
         - if destroy_action.present?
           - if @associated_model
-            = link_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id, referrer: request.path), method: :delete do
+            = button_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object, referrer: request.path), method: :delete, form: { data: { turbo_confirm: 'Are you sure?' } } do
               .popup-option
                 span
                   i.fa.fa-trash
                 | Destroy
-          - else  
-            = link_to cm_admin.send("#{current_model.name.underscore}_destroy_path", ar_object.id), method: :delete do
+          - else
+            = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{ar_object.id.to_s}" } do
               .popup-option
                 span
                   i.fa.fa-trash
@@ -34,7 +36,7 @@
           - if custom_action.display_if.call(ar_object)
             - case custom_action.display_type
             - when :button
-              = link_to cm_admin.send("#{cm_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
+              = button_to cm_admin.send("#{cm_model.name.underscore}_index_path") + '/' + custom_action.path.gsub(':id', ar_object.id.to_s), method: custom_action.verb do
                 .popup-option
                   span
                     i class="#{custom_action.icon_name}"

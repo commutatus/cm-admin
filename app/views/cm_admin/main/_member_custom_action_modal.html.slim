@@ -1,4 +1,4 @@
-- custom_actions = available_actions(cm_model, 'custom_actions')
+- custom_actions = available_actions(cm_model, ar_object, 'custom_actions')
 - custom_actions_modals = custom_actions.select{ |act| act if act.display_type.eql?(:modal) }
 - ar_collection.data.each do |ar_object|
   - if custom_actions_modals.any?
@@ -10,4 +10,7 @@
               h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action_title(custom_action)
               button.btn-close aria-label='Close' data-bs-dismiss='modal'
             .modal-body
-              = render partial: custom_action.partial, locals: { ar_object: ar_object }
+              - if custom_action.partial
+                = render partial: custom_action.partial
+              - else
+                = render partial: 'cm_admin/main/custom_action_modal_form', locals: { custom_action: custom_action, ar_object: ar_object }

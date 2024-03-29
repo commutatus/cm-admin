@@ -15,7 +15,7 @@ module CmAdmin
     include ActionView::Helpers::TagHelper
 
     def exportable(_klass, html_class: [])
-      tag.a 'Export as excel', class: html_class.append('filter-btn modal-btn mr-2'), data: { toggle: 'modal', target: '#exportmodal' } do
+      tag.a 'Export as excel', class: html_class.append('filter-btn modal-btn me-2'), data: { toggle: 'modal', target: '#exportmodal' } do
         concat tag.i class: 'fa fa-download'
         concat tag.span ' Export'
       end
@@ -53,23 +53,24 @@ module CmAdmin
           concat hidden_field_tag 'class_name', klass.name.to_s, id: 'export-to-file-klass'
           concat checkbox_row(klass)
           concat tag.hr
-          concat submit_tag 'Export', class: 'btn btn-primary btn-bordered export-to-file-btn'
+          # TODO: export-to-file-btn class is used for JS functionality, Have to remove 
+          concat submit_tag 'Export', class: 'btn-primary export-to-file-btn' 
         end
       end
     end
 
     def checkbox_row(klass)
       tag.div class: 'row' do
-        CmAdmin::Models::Export.exportable_columns(klass).each do |column_path|
-          concat create_checkbox(column_path)
+        CmAdmin::Models::Export.exportable_columns(klass).each do |column|
+          concat create_checkbox(column)
         end
       end
     end
 
-    def create_checkbox(column_path)
+    def create_checkbox(column)
       tag.div class: 'col-md-4' do
-        concat check_box_tag 'columns[]', column_path, id: column_path.to_s.gsub('/', '-')
-        concat " #{column_path.to_s.gsub('/', '_').humanize}"
+        concat check_box_tag 'columns[]', column.field_name, id: column.field_name.to_s.gsub('/', '-')
+        concat " #{column.header.to_s.gsub('/', '_').humanize}"
       end
     end
 

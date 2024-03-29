@@ -9,7 +9,7 @@ body {
   width: 100%;
   margin: 0px;
   padding: 0px;
-  font-family: 'Open Sans', sans-serif !important;
+  font-family: "Open Sans", sans-serif !important;
   background-color: $grey-lightest-clr !important;
 }
 
@@ -34,7 +34,6 @@ body {
     }
   }
 }
-
 
 a:hover,
 a {
@@ -72,16 +71,19 @@ a {
   position: sticky;
   top: 0;
   background-color: $white;
-  z-index: 4;
+  z-index: 5;
 }
 
 .scrollable {
   overflow: auto;
 }
 
+// TODO: Check and remove the input-wrapper styles later
 .input-wrapper {
   margin-bottom: 24px;
-  input, select, .select2 {
+  input,
+  select,
+  .select2 {
     width: 320px;
   }
   textarea {
@@ -89,6 +91,7 @@ a {
   }
 }
 
+// TODO: Check and remove the input-wrapper styles later
 .input-wrapper.disabled {
   input:disabled {
     background-color: $grey-lightest-clr;
@@ -99,7 +102,7 @@ a {
 }
 
 .nested-fields .select2 {
-  width: 320px !important;
+  width: 100% !important;
 }
 
 .datetime-wrapper {
@@ -121,44 +124,7 @@ a {
 }
 
 //select 2 styles
-.select2-container {
-  .selection {
-    .select2-selection {
-      padding: 8px 16px;
-      background-color: $white;
-      border: 1px solid $grey-light-clr;
-      border-radius: $radius-4;
-      height: 40px;
-      .select2-selection__rendered {
-        padding-left: 0;
-        @include font($size: $t4-text, $color: $primary-text-clr);
-        line-height: 22px;
-      }
-      .select2-selection__arrow {
-        top: 6px;
-      }
-    }
-  }
-  .select2-dropdown {
-    border: 1px solid $grey-lighter-clr;
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.16);
-    border-radius: $radius-4;
-    .select2-results {
-      .select2-results__options {
-        .select2-results__option {
-          padding: 9px 16px;
-          @include font($size: $t4-text, $color: $primary-text-clr);
-          line-height: 22px;
-        }
-      }
-      .select2-results__option--highlighted.select2-results__option--selectable {
-        background: $grey-lighter-clr;
-        color: $primary-text-clr;   
-      }
-      .select2-results__option--selected {
-        color: $brand-color !important;   
-        background-color: $grey-lighter-clr !important;
-      }
-    }
-  }
+.select2-container--bootstrap-5 .select2-selection--single {
+  padding: 0.375rem 0.75rem 0.375rem 0.75rem !important;
+  background-position: right 0.75rem center !important;
 }

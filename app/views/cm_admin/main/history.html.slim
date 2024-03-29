@@ -1,0 +1,16 @@
+.show-page
+  .show-page__header.page-top-bar
+    == render 'cm_admin/main/top_navbar'
+    == render 'cm_admin/main/tabs', via_xhr: false
+  .show-page__inner
+    .card.col-7
+      .card-body
+         ul.history-items-list
+          - @ar_object.action_trails.each do |at|
+            li.history-item
+              .d-inline-flex.mb-2
+                span.fw-bold.me-1 = at.actor.first_name
+                span.me-1 = at.trail_type.titleize
+                span.me-1 the
+                span.fw-bold.me-1 = at.entity_type
+                span.text-body-tertiary.me-1 = at.created_at.strftime("%B")

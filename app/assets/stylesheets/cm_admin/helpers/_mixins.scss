@@ -1,6 +1,6 @@
 @import "variable";
 
-@mixin flex($direction, $justify, $align, $wrap) {
+@mixin flex($direction: row, $justify: normal, $align: normal, $wrap: nowrap) {
   display: flex;
   flex-direction: $direction;
   justify-content: $justify;

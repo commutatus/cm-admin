@@ -1,4 +1,5 @@
 @import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 @function size($size) {
   @return map-get($font-size, $size);
@@ -9,257 +10,93 @@
 }
 
 .form-page {
-  padding: 24px;
   background-color: $white;
-  &__inner {
-    max-width: 752px;
+  &__header {
+    @extend .position-sticky, .top-0, .bg-white;
+    z-index: 5;
   }
-  .form-wrapper {
-    .form-container {
-      .form-title {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: bold);
-        line-height: 24px;
-        margin: 0 0 16px;
-      }
-      &__inner {
-        padding: 24px;
-        border: 1px solid $grey-light-clr;
-        border-radius: $radius-4;
-        .form-field {
-          max-width: 320px;
-        }
-      }
+  &__body {
+    padding: 24px;
+  }
+  .form-container {
+    margin-bottom: 24px;
+    .form-title {
+      @extend .h6, .fw-semibold;
+      color: $primary-text-clr;
+    }
+    &__inner {
+      @extend .card, .p-4;
+      background-color: var(--bs-gray-100);
     }
   }
 }
 
-//cocoon field styles
-.fields-group {
-  display: flex;
-  align-items: center;
-  margin: 16px 0;
-  .field-item {
-    margin: 0 5px;
-    label {
-      @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
-      margin-bottom: 4px;
-    }
-    input {
-      width: 100%;
-      padding: 5px 10px;
-      border: 1px solid #c1c7d0;
-      border-radius: $radius-2;
-      &:focus {
-        border-color: #66afe9 !important;
-        outline: 0 !important;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+//form field styles
+.form-field {
+  @extend .mb-4;
+}
+
+.field-label {
+  @extend .form-label;
+}
+
+.field-control {
+  @extend .form-control;
+}
+
+//upload attachment style
+.destroy-attachment {
+  margin-top: 4px;
+}
+
+//Form card UI
+.form-card {
+  @extend .card, .mt-3;
+  background-color: var(--bs-gray-100);
+  background-blend-mode: multiply;
+  mix-blend-mode: multiply;
+  .card-title-wrapper {
+    @extend .d-flex, .align-items-center, .mb-3;
+    &:hover {
+      div:last-of-type {
+        visibility: visible;
       }
     }
   }
-  .field-remove {
-    margin-top: 25px;
-    a {
-      @include font($size: $t1-text, $color: #ff5656);
-      @include transition-linear;
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
+  .card-title {
+    font-size: $t4-text;
+    color: var(--bs-tertiary-color);
+    margin: 0;
+  }
+  .card-delete {
+    visibility: hidden;
   }
 }
 
-.add-field-btn {
-  font-size: $t4-text;
-  margin: 10px 0;
-}
-
-// Nested form styles
-.nested-field-wrapper {
-  .nested-field-label {
-    @include font($size: $t4-text, $color: $primary-text-clr);
-    line-height: 22px;
-    margin: 0 0 4px;
-    span {
-      color: $ink-lightest-clr;
-      margin-left: 4px;
-    }
-  }
-  .nested-single-field {
-    display: grid;
-    grid-template-columns: 1fr 32px;
-    align-items: center;
-    width: 352px;
-    margin-bottom: 8px;
-    .field-remove-action {
-      font-size: $t3-text;
-      text-align: center;
-      a {
-        color: $primary-text-clr;
-        &:hover {
-          color: $primary-text-clr;
-        }
-      }
-    }
+.form-modal {
+  .form-info-text {
+    @extend .text-body, .mb-3;
   }
 }
 
-// Nested form Accordion styles
-.nested-form-accordion {
-  .accordion-item {
-    margin-bottom: 8px;
-    border: 1px solid $grey-light-clr;
-    border-radius: $radius-4;
+// Simple form UI
+.simple_form {
+  .input {
+    @extend .mb-3;
   }
-  .accordion-item:not(:first-of-type) {
-    border-top: 1px solid $grey-light-clr;
+  label {
+    @extend .form-label;
   }
-  .accordion-item:first-of-type {
-    margin-top: 4px;
-    border-radius: $radius-4;
+  input {
+    @extend .form-control;
   }
-  .accordion-item:last-of-type {
-    margin-bottom: 0;
-    border-radius: $radius-4;
+  input[type="submit"] {
+    width: auto;
+    float: right;
+    @extend .mt-3;
   }
-  .accordion-header {
-    position: relative;
-    display: flex;
-    .accordion-delete-btn {
-      position: absolute;
-      top: 14px;
-      right: 48px;
-      z-index: 9;
-    }
-  }
-  .accordion-button {
-    border-radius: $radius-4;
-    &:focus {
-      border-color: transparent;
-      box-shadow: none;
-    }
-    &:not(.collapsed) {
-      color: inherit;
-      background-color: transparent;
-      box-shadow: none;
-    }
-    &:not(.collapsed)::after {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-    }
-  }
-}
-
-//Old form code
-.form-wrapper {
-  // margin-top: 60px;
-
-  &__top-bar {
-    position: fixed;
-    top: 60px;
-    left: 250px;
-    display: flex;
-    align-items: center;
-    width: calc(100% - 250px);
-    height: 60px;
-    padding: 0 20px;
-    background-color: $white;
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.06);
-    z-index: 9;
-    .back-btn {
-      @include font($size: $t1-text, $color: #091e42);
-      cursor: pointer;
-      span {
-        color: #0099ff;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  &__inner {
-    margin-top: 120px;
-    padding: 20px;
-    .paper {
-      padding: 20px;
-      background-color: $white;
-      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
-      border: 1px solid #ebecf0;
-      border-radius: $radius-4;
-    }
-  }
-
-  .cm-admin-form {
-    max-width: 600px;
-    .form-field {
-      margin-bottom: 20px;
-      .form-label {
-        @include font($size: $t4-text, $color: $primary-text-clr, $weight: 600);
-        margin-bottom: 0.5rem;
-      }
-      .form-input {
-        label {
-          @include font($size: $t4-text, $color: $primary-text-clr, $weight: bold);
-        }
-        input {
-          width: 100%;
-          padding: 5px 10px;
-          border: 1px solid #c1c7d0;
-          border-radius: $radius-2;
-          &:focus {
-            border-color: #66afe9 !important;
-            outline: 0 !important;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
-          }
-        }
-      }
-
-      .file-upload {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 250px;
-        height: 80px;
-        border: 2px dashed #c1c7d0;
-        border-radius: $radius-4;
-        cursor: pointer;
-        input[type="file"] {
-          position: absolute;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          opacity: 0;
-          cursor: pointer;
-        }
-        label {
-          color: #0099ff;
-          margin: 0;
-          cursor: pointer;
-        }
-        i {
-          color: #0099ff;
-          margin-left: 8px;
-        }
-      }
-
-      .radio-label {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
-        margin-left: 8px;
-      }
-
-      .checkbox-label {
-        @include font($size: $t3-text, $color: $primary-text-clr, $weight: 600);
-        margin-left: 8px;
-      }
-    }
-
-    .form-actions {
-      input {
-        padding: 5px 10px;
-        color: $white;
-        background-color: #0099ff;
-        border: none;
-        border-radius: $radius-4;
-      }
-    }
+  .select-2 {
+    appearance: auto;
+    @extend .form-control;
   }
 }

@@ -19,30 +19,34 @@ html
     link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /
     
     script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"
+
+    link[rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"]
+    link[rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css"]
+    
   body
     .cm-admin
       = render 'layouts/left_sidebar_nav'
       .panel-area
         - if defined?(@action) && (@action&.layout_type.to_s == 'cm_association_show' || @action.parent == "show")
-          .show-page.cm-page-container
-            .show-page__tabs.sticky-container.page-top-bar
-              .cm-tabs-bar
-                == render 'cm_admin/main/top_navbar'
-                == render 'cm_admin/main/tabs'
-            .show-page__inner.scrollable
+          .show-page
+            .show-page__header.page-top-bar
+              == render 'cm_admin/main/top_navbar'
+              == render 'cm_admin/main/tabs', via_xhr: false
+            .show-page__inner
               = yield
         - elsif defined?(@action) && (@action&.layout_type.to_s == 'cm_association_index' || @action.parent == "index")
-          .show-page.cm-page-container
-            .show-page__tabs.sticky-container.page-top-bar
-              .cm-tabs-bar
-                == render 'cm_admin/main/top_navbar'
-                == render 'cm_admin/main/tabs'
-                - if @associated_model && @associated_model.filters.present?
-                  .filters-bar
-                    == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
+          .show-page
+            .show-page__header.page-top-bar
+              == render 'cm_admin/main/top_navbar'
+              - if @ar_object.model_name
+                == render 'cm_admin/main/tabs', via_xhr: false
+              - if @associated_model && @associated_model.filters.present?
+                .filters-bar
+                  == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
             = yield
         - else
           = yield
     = render 'layouts/cm_flash_message'
-    = render 'layouts/custom_action_modals'
+    - unless (@current_action&.view_type == :kanban || params[:view_type] == 'kanban')
+      = render 'layouts/custom_action_modals'
 

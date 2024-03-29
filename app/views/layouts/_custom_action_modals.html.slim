@@ -1,9 +1,24 @@
-- @model.available_actions.select{|act| act if act.display_type == :modal}.each do |custom_action|
-  .modal.fade id="#{custom_action.name.classify}Modal" aria-hidden="true" aria-labelledby="#{custom_action.name.classify}ModalLabel" tabindex="1" 
-    .modal-dialog
-      .modal-content
-        .modal-header
-          h5.modal-title id="#{custom_action.name.classify}ModalLabel" = custom_action.name.classify
-          button.btn-close aria-label="Close" data-bs-dismiss="modal" type="button" 
-        .modal-body
-          = render partial: custom_action.partial
+- custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :custom }
+- bulk_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :bulk_action }
+- destroy_action = available_actions(@model, @ar_object, 'destroy')
+- if @associated_model
+  - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
+- if @current_action&.name == 'index'
+  - bulk_action_with_modals.each do |bulk_action|
+    = render partial: '/layouts/custom_action_modal', locals: { custom_action: bulk_action, ar_object: nil }
+  - @ar_object.data.each do |ar_object|
+    - custom_action_with_modals.each do |custom_action|
+      = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
+    - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: ar_object }
+- elsif @current_action&.name == 'show'
+  - custom_action_with_modals.each do |custom_action|
+    = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object }
+  - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: @ar_object }
+- elsif @current_action&.action_type == :custom && @associated_ar_object&.data.present?
+  - @associated_ar_object.data.each do |ar_object|
+    - custom_action_with_modals.select{|custom_action| custom_action.model_name == @current_action.child_records.to_s.classify}.each do |custom_action|
+      = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
+    - if destroy_action
+      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: ar_object }

@@ -19,8 +19,9 @@ module CmAdmin
       end
 
       def add_filters_dropdown(filters)
-        concat(content_tag(:div, class: 'dropdown add-filter-btn', data: {bs_toggle: 'dropdown'}) do
-          tag.span '+ Add filter'
+        concat(content_tag(:button, class: 'dropdown btn-ghost', data: {bs_toggle: 'dropdown'}) do
+          concat tag.i(class: 'fas fa-filter')
+          concat tag.span 'Filter'
         end)
 
         concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
@@ -32,7 +33,7 @@ module CmAdmin
               concat(content_tag(:div, class: 'list-area') do
                 filters.each do |filter|
                   concat(content_tag(:div, class: 'pointer list-item', data: {behaviour: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
-                    tag.span filter.db_column_name.to_s.titleize
+                    tag.span filter.placeholder.to_s.titleize
                   end)
                 end
               end)
@@ -85,22 +86,19 @@ module CmAdmin
       end
 
       def add_search_filter(filter)
-        tag.div class: 'filter-search mr-3' do
-          tag.div class: 'form-field' do
-            tag.div class: 'field-input-wrapper' do
-              concat(content_tag(:input, class: 'search-input', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}) do
-                tag.span class: 'search-input-icon' do
-                  tag.i class: 'fa fa-search'
-                end
-              end)
-            end
-          end
+        tag.div class: 'filter-search me-3' do
+          concat(content_tag(:div, class: 'input-group input-group-sm') do
+            concat(content_tag(:span, class: 'input-group-text') do
+              tag.i class: 'fa fa-search'
+            end)
+            concat tag.input type: 'string', class: 'form-control', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}
+          end)
         end
       end
 
       def add_range_filter(filter)
         value = params.dig(:filters, :range, :"#{filter.db_column_name}")
-        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+        concat(content_tag(:div, class: "position-relative me-3 #{value ? '' : 'hidden'}") do
           concat filter_chip(value, filter)
 
           concat(content_tag(:div, class: 'position-absolute mt-2 range-container hidden') do
@@ -113,7 +111,7 @@ module CmAdmin
 
       def add_date_filter(filter)
         value = params.dig(:filters, :date, :"#{filter.db_column_name}")
-        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+        concat(content_tag(:div, class: "position-relative me-3 #{value ? '' : 'hidden'}") do
           concat filter_chip(value, filter)
 
           concat(content_tag(:div, class: 'date-filter-wrapper w-100') do
@@ -125,7 +123,7 @@ module CmAdmin
 
       def add_single_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
-        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+        concat(content_tag(:div, class: "position-relative me-3 #{value ? '' : 'hidden'}") do
           if value && filter.collection[0].class == Array
             selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ')
           else
@@ -169,8 +167,8 @@ module CmAdmin
         else
           value_mapped_text = value
         end
-        
-        concat(content_tag(:div, class: "position-relative mr-3 #{value ? '' : 'hidden'}") do
+
+        concat(content_tag(:div, class: "position-relative me-3 #{value ? '' : 'hidden'}") do
           concat filter_chip(value_mapped_text, filter)
 
           concat(content_tag(:div, class: 'position-absolute mt-2 dropdown-popup hidden') do

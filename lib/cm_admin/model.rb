@@ -2,13 +2,16 @@ require_relative 'constants'
 require_relative 'models/action'
 require_relative 'models/importer'
 require_relative 'models/custom_action'
+require_relative 'models/bulk_action'
+require_relative 'models/nested_field'
 require_relative 'models/field'
 require_relative 'models/form_field'
 require_relative 'models/blocks'
 require_relative 'models/column'
 require_relative 'models/filter'
 require_relative 'models/export'
-require_relative 'models/cm_show_section'
+require_relative 'models/section'
+require_relative 'models/row'
 require_relative 'models/tab'
 require_relative 'models/dsl_method'
 require 'pagy'
@@ -24,7 +27,7 @@ module CmAdmin
     include Models::Blocks
     include Models::DslMethod
     attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
-      :current_action, :params, :filters, :available_tabs, :icon_name
+      :current_action, :params, :filters, :available_tabs, :icon_name, :bulk_actions
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
     def initialize(entity, &block)
@@ -33,10 +36,11 @@ module CmAdmin
       @is_visible_on_sidebar = true
       @icon_name = 'fa fa-th-large'
       @available_actions ||= []
+      @bulk_actions ||= []
       @additional_permitted_fields ||= []
       @current_action = nil
       @available_tabs ||= []
-      @available_fields ||= {index: [], show: [], edit: {fields: []}, new: {fields: []}}
+      @available_fields ||= {index: [], show: [], edit: [], new: []}
       @params = nil
       @filters ||= []
       instance_eval(&block) if block_given?
@@ -83,8 +87,8 @@ module CmAdmin
       @actions_set = true
     end
 
-    def importable(class_name:, importer_type:)
-      @importer = CmAdmin::Models::Importer.new(class_name, importer_type)
+    def importable(class_name:, importer_type:, sample_file_path: nil)
+      @importer = CmAdmin::Models::Importer.new(class_name, importer_type, sample_file_path)
     end
 
     def visible_on_sidebar(visible_option)

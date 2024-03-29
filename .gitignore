@@ -5,8 +5,10 @@
 /doc/
 /pkg/
 /spec/reports/
-/tmp/
+tmp/
 node_modules/
 public/cm-admin-packs/
 # rspec failure tracking
 .rspec_status
+.rubocop-*
+.DS_Store

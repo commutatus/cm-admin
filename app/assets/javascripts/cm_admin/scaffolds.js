@@ -16,7 +16,6 @@ import 'bootstrap'
 import '@popperjs/core'
 import 'flatpickr'
 import 'jgrowl'
-jqueryJgrowl()
 import Select2 from "select2"
 Select2()
 
@@ -26,22 +25,31 @@ import '@fortawesome/fontawesome-free'
 import jqueryJgrowl from 'jgrowl';
 
 
-flatpickr("[data-behaviour='date-only']", {
-  dateFormat: "d-m-Y"
-})
-flatpickr("[data-behaviour='date-time']", {
-  enableTime: true
-})
-flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
-  mode: 'range'
-})
-$('.select-2').select2();
-$(document).on('turbolinks:load', function () {
-  $('.select-2').select2();
+document.addEventListener("turbo:load", function () {
   flatpickr("[data-behaviour='date-only']", {
     dateFormat: "d-m-Y"
   })
-  setup_select_2_ajax()
+  flatpickr("[data-behaviour='date-time']", {
+    enableTime: true
+  })
+  flatpickr("[data-behaviour='filter'][data-filter-type='date']", {
+    mode: 'range'
+  })
+  $('.select-2').select2({
+    theme: "bootstrap-5",
+  });
+  jqueryJgrowl()
+  setup_select_2_ajax();
+});
+
+$(document).on('click', '.menu-item', function(e) {
+  $('.profile-popup').toggleClass('hidden');
+});
+
+$(document).on('click', '.destroy-attachment', function(e) {
+  var ar_id = $(this).data('ar-id')
+  $(this).addClass('hidden')
+  $(this).append('<input type="text" name="attachment_destroy_ids[]" value="' + ar_id + '"/>')
 })
 
-setup_select_2_ajax();
+window.addEventListener('popstate', e => window.location.reload() );

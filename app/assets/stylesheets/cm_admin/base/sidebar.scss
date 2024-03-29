@@ -8,7 +8,7 @@
   height: 100%;
   background-color: #252525;
   // overflow: hidden;
-  z-index: 2;
+  z-index: 3;
 
   &__logo-header {
     display: flex;
@@ -198,6 +198,11 @@
       .auth-option {
         padding: 8px 0;
         .auth-link {
+          background: none;
+          border: none;
+          width: 100%;
+          text-align: left;
+          padding: 0;
           display: block;
           @include font($size: $t4-text, $color: $primary-text-clr);
           line-height: 22px;

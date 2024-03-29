@@ -7,7 +7,7 @@ module CmAdmin
 
       attr_accessor :field_name, :label, :header, :field_type, :format, :precision, :height,
         :width, :helper_method, :preview, :custom_link, :prefix, :suffix, :tag_class,
-        :display_if, :association_name, :association_type
+        :display_if, :association_name, :association_type, :col_size
 
       def initialize(field_name, attributes = {})
         @field_name = field_name
@@ -23,7 +23,10 @@ module CmAdmin
       end
 
       def set_default_values
+        self.precision = 2
         self.tag_class = {}
+        self.col_size = nil
+        self.field_type = :string
       end
     end
   end
