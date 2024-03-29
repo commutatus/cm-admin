@@ -66,7 +66,7 @@ function setup_select_2_ajax(){
           }
         },
       },
-      minimumInputLength: 1
+      minimumInputLength: 0
     });
   });
 }
