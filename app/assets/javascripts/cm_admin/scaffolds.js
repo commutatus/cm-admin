@@ -53,3 +53,20 @@ $(document).on('click', '.destroy-attachment', function(e) {
 })
 
 window.addEventListener('popstate', e => window.location.reload() );
+
+function setup_select_2_ajax(){
+  $(".select-2-ajax").each(function(index, element){
+    $(element).select2({
+      ajax: {
+        url: $(element)[0]['dataset'].ajaxUrl,
+        dataType: 'json',
+        processResults: (data, params) => {
+          return {
+            results: data.results,
+          }
+        },
+      },
+      minimumInputLength: 1
+    });
+  });
+}
