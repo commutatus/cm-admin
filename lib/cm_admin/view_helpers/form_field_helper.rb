@@ -144,7 +144,7 @@ module CmAdmin
 
       def attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         attached = form_obj.object.send(cm_field.field_name)
-        return if attached.instance_of?(Paperclip::Attachment)
+        return if defined?(::Paperclip) && attached.instance_of?(::Paperclip::Attachment)
         
         content_tag(:div) do
           if attached.class == ActiveStorage::Attached::Many
