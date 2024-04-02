@@ -31,7 +31,7 @@ module CmAdmin
     def cm_show(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'show')
       scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
-      @ar_object = scoped_model.find(params[:id])
+      @ar_object = fetch_ar_object(scoped_model, params[:id])
       resource_identifier
       respond_to do |format|
         if request.xhr?
@@ -53,7 +53,7 @@ module CmAdmin
 
     def cm_edit(params)
       @current_action = CmAdmin::Models::Action.find_by(@model, name: 'edit')
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       resource_identifier
       respond_to do |format|
         format.html { render '/cm_admin/main/' + action_name }
@@ -61,7 +61,7 @@ module CmAdmin
     end
 
     def cm_update(params)
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       @ar_object.assign_attributes(resource_params(params))
       resource_identifier
       resource_responder
@@ -74,7 +74,7 @@ module CmAdmin
     end
 
     def cm_destroy(params)
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       redirect_url = request.referrer || cm_admin.send("#{@model.name.underscore}_index_path")
       respond_to do |format|
         if @ar_object.destroy
@@ -185,7 +185,7 @@ module CmAdmin
       @ar_object, @associated_model, @associated_ar_object = custom_controller_action(action_name, params.permit!) if !@ar_object.present? && params[:id].present?
       authorize @ar_object, policy_class: "CmAdmin::#{controller_name.classify}Policy".constantize if defined? "CmAdmin::#{controller_name.classify}Policy".constantize
       aar_model = request.url.split('/')[-2].classify.constantize  if params[:aar_id]
-      @associated_ar_object = aar_model.find(params[:aar_id]) if params[:aar_id]
+      @associated_ar_object = fetch_ar_object(aar_model, params[:aar_id]) if params[:aar_id]
       nested_fields = get_nested_table_fields(@model.available_fields[:new])
       nested_fields += get_nested_table_fields(@model.available_fields[:edit])
       @reflections = @model.ar_model.reflect_on_all_associations
@@ -202,12 +202,12 @@ module CmAdmin
 
     def resource_responder
       respond_to do |format|
-        if params["referrer"]
-          redirect_url = params["referrer"]
-        else
-          redirect_url = CmAdmin::Engine.mount_path + "/#{@model.name.underscore.pluralize}/#{@ar_object.id}"
-        end
         if @ar_object.save
+          redirect_url = if params['referrer']
+                           params['referrer']
+                         else
+                           cm_admin.send("#{@model.name.underscore}_show_path", @ar_object)
+                         end
           if params['attachment_destroy_ids'].present?
             ActiveStorage::Attachment.where(id: params['attachment_destroy_ids']).destroy_all
           end
@@ -222,7 +222,7 @@ module CmAdmin
       @current_action = CmAdmin::Models::Action.find_by(@model, name: action_name.to_s)
       return unless @current_action
 
-      @ar_object = @model.ar_model.name.classify.constantize.find(params[:id])
+      @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       return @ar_object unless @current_action.child_records
 
       child_records = @ar_object.send(@current_action.child_records)
@@ -353,7 +353,10 @@ module CmAdmin
       params.require(@model.name.underscore.to_sym).permit(*permittable_fields)
     end
 
-    
+    def fetch_ar_object(model_object, id)
+      return model_object.friendly.find(id) if model_object.respond_to?(:friendly)
 
+      model_object.find(id)
+    end
   end
 end
