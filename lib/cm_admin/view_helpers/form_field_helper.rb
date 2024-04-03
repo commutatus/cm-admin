@@ -65,7 +65,7 @@ module CmAdmin
                         }
       end
 
-      def cm_custom_single_select_field(form_obj, cm_field, value, required_class, target_action)
+      def cm_custom_single_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
         select_tag cm_field.html_attr[:name] || cm_field.field_name,
                     options_for_select(select_collection_value(form_obj.object, cm_field)),
                     {
@@ -81,7 +81,7 @@ module CmAdmin
                     }
       end
 
-      def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action)
+      def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
                         { include_blank: cm_field.placeholder },
@@ -98,7 +98,7 @@ module CmAdmin
                             data: { behaviour: 'date-only' }
       end
 
-      def cm_custom_date_field(form_obj, cm_field, value, required_class, _target_action)
+      def cm_custom_date_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         text_field_tag cm_field.html_attr[:name] || cm_field.field_name, value&.strftime('%d-%m-%Y'),
                             class: "field-control #{required_class}",
                             disabled: cm_field.disabled.call(form_obj.object),
@@ -128,14 +128,14 @@ module CmAdmin
                                 placeholder: cm_field.placeholder
       end
 
-      def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
+      def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action, _ajax_url)
         content_tag(:div) do
           concat form_obj.file_field cm_field.field_name, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
-      def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action)
+      def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action, _ajax_url)
         content_tag(:div) do
           concat form_obj.file_field cm_field.field_name, multiple: true, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
