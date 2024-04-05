@@ -7,7 +7,7 @@
       .modal-body
         .custom-modal-body
           .modal-info data-section="bulk-action"
-            | Are you sure you want to delete this #{@model.name.classify}
+            | Are you sure you want to delete this #{@model.name.classify}?
           .modal-footer
             = button_to cm_admin.send("#{@model.name.underscore}_destroy_path", ar_object), method: :delete, class: "btn btn-primary" do
               span
