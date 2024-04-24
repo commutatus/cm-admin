@@ -1,4 +1,5 @@
 @import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
 
 .quick-search-modal {
   .modal-dialog {
@@ -11,12 +12,17 @@
     }
   }
   .quick-search-field {
+    @extend .input-group;
+    .search-input {
+      @extend .form-control;
+    }
     .clear-search {
       position: absolute;
       top: 8px;
       right: 16px;
       @include font($size: $t4-text, $color: $ink-lighter-clr);
       line-height: 22px;
+      z-index: 9;
       cursor: pointer;
     }
   }
