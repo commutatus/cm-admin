@@ -42,8 +42,16 @@ document.addEventListener("turbo:load", function () {
   setup_select_2_ajax();
 });
 
-$(document).on('click', '.menu-item', function(e) {
-  $('.profile-popup').toggleClass('hidden');
+$(document).on('click', '[data-behaviour="toggle-profile-popup"]', function(e) {
+  e.stopPropagation();
+  $('[data-behaviour="profile-popup"]').toggleClass('hidden');
+});
+
+$(document).on('click', function(e) {
+  var popup = $('[data-behaviour="profile-popup"]');
+  if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+    popup.addClass('hidden');
+  }
 });
 
 $(document).on('click', '.destroy-attachment', function(e) {

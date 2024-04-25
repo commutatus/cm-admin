@@ -14,10 +14,10 @@
   /      i.fa.fa-angle-down
   
 - if flash[:alert].present?
-  .alert.alert-danger role="alert"
+  .alert.alert-danger.me-4 role="alert"
     = flash[:alert].html_safe
 - elsif flash[:notice].present?
-  .alert.alert-success
+  .alert.alert-success.me-4
     = flash[:notice].html_safe
 
 - bulk_actions = actions_filter(@model, @ar_object, :bulk_action)
