@@ -3,7 +3,6 @@
 
 .entity-header {
   @extend .d-flex.justify-content-between.align-items-start.p-4;
-  // min-height: 109px; // Height needs to be removed once all the layouts are revamped
   background-color: var(--bs-white);
   &__info {
     .breadcrumb {
