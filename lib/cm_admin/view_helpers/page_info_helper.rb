@@ -48,7 +48,8 @@ module CmAdmin
             when :modal
               custom_modal_button(custom_action)
             when :page
-              link_to custom_action_title(custom_action), "#{@model.ar_model.table_name}/#{custom_action.path}", class: 'btn-secondary ms-2', method: custom_action.verb
+              path = cm_admin.send("#{@model.name.underscore}_#{custom_action.name}_path", @ar_object.id, custom_action.url_params)
+              link_to custom_action_title(custom_action), path, class: 'btn-secondary ms-2', method: custom_action.verb
             end
           end
         end
@@ -71,7 +72,12 @@ module CmAdmin
       end
 
       def custom_modal_button(custom_action)
-        link_to custom_action_title(custom_action), '', class: 'btn-secondary ms-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{@ar_object.id}" }
+        link_to '', class: 'btn-secondary ms-2', data: { bs_toggle: "modal", bs_target: "##{custom_action.name.classify}Modal-#{@ar_object.id}" } do
+          concat(content_tag(:span) do
+            tag.i class: custom_action.icon_name
+          end)
+          concat content_tag(:span, custom_action_title(custom_action))
+        end
       end
 
       def custom_action_title(custom_action)
@@ -86,6 +92,14 @@ module CmAdmin
         return false unless current_user
         return current_user.full_name if defined?(current_user.full_name)
         current_user.email.split('@').first
+      end
+
+      def nested_section_title(record, nested_form_field)
+        if nested_form_field.header.present?
+          record.send(nested_form_field.header)
+        else
+          nested_form_field.field_name.to_s.titleize
+        end
       end
     end
   end

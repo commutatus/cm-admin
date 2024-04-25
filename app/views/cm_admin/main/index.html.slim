@@ -1,4 +1,5 @@
 
+= hidden_field_tag :view_type, (@current_action.view_type || params[:view_type])
 .cm-index-page.cm-page-container
   .sticky-container.page-top-bar
     == render 'cm_admin/main/top_navbar'
@@ -8,8 +9,12 @@
   .cm-index-page__table-container
     - if @action.partial
       == render @action.partial
-    - else
+    - elsif params[:view_type] == 'table' || @current_action.view_type == :table 
       == render 'cm_admin/main/table'
-  = column_pop_up(@model)
-  = manage_column_pop_up(@model)
+    - elsif params[:view_type] == 'card' || @current_action.view_type == :card
+      == render "cm_admin/#{@model.name.underscore}/card"
+    - elsif params[:view_type] == 'kanban' || @current_action.view_type == :kanban
+      == render 'cm_admin/main/kanban'
+    = column_pop_up(@model)
+    = manage_column_pop_up(@model)
 

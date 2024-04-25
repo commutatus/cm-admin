@@ -1,20 +1,19 @@
 $(document).on('click', '.form_submit', function(e) {
-  console.log('Came here')
   e.preventDefault();
   var submit = [];
   var form_class = $(this).data('form-class');
   $("." + form_class + " input.required, ." + form_class + " textarea.required").each(function() {
-    $(this).removeClass('error');
+    $(this).removeClass('is-invalid');
     if ($(this).val().trim().length === 0) {
-      $(this).addClass('error');
+      $(this).addClass('is-invalid');
       $(this)[0].scrollIntoView(true);
       submit.push(true);
     }
   });
   $("." + form_class + " select.required").each(function() {
-    $(this).removeClass('error');
+    $(this).removeClass('is-invalid');
     if ($(this).val().trim().length === 0) {
-      $(this).parent().find('.select2').addClass('error');
+      $(this).parent().find('.select2').addClass('is-invalid');
       $(this)[0].scrollIntoView(true);
       submit.push(true);
     }

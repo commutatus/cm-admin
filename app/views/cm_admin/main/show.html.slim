@@ -1,15 +1,2 @@
 .show-page
-  .show-page__header.page-top-bar
-    == render 'cm_admin/main/top_navbar'
-    == render 'cm_admin/main/tabs'
-  .show-page__inner
-    - if @action.partial
-      == render @action.partial
-    - else
-      - @model.available_fields[:show].each do |entity|
-        .row
-          - if entity.class == CmAdmin::Models::Row
-            - entity.sections.each do |section|
-              = render partial: 'cm_admin/main/show_section', locals: { section: section }
-          - elsif entity.class == CmAdmin::Models::Section
-            = render partial: 'cm_admin/main/show_section', locals: { section: entity }
+  = render partial: 'cm_admin/main/show_content', via_xhr: false

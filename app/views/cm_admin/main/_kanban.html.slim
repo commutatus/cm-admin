@@ -1,0 +1,21 @@
+- if flash[:alert].present?
+  .alert.alert-danger role="alert"
+    = flash[:alert].html_safe
+- elsif flash[:notice].present?
+  .alert.alert-success
+    = flash[:notice].html_safe
+
+.kanban-container
+  - column_names = @ar_object.data.keys
+  = hidden_field_tag :kanban_column_names, column_names
+  - column_names.each do |column_name|
+    .kanban-list class="#{column_name}"
+      .kanban-list__header
+          p = column_name.to_s.titleize
+          p.counter = @ar_object.column_count[column_name].to_i
+      .cards 
+        = @ar_object.data[column_name]
+                
+.pagination-bar.kanban-pagination
+  .btn.btn-primary.kanban-show-more data-page=1 Show more
+= render partial: 'cm_admin/main/show_as_drawer'

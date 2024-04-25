@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (1.2.1)
+    cm-admin (1.4.8)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
@@ -87,7 +87,7 @@ GEM
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     builder (3.2.4)
-    caxlsx (3.4.1)
+    caxlsx (4.1.0)
       htmlentities (~> 4.3, >= 4.3.4)
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -102,23 +102,24 @@ GEM
     crass (1.0.6)
     csv-importer (0.8.2)
       virtus
-    date (3.3.3)
+    date (3.3.4)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.4.4)
     erubi (1.12.0)
-    globalid (1.1.0)
-      activesupport (>= 5.0)
+    globalid (1.2.1)
+      activesupport (>= 6.1)
     htmlentities (4.3.4)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    importmap-rails (1.2.1)
+    importmap-rails (2.0.1)
       actionpack (>= 6.0.0)
+      activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     json (2.6.2)
     local_time (2.1.0)
-    loofah (2.21.3)
+    loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -126,21 +127,21 @@ GEM
       net-imap
       net-pop
       net-smtp
-    marcel (1.0.2)
+    marcel (1.0.4)
     method_source (1.0.0)
-    mini_mime (1.1.2)
+    mini_mime (1.1.5)
     minitest (5.18.1)
-    net-imap (0.3.6)
+    net-imap (0.4.10)
       date
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.1)
+    net-protocol (0.2.2)
       timeout
-    net-smtp (0.3.3)
+    net-smtp (0.4.0.1)
       net-protocol
-    nio4r (2.5.9)
-    nokogiri (1.15.2-arm64-darwin)
+    nio4r (2.7.1)
+    nokogiri (1.16.3-arm64-darwin)
       racc (~> 1.4)
     pagy (4.11.0)
     parallel (1.22.1)
@@ -148,9 +149,9 @@ GEM
       ast (~> 2.4.1)
     pundit (2.2.0)
       activesupport (>= 3.0.0)
-    racc (1.7.1)
+    racc (1.7.3)
     rack (2.2.7)
-    rack-proxy (0.7.6)
+    rack-proxy (0.7.7)
       rack
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -168,7 +169,7 @@ GEM
       activesupport (= 7.0.5.1)
       bundler (>= 1.15.0)
       railties (= 7.0.5.1)
-    rails-dom-testing (2.1.1)
+    rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
@@ -225,10 +226,10 @@ GEM
       temple (>= 0.7.6, < 0.9)
       tilt (>= 2.0.6, < 2.1)
     temple (0.8.2)
-    thor (1.2.2)
+    thor (1.3.1)
     thread_safe (0.3.6)
     tilt (2.0.10)
-    timeout (0.4.0)
+    timeout (0.4.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
@@ -241,13 +242,14 @@ GEM
       rack-proxy (>= 0.6.1)
       railties (>= 5.2)
       semantic_range (>= 2.3.0)
-    websocket-driver (0.7.5)
+    websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    zeitwerk (2.6.8)
+    zeitwerk (2.6.13)
 
 PLATFORMS
   arm64-darwin-20
+  arm64-darwin-22
   x86_64-linux
 
 DEPENDENCIES

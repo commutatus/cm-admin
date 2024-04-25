@@ -49,6 +49,12 @@ module CmAdmin
           local_date(ar_object.send(field.field_name), (field.format || '%B %e, %Y'))
         when :text
           ar_object.send(field.field_name)
+        when :rich_text
+          sanitize ar_object.send(field.field_name)
+        when :money
+          humanized_money(ar_object.send(field.field_name))
+        when :money_with_symbol
+          humanized_money_with_symbol(ar_object.send(field.field_name))
         when :custom
           send(field.helper_method, ar_object, field.field_name)
         when :link
@@ -96,9 +102,9 @@ module CmAdmin
           if field.association_type.to_s == 'polymorphic'
             association_name = ar_object.send(field.association_name).class.to_s.underscore
             field_name = find_field_name(field, association_name)
-            link_to ar_object.send(field.association_name).send(field_name), cm_admin.send("#{association_name}_show_path", ar_object.send(field.association_name).id)
+            link_to ar_object.send(field.association_name).send(field_name), cm_admin.send("#{association_name}_show_path", ar_object.send(field.association_name))
           elsif ['belongs_to', 'has_one'].include? field.association_type.to_s
-            link_to ar_object.send(field.association_name).send(field.field_name), cm_admin.send("#{field.association_name}_show_path", ar_object.send(field.association_name).id)
+            link_to ar_object.send(field.association_name).send(field.field_name), cm_admin.send("#{field.association_name}_show_path", ar_object.send(field.association_name))
           end
         end
       end
@@ -111,8 +117,10 @@ module CmAdmin
             end
           elsif has_many_image_attached?(ar_object, field)
             ar_object.send(field.field_name).map do |asset|
-              content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
-                asset.filename.to_s
+              content_tag(:div) do
+                content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
+                  asset.filename.to_s
+                end
               end
             end.join("\n").html_safe
           end
@@ -132,7 +140,6 @@ module CmAdmin
       def has_many_image_attached?(ar_object, field)
         ar_object.send(field.field_name).class.name.include?('Many')
       end
-
     end
   end
 end

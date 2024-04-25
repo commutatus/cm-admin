@@ -1,0 +1,44 @@
+@import "../helpers/index.scss";
+@import "../dependency/bootstrap/scss/bootstrap";
+
+.card-list-container {
+  overflow: hidden;
+  padding-right: 24px;
+  .card-grid {
+    @extend .row, .row-cols-4, .g-3;
+  }
+}
+
+.item-card {
+  @extend .card, .position-relative;
+  border-radius: 4px;
+  .card-menu {
+    @extend .dropdown, .position-absolute;
+    top: 8px;
+    right: 8px;
+  }
+  .card-img-top {
+    height: 185px;
+    object-fit: cover;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+  }
+  .card-subtitle {
+    @extend .d-flex, .justify-content-between, .text-secondary, .fw-medium;
+    font-size: $t4-text;
+    .item-id {
+      margin: 0;
+      span {
+        border-left: 1px solid;
+        padding-left: 4px;
+      }
+    }
+  }
+  .card-footer {
+    @extend .d-flex, .justify-content-between, .bg-white;
+    .item-price {
+      font-size: $t4-text;
+      margin: 0;
+    }
+  }
+}

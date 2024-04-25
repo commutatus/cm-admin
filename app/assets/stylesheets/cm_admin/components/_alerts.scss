@@ -1,5 +1,12 @@
-@import "../helpers/index.scss";
+@import "../helpers/index";
+@import "../dependency/bootstrap/scss/bootstrap";
 
+// New alert styles
+.cm-admin .alert {
+  @extend .alert-dismissible, .d-flex, .align-items-center;
+}
+
+//Old alert styles
 .flag-alert {
   max-width: 752px;
   padding: 24px;
@@ -37,65 +44,6 @@
           margin-bottom: 0;
         }
       }
-    }
-  }
-}
-
-.toast-alert {
-  display: flex;
-  align-items: center;
-  max-width: 225px;
-  padding: 8px 16px;
-  border-radius: $radius-4;
-  &.informative {
-    background: $blue-light-clr;
-  }
-  &.successful {
-    background: $green-light-clr;
-  }
-  &.warning {
-    background: $yellow-light-clr;
-  }
-  &.error {
-    background: $red-light-clr;
-  }
-  .toast-info {
-    @include font($size: $t4-text, $color: $primary-text-clr);
-    line-height: 22px;
-    margin: 0;
-  }
-  .toast-close {
-    @include font($size: $t4-text, $color: $ink-lighter-clr);
-    margin-left: 24px;
-    cursor: pointer;
-  }
-}
-
-.inline-alert {
-  @include font($size: $t4-text, $color: $primary-text-clr);
-  line-height: 22px;
-  span {
-    margin-right: 4px;
-  }
-  &.informative {
-    span {
-      color: $blue-regular-clr;
-    }
-  }
-  &.successful {
-    span {
-      color: $green-regular-clr;
-    }
-  }
-  &.warning {
-    span {
-      color: $yellow-regular-clr;
-    }
-  }
-  &.error {
-    color: $red-regular-clr;
-    span {
-      color: $red-regular-clr;
     }
   }
 }

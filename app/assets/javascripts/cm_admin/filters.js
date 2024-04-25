@@ -70,7 +70,17 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
     success: function(data) {
       var queryParam = jQuery.param(queryString)
       window.history.pushState("", "", url + '?' + queryParam);
-      $('.cm-index-page__table-container').html(data);
+      if ($('#view_type').val() == 'kanban') {
+        $.each(data.table.data, function(key, value) {
+          $('.' + key + ' .cards').html(value)
+        });
+        $('.kanban-list .counter').html(0)
+        $.each(data.table.column_count, function(key, value) {
+          $('.' + key + ' .counter').html(value)
+        });
+      } else {
+        $('.cm-index-page__table-container').html(data);
+      }
     },
     error: function(jqxhr, textStatus, errorThrown) {
       console.log(errorThrown, textStatus);

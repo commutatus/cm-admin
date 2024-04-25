@@ -6,11 +6,11 @@ module CmAdmin
       include Utils::Helpers
 
       attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method,
-                    :placeholder, :display_if, :html_attr, :target, :col_size
+                    :placeholder, :display_if, :html_attr, :target, :col_size, :ajax_url
 
       VALID_INPUT_TYPES = %i[
         integer decimal string single_select multi_select date date_time text
-        single_file_upload multi_file_upload hidden rich_text check_box radio_button
+        single_file_upload multi_file_upload hidden rich_text check_box radio_button custom_string custom_date custom_single_select
       ].freeze
 
       def initialize(field_name, input_type, attributes = {})
@@ -25,7 +25,7 @@ module CmAdmin
       end
 
       def set_default_values
-        self.disabled = false
+        self.disabled = lambda { |arg| return false } if display_if.nil?
         self.label = self.field_name.to_s.titleize
         self.input_type = :string
         self.html_attr = {}
