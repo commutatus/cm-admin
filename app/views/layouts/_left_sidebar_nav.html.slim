@@ -14,11 +14,11 @@
 
   - if defined?(user_full_name)
     .sidebar__footer
-      .menu-item#profile-menu
+      .menu-item data-behaviour="toggle-profile-popup"
         .profile-name
           span.profile-avatar #{user_full_name.first.titleize}
           | #{user_full_name.titleize}
-      .profile-popup.hidden
+      .profile-popup.hidden data-behaviour="profile-popup"
         .profile-info
           .profile-info__left
             p.name-text = user_full_name

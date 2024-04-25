@@ -42,13 +42,13 @@ document.addEventListener("turbo:load", function () {
   setup_select_2_ajax();
 });
 
-$(document).on('click', '#profile-menu', function(e) {
+$(document).on('click', '[data-behaviour="toggle-profile-popup"]', function(e) {
   e.stopPropagation();
-  $('.profile-popup').toggleClass('hidden');
+  $('[data-behaviour="profile-popup"]').toggleClass('hidden');
 });
 
 $(document).on('click', function(e) {
-  var popup = $('.profile-popup');
+  var popup = $('[data-behaviour="profile-popup"]');
   if (!popup.is(e.target) && popup.has(e.target).length === 0) {
     popup.addClass('hidden');
   }
