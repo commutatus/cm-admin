@@ -1,7 +1,8 @@
 - if nested_table_field.display_type == :table
   tr.nested-fields
     td.item-delete-cell
-      = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
+      - if nested_table_field.is_deletable.call(f.object)
+        = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
     - nested_table_field.fields.each do |field|
       td data-field-type="#{field.input_type}"
         = input_field_for_column(f, field)
@@ -9,11 +10,12 @@
   .form-card.nested-fields
     .card-body
       .card-item data-card-name=assoc_name
-        .card-title-wrapper
-          h6.card-title
-            | Title 1
-          .card-delete
-            = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
+        - if nested_table_field.is_deletable.call(f.object)
+          .card-title-wrapper
+            h6.card-title
+              | Title 1
+            .card-delete
+              = link_to_remove_association "", f, class: 'fa-regular fa-trash-can btn-ghost'
         div
           - nested_table_field.fields.each do |field|
             .form-field
