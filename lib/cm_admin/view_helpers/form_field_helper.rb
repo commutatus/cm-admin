@@ -198,7 +198,7 @@ module CmAdmin
         else
           form_obj.check_box cm_field.field_name,
                              {
-                               class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                               class: "cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                disabled: cm_field.disabled.call(form_obj.object),
                                data: {
                                  field_name: cm_field.field_name,
@@ -228,7 +228,7 @@ module CmAdmin
         content_tag :div, class: 'cm-radio-tag' do
           concat form_obj.check_box cm_field.field_name,
                                     {
-                                      class: "field-control cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                                      class: "cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                       disabled: cm_field.disabled.call(form_obj.object),
                                       name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
                                       data: {
