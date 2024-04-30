@@ -1,8 +1,8 @@
-$(document).on('click', '.form_submit', function(e) {
+$(document).on('click', '.form_submit', function (e) {
   e.preventDefault();
   var submit = [];
   var form_class = $(this).data('form-class');
-  $("." + form_class + " input.required, ." + form_class + " textarea.required").each(function() {
+  $("." + form_class + " input.required, ." + form_class + " textarea.required").each(function () {
     $(this).removeClass('is-invalid');
     if ($(this).val().trim().length === 0) {
       $(this).addClass('is-invalid');
@@ -10,15 +10,15 @@ $(document).on('click', '.form_submit', function(e) {
       submit.push(true);
     }
   });
-  $("." + form_class + " select.required").each(function() {
+  $("." + form_class + " select.required").each(function () {
     $(this).removeClass('is-invalid');
     if ($(this).val().trim().length === 0) {
-      $(this).parent().find('.select2').addClass('is-invalid');
+      $(this).parent().find('select').addClass('is-invalid');
       $(this)[0].scrollIntoView(true);
       submit.push(true);
     }
   });
-  $('.nested_input_validation').each(function() {
+  $('.nested_input_validation').each(function () {
     var class_name;
     class_name = $(this).data('class-name');
     $(this).parents(':nth(1)').find('.' + class_name).addClass('hidden');
