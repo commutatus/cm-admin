@@ -135,8 +135,7 @@ module CmAdmin
           end
           concat split_form_into_section(resource, form_obj, entities)
           concat tag.br
-           # TODO: form_submit class is used for JS functionality, Have to remove 
-          concat form_obj.submit 'Save', class: 'btn-cta form_submit', data: {form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
+          concat form_obj.submit 'Save', class: 'btn-cta', data: {behaviour: 'form_submit', form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
         end
       end
     end

@@ -1,4 +1,4 @@
-$(document).on('click', '.form_submit', function (e) {
+$(document).on('click', '[data-behaviour="form_submit"]', function (e) {
   e.preventDefault();
   var submit = [];
   var form_class = $(this).data('form-class');
@@ -30,6 +30,6 @@ $(document).on('click', '.form_submit', function (e) {
   });
   if (submit.length === 0) {
     $('.' + form_class).submit();
-    return $('.form_submit').button('loading');
+    return $('[data-behaviour="form_submit"]').button('loading');
   }
 });
