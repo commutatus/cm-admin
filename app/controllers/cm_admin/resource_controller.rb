@@ -323,6 +323,7 @@ module CmAdmin
           column_names << generate_nested_params(associated_field)
         end
       end
+      column_names += attachment_fields(table_name.to_s.classify.constantize)
       Hash[
         "#{table_name}_attributes",
         column_names
@@ -335,14 +336,7 @@ module CmAdmin
       }
       columns += @model.ar_model.stored_attributes.values.flatten
       permittable_fields = @model.additional_permitted_fields + columns.reject { |i| CmAdmin::REJECTABLE_FIELDS.include?(i) }
-      permittable_fields += @model.ar_model.name.constantize.reflect_on_all_associations.map {|x|
-        next if x.options[:polymorphic]
-        if x.class.name.include?('HasOne')
-          x.name.to_s.gsub('_attachment', '').gsub('rich_text_', '').to_sym
-        elsif x.class.name.include?('HasMany')
-          Hash[x.name.to_s.gsub('_attachments', ''), []]
-        end
-      }.compact
+      permittable_fields += attachment_fields(@model.ar_model.name.constantize)
       nested_table_fields = get_nested_table_fields(@model.available_fields[:new])
       nested_table_fields += get_nested_table_fields(@model.available_fields[:edit])
       nested_fields = nested_table_fields.uniq.map {|nested_table_field|
@@ -357,6 +351,19 @@ module CmAdmin
       return model_object.friendly.find(id) if model_object.respond_to?(:friendly)
 
       model_object.find(id)
+    end
+
+    private
+    
+    def attachment_fields(model_object)
+      model_object.reflect_on_all_associations.map {|reflection|
+        next if reflection.options[:polymorphic]
+        if reflection.class.name.include?('HasOne')
+          reflection.name.to_s.gsub('_attachment', '').gsub('rich_text_', '').to_sym
+        elsif reflection.class.name.include?('HasMany')
+          Hash[reflection.name.to_s.gsub('_attachments', ''), []]
+        end
+      }.compact
     end
   end
 end
