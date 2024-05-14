@@ -42,7 +42,9 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   // Generate the queryString by concatenating the filterParams and
   // searchParams that are already applied, if searchParams are present.
   var searchParams = window.location.search
-  if (searchParams.length > 0) {
+  var searchParamshash = getParamsAsObject(searchParams)
+  var tempsearchParamshash = delete searchParamshash['page']
+  if (tempsearchParamshash.length > 0) {
     // Delete the previous applied value for multi_select filter from the
     // searchParams as altering the array with new and old value will create
     // more complicated logic. The new value is passed and structured in
@@ -212,6 +214,9 @@ var unhideClearFilterBtn = function(filterValue) {
   }
 }
 
+$(document).on('click', '[data-behaviour="select-option"] .cm-checkbox', function(e) {
+  $(this).prop('checked', !$(this).prop('checked'));
+})
 // Selecting options for single and multi select filters
 $(document).on('click', '[data-behaviour="select-option"]', function(e) {
   var filterType = $(this).data('filter-type')
@@ -326,7 +331,6 @@ $(document).on('click', '[data-behaviour="selected-chip"]', function(e) {
   var filterType = $(this).parents(':nth(5)').find('.filter-chip').data('filter-type')
   var filterColumn = $(this).parents(':nth(5)').find('.filter-chip').data('db-column')
   var filterValue = $(this).siblings().text()
-
   var selectElement = $('[data-behaviour="select-option"][data-filter-type=' + filterType + '][data-db-column=' + filterColumn + ']')
   $(this).parent().remove()
 
