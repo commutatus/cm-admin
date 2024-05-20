@@ -65,12 +65,6 @@
           z-index: 2;
           background-color: $white;
         }
-        th:nth-child(2) {
-          position: sticky;
-          left: 32px;
-          z-index: 2;
-          background-color: $white;
-        }
       }
 
       tbody {
@@ -90,12 +84,6 @@
         td:nth-child(1) {
           position: sticky;
           left: 0;
-          z-index: 2;
-          background-color: $white;
-        }
-        td:nth-child(2) {
-          position: sticky;
-          left: 32px;
           z-index: 2;
           background-color: $white;
         }
@@ -125,6 +113,37 @@
               }
             }
           }
+        }
+      }
+    }
+
+    [data-bulk-actions="true"] {
+      thead {
+        th:nth-child(1) {
+          position: sticky;
+          left: 0;
+          z-index: 2;
+          background-color: $white;
+        }
+        th:nth-child(2) {
+          position: sticky;
+          left: 32px;
+          z-index: 2;
+          background-color: $white;
+        }
+      }
+      tbody {
+        td:nth-child(1) {
+          position: sticky;
+          left: 0;
+          z-index: 2;
+          background-color: $white;
+        }
+        td:nth-child(2) {
+          position: sticky;
+          left: 32px;
+          z-index: 2;
+          background-color: $white;
         }
       }
     }
