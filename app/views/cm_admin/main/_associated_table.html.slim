@@ -26,7 +26,7 @@
     - bulk_actions.each do |action|
       = custom_action_items(action, 'index')
 .table-wrapper
-  table.index-table data-bulk-actions=(bulk_actions.present? ? "true" : "false")
+  table.index-table data-bulk-actions=(bulk_actions.present? && "true")
     thead.cm-table__header
       tr.header-row
         - if bulk_actions.present?
