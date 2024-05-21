@@ -2,7 +2,7 @@ module CmAdmin::FileImport
   extend ActiveSupport::Concern
   included do
     cm_admin do
-      STATUS_TAG_COLOR = { in_progress: 'yellow-tag', success: 'success'}
+      STATUS_TAG_COLOR = { in_progress: 'active-two', success: 'completed', failed: 'danger' }
       actions only: [:index, :show]
       set_icon 'fa fa-file-upload'
       cm_index do
@@ -21,7 +21,7 @@ module CmAdmin::FileImport
         column :status, field_type: :tag, tag_class: STATUS_TAG_COLOR
         column :associated_model_name, header: 'Table name'
         column :added_by_name, header: 'Uploaded By'
-        
+
       end
 
       cm_show page_title: :id do
