@@ -152,7 +152,7 @@ module CmAdmin
               concat attachment_with_icon(attachment)
             end
           else
-            concat attachment_with_icon(attached) if attached
+            concat attachment_with_icon(attached) if attached.attached?
           end
         end
       end
