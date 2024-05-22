@@ -54,9 +54,10 @@ $(document).on('click', function(e) {
   }
 });
 
-$(document).on('click', '.destroy-attachment', function(e) {
-  var ar_id = $(this).data('ar-id')
-  $(this).addClass('hidden')
+$(document).on('click', '.destroy-attachment button', function(e) {
+  e.preventDefault();
+  var ar_id = $(this).parent('.destroy-attachment').data('ar-id')
+  $(this).parent('.destroy-attachment').addClass('hidden')
   $(this).append('<input type="text" name="attachment_destroy_ids[]" value="' + ar_id + '"/>')
 })
 
