@@ -75,12 +75,12 @@ module CmAdmin
 
     def cm_destroy(params)
       @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
-      redirect_url = request.referrer || cm_admin.send("#{@model.name.underscore}_index_path")
+      redirect_url = cm_admin.send("#{@model.name.underscore}_index_path") || request.referrer
       respond_to do |format|
         if @ar_object.destroy
-          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+          format.html { redirect_to redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
-          format.html { redirect_back fallback_location: redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
+          format.html { redirect_to redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
         end
       end
     end
@@ -354,7 +354,7 @@ module CmAdmin
     end
 
     private
-    
+
     def attachment_fields(model_object)
       model_object.reflect_on_all_associations.map {|reflection|
         next if reflection.options[:polymorphic]
