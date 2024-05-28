@@ -1,4 +1,7 @@
 require_relative 'form_field_helper'
+require 'cgi'
+require 'uri'
+
 module CmAdmin
   module ViewHelpers
     module FormHelper
@@ -123,20 +126,37 @@ module CmAdmin
       end
 
       def set_form_with_sections(resource, entities, url, method)
+        polymorphic_name, associated_id, associated_class = extract_referrer_query_params
         form_for(resource, url: url, method: method, html: { class: "cm_#{resource.class.name.downcase}_form" } ) do |form_obj|
           if params[:referrer]
             concat form_obj.text_field "referrer", class: "normal-input", hidden: true, value: params[:referrer], name: 'referrer'
           end
-          if params[:polymorphic_name].present?
-            concat form_obj.text_field params[:polymorphic_name] + '_type', class: "normal-input", hidden: true, value: params[:associated_class].classify
-            concat form_obj.text_field params[:polymorphic_name] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
-          elsif params[:associated_class] && params[:associated_id]
-            concat form_obj.text_field params[:associated_class] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
+          if params[:polymorphic_name].present? || polymorphic_name.present?
+            concat form_obj.text_field ( params[:polymorphic_name] || polymorphic_name ) + '_type', class: "normal-input", hidden: true, value: ( params[:associated_class] || associated_class ).classify
+            concat form_obj.text_field ( params[:polymorphic_name] || polymorphic_name ) + '_id', class: "normal-input", hidden: true, value: ( params[:associated_id] || associated_id )
+          elsif (params[:associated_class] && params[:associated_id] || associated_id.present? && associated_class.present? )
+            concat form_obj.text_field ( params[:associated_class] || associated_class ) + '_id', class: "normal-input", hidden: true, value: ( params[:associated_id] || associated_id )
           end
+
           concat split_form_into_section(resource, form_obj, entities)
           concat tag.br
           concat form_obj.submit 'Save', class: 'btn-cta', data: {behaviour: 'form_submit', form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
         end
+      end
+
+
+      def extract_referrer_query_params
+        uri = URI.parse(request.referrer)
+
+        return unless uri.query.present?
+
+        query_params = CGI.parse(uri.query)
+
+        polymorphic_name = query_params['polymorphic_name'].first
+        associated_id = query_params['associated_id'].first
+        associated_class = query_params['associated_class'].first
+
+        return polymorphic_name, associated_id, associated_class
       end
     end
   end
