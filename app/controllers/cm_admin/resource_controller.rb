@@ -233,8 +233,10 @@ module CmAdmin
                           else
                             CmAdmin::Model.find_by(name: @reflection.klass.name)
                           end
+
       @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
-                                filter_by(params, child_records, @associated_model.filter_params(params))
+
+                                filter_by(params, child_records, @ar_object, @associated_model.filter_params(params))
                               else
                                 child_records
                               end
@@ -248,7 +250,7 @@ module CmAdmin
       records
     end
 
-    def filter_by(params, records, filter_params={}, sort_params={})
+    def filter_by(params, records, parent_record = nil, filter_params={}, sort_params={})
       filtered_result = OpenStruct.new
       cm_model = @associated_model || @model
       db_columns = cm_model.ar_model&.columns&.map{|x| x.name.to_sym}
@@ -263,6 +265,9 @@ module CmAdmin
       pagy, records = pagy(final_data)
       filtered_result.data = records
       filtered_result.pagy = pagy
+      filtered_result.parent_record = parent_record
+      filtered_result.associated_model = @associated_model.name if @associated_model
+      # filtered_result.ar_model =
       # filtered_result.facets = paginate(page, raw_data.size)
       # filtered_result.sort = sort_params
       # filtered_result.facets.sort = sort_params
@@ -354,7 +359,7 @@ module CmAdmin
     end
 
     private
-    
+
     def attachment_fields(model_object)
       model_object.reflect_on_all_associations.map {|reflection|
         next if reflection.options[:polymorphic]
