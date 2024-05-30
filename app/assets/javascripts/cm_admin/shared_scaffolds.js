@@ -41,6 +41,10 @@ $(document).on("click", ".row-action-cell", function (e) {
   }
 });
 
+$(document).on("mouseleave", ".row-action-cell", function () {
+  $(this).find(".table-export-popup").addClass("hidden");
+});
+
 $(document).on("click", ".drawer-btn", function (e) {
   e.stopPropagation();
   var drawer_el = $(this).parent().closest(".drawer").find(".cm-drawer");
