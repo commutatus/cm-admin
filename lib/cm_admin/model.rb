@@ -149,6 +149,6 @@ module CmAdmin
       CmAdmin.const_set "#{@name}Controller", klass
     end
 
-    
+
   end
 end
