@@ -11,11 +11,11 @@ module CmAdmin
       records = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
       records = apply_scopes(records)
       if (['table', 'card'].include?(params[:view_type]) || [:table, :card].include?(@current_action.view_type))
-        @ar_object = filter_by(params, records, @model.filter_params(params))
+        @ar_object = filter_by(params, records, filter_params: @model.filter_params(params))
       elsif (request.xhr? && params[:view_type] == 'kanban') || @current_action.view_type == :kanban
         @ar_object = kanban_filter_by(params, records, @model.filter_params(params))
       else
-        @ar_object = filter_by(params, records, @model.filter_params(params))
+        @ar_object = filter_by(params, records, filter_params: @model.filter_params(params))
       end
       respond_to do |format|
         if request.xhr? && (params[:view_type] == 'kanban' || @current_action.view_type == :kanban)
@@ -132,7 +132,7 @@ module CmAdmin
       @current_action = @action
       if  @action.parent == 'index'
         records = apply_scopes(records)
-        @ar_object = filter_by(params, records, @model.filter_params(params))
+        @ar_object = filter_by(params, records, filter_params: @model.filter_params(params))
       else
         resource_identifier
       end
@@ -236,7 +236,7 @@ module CmAdmin
 
       @associated_ar_object = if child_records.is_a? ActiveRecord::Relation
 
-                                filter_by(params, child_records, @ar_object, @associated_model.filter_params(params))
+                                filter_by(params, child_records, parent_record: @ar_object, filter_params: @associated_model.filter_params(params))
                               else
                                 child_records
                               end
@@ -250,7 +250,7 @@ module CmAdmin
       records
     end
 
-    def filter_by(params, records, parent_record = nil, filter_params={}, sort_params={})
+    def filter_by(params, records, parent_record: nil, filter_params: {}, sort_params: {})
       filtered_result = OpenStruct.new
       cm_model = @associated_model || @model
       db_columns = cm_model.ar_model&.columns&.map{|x| x.name.to_sym}
