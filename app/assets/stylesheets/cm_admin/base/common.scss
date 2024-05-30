@@ -20,7 +20,6 @@
     right: 30px;
     width: 156px;
     padding: 8px 0;
-    animation: fadeIn .2s ease-in-out;
     .popup-option {
       padding: 8px 16px;
       @include font($size: $t4-text, $color: $primary-text-clr);
@@ -33,6 +32,14 @@
       span {
         margin-right: 8px;
       }
+    }
+    button {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+      text-align: left;
     }
   }
 }
