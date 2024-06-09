@@ -34,7 +34,7 @@
         - @model.available_fields[:index].each do |column|
           - if column.display_if.call(Current.user) && column.viewable
             th data-field-type="#{column.field_type}" = column.header
-        th
+        th data-field-type='action-cell-th'
     tbody
       - @ar_object.data.each do |ar_object|
         tr.body-row

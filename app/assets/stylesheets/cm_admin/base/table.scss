@@ -67,15 +67,21 @@
         }
       }
 
+      [data-field-type="action-cell-th"] {
+        min-width: 60px;
+        max-width: 60px;
+      }
+
       tbody {
         tr {
           border-bottom: 1px solid var(--bs-border-color);
           &:hover {
-            .row-action-cell {
+            .row-action-tool {
               visibility: visible;
             }
           }
         }
+
         td {
           font-size: $t4-text;
           min-width: 120px;
@@ -101,10 +107,10 @@
         max-width: inherit;
         min-width: inherit;
         padding: 4px;
-        background: $gradient-one;
-        visibility: hidden;
         z-index: 3 !important;
+        background: transparent;
         .row-action-tool {
+          visibility: hidden;
           .popup-card {
             .popup-option {
               a {
