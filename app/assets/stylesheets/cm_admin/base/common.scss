@@ -16,15 +16,15 @@
   border-radius: $radius-4;
   z-index: 1;
   &.table-export-popup {
-    top: 40px;
-    right: 30px;
+    top: 36px;
+    right: 40px;
     width: 156px;
     padding: 8px 0;
     .popup-option {
       padding: 8px 16px;
       @include font($size: $t4-text, $color: $primary-text-clr);
       line-height: 22px;
-      transition: all .2s linear;
+      transition: all 0.2s linear;
       cursor: pointer;
       &:hover {
         background-color: $grey-lighter-clr;
