@@ -55,7 +55,10 @@ jobs:
         run: gem bump ${{ github.events.inputs.bump_type }}
 
       - name: Add Git Changes
-        run: git commit -a -m "bump version"
+        run: git add .
+
+      - name: Commit Git Changes
+        run: git commit -m "bump version"
 
       - name: Commit the new version
         run: git push
