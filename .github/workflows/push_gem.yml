@@ -29,6 +29,16 @@ jobs:
     steps:
       # Set up
       - uses: actions/checkout@v4
+
+      - name: set git config
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
+          git config --global user.name "$(gh api /users/${GITHUB_ACTOR} | jq .name -r)"
+          git config -l
+
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
