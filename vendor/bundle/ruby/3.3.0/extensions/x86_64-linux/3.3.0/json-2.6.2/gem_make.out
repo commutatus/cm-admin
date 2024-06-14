@@ -1,0 +1,16 @@
+current directory: /home/runner/work/cm-admin/cm-admin/vendor/bundle/ruby/3.3.0/gems/json-2.6.2/ext/json
+/opt/hostedtoolcache/Ruby/3.3.3/x64/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/runner/work/cm-admin/cm-admin/vendor/bundle/ruby/3.3.0/gems/json-2.6.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240614-1588-orb6d7 sitelibdir\=./.gem.20240614-1588-orb6d7 clean
+
+current directory: /home/runner/work/cm-admin/cm-admin/vendor/bundle/ruby/3.3.0/gems/json-2.6.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240614-1588-orb6d7 sitelibdir\=./.gem.20240614-1588-orb6d7
+make: Nothing to be done for 'all'.
+
+current directory: /home/runner/work/cm-admin/cm-admin/vendor/bundle/ruby/3.3.0/gems/json-2.6.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240614-1588-orb6d7 sitelibdir\=./.gem.20240614-1588-orb6d7 install
+
+current directory: /home/runner/work/cm-admin/cm-admin/vendor/bundle/ruby/3.3.0/gems/json-2.6.2/ext/json
+make DESTDIR\= sitearchdir\=./.gem.20240614-1588-orb6d7 sitelibdir\=./.gem.20240614-1588-orb6d7 clean

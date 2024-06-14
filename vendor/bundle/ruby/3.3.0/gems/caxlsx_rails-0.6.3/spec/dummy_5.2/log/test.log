@@ -1,0 +1,1032 @@
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "likes"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "likes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "user_id" integer, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "last_name" varchar, "address" varchar, "email" varchar, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20121206210955)[0m
+  [1m[35m (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20120717192452);
+
+[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2022-03-08 18:53:53.717004"], ["updated_at", "2022-03-08 18:53:53.717004"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:56.815855"], ["updated_at", "2022-03-08 18:53:56.815855"]]
+  [1m[35m (1.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.2ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Carrots"], ["user_id", 1], ["created_at", "2022-03-08 18:53:56.836592"], ["updated_at", "2022-03-08 18:53:56.836592"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.2ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Celery"], ["user_id", 1], ["created_at", "2022-03-08 18:53:56.838488"], ["updated_at", "2022-03-08 18:53:56.838488"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/1/likes.xlsx" for 127.0.0.1 at 2022-03-08 10:53:56 -0800
+Processing by LikesController#index as XLSX
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering likes/index.xlsx.axlsx
+  [1m[36mLike Load (0.2ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered likes/index.xlsx.axlsx (10.3ms)
+Completed 200 OK in 18ms (Views: 14.5ms | ActiveRecord: 0.3ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 1]]
+  [1m[35m (2.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 18:53:56.904687"], ["updated_at", "2022-03-08 18:53:56.904687"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (2.6ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:56.910664"], ["updated_at", "2022-03-08 18:53:56.910664"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users.xlsx" for 127.0.0.1 at 2022-03-08 10:53:56 -0800
+Processing by UsersController#index as XLSX
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (8.9ms)
+Completed 200 OK in 11ms (Views: 9.4ms | ActiveRecord: 0.2ms)
+Started GET "/withpartial.xlsx" for 127.0.0.1 at 2022-03-08 10:53:56 -0800
+Processing by HomeController#withpartial as XLSX
+  Rendering home/withpartial.xlsx.axlsx
+  Rendered home/_cover_sheet.xlsx.axlsx (5.5ms)
+  Rendered home/withpartial.xlsx.axlsx (28.7ms)
+Completed 200 OK in 31ms (Views: 30.1ms | ActiveRecord: 0.0ms)
+Started GET "/useheader.xlsx" for 127.0.0.1 at 2022-03-08 10:53:56 -0800
+Processing by HomeController#useheader as XLSX
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (7.5ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (1.0ms)
+Completed 200 OK in 9ms (Views: 9.2ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.3ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 2]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 3]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:56.990417"], ["updated_at", "2022-03-08 18:53:56.990417"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/4.xlsx" for 127.0.0.1 at 2022-03-08 10:53:56 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"4"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (5.3ms)
+Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.1ms)
+Started GET "/users/4.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"4"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (7.7ms)
+Completed 200 OK in 9ms (Views: 8.0ms | ActiveRecord: 0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 4]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 18:53:57.016061"], ["updated_at", "2022-03-08 18:53:57.016061"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:57.017949"], ["updated_at", "2022-03-08 18:53:57.017949"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/noaction.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by UsersController#noaction as XLSX
+  Rendering users/noaction.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/noaction.xlsx.axlsx (6.4ms)
+Completed 200 OK in 7ms (Views: 6.7ms | ActiveRecord: 0.1ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#another as */*
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (1.3ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.3ms)
+Completed 200 OK in 6ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+Started GET "/home/only_html" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#only_html as */*
+  Rendering home/only_html.html.erb within layouts/application
+  Rendered home/only_html.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 6ms (Views: 1.4ms | ActiveRecord: 0.0ms)
+Started GET "/another.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#another as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (6.8ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.6ms)
+Completed 200 OK in 8ms (Views: 8.1ms | ActiveRecord: 0.0ms)
+Started GET "/home.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#index as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (5.7ms)
+Completed 200 OK in 7ms (Views: 6.1ms | ActiveRecord: 0.0ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#another as HTML
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (0.5ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.3ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.0ms)
+Started GET "/useheader.xlsx?set_direct=true" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#useheader as XLSX
+  Parameters: {"set_direct"=>"true"}
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (6.2ms)
+Completed 200 OK in 8ms (Views: 6.6ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 5]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.1ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 6]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:57.087576"], ["updated_at", "2022-03-08 18:53:57.087576"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/export/7.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by UsersController#export as XLSX
+  Parameters: {"id"=>"7"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering users/export.xlsx.axlsx
+  Rendered users/export.xlsx.axlsx (15.6ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data export_7.xlsx (0.5ms)
+Completed 200 OK in 18ms (Views: 17.0ms | ActiveRecord: 0.2ms)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 18:53:57.111702"], ["updated_at", "2022-03-08 18:53:57.111702"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 1ms (Views: 0.8ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 7]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.1ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 8]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 18:53:57.120486"], ["updated_at", "2022-03-08 18:53:57.120486"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/9/render_elsewhere.xlsx" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by LikesController#render_elsewhere as XLSX
+  Parameters: {"user_id"=>"9"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (6.8ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.4ms)
+Completed 200 OK in 9ms (Views: 7.9ms | ActiveRecord: 0.3ms)
+Started GET "/home/render_elsewhere.xlsx?type=5" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by HomeController#render_elsewhere as XLSX
+  Parameters: {"type"=>"5"}
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (5.0ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.3ms)
+Completed 200 OK in 6ms (Views: 5.6ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 18:53:57.182743"], ["updated_at", "2022-03-08 18:53:57.182743"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/10/send_instructions" for 127.0.0.1 at 2022-03-08 10:53:57 -0800
+Processing by UsersController#send_instructions as HTML
+  Parameters: {"user_id"=>"10"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  Rendering users/send_instructions.xlsx.axlsx
+  Rendered users/send_instructions.xlsx.axlsx (14.3ms)
+  Rendering notifier/instructions.html.erb
+  Rendered notifier/instructions.html.erb (0.3ms)
+Notifier#instructions: processed outbound mail in 193.1ms
+Sent mail to elmer@fudd.com (9.2ms)
+Date: Tue, 08 Mar 2022 10:53:57 -0800
+From: noreply@company.com
+To: elmer@fudd.com
+Message-ID: <6227a6455f53a_c743fc03183c044937f@Valinor.local.mail>
+Subject: Instructions
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="--==_mimepart_6227a6455de81_c743fc03183c04493684";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_6227a6455de81_c743fc03183c04493684
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Instructions</h1>
+    <p>
+      You have successfully signed up to example.com,
+      your username is: elmer@fudd.com.<br/>
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+  </html>
+
+----==_mimepart_6227a6455de81_c743fc03183c04493684
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=user_10.xlsx
+Content-ID: <6227a6455fef1_c743fc03183c044938be@Valinor.local.mail>
+
+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
+
+----==_mimepart_6227a6455de81_c743fc03183c04493684--
+
+  Rendering text template
+  Rendered text template (0.0ms)
+Completed 200 OK in 209ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "likes"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "likes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "user_id" integer, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "last_name" varchar, "address" varchar, "email" varchar, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20121206210955)[0m
+  [1m[35m (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20120717192452);
+
+[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2022-03-08 19:23:00.087755"], ["updated_at", "2022-03-08 19:23:00.087755"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/useheader.xlsx?set_direct=true" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#useheader as XLSX
+  Parameters: {"set_direct"=>"true"}
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (5.3ms)
+Completed 200 OK in 10ms (Views: 8.8ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:23:03.194718"], ["updated_at", "2022-03-08 19:23:03.194718"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.196814"], ["updated_at", "2022-03-08 19:23:03.196814"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#index as XLSX
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (7.0ms)
+Completed 200 OK in 8ms (Views: 7.3ms | ActiveRecord: 0.1ms)
+Started GET "/useheader.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#useheader as XLSX
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (6.0ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (1.2ms)
+Completed 200 OK in 9ms (Views: 8.4ms | ActiveRecord: 0.0ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#another as HTML
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (1.2ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.2ms)
+Completed 200 OK in 2ms (Views: 2.1ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:23:03.228698"], ["updated_at", "2022-03-08 19:23:03.228698"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.0ms)
+Started GET "/home.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#index as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (6.0ms)
+Completed 200 OK in 7ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.6ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 1]]
+  [1m[35m (10.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 2]]
+  [1m[35m (4.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.7ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 3]]
+  [1m[35m (0.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.268893"], ["updated_at", "2022-03-08 19:23:03.268893"]]
+  [1m[35m (32.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.5ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Carrots"], ["user_id", 4], ["created_at", "2022-03-08 19:23:03.327361"], ["updated_at", "2022-03-08 19:23:03.327361"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.2ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Celery"], ["user_id", 4], ["created_at", "2022-03-08 19:23:03.329663"], ["updated_at", "2022-03-08 19:23:03.329663"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/4/likes.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by LikesController#index as XLSX
+  Parameters: {"user_id"=>"4"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  Rendering likes/index.xlsx.axlsx
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = ?[0m  [["user_id", 4]]
+  Rendered likes/index.xlsx.axlsx (15.2ms)
+Completed 200 OK in 17ms (Views: 15.8ms | ActiveRecord: 0.2ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#another as */*
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (0.4ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.2ms)
+Completed 200 OK in 4ms (Views: 4.3ms | ActiveRecord: 0.0ms)
+Started GET "/home/only_html" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#only_html as */*
+  Rendering home/only_html.html.erb within layouts/application
+  Rendered home/only_html.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 5ms (Views: 0.8ms | ActiveRecord: 0.0ms)
+Started GET "/another.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#another as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (5.8ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.3ms)
+Completed 200 OK in 7ms (Views: 6.9ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.1ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 4]]
+  [1m[35m (1.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.378897"], ["updated_at", "2022-03-08 19:23:03.378897"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/export/5.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#export as XLSX
+  Parameters: {"id"=>"5"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 5], ["LIMIT", 1]]
+  Rendering users/export.xlsx.axlsx
+  Rendered users/export.xlsx.axlsx (5.8ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data export_5.xlsx (0.3ms)
+Completed 200 OK in 8ms (Views: 6.8ms | ActiveRecord: 0.1ms)
+Started GET "/withpartial.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#withpartial as XLSX
+  Rendering home/withpartial.xlsx.axlsx
+  Rendered home/_cover_sheet.xlsx.axlsx (4.0ms)
+  Rendered home/withpartial.xlsx.axlsx (11.8ms)
+Completed 200 OK in 13ms (Views: 12.3ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.1ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 5]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.409224"], ["updated_at", "2022-03-08 19:23:03.409224"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/6/render_elsewhere.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by LikesController#render_elsewhere as XLSX
+  Parameters: {"user_id"=>"6"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 6], ["LIMIT", 1]]
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (6.8ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.3ms)
+Completed 200 OK in 9ms (Views: 8.0ms | ActiveRecord: 0.2ms)
+Started GET "/home/render_elsewhere.xlsx?type=5" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by HomeController#render_elsewhere as XLSX
+  Parameters: {"type"=>"5"}
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (5.2ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.4ms)
+Completed 200 OK in 6ms (Views: 6.0ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 6]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.431816"], ["updated_at", "2022-03-08 19:23:03.431816"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/7.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"7"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (6.3ms)
+Completed 200 OK in 8ms (Views: 7.1ms | ActiveRecord: 0.1ms)
+Started GET "/users/7.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"7"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 7], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (13.0ms)
+Completed 200 OK in 14ms (Views: 13.3ms | ActiveRecord: 0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 7]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:23:03.460400"], ["updated_at", "2022-03-08 19:23:03.460400"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:23:03.462100"], ["updated_at", "2022-03-08 19:23:03.462100"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/noaction.xlsx" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#noaction as XLSX
+  Rendering users/noaction.xlsx.axlsx
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/noaction.xlsx.axlsx (6.5ms)
+Completed 200 OK in 8ms (Views: 6.6ms | ActiveRecord: 0.3ms)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:23:03.479113"], ["updated_at", "2022-03-08 19:23:03.479113"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/10/send_instructions" for 127.0.0.1 at 2022-03-08 11:23:03 -0800
+Processing by UsersController#send_instructions as HTML
+  Parameters: {"user_id"=>"10"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  Rendering users/send_instructions.xlsx.axlsx
+  Rendered users/send_instructions.xlsx.axlsx (5.5ms)
+  Rendering notifier/instructions.html.erb
+  Rendered notifier/instructions.html.erb (0.3ms)
+Notifier#instructions: processed outbound mail in 192.2ms
+Sent mail to elmer@fudd.com (7.2ms)
+Date: Tue, 08 Mar 2022 11:23:03 -0800
+From: noreply@company.com
+To: elmer@fudd.com
+Message-ID: <6227ad17a6971_a5d93ff8fb83c03c52478@Valinor.local.mail>
+Subject: Instructions
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="--==_mimepart_6227ad17a57e1_a5d93ff8fb83c03c5236c";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_6227ad17a57e1_a5d93ff8fb83c03c5236c
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Instructions</h1>
+    <p>
+      You have successfully signed up to example.com,
+      your username is: elmer@fudd.com.<br/>
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+  </html>
+
+----==_mimepart_6227ad17a57e1_a5d93ff8fb83c03c5236c
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=user_10.xlsx
+Content-ID: <6227ad17a748a_a5d93ff8fb83c03c525f3@Valinor.local.mail>
+
+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
+
+----==_mimepart_6227ad17a57e1_a5d93ff8fb83c03c5236c--
+
+  Rendering text template
+  Rendered text template (0.0ms)
+Completed 200 OK in 205ms (Views: 0.3ms | ActiveRecord: 0.1ms)
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "likes"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "likes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "user_id" integer, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "last_name" varchar, "address" varchar, "email" varchar, "created_at" datetime, "updated_at" datetime)[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20121206210955)[0m
+  [1m[35m (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20120717192452);
+
+[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2022-03-08 19:40:31.892232"], ["updated_at", "2022-03-08 19:40:31.892232"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.702658"], ["updated_at", "2022-03-08 19:40:34.702658"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.2ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Carrots"], ["user_id", 1], ["created_at", "2022-03-08 19:40:34.738864"], ["updated_at", "2022-03-08 19:40:34.738864"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLike Create (0.2ms)[0m  [1m[32mINSERT INTO "likes" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Celery"], ["user_id", 1], ["created_at", "2022-03-08 19:40:34.740634"], ["updated_at", "2022-03-08 19:40:34.740634"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/1/likes.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by LikesController#index as XLSX
+  Parameters: {"user_id"=>"1"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering likes/index.xlsx.axlsx
+  [1m[36mLike Load (0.1ms)[0m  [1m[34mSELECT "likes".* FROM "likes" WHERE "likes"."user_id" = ?[0m  [["user_id", 1]]
+  Rendered likes/index.xlsx.axlsx (8.5ms)
+Completed 200 OK in 16ms (Views: 12.4ms | ActiveRecord: 0.3ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#another as HTML
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (1.3ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.9ms)
+Completed 200 OK in 3ms (Views: 3.2ms | ActiveRecord: 0.0ms)
+Started GET "/home.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#index as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (7.0ms)
+Completed 200 OK in 8ms (Views: 7.7ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 1]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:40:34.814004"], ["updated_at", "2022-03-08 19:40:34.814004"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.816554"], ["updated_at", "2022-03-08 19:40:34.816554"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/noaction.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#noaction as XLSX
+  Rendering users/noaction.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/noaction.xlsx.axlsx (15.3ms)
+Completed 200 OK in 16ms (Views: 15.8ms | ActiveRecord: 0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 2]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.1ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 3]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.848658"], ["updated_at", "2022-03-08 19:40:34.848658"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/export/4.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#export as XLSX
+  Parameters: {"id"=>"4"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 4], ["LIMIT", 1]]
+  Rendering users/export.xlsx.axlsx
+  Rendered users/export.xlsx.axlsx (6.0ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data export_4.xlsx (0.4ms)
+Completed 200 OK in 8ms (Views: 7.2ms | ActiveRecord: 0.1ms)
+Started GET "/useheader.xlsx?set_direct=true" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#useheader as XLSX
+  Parameters: {"set_direct"=>"true"}
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (6.1ms)
+Completed 200 OK in 7ms (Views: 6.4ms | ActiveRecord: 0.0ms)
+Started GET "/withpartial.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#withpartial as XLSX
+  Rendering home/withpartial.xlsx.axlsx
+  Rendered home/_cover_sheet.xlsx.axlsx (4.1ms)
+  Rendered home/withpartial.xlsx.axlsx (19.1ms)
+Completed 200 OK in 20ms (Views: 19.6ms | ActiveRecord: 0.0ms)
+Started GET "/another" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#another as */*
+  Rendering home/index.html.erb
+  Rendered home/index.html.erb (0.5ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.4ms)
+Completed 200 OK in 5ms (Views: 4.9ms | ActiveRecord: 0.0ms)
+Started GET "/home/only_html" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#only_html as */*
+  Rendering home/only_html.html.erb within layouts/application
+  Rendered home/only_html.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 6ms (Views: 1.5ms | ActiveRecord: 0.0ms)
+Started GET "/another.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#another as XLSX
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (6.7ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.4ms)
+Completed 200 OK in 8ms (Views: 7.8ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:40:34.918085"], ["updated_at", "2022-03-08 19:40:34.918085"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 2ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+Started GET "/useheader.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#useheader as XLSX
+  Rendering home/useheader.xlsx.axlsx
+  Rendered home/useheader.xlsx.axlsx (6.7ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data filename_test.xlsx (0.5ms)
+Completed 200 OK in 8ms (Views: 8.1ms | ActiveRecord: 0.0ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 4]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 5]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:40:34.939029"], ["updated_at", "2022-03-08 19:40:34.939029"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.941077"], ["updated_at", "2022-03-08 19:40:34.941077"]]
+  [1m[35m (0.8ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#index as XLSX
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (6.6ms)
+Completed 200 OK in 8ms (Views: 6.9ms | ActiveRecord: 0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 6]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 7]]
+  [1m[35m (0.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Responder"], ["last_name", "Bunny"], ["address", "1234 Right Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.957197"], ["updated_at", "2022-03-08 19:40:34.957197"]]
+  [1m[35m (0.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/8.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"8"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (6.6ms)
+Completed 200 OK in 8ms (Views: 7.4ms | ActiveRecord: 0.1ms)
+Started GET "/users/8.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#show as XLSX
+  Parameters: {"id"=>"8"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 8], ["LIMIT", 1]]
+  Rendering users/respond_with.xlsx.axlsx
+  Rendered users/respond_with.xlsx.axlsx (5.0ms)
+Completed 200 OK in 6ms (Views: 5.3ms | ActiveRecord: 0.1ms)
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Destroy (0.2ms)[0m  [1m[31mDELETE FROM "users" WHERE "users"."id" = ?[0m  [["id", 8]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Bugs"], ["last_name", "Bunny"], ["address", "1234 Left Turn, Albuquerque NM 22222"], ["email", "bugs@bunny.com"], ["created_at", "2022-03-08 19:40:34.978268"], ["updated_at", "2022-03-08 19:40:34.978268"]]
+  [1m[35m (0.6ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/9/render_elsewhere.xlsx" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by LikesController#render_elsewhere as XLSX
+  Parameters: {"user_id"=>"9"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 9], ["LIMIT", 1]]
+  Rendering users/index.xlsx.axlsx
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  Rendered users/index.xlsx.axlsx (5.2ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.5ms)
+Completed 200 OK in 7ms (Views: 6.3ms | ActiveRecord: 0.1ms)
+Started GET "/home/render_elsewhere.xlsx?type=5" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by HomeController#render_elsewhere as XLSX
+  Parameters: {"type"=>"5"}
+  Rendering home/index.xlsx.axlsx
+  Rendered home/index.xlsx.axlsx (6.1ms)
+  Rendering text template
+  Rendered text template (0.0ms)
+Sent data index.xlsx (0.3ms)
+Completed 200 OK in 7ms (Views: 6.7ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mUser Create (0.2ms)[0m  [1m[32mINSERT INTO "users" ("name", "last_name", "address", "email", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Elmer"], ["last_name", "Fudd"], ["address", "1234 Somewhere, Over NY 11111"], ["email", "elmer@fudd.com"], ["created_at", "2022-03-08 19:40:34.997415"], ["updated_at", "2022-03-08 19:40:34.997415"]]
+  [1m[35m (0.7ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/users/10/send_instructions" for 127.0.0.1 at 2022-03-08 11:40:34 -0800
+Processing by UsersController#send_instructions as HTML
+  Parameters: {"user_id"=>"10"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 10], ["LIMIT", 1]]
+  Rendering users/send_instructions.xlsx.axlsx
+  Rendered users/send_instructions.xlsx.axlsx (13.2ms)
+  Rendering notifier/instructions.html.erb
+  Rendered notifier/instructions.html.erb (0.3ms)
+Notifier#instructions: processed outbound mail in 171.0ms
+Sent mail to elmer@fudd.com (8.5ms)
+Date: Tue, 08 Mar 2022 11:40:35 -0800
+From: noreply@company.com
+To: elmer@fudd.com
+Message-ID: <6227b1332bbae_108993fdd3783c0441253f@Valinor.local.mail>
+Subject: Instructions
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="--==_mimepart_6227b1332a6f0_108993fdd3783c044124ae";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+
+----==_mimepart_6227b1332a6f0_108993fdd3783c044124ae
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Instructions</h1>
+    <p>
+      You have successfully signed up to example.com,
+      your username is: elmer@fudd.com.<br/>
+    </p>
+    <p>Thanks for joining and have a great day!</p>
+  </body>
+  </html>
+
+----==_mimepart_6227b1332a6f0_108993fdd3783c044124ae
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename=user_10.xlsx
+Content-ID: <6227b1332c7d5_108993fdd3783c04412693@Valinor.local.mail>
+
+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
+
+----==_mimepart_6227b1332a6f0_108993fdd3783c044124ae--
+
+  Rendering text template
+  Rendered text template (0.0ms)
+Completed 200 OK in 184ms (Views: 0.2ms | ActiveRecord: 0.1ms)
