@@ -1,4 +1,3 @@
-# .github/workflows/push_gem.yml
 name: Push Gem
 
 on:
@@ -18,8 +17,8 @@ permissions:
   contents: read
 
 jobs:
-  push:
-    name: Push gem to RubyGems.org
+  build:
+    name: Build gem
     runs-on: ubuntu-latest
 
     permissions:
@@ -37,8 +36,6 @@ jobs:
           git config --global user.email "${GITHUB_ACTOR_ID}+${GITHUB_ACTOR}@users.noreply.github.com"
           git config --global user.name "$(gh api /users/${GITHUB_ACTOR} | jq .name -r)"
           git config -l
-
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -63,5 +60,19 @@ jobs:
       - name: Commit the new version
         run: git push
 
-      # Release
+  release:
+    name: Release gem
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
       - uses: rubygems/release-gem@v1
