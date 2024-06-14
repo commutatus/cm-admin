@@ -1,4 +1,12 @@
 # .github/workflows/push_gem.yml
+name: Push Gem
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   push:
     name: Push gem to RubyGems.org
