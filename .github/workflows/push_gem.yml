@@ -38,5 +38,9 @@ jobs:
       - name: Install the gem-release
         run: gem install gem-release
 
+
+      - name: Bump the gem
+        run: gem bump ${{ github.events.inputs.bump_type }}
+
       # Release
       - uses: rubygems/release-gem@v1
