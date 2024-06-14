@@ -51,8 +51,8 @@ jobs:
       - name: Bump the gem
         run: gem bump ${{ github.events.inputs.bump_type }}
 
-      - name: Bundle Install
-        run: bundle install
+      - name: Remove lock on bundle
+        run: bundle config set frozen false
 
       # Release
       - uses: rubygems/release-gem@v1
