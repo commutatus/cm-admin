@@ -54,8 +54,11 @@ jobs:
       - name: Bump the gem
         run: gem bump ${{ github.events.inputs.bump_type }}
 
+      - name: Add Git Changes
+        run: git commit -a -m "bump version"
+
       - name: Commit the new version
-        run: git push origin master
+        run: git push
 
       # Release
       - uses: rubygems/release-gem@v1
