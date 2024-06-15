@@ -54,5 +54,11 @@ jobs:
       - name: Bundle Install
         run: bundle install
 
+      - name: Git Add files
+        run: git add .
+
+      - name: Git Commit
+        run: git commit -m "Add bundle files"
+
       - name: Push the new version
         run: git push origin ${{ github.ref_name }}
