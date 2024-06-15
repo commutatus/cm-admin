@@ -1,4 +1,4 @@
-name: Push Gem
+name: Push & Release Gem Gem
 
 on:
   workflow_dispatch:
