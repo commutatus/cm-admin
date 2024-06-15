@@ -1,4 +1,4 @@
-name: Push Gem
+name: Bump Gem
 
 on:
   workflow_dispatch:
@@ -41,6 +41,9 @@ jobs:
         with:
           bundler-cache: true
           ruby-version: ruby
+
+      - name: Remove lock on bundle
+        run: bundle config set frozen false
 
       - name: Install the gem-release
         run: gem install gem-release
