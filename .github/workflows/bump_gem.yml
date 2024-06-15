@@ -42,14 +42,14 @@ jobs:
           bundler-cache: true
           ruby-version: ruby
 
-      - name: Remove lock on bundle
-        run: bundle config set frozen false
-
       - name: Install the gem-release
         run: gem install gem-release
 
       - name: Bump the gem
         run: gem bump ${{ github.events.inputs.bump_type }}
+
+      - name: Bump the gem
+        run: bundle install
 
       - name: Push the new version
         run: git push
