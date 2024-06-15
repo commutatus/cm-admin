@@ -48,8 +48,8 @@ jobs:
       - name: Bump the gem
         run: gem bump ${{ github.events.inputs.bump_type }}
 
-      - name: Bump the gem
+      - name: Bundle Install
         run: bundle install
 
       - name: Push the new version
-        run: git push
+        run: git push origin ${{ github.ref_name }}
