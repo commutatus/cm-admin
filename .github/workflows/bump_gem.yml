@@ -88,3 +88,5 @@ jobs:
         run: bundle config set frozen false
 
       - uses: rubygems/release-gem@v1
+        with:
+          await-release: false
