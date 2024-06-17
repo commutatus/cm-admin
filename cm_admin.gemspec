@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'CmAdmin providing a streamlined and efficient solution for building customized admin panels within the context of Rails applications. Its robust features empower developers to effortlessly generate and manage administrative interfaces with precision and ease.'
   spec.homepage      = 'https://github.com/commutatus/cm-admin'
   spec.license       = 'MIT'
-  spec.required_ruby_version = '>= 2.7.0'
+  spec.required_ruby_version = '>= 3.0.0'
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
