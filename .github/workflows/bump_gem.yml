@@ -55,7 +55,7 @@ jobs:
         run: bundle install
 
       - name: Git Add files
-        run: git add .
+        run: git add Gemfile.lock
 
       - name: Git Commit
         run: git commit -m "Add bundle files"
