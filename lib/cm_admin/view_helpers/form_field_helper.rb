@@ -37,10 +37,12 @@ module CmAdmin
 
       def cm_string_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
+                          merge_wrapper_options({
                             class: "field-control #{required_class}",
                             disabled: cm_field.disabled.call(form_obj.object),
                             value: value,
                             placeholder: cm_field.placeholder
+                          }, cm_field.html_attr )
       end
 
       def cm_custom_string_field(form_obj, cm_field, value, required_class, _target_action)
@@ -259,6 +261,24 @@ module CmAdmin
           concat form_obj.radio_button :level, val, class: 'field-control cm-radio'
         end
       end
+
+      def merge_wrapper_options(options, html_attr)
+        if html_attr
+           html_attr.merge(options) do |key, oldval, newval|
+            case key.to_s
+            when "class"
+              oldval + " " + newval
+            when "data", "aria"
+              oldval.merge(newval)
+            else
+              newval
+            end
+          end
+        else
+          options
+        end
+      end
+
     end
   end
 end
