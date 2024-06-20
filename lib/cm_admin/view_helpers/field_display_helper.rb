@@ -9,6 +9,23 @@ module CmAdmin
         end
       end
 
+      def show_rows(ar_object, rows, col_size: 3)
+        rows.map do |row|
+          content_tag(:div, class: 'row') do
+            row.row_fields.map do |field|
+              next unless field.display_if.call(ar_object)
+
+              content_tag(:div, class: "col-#{col_size}") do
+                content_tag(:div, class: "card-info") do
+                  concat show_field_label(ar_object, field)
+                  concat value_with_prefix_and_suffix(ar_object, field)
+                end
+              end
+            end.compact.join.html_safe
+          end
+        end.join.html_safe
+      end
+
       def show_field_label(ar_object, field)
         content_tag(:div, class: "card-info__label") do
           field_label = if field.label.present?
