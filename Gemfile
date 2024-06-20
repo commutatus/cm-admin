@@ -9,8 +9,8 @@ gem 'slim'
 
 group :development do
   gem 'rubocop', require: false
-  gem 'rubocop-rails', require: false
   gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
 end
 # Specify your gem's dependencies in cm_admin.gemspec
 gemspec
