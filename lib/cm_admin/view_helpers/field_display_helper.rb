@@ -71,7 +71,7 @@ module CmAdmin
         when :tag
           tag_class = field.tag_class.dig("#{ar_object.send(field.field_name.to_s)}".to_sym).to_s
           content_tag :span, class: "status-tag #{tag_class}" do
-            ar_object.send(field.field_name).to_s.upcase.split('_').join(' ')
+            ar_object.send(field.field_name).to_s.titleize.upcase
           end
         when :attachment
           show_attachment_value(ar_object, field)
