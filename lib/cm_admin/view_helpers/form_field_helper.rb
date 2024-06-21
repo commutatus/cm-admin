@@ -26,40 +26,40 @@ module CmAdmin
                               value: value,
                               placeholder: cm_field.placeholder,
                               data: { behaviour: 'integer-only' }
-                            }, cm_field.html_attr )
+                            }, cm_field.html_attrs )
       end
 
       def cm_decimal_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
-                          merge_wrapper_options({
-                            class: "field-control #{required_class}",
-                            disabled: cm_field.disabled.call(form_obj.object),
-                            value: value,
-                            placeholder: cm_field.placeholder,
-                            data: { behaviour: 'decimal-only' }
-                          }, cm_field.html_attr )
+                            merge_wrapper_options({
+                              class: "field-control #{required_class}",
+                              disabled: cm_field.disabled.call(form_obj.object),
+                              value: value,
+                              placeholder: cm_field.placeholder,
+                              data: { behaviour: 'decimal-only' }
+                            }, cm_field.html_attrs )
       end
 
       def cm_string_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.text_field cm_field.field_name,
-                          merge_wrapper_options(
-                          {
-                            class: "field-control #{required_class}",
-                            disabled: cm_field.disabled.call(form_obj.object),
-                            value: value,
-                            placeholder: cm_field.placeholder
-                          }, cm_field.html_attr )
+                            merge_wrapper_options(
+                            {
+                              class: "field-control #{required_class}",
+                              disabled: cm_field.disabled.call(form_obj.object),
+                              value: value,
+                              placeholder: cm_field.placeholder
+                            }, cm_field.html_attrs )
       end
 
       def cm_custom_string_field(form_obj, cm_field, value, required_class, _target_action)
-        text_field_tag cm_field.html_attr[:name] || cm_field.field_name,
-                          merge_wrapper_options(
-                          {
-                            value: value,
-                            class: "field-control #{required_class}",
-                            disabled: cm_field.disabled.call(form_obj.object),
-                            placeholder: cm_field.placeholder
-                          }, cm_field.html_attr )
+        text_field_tag cm_field.html_attrs[:name] || cm_field.field_name,
+                            merge_wrapper_options(
+                            {
+                              value: value,
+                              class: "field-control #{required_class}",
+                              disabled: cm_field.disabled.call(form_obj.object),
+                              placeholder: cm_field.placeholder
+                            }, cm_field.html_attrs )
       end
 
       def cm_single_select_field(form_obj, cm_field, value, required_class, target_action, ajax_url)
@@ -77,11 +77,11 @@ module CmAdmin
                             target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : '',
                             ajax_url: ajax_url
                           }
-                        }, cm_field.html_attr )
+                        }, cm_field.html_attrs )
       end
 
       def cm_custom_single_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
-        select_tag cm_field.html_attr[:name] || cm_field.field_name,
+        select_tag cm_field.html_attrs[:name] || cm_field.field_name,
                     options_for_select(select_collection_value(form_obj.object, cm_field)),
                     {include_blank: cm_field.placeholder}
                     merge_wrapper_options(
@@ -94,7 +94,7 @@ module CmAdmin
                         target_action: target_action&.name,
                         target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
                       }
-                    }, cm_field.html_attr )
+                    }, cm_field.html_attrs )
       end
 
       def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
@@ -105,7 +105,7 @@ module CmAdmin
                         {
                           class: "field-control #{required_class} select-2",
                           disabled: cm_field.disabled.call(form_obj.object), multiple: true
-                        }, cm_field.html_attr )
+                        }, cm_field.html_attrs )
       end
 
       def cm_date_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
@@ -117,19 +117,19 @@ module CmAdmin
                             value: value&.strftime('%d-%m-%Y'),
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-only' }
-                          }, cm_field.html_attr )
+                          }, cm_field.html_attrs )
       end
 
       def cm_custom_date_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
-        text_field_tag cm_field.html_attr[:name] || cm_field.field_name, value&.strftime('%d-%m-%Y'),
-                        merge_wrapper_options(
-                        {
-                          class: "field-control #{required_class}",
-                          disabled: cm_field.disabled.call(form_obj.object),
-                          value: value&.strftime('%d-%m-%Y'),
-                          placeholder: cm_field.placeholder,
-                          data: { behaviour: 'date-only' }
-                        }, cm_field.html_attr )
+        text_field_tag cm_field.html_attrs[:name] || cm_field.field_name, value&.strftime('%d-%m-%Y'),
+                          merge_wrapper_options(
+                          {
+                            class: "field-control #{required_class}",
+                            disabled: cm_field.disabled.call(form_obj.object),
+                            value: value&.strftime('%d-%m-%Y'),
+                            placeholder: cm_field.placeholder,
+                            data: { behaviour: 'date-only' }
+                          }, cm_field.html_attrs )
       end
 
       def cm_date_time_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
@@ -141,7 +141,7 @@ module CmAdmin
                             value: value,
                             placeholder: cm_field.placeholder,
                             data: { behaviour: 'date-time' }
-                          }, cm_field.html_attr )
+                          }, cm_field.html_attrs )
       end
 
       def cm_text_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
@@ -150,16 +150,16 @@ module CmAdmin
                           {
                             class: "field-control #{required_class}",
                             placeholder: cm_field.placeholder
-                          }, cm_field.html_attr)
+                          }, cm_field.html_attrs)
       end
 
       def cm_rich_text_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.rich_text_area cm_field.field_name,
-                                merge_wrapper_options(
-                                {
-                                  class: "field-control #{required_class}",
-                                  placeholder: cm_field.placeholder
-                                }, cm_field.html_attr)
+                          merge_wrapper_options(
+                          {
+                            class: "field-control #{required_class}",
+                            placeholder: cm_field.placeholder
+                          }, cm_field.html_attrs)
       end
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action, _ajax_url)
@@ -211,7 +211,7 @@ module CmAdmin
       def cm_hidden_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.hidden_field cm_field.field_name,
                               value: value,
-                              name: cm_field.html_attr[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
+                              name: cm_field.html_attrs[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
       end
 
       # Refactor: Collection argument can be removed.
@@ -240,7 +240,7 @@ module CmAdmin
                                   target_action: target_action&.name,
                                   target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
                               }
-                            }, cm_field.html_attr )
+                            }, cm_field.html_attrs )
         end
       end
 
@@ -271,7 +271,7 @@ module CmAdmin
                                         target_action: target_action&.name,
                                         target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
                                       }
-                                    }, cm_field.html_attr ),
+                                    }, cm_field.html_attrs ),
                                     val
         end
       end
@@ -297,9 +297,9 @@ module CmAdmin
         end
       end
 
-      def merge_wrapper_options(options, html_attr)
-        if html_attr
-          options.merge(html_attr) do |key, oldval, newval|
+      def merge_wrapper_options(options, html_attrs)
+        if html_attrs
+          options.merge(html_attrs) do |key, oldval, newval|
             case key.to_s
             when "class"
               oldval + " " + newval
