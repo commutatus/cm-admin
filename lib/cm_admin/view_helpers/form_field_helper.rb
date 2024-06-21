@@ -164,14 +164,24 @@ module CmAdmin
 
       def cm_single_file_upload_field(form_obj, cm_field, _value, required_class, _target_action, _ajax_url)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
+          concat form_obj.file_field cm_field.field_name,
+                          merge_wrapper_options(
+                            {
+                              class: "field-control #{required_class}",
+                              disabled: cm_field.disabled.call(form_obj.object)
+                            }, cm_field.html_attrs )
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
 
       def cm_multi_file_upload_field(form_obj, cm_field, _value, required_class, _target_action, _ajax_url)
         content_tag(:div) do
-          concat form_obj.file_field cm_field.field_name, multiple: true, class: "field-control #{required_class}", disabled: cm_field.disabled.call(form_obj.object)
+          concat form_obj.file_field cm_field.field_name,
+                          merge_wrapper_options(
+                            {
+                              multiple: true, class: "field-control #{required_class}",
+                              disabled: cm_field.disabled.call(form_obj.object)
+                            }, cm_field.html_attrs )
           concat attachment_list(form_obj, cm_field, _value, required_class, _target_action)
         end
       end
@@ -210,8 +220,11 @@ module CmAdmin
 
       def cm_hidden_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         form_obj.hidden_field cm_field.field_name,
-                              value: value,
-                              name: cm_field.html_attrs[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
+                             merge_wrapper_options(
+                              {
+                                value: value,
+                                name: cm_field.html_attrs[:name] || "#{form_obj.object_name}[#{cm_field.field_name}]"
+                              }, cm_field.html_attrs )
       end
 
       # Refactor: Collection argument can be removed.
