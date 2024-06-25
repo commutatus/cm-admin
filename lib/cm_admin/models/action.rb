@@ -7,7 +7,7 @@ module CmAdmin
       attr_accessor :name, :display_name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
         :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
         :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes, :view_type,
-        :kanban_attr, :model_name
+        :kanban_attr, :model_name, :redirect_to
 
       VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
 
@@ -44,11 +44,12 @@ module CmAdmin
         self.kanban_attr = {}
       end
 
-      def set_values(page_title, page_description, partial, view_type=:table)
+      def set_values(page_title, page_description, partial, redirect_to = nil, view_type=:table)
         self.page_title = page_title
         self.page_description = page_description
         self.partial = partial
         self.view_type = view_type
+        self.redirect_to = redirect_to
       end
 
       def controller_action_name

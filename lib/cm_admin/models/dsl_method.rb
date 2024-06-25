@@ -15,15 +15,15 @@ module CmAdmin
         yield
       end
 
-      def cm_edit(page_title: nil,page_description: nil, partial: nil, &block)
+      def cm_edit(page_title: nil, page_description: nil, partial: nil, redirect_to: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
-        @current_action.set_values(page_title, page_description, partial)
+        @current_action.set_values(page_title, page_description, partial, redirect_to)
         yield
       end
 
-      def cm_new(page_title: nil,page_description: nil, partial: nil, &block)
+      def cm_new(page_title: nil, page_description: nil, partial: nil, redirect_to: nil, &block)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
-        @current_action.set_values(page_title, page_description, partial)
+        @current_action.set_values(page_title, page_description, partial, redirect_to)
         yield
       end
 
