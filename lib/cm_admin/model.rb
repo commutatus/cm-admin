@@ -26,6 +26,8 @@ module CmAdmin
     include Pagy::Backend
     include Models::Blocks
     include Models::DslMethod
+    include CmAdmin::Engine.routes.url_helpers
+
     attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
       :current_action, :params, :filters, :available_tabs, :icon_name, :bulk_actions
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
@@ -50,7 +52,6 @@ module CmAdmin
     end
 
     class << self
-
       def find_by(search_hash)
         CmAdmin.config.cm_admin_models.find { |x| x.name == search_hash[:name] }
       end

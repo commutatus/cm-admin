@@ -62,6 +62,7 @@ module CmAdmin
     end
 
     def cm_update(params)
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: 'edit')
       @ar_object = fetch_ar_object(@model.ar_model.name.classify.constantize, params[:id])
       @ar_object.assign_attributes(resource_params(params))
       resource_identifier
@@ -69,6 +70,7 @@ module CmAdmin
     end
 
     def cm_create(params)
+      @current_action = CmAdmin::Models::Action.find_by(@model, name: 'new')
       @ar_object = @model.ar_model.name.classify.constantize.new(resource_params(params))
       resource_identifier
       resource_responder
@@ -206,13 +208,15 @@ module CmAdmin
         if @ar_object.save
           redirect_url = if params['referrer']
                            params['referrer']
+                         elsif @current_action.redirect_to.present?
+                           @current_action.redirect_to.call(@ar_object)
                          else
                            cm_admin.send("#{@model.name.underscore}_show_path", @ar_object)
                          end
           if params['attachment_destroy_ids'].present?
             ActiveStorage::Attachment.where(id: params['attachment_destroy_ids']).destroy_all
           end
-          format.html { redirect_to  redirect_url, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
+          format.html { redirect_to redirect_url, allow_other_host: true, notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is successful" }
         else
           format.html { render '/cm_admin/main/new', notice: "#{action_name.titleize} #{@ar_object.class.name.downcase} is unsuccessful" }
         end

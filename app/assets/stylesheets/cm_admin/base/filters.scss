@@ -29,7 +29,7 @@
       margin-left: 32px;
       cursor: pointer;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: -5px;
         left: -16px;
@@ -78,7 +78,9 @@
         &:focus {
           border-color: $brand-color !important;
           outline: 0 !important;
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6) !important;
+          box-shadow:
+            inset 0 1px 1px rgba(0, 0, 0, 0.075),
+            0 0 8px rgba(102, 175, 233, 0.6) !important;
         }
       }
 
@@ -95,7 +97,9 @@
             &:focus {
               border-color: $brand-color;
               outline: 0;
-              box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+              box-shadow:
+                inset 0 1px 1px rgba(0, 0, 0, 0.075),
+                0 0 8px rgba(102, 175, 233, 0.6);
             }
             .select2-selection__rendered {
               color: #555555;
@@ -190,5 +194,12 @@
         margin-right: 5px;
       }
     }
+  }
+}
+
+//TODO: Fixing the filter search height by overriding. But this needs to be fixed on auth. The auth .form-control class styles causing this issue
+.filter-search {
+  input {
+    height: 31px;
   }
 }

@@ -4,7 +4,10 @@
       p.section-heading = section.section_name
       .card
         .card-body
-          - section.section_fields.each do |field|
-            = show_field(@ar_object, field)
+          - if !section.section_fields.empty?
+            - section.section_fields.each do |field|
+              = show_field(@ar_object, field)
+          - if section.rows.present?
+              = show_rows(@ar_object, section.rows)
           - section.nested_table_fields.each do |nested_field|
             = render partial: 'cm_admin/main/nested_table_section', locals: { nested_field: nested_field, ar_object: @ar_object }

@@ -27,6 +27,14 @@ module CmAdmin
         end
       end
 
+      def field(field_name, options={})
+        if @current_nested_field
+          @current_nested_field.fields << CmAdmin::Models::Field.new(field_name, options)
+        else
+          @row_fields << CmAdmin::Models::Field.new(field_name, options)
+        end
+      end
+
       def cm_section(section_name, col_size: nil, display_if: nil, &block)
         @sections << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, col_size, &block)
       end
