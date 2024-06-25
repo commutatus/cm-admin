@@ -9,9 +9,8 @@ require 'cm_admin/configuration'
 module CmAdmin
   class Error < StandardError; end
 
-  mattr_accessor :layout, :authorized_roles
+  mattr_accessor :layout
   mattr_accessor :included_models, :cm_admin_models
-  @@authorized_roles ||= []
   @@included_models ||= []
   @@cm_admin_models ||= []
 
