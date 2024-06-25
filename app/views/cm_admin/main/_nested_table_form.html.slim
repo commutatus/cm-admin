@@ -12,7 +12,7 @@
               | 
             - nested_table_field.fields.each do |field|
               th data-field-type="#{field.input_type}"
-                = field.field_name.to_s.titleize 
+                = field.label.to_s.titleize || field.field_name.to_s.titleize 
         tbody class="insert-cocoon-position-#{uniq_no}"
           = f.fields_for table_name do |record|
             - if record.object.persisted? || @ar_object.errors.present?

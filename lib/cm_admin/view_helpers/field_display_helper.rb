@@ -81,17 +81,14 @@ module CmAdmin
             concat content_tag(:div, 'View', class: 'drawer-btn')
           end
         when :image
+          attachment = ar_object.send(field.field_name)
           content_tag(:div, class: 'd-flex') do
-            if ar_object.send(field.field_name).attached?
+            if attachment.attached?
               if has_one_image_attached?(ar_object, field)
-                content_tag :a, href: rails_blob_path(ar_object.send(field.field_name)), target: '_blank' do
-                  image_tag(ar_object.send(field.field_name).url, height: field.height, width: field.width, class: 'rounded')
-                end
+                attachment_with_preview(attachment, field)
               elsif has_many_image_attached?(ar_object, field)
-                ar_object.send(field.field_name).map do |asset|
-                  content_tag :a, href: rails_blob_path(asset), target: '_blank' do
-                    image_tag(asset.url, height: field.height, width: field.width, class: 'rounded mr-1')
-                  end
+                attachment.map do |asset|
+                  attachment_with_preview(asset, field, 'mr-1')
                 end.join("\n").html_safe
               end
             else
@@ -109,16 +106,26 @@ module CmAdmin
         end
       end
 
+      def attachment_with_preview(attachment, field, custom_class=nil)
+        content_tag :a, href: attachment.url, target: '_blank' do
+          if attachment.content_type.include?('image')
+            image_tag(attachment.url, height: field.height, width: field.width, class: "rounded #{custom_class}")
+          else
+            image_tag('https://cm-admin.s3.ap-south-1.amazonaws.com/gem_static_assets/image_not_available.png', height: 50, width: 50, class: "rounded #{custom_class}")
+          end
+        end
+      end
+
       def show_attachment_value(ar_object, field)
         if ar_object.send(field.field_name).attached?
           if has_one_image_attached?(ar_object, field)
-            content_tag :a, href: rails_blob_path(ar_object.send(field.field_name), disposition: "attachment") do
+            content_tag :a, href: ar_object.send(field.field_name).url do
               ar_object.send(field.field_name).filename.to_s
             end
           elsif has_many_image_attached?(ar_object, field)
             ar_object.send(field.field_name).map do |asset|
               content_tag(:div) do
-                content_tag :a, href: rails_blob_path(asset, disposition: "attachment") do
+                content_tag :a, href: asset.url do
                   asset.filename.to_s
                 end
               end
