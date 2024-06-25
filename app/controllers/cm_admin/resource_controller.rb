@@ -39,7 +39,7 @@ module CmAdmin
         else
           format.html { render '/cm_admin/main/' + action_name }
         end
-        format.json { render json: @ar_object }
+        format.json { render json: @ar_object.to_builder.target! }
       end
     end
 
