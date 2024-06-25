@@ -123,7 +123,7 @@ module CmAdmin
         end
       end
 
-      def attachment_with_preview(attachment, field, custom_class=nil)
+      def attachment_with_preview(attachment, field, custom_class = nil)
         content_tag :a, href: attachment.url, target: '_blank' do
           if attachment.content_type.include?('image')
             image_tag(attachment.url, height: field.height, width: field.width, class: "rounded #{custom_class}")
