@@ -101,9 +101,9 @@ module CmAdmin
       end
 
       def set_form_field(resource, form_obj, field)
-        content_tag(:div, class: field.col_size ? "col-#{field.col_size}" : 'col') do
-          next unless field.display_if.call(form_obj.object)
+        return unless field.display_if.call(form_obj.object)
 
+        content_tag(:div, class: field.col_size ? "col-#{field.col_size}" : 'col') do
           if field.input_type.eql?(:hidden)
             concat input_field_for_column(form_obj, field)
           else
