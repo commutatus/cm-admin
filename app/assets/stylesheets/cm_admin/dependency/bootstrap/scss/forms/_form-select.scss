@@ -84,6 +84,13 @@
   }
 }
 
+select[readonly] {
+  pointer-events: none;
+  touch-action: none;
+  background: #eee;
+  box-shadow: none;
+}
+
 select[readonly] + .select2-container {
   pointer-events: none;
   touch-action: none;
