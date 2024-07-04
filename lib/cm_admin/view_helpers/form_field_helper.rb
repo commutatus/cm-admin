@@ -83,7 +83,7 @@ module CmAdmin
       def cm_custom_single_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
         select_tag cm_field.html_attrs[:name] || cm_field.field_name,
                     options_for_select(select_collection_value(form_obj.object, cm_field)),
-                    {include_blank: cm_field.placeholder}
+                    { include_blank: cm_field.placeholder },
                     merge_wrapper_options(
                     {
                       class: "field-control #{required_class} select-2",
@@ -100,7 +100,7 @@ module CmAdmin
       def cm_multi_select_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
         form_obj.select cm_field.field_name,
                         options_for_select(select_collection_value(form_obj.object, cm_field), form_obj.object.send(cm_field.field_name)),
-                        {include_blank: cm_field.placeholder}
+                        { include_blank: cm_field.placeholder },
                         merge_wrapper_options(
                         {
                           class: "field-control #{required_class} select-2",
