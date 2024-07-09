@@ -1,5 +1,3 @@
-@import "../helpers/index.scss";
-
 @function size($size) {
   @return map-get($font-size, $size);
 }
@@ -42,7 +40,11 @@
       background: $green-lightest-clr;
       border-radius: $radius-4;
       .success-title {
-        @include font($size: size(12), $color: $green-regular-clr, $weight: bold);
+        @include font(
+          $size: size(12),
+          $color: $green-regular-clr,
+          $weight: bold
+        );
         font-family: $primary-font;
         margin-bottom: 16px;
         text-transform: uppercase;
@@ -82,7 +84,11 @@
         background: $blue-lightest-clr;
         border-radius: $radius-4;
         .note-title {
-          @include font($size: size(12), $color: $blue-regular-clr, $weight: bold);
+          @include font(
+            $size: size(12),
+            $color: $blue-regular-clr,
+            $weight: bold
+          );
           font-family: $primary-font;
           margin-bottom: 16px;
           text-transform: uppercase;
