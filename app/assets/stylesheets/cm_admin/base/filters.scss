@@ -1,5 +1,3 @@
-@import "../helpers/index.scss";
-
 .cm-filters-v2 {
   padding: 16px 24px;
   background-color: transparent;
@@ -78,8 +76,7 @@
         &:focus {
           border-color: $brand-color !important;
           outline: 0 !important;
-          box-shadow:
-            inset 0 1px 1px rgba(0, 0, 0, 0.075),
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
             0 0 8px rgba(102, 175, 233, 0.6) !important;
         }
       }
@@ -97,8 +94,7 @@
             &:focus {
               border-color: $brand-color;
               outline: 0;
-              box-shadow:
-                inset 0 1px 1px rgba(0, 0, 0, 0.075),
+              box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
                 0 0 8px rgba(102, 175, 233, 0.6);
             }
             .select2-selection__rendered {

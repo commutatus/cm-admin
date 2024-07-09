@@ -1,34 +1,22 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
- * vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
- * files in this directory. Styles in this file should be added after the last require_* statement.
- * It is generally better to create a new file per style scope.
- *
- *= require 'cm_admin/pages/import_page'
- *= require 'cm_admin/pages/history_page'
- *= require 'cm_admin/base/table'
- *= require 'cm_admin/base/navbar'
- *= require 'cm_admin/base/sidebar'
- *= require 'cm_admin/base/show'
- *= require 'cm_admin/base/form'
- *= require 'cm_admin/base/quicksearch'
- *= require 'cm_admin/base/scaffold'
- *= require 'cm_admin/base/auth'
- *= require 'cm_admin/base/filters'
- *= require 'cm_admin/base/comments'
- *= require 'cm_admin/base/common'
- *= require 'cm_admin/base/cardView'
-  *= require 'cm_admin/base/kanban'
- *= require 'cm_admin/components/index'
- *= require 'cm_admin/dependency/flatpickr.min'
- *= require 'cm_admin/dependency/fontawesome.all'
- *= require 'cm_admin/dependency/jquery-jgrowl.min'
- *= require 'cm_admin/scaffold'
- *= require_self
- */
+@import "./dependency/bootstrap/scss/bootstrap";
+@import "./helpers/index.scss";
+@import "./pages/import_page";
+@import "./pages/history_page";
+@import "./base/table";
+@import "./base/navbar";
+@import "./base/sidebar";
+@import "./base/show";
+@import "./base/form";
+@import "./base/quicksearch";
+@import "./base/scaffold";
+@import "./base/auth";
+@import "./base/filters";
+@import "./base/comments";
+@import "./base/common";
+@import "./base/cardView";
+@import "./base/kanban";
+@import "./components/index";
+@import "./dependency/flatpickr.min";
+@import "./dependency/fontawesome.all";
+@import "./dependency/jquery-jgrowl.min";
+@import "./scaffold";
