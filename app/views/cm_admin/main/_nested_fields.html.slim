@@ -6,6 +6,8 @@
     - nested_table_field.fields.each do |field|
       td data-field-type="#{field.input_type}"
         = input_field_for_column(f, field)
+        - if field.helper_text.present?
+          small.form-text.text-muted = field.helper_text
 - else
   .form-card.nested-fields
     .card-body
@@ -23,6 +25,8 @@
                 label.field-label = field.field_name.to_s.titleize 
               .field-input-wrapper
                 = input_field_for_column(f, field)
+                - if field.helper_text.present?
+                  small.form-text.text-muted = field.helper_text
       - if nested_table_field.associated_fields.present?
         - nested_table_field.associated_fields.each do |associated_nested_field|
           = render partial: '/cm_admin/main/nested_table_form', locals: { f: f, nested_table_field: associated_nested_field }
