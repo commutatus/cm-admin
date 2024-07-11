@@ -108,8 +108,10 @@ module CmAdmin
             concat input_field_for_column(form_obj, field)
           else
             concat(content_tag(:div, class: "form-field #{field.disabled ? 'disabled' : ''}") do
-              concat form_obj.label field.label, field.label, class: 'field-label'
-              concat tag.br
+              if field.label
+                concat form_obj.label field.label, field.label, class: 'field-label'
+                concat tag.br
+              end
               concat input_field_for_column(form_obj, field)
               concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
             end)
