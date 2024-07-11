@@ -1,7 +1,7 @@
 // Card view right now is application specific, so card partial will be overwritten in the application
 
 .table-top
-  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.display_name.present? ? @model.display_name : @model.ar_model.table_name)}"
   .table-top__column-action
     .btn-group[role="group" aria-label="Basic example"]
       a.btn.btn-ghost href="#{cm_admin.send("#{@model.name.underscore}_index_path")}?page=#{params[:page] || 1}"

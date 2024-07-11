@@ -2,7 +2,7 @@
   .entity-header__info
     - if cm_admin.method_defined?(:"#{@model.name.underscore}_index_path") && (@model.current_action.name == 'show'|| @model.current_action.name == 'history' || @model.current_action.layout_type.present?)
       .breadcrumb
-        = link_to "#{@model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path"), class: 'text-reset'
+        = link_to "#{@model.display_name.present? ? @model.display_name.pluralize : @model.name.titleize.pluralize} /", cm_admin.send(:"#{@model.name.underscore}_index_path"), class: 'text-reset'
     h4 = action_title
     / - if @model.current_action.page_description
     /   p.mb-0.text-body-secondary = @model.current_action.page_description
