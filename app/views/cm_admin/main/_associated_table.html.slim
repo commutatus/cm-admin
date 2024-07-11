@@ -2,7 +2,7 @@
   - if @associated_model.filters.present? && @action.partial.nil?
     .cm-index-page__filters
       == render partial: 'cm_admin/main/filters', locals: { filters: @associated_model.filters }
-  p.table-top__total-count = "#{humanized_ar_collection_count(@associated_ar_object.pagy.count, @action.child_records.to_s)}"
+  p.table-top__total-count = "#{humanized_ar_collection_count(@associated_ar_object.pagy.count, (@action.tab_name.present? ? @action.tab_name.to_s : @action.child_records.to_s))}"
   .table-top__column-action
     -
     - if @associated_model && @associated_model.available_actions.map(&:name).include?('new') && has_valid_policy(@associated_ar_object, 'new')

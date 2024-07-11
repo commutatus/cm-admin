@@ -5,9 +5,9 @@ module CmAdmin
     class Action
       include Actions::Blocks
       attr_accessor :name, :display_name, :verb, :layout_type, :layout, :partial, :path, :page_title, :page_description,
-        :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
-        :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes, :view_type,
-        :kanban_attr, :model_name, :redirect_to
+                    :child_records, :is_nested_field, :nested_table_name, :parent, :display_if, :route_type, :code_block,
+                    :display_type, :action_type, :redirection_url, :sort_direction, :sort_column, :icon_name, :scopes, :view_type,
+                    :kanban_attr, :model_name, :redirect_to, :tab_name
 
       VALID_SORT_DIRECTION = Set[:asc, :desc].freeze
 
@@ -40,6 +40,7 @@ module CmAdmin
         self.verb = :get
         self.route_type = nil
         self.display_type = nil
+        self.tab_name = nil
         self.view_type = :table
         self.kanban_attr = {}
       end
