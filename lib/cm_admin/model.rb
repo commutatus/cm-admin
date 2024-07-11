@@ -29,7 +29,7 @@ module CmAdmin
     include CmAdmin::Engine.routes.url_helpers
 
     attr_accessor :available_actions, :actions_set, :available_fields, :additional_permitted_fields,
-      :current_action, :params, :filters, :available_tabs, :icon_name, :bulk_actions
+                  :current_action, :params, :filters, :available_tabs, :icon_name, :bulk_actions, :display_name
     attr_reader :name, :ar_model, :is_visible_on_sidebar, :importer
 
     def initialize(entity, &block)
@@ -100,6 +100,10 @@ module CmAdmin
       @icon_name = name
     end
 
+    def set_display_name(name)
+      @display_name = name
+    end
+
     def permit_additional_fields(fields=[])
       @additional_permitted_fields = fields
     end
@@ -126,7 +130,6 @@ module CmAdmin
 
         $available_actions.each do |action|
           define_method action.name.to_sym do
-
             # controller_name & action_name from ActionController
             @model = CmAdmin::Model.find_by(name: controller_name.classify)
             @model.params = params
@@ -140,6 +143,7 @@ module CmAdmin
         def pundit_user
           Current.user
         end
+
         private
 
         def user_not_authorized
@@ -149,7 +153,5 @@ module CmAdmin
       end if $available_actions.present?
       CmAdmin.const_set "#{@name}Controller", klass
     end
-
-
   end
 end
