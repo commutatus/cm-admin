@@ -1,5 +1,7 @@
 AllCops:
-   DisabledByDefault: false
+  DisabledByDefault: false
+  Exclude:
+    - 'db/migrate/*'
 
 Style/FrozenStringLiteralComment:
    Enabled: false
