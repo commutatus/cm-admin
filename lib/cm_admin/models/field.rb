@@ -27,6 +27,7 @@ module CmAdmin
         self.tag_class = {}
         self.col_size = nil
         self.field_type = :string
+        self.label = field_name.to_s.titleize
       end
     end
   end
