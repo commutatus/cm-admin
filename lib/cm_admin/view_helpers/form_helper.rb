@@ -113,6 +113,7 @@ module CmAdmin
                 concat tag.br
               end
               concat input_field_for_column(form_obj, field)
+              concat tag.small field.helper_text, class: 'form-text text-muted' if field.helper_text.present?
               concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
             end)
           end
