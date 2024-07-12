@@ -108,8 +108,12 @@ module CmAdmin
       @additional_permitted_fields = fields
     end
 
-    def show_display_name
+    def table_name
       @display_name.present? ? @display_name : @ar_model.table_name
+    end
+
+    def model_name
+      @display_name.present? ? @display_name : @name
     end
 
     # Shared between export controller and resource controller

@@ -15,11 +15,7 @@ module CmAdmin
                   content_tag(:span, class: 'menu-icon') do
                     concat tag.i class: "#{model.icon_name}"
                   end +
-                    if model.display_name.present?
-                      model.display_name
-                    else
-                      model.name.titleize.pluralize
-                    end
+                      model.model_name.titleize.pluralize
                 end
               end
             elsif navigation_type == 'quick_links'
@@ -29,11 +25,7 @@ module CmAdmin
                     concat tag.i class: "#{model.icon_name}"
                   end +
                     content_tag(:span) do
-                      if model.display_name.present?
-                        model.display_name
-                      else
-                        model.name
-                      end
+                        model.model_name
                     end
                 end
               end
