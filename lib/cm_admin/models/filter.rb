@@ -5,7 +5,7 @@ module CmAdmin
     class Filter
       include Utils::Helpers
 
-      attr_accessor :db_column_name, :filter_type, :placeholder, :collection, :filter_with
+      attr_accessor :db_column_name, :filter_type, :placeholder, :collection, :filter_with, :helper_method
 
       VALID_FILTER_TYPES = Set[:date, :multi_select, :range, :search, :single_select].freeze
 

@@ -1,10 +1,9 @@
 module CmAdmin
   module ViewHelpers
     module FilterHelper
-
       def generate_filters(filters)
-        search_filter = filters.select{ |x| x.filter_type.eql?(:search) }.last
-        other_filters = filters.reject{ |x| x.filter_type.eql?(:search) }
+        search_filter = filters.select { |x| x.filter_type.eql?(:search) }.last
+        other_filters = filters.reject { |x| x.filter_type.eql?(:search) }
         concat(content_tag(:div, class: 'cm-filters-v2') do
           concat(content_tag(:div, class: 'cm-filters-v2__inner') do
             concat add_search_filter(search_filter) if search_filter
@@ -15,11 +14,11 @@ module CmAdmin
             concat clear_filters
           end)
         end)
-        return
+        nil
       end
 
       def add_filters_dropdown(filters)
-        concat(content_tag(:button, class: 'dropdown btn-ghost', data: {bs_toggle: 'dropdown'}) do
+        concat(content_tag(:button, class: 'dropdown btn-ghost', data: { bs_toggle: 'dropdown' }) do
           concat tag.i(class: 'fas fa-filter')
           concat tag.span 'Filter'
         end)
@@ -28,11 +27,11 @@ module CmAdmin
           concat(content_tag(:div, class: 'popup-base') do
             concat(content_tag(:div, class: 'popup-inner') do
               concat(content_tag(:div, class: 'search-area') do
-                concat tag.input placeholder: 'Search for filter', data: {behaviour: 'dropdown-filter-search'}
+                concat tag.input placeholder: 'Search for filter', data: { behaviour: 'dropdown-filter-search' }
               end)
               concat(content_tag(:div, class: 'list-area') do
                 filters.each do |filter|
-                  concat(content_tag(:div, class: 'pointer list-item', data: {behaviour: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}) do
+                  concat(content_tag(:div, class: 'pointer list-item', data: { behaviour: 'filter-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}" }) do
                     tag.span filter.placeholder.to_s.titleize
                   end)
                 end
@@ -40,14 +39,14 @@ module CmAdmin
             end)
           end)
         end)
-        return
+        nil
       end
 
       def clear_filters
         concat(content_tag(:div, class: "clear-btn #{params.dig(:filters) ? '' : 'hidden'}") do
           tag.span 'Clear all'
         end)
-        return
+        nil
       end
 
       def filter_ui(filters)
@@ -63,11 +62,11 @@ module CmAdmin
             concat add_multi_select_filter(filter)
           end
         end
-        return
+        nil
       end
 
       def filter_chip(value, filter)
-        data_hash = {behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+        data_hash = { behaviour: 'filter-input', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}" }
         data_hash.merge!(bs_toggle: 'dropdown') if filter.filter_type.to_s.eql?('single_select')
 
         if value && filter.filter_type.to_s.eql?('multi_select')
@@ -82,7 +81,7 @@ module CmAdmin
             tag.i class: 'fa fa-times bolder'
           end)
         end)
-        return
+        nil
       end
 
       def add_search_filter(filter)
@@ -91,7 +90,7 @@ module CmAdmin
             concat(content_tag(:span, class: 'input-group-text') do
               tag.i class: 'fa fa-search'
             end)
-            concat tag.input type: 'string', class: 'form-control', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: {behaviour: 'input-search'}
+            concat tag.input type: 'string', class: 'form-control', value: "#{params.dig(:filters, :search)}", placeholder: "#{filter.placeholder}", data: { behaviour: 'input-search' }
           end)
         end
       end
@@ -102,11 +101,11 @@ module CmAdmin
           concat filter_chip(value, filter)
 
           concat(content_tag(:div, class: 'position-absolute mt-2 range-container hidden') do
-            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[0] : ''}", placeholder: 'From', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
-            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[1] : ''}", placeholder: 'To', data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[0] : ''}", placeholder: 'From', data: { behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}" }
+            concat tag.input type: 'number', min: '0', step: '1', class: 'range-item', value: "#{value ? value.split(' to ')[1] : ''}", placeholder: 'To', data: { behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}" }
           end)
         end)
-        return
+        nil
       end
 
       def add_date_filter(filter)
@@ -115,37 +114,44 @@ module CmAdmin
           concat filter_chip(value, filter)
 
           concat(content_tag(:div, class: 'date-filter-wrapper w-100') do
-            concat tag.input class: 'w-100 pb-1', value: "#{value ? value : ''}", data: {behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}"}
+            concat tag.input class: 'w-100 pb-1', value: "#{value || ''}", data: { behaviour: 'filter', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}" }
           end)
         end)
-        return
+        nil
       end
 
       def add_single_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
+        select_options = if filter.helper_method
+                           send(filter.helper_method)
+                         elsif filter.collection
+                           filter.collection
+                         else
+                           []
+                         end
         concat(content_tag(:div, class: "position-relative me-3 #{value ? '' : 'hidden'}") do
-          if value && filter.collection[0].class == Array
-            selected_value_text = filter.collection.map{|collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ')
-          else
-            selected_value_text = value
-          end
+          selected_value_text = if value && select_options[0].class == Array
+                                  select_options.map { |collection| collection[0] if collection[1].to_s.eql?(value) }.compact.join(', ')
+                                else
+                                  value
+                                end
           concat filter_chip(selected_value_text, filter)
 
           concat(content_tag(:div, class: 'dropdown-menu dropdown-popup') do
             concat(content_tag(:div, class: 'popup-base') do
               concat(content_tag(:div, class: 'popup-inner') do
                 concat(content_tag(:div, class: 'search-area') do
-                  concat tag.input placeholder: "#{filter.placeholder}", data: {behaviour: 'dropdown-filter-search'}
+                  concat tag.input placeholder: "#{filter.placeholder}", data: { behaviour: 'dropdown-filter-search' }
                 end)
                 concat(content_tag(:div, class: 'list-area') do
-                  filter.collection.each do |val|
+                  select_options.each do |val|
                     if val.class.eql?(Array)
                       filter_value = val[1]
                       filter_text = val[0]
                     elsif val.class.eql?(String)
                       filter_value = filter_text = val
                     end
-                    concat(content_tag(:div, class: "pointer list-item #{(value.present? && value.eql?(filter_value.to_s)) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value}) do
+                    concat(content_tag(:div, class: "pointer list-item #{value.present? && value.eql?(filter_value.to_s) ? 'selected' : ''}", data: { behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value }) do
                       concat tag.span filter_text.to_s
                     end)
                   end
@@ -154,14 +160,21 @@ module CmAdmin
             end)
           end)
         end)
-        return
+        nil
       end
 
       def add_multi_select_filter(filter)
         value = params.dig(:filters, :"#{filter.filter_type}", :"#{filter.db_column_name}")
-        if value && filter.collection[0].class == Array
+        select_options = if filter.helper_method
+                           send(filter.helper_method)
+                         elsif filter.collection
+                           filter.collection
+                         else
+                           []
+                         end
+        if value && select_options[0].class == Array
           value_mapped_text = []
-          filter.collection.each do |array|
+          select_options.each do |array|
             value_mapped_text << array[0].titleize if value.include?(array[1].to_s)
           end
         else
@@ -185,17 +198,17 @@ module CmAdmin
                       end)
                     end
                   end
-                  concat tag.input placeholder: "#{filter.placeholder}", data: {behaviour: 'dropdown-filter-search'}
+                  concat tag.input placeholder: "#{filter.placeholder}", data: { behaviour: 'dropdown-filter-search' }
                 end)
                 concat(content_tag(:div, class: 'list-area') do
-                  filter.collection.each do |val|
+                  select_options.each do |val|
                     if val.class.eql?(Array)
                       filter_value = val[1]
                       filter_text = val[0]
                     elsif val.class.eql?(String)
                       filter_value = filter_text = val
                     end
-                    concat(content_tag(:div, class: "pointer list-item #{(value && (value.eql?(val) || value.include?(filter_value.to_s))) ? 'selected' : ''}", data: {behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value}) do
+                    concat(content_tag(:div, class: "pointer list-item #{value && (value.eql?(val) || value.include?(filter_value.to_s)) ? 'selected' : ''}", data: { behaviour: 'select-option', filter_type: "#{filter.filter_type}", db_column: "#{filter.db_column_name}", value: filter_value }) do
                       concat tag.input class: 'cm-checkbox', type: 'checkbox', checked: value ? value.include?(filter_value.to_s) : false
                       concat tag.label filter_text.to_s.titleize, class: 'pointer'
                     end)
@@ -206,7 +219,7 @@ module CmAdmin
             end)
           end)
         end)
-        return
+        nil
       end
     end
   end
