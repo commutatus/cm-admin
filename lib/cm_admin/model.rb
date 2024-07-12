@@ -108,6 +108,10 @@ module CmAdmin
       @additional_permitted_fields = fields
     end
 
+    def show_display_name
+      @display_name.present? ? @display_name : @ar_model.table_name
+    end
+
     # Shared between export controller and resource controller
     def filter_params(params)
       # OPTIMIZE: Need to check if we can permit the filter_params in a better way
