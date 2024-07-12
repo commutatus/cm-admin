@@ -1,5 +1,5 @@
 .table-top
-  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.ar_model.table_name)}"
+  p.table-top__total-count = "#{humanized_ar_collection_count(@ar_object.pagy.count, @model.table_name)}"
   .table-top__column-action
     - if @current_action.view_type == :card_view
       .btn-group[role="group" aria-label="Card Toggle"]
