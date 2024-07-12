@@ -19,8 +19,9 @@
         div
           - nested_table_field.fields.each do |field|
             .form-field
-              .field-label-wrapper
-                label.field-label = field.field_name.to_s.titleize 
+              - if field.label
+                .field-label-wrapper
+                  label.field-label = field.field_name.to_s.titleize 
               .field-input-wrapper
                 = input_field_for_column(f, field)
       - if nested_table_field.associated_fields.present?

@@ -9,7 +9,8 @@
           tr
             - nested_field.fields.each do |field|
               th scope="col" data-field-type="#{field.field_type}"
-                = field.label || field.field_name.to_s.titleize
+                - if field.label
+                  = field.label || field.field_name.to_s.titleize
         tbody
           - associated_records.each do |record|
             tr
