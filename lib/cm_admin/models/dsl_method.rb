@@ -61,7 +61,7 @@ module CmAdmin
         else
           action = CmAdmin::Models::Action.new(name: custom_action.to_s, verb: :get, path: ':id/'+custom_action,
                       layout_type: layout_type, layout: layout, partial: partial, child_records: associated_model,
-                      action_type: :custom, display_type: :page, model_name: self.name, tab_name: tab_name)
+                      action_type: :custom, display_type: :page, model_name: self.name, display_name: tab_name)
           @available_actions << action
           @current_action = action
           @available_tabs << CmAdmin::Models::Tab.new(tab_name, custom_action, display_if, &block)
