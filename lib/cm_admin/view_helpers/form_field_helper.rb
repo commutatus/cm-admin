@@ -51,6 +51,19 @@ module CmAdmin
                             }, cm_field.html_attrs )
       end
 
+      def cm_switch_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)\
+        content_tag :div, class: 'form-check form-switch' do
+          form_obj.check_box cm_field.field_name,
+                           merge_wrapper_options(
+                           {
+                             class: "field-control form-check-input #{required_class}",
+                             disabled: cm_field.disabled.call(form_obj.object),
+                             value: value,
+                             role: 'switch'
+                           }, cm_field.html_attrs)
+        end
+      end
+
       def cm_custom_string_field(form_obj, cm_field, value, required_class, _target_action_ajax_url)
         text_field_tag cm_field.html_attrs[:name] || cm_field.field_name,
                             merge_wrapper_options(
