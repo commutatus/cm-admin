@@ -1,15 +1,14 @@
 module CmAdmin
   module Models
     class Section
-
       # Description
       # A section is like a container which holds a list of fields or form fields
       # These list of fields are iterated and displayed on show/new/edit page.
       # It also contains rows, which contains sections and fields.
 
-      attr_accessor :section_name, :section_fields, :display_if, :current_action, :cm_model, :nested_table_fields, :rows, :col_size, :current_nested_field
+      attr_accessor :section_name, :section_fields, :display_if, :current_action, :cm_model, :nested_table_fields, :rows, :col_size, :current_nested_field, :html_attrs
 
-      def initialize(section_name, current_action, cm_model, display_if, col_size, &block)
+      def initialize(section_name, current_action, cm_model, display_if, html_attrs, col_size, &block)
         @section_fields = []
         @rows = []
         @nested_table_fields = []
@@ -17,12 +16,13 @@ module CmAdmin
         @section_name = section_name
         @current_action = current_action
         @cm_model = cm_model
-        @display_if = display_if || lambda { |arg| return true }
+        @html_attrs = html_attrs || {}
+        @display_if = display_if || ->(arg) { true }
         @current_nested_field = nil
         instance_eval(&block)
       end
 
-      def field(field_name, options={})
+      def field(field_name, options = {})
         if @current_nested_field
           @current_nested_field.fields << CmAdmin::Models::Field.new(field_name, options)
         else
@@ -30,7 +30,7 @@ module CmAdmin
         end
       end
 
-      def form_field(field_name, options={}, arg=nil)
+      def form_field(field_name, options = {}, arg = nil)
         if @current_nested_field
           @current_nested_field.fields << CmAdmin::Models::FormField.new(field_name, options[:input_type], options)
         else
@@ -38,7 +38,7 @@ module CmAdmin
         end
       end
 
-      def nested_form_field(field_name, options={}, &block)
+      def nested_form_field(field_name, options = {}, &block)
         # @current_action.is_nested_field = true
         # @current_action.nested_table_name = field_name
         nested_field = CmAdmin::Models::NestedField.new(field_name, options)
@@ -55,7 +55,6 @@ module CmAdmin
         @rows ||= []
         @rows << CmAdmin::Models::Row.new(@current_action, @model, display_if, &block)
       end
-
     end
   end
 end

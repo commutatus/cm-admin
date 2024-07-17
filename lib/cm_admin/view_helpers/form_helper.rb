@@ -6,7 +6,7 @@ module CmAdmin
   module ViewHelpers
     module FormHelper
       include FormFieldHelper
-      REJECTABLE = %w(id created_at updated_at)
+      REJECTABLE = %w[id created_at updated_at]
 
       def generate_form(resource, cm_model)
         if resource.new_record?
@@ -16,11 +16,9 @@ module CmAdmin
           action = :edit
           method = :patch
         end
-        if cm_model.available_fields[action].empty?
-          return form_with_all_fields(resource, method)
-        else
-          return form_with_mentioned_fields(resource, cm_model.available_fields[action], method)
-        end
+        return form_with_all_fields(resource, method) if cm_model.available_fields[action].empty?
+
+        form_with_mentioned_fields(resource, cm_model.available_fields[action], method)
       end
 
       def form_with_all_fields(resource, method)
@@ -47,7 +45,7 @@ module CmAdmin
             elsif entity.class == CmAdmin::Models::Section
               next unless entity.display_if.call(form_obj.object)
 
-              concat(content_tag(:div, class: 'row') do
+              concat(content_tag(:div, class: 'row', **entity.html_attrs) do
                 concat create_sections(resource, form_obj, entity)
               end)
             end
@@ -80,7 +78,7 @@ module CmAdmin
             end
           end)
         end
-        return
+        nil
       end
 
       def set_form_for_fields(resource, form_obj, section)
@@ -97,7 +95,7 @@ module CmAdmin
             concat set_form_field(resource, form_obj, field)
           end)
         end
-        return
+        nil
       end
 
       def set_form_field(resource, form_obj, field)
@@ -123,7 +121,7 @@ module CmAdmin
       def set_nested_form_fields(form_obj, section)
         content_tag(:div) do
           section.nested_table_fields.each do |nested_table_field|
-            concat(render partial: '/cm_admin/main/nested_table_form', locals: { f: form_obj, nested_table_field: nested_table_field })
+            concat(render(partial: '/cm_admin/main/nested_table_form', locals: { f: form_obj, nested_table_field: nested_table_field }))
           end
         end
       end
@@ -131,34 +129,31 @@ module CmAdmin
       def set_form_with_sections(resource, entities, url, method)
         url_with_query_params = extract_query_params(url)
 
-        form_for(resource, url: url_with_query_params || url, method: method, html: { class: "cm_#{resource.class.name.downcase}_form" } ) do |form_obj|
-          if params[:referrer]
-            concat form_obj.text_field "referrer", class: "normal-input", hidden: true, value: params[:referrer], name: 'referrer'
-          end
+        form_for(resource, url: url_with_query_params || url, method: method, html: { class: "cm_#{resource.class.name.downcase}_form" }) do |form_obj|
+          concat form_obj.text_field 'referrer', class: 'normal-input', hidden: true, value: params[:referrer], name: 'referrer' if params[:referrer]
           if params[:polymorphic_name].present?
-            concat form_obj.text_field params[:polymorphic_name] + '_type', class: "normal-input", hidden: true, value: params[:associated_class].classify
-            concat form_obj.text_field params[:polymorphic_name] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
+            concat form_obj.text_field params[:polymorphic_name] + '_type', class: 'normal-input', hidden: true, value: params[:associated_class].classify
+            concat form_obj.text_field params[:polymorphic_name] + '_id', class: 'normal-input', hidden: true, value: params[:associated_id]
           elsif params[:associated_class] && params[:associated_id]
-            concat form_obj.text_field params[:associated_class] + '_id', class: "normal-input", hidden: true, value: params[:associated_id]
+            concat form_obj.text_field params[:associated_class] + '_id', class: 'normal-input', hidden: true, value: params[:associated_id]
           end
 
           concat split_form_into_section(resource, form_obj, entities)
           concat tag.br
-          concat form_obj.submit 'Save', class: 'btn-cta', data: {behaviour: 'form_submit', form_class: "cm_#{form_obj.object.class.name.downcase}_form"}
+          concat form_obj.submit 'Save', class: 'btn-cta', data: { behaviour: 'form_submit', form_class: "cm_#{form_obj.object.class.name.downcase}_form" }
         end
       end
 
-
       def extract_query_params(url)
         query_params = {}
-        if params[:polymorphic_name].present? || params[:associated_id].present? && params[:associated_class].present?
-          query_params[:polymorphic_name] = params[:polymorphic_name]
-          query_params[:associated_id] = params[:associated_id]
-          query_params[:associated_class] = params[:associated_class]
-          query_params[:referrer] = params[:referrer] if params[:referrer].present?
+        return unless params[:polymorphic_name].present? || params[:associated_id].present? && params[:associated_class].present?
 
-          return url + '?' + query_params.to_query unless query_params.empty?
-        end
+        query_params[:polymorphic_name] = params[:polymorphic_name]
+        query_params[:associated_id] = params[:associated_id]
+        query_params[:associated_class] = params[:associated_class]
+        query_params[:referrer] = params[:referrer] if params[:referrer].present?
+
+        url + '?' + query_params.to_query unless query_params.empty?
       end
     end
   end
