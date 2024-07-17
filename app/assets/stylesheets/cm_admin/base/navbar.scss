@@ -1,5 +1,6 @@
 .entity-header {
-  @extend .d-flex.justify-content-between.align-items-start.p-4;
+  @extend .d-flex, .justify-content-between, .align-items-start, .p-4;
+  // min-height: 109px; // Height needs to be removed once all the layouts are revamped
   background-color: var(--bs-white);
   &__info {
     .breadcrumb {
@@ -9,7 +10,7 @@
   }
 
   &__actions {
-    @extend .d-flex.align-items-start;
+    @extend .d-flex, .align-items-start;
     .export-container {
       position: relative;
       .export-popup {
