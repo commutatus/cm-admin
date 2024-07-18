@@ -54,7 +54,7 @@ module CmAdmin
       end
 
       def create_rows(resource, form_obj, row)
-        content_tag :div, class: 'row' do
+        content_tag :div, class: 'row', **row.html_attrs do
           row.sections.each do |section|
             next unless section.display_if.call(form_obj.object)
 
