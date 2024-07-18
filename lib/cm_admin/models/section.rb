@@ -51,9 +51,9 @@ module CmAdmin
         yield
       end
 
-      def row(display_if: nil, &block)
+      def row(display_if: nil, html_attrs: nil, &block)
         @rows ||= []
-        @rows << CmAdmin::Models::Row.new(@current_action, @model, display_if, &block)
+        @rows << CmAdmin::Models::Row.new(@current_action, @model, display_if, html_attrs, &block)
       end
     end
   end
