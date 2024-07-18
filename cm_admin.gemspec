@@ -3,8 +3,8 @@ require_relative 'lib/cm_admin/version'
 Gem::Specification.new do |spec|
   spec.name          = 'cm-admin'
   spec.version       = CmAdmin::VERSION
-  spec.authors       = ['Michael', 'Anbazhagan', 'Ayza', 'Barath', 'Pranav', 'Mahaveer']
-  spec.email         = ['mkv@commutatus.com', 'anbublacky@gmail.com', 'ayza@commutatus.com', 'barath@commutatus.com', 'pranav@commutatus.com', 'mahaveer@commutatus.com']
+  spec.authors       = %w[Michael Anbazhagan Ayza Barath Pranav Mahaveer Austin]
+  spec.email         = ['mkv@commutatus.com', 'anbublacky@gmail.com', 'ayza@commutatus.com', 'barath@commutatus.com', 'pranav@commutatus.com', 'mahaveer@commutatus.com', 'austin@commutatus.com']
 
   spec.summary       = 'CmAdmin is a robust gem designed to assist in creating admin panels for Rails applications'
   spec.description   = 'CmAdmin providing a streamlined and efficient solution for building customized admin panels within the context of Rails applications. Its robust features empower developers to effortlessly generate and manage administrative interfaces with precision and ease.'
