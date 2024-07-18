@@ -68,9 +68,9 @@ module CmAdmin
         yield if block
       end
 
-      def row(display_if: nil, &block)
+      def row(display_if: nil, html_attrs: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
-        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Row.new(@current_action, @model, display_if, &block)
+        @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Row.new(@current_action, @model, display_if, html_attrs, &block)
       end
 
       def cm_section(section_name, display_if: nil, col_size: nil, html_attrs: nil, &block)
