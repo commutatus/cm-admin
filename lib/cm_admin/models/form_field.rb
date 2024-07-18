@@ -6,7 +6,7 @@ module CmAdmin
       include Utils::Helpers
 
       attr_accessor :field_name, :label, :header, :input_type, :collection, :disabled, :helper_method,
-                    :placeholder, :display_if, :html_attrs, :target, :col_size, :ajax_url, :helper_text, :check_box_labels
+                    :placeholder, :display_if, :html_attrs, :target, :col_size, :ajax_url, :helper_text
 
       VALID_INPUT_TYPES = %i[
         integer decimal string single_select multi_select date date_time text switch custom_single_select

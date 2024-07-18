@@ -289,7 +289,7 @@ module CmAdmin
 
       def format_check_box_array(options, form_obj, cm_field, required_class, target_action)
         content_tag :div do
-          options.each_with_index do |val, key|
+          options.each do |key, val|
             concat format_check_box(val, key, form_obj, cm_field, required_class, target_action)
           end
         end
@@ -298,13 +298,13 @@ module CmAdmin
       def format_check_box(val, key, form_obj, cm_field, required_class, target_action)
         content_tag :div, class: 'cm-checkbox-section' do
           concat format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
-          concat content_tag(:div, cm_field&.check_box_labels&.dig(key) || key, class: 'cm-checkbox-label')
+          concat content_tag(:div, key, class: 'cm-checkbox-label')
         end
       end
 
       def format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
         content_tag :div, class: 'cm-radio-tag' do
-          if val
+          if val.present?
             concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]", value: '0', hidden: true, disabled: 'disabled'
           else
             concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]", value: '0', hidden: true

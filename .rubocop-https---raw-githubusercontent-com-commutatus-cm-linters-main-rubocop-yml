@@ -1,22 +1,20 @@
 AllCops:
   DisabledByDefault: false
-  Exclude:
-    - 'db/migrate/*'
 
 Style/FrozenStringLiteralComment:
-   Enabled: false
+  Enabled: false
 
 Style/Documentation:
-   Enabled: false
+  Enabled: false
 
 Layout/IndentationStyle:
-   Enabled: false
+  Enabled: false
 
 Layout/LineLength:
-   Enabled: false
+  Enabled: false
 
 Metrics/MethodLength:
-   Enabled: false
+  Enabled: false
 
 Metrics/AbcSize:
-   Enabled: false
+  Enabled: false
