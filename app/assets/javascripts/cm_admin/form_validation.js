@@ -42,7 +42,7 @@ $(document).on("click", '[data-behaviour="form_submit"]', function (e) {
   }
 });
 
-$(document).on("change", ".multiple-checkbox", function (e) {
+$(document).on("change", '[data-behaviour="multiple-checkbox"]', function (e) {
   const inputField = e.target.previousElementSibling;
 
   if (e.target.checked) {

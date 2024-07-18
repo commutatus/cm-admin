@@ -315,6 +315,7 @@ module CmAdmin
                                    class: "cm-checkbox multiple-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
                                    disabled: cm_field.disabled.call(form_obj.object),
                                    data: {
+                                     behaviour: 'multiple-checkbox',
                                      target_action: target_action&.name,
                                      target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
                                    }
