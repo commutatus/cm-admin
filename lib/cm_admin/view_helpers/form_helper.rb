@@ -65,7 +65,7 @@ module CmAdmin
 
       def create_sections(resource, form_obj, section)
         content_tag :div, class: 'col form-container' do
-          concat content_tag(:p, section.section_name, class: 'form-title')
+          concat content_tag(:p, section.section_name, class: 'form-title') unless section.parent_section.present?
           concat set_form_for_fields(resource, form_obj, section)
         end
       end
@@ -82,9 +82,11 @@ module CmAdmin
       end
 
       def set_form_for_fields(resource, form_obj, section)
-        content_tag(:div, class: 'form-container__inner') do
+        content_tag(:div, class: "form-container__inner #{section.parent_section.present? ? 'nested_section' : ''}") do
+          concat content_tag(:h6, section.section_name, class: 'nested-form-title') if section.parent_section.present?
           concat create_row_inside_section(resource, form_obj, section.rows) if section.rows.present?
           concat set_form_fields(resource, form_obj, section.section_fields)
+          concat set_nested_section_form_fields(resource, form_obj, section.nested_section)
           concat set_nested_form_fields(form_obj, section)
         end
       end
@@ -116,6 +118,12 @@ module CmAdmin
             end)
           end
         end
+      end
+
+      def set_nested_section_form_fields(resource, form_obj, nested_section)
+        return if nested_section.blank? || !nested_section.display_if.call(form_obj.object)
+
+        create_sections(resource, form_obj, nested_section)
       end
 
       def set_nested_form_fields(form_obj, section)
