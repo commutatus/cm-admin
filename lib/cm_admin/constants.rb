@@ -34,6 +34,10 @@ module CmAdmin
     },
     custom_action: {
       verb: :post
+    },
+    custom_action_modal: {
+      verb: :get,
+      path: ':id/custom_action_modal/:action_name'
     }
   }
   REJECTABLE_FIELDS = %w(id created_at updated_at)
