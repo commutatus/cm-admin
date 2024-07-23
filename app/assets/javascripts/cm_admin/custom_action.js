@@ -9,10 +9,11 @@ document.addEventListener("turbo:load", function () {
     const modalContainer = $(
       "[data-behaviour='custom-action-modal-container']"
     );
-    if (!actionName || !modelName || !recordId || !modalContainer) return;
+    const routeMount = document.location.href.split("/")[3];
 
+    if (!actionName || !modelName || !recordId || !modalContainer) return;
     $.ajax({
-      url: `/cm_admin/${modelName}/${recordId}/custom_action_modal/${actionName}`,
+      url: `/${routeMount}/${modelName}/${recordId}/custom_action_modal/${actionName}`,
       method: "GET",
       success: function (response) {
         modalContainer.html(response);
