@@ -279,7 +279,6 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   slim
-  yard
 
 BUNDLED WITH
    2.5.13
