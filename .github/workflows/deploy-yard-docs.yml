@@ -19,6 +19,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+          name: github-pages # name of the artifact
           path: ./doc
           if-no-files-found: error
 
@@ -33,7 +34,7 @@ jobs:
 
     # Deploy to the github-pages environment
     environment:
-      name: github-pages
+      name: github-pages # artifact name
       url: ${{ steps.deployment.outputs.page_url }}
 
     # Specify runner + deployment step
