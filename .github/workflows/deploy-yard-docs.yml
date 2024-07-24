@@ -1,0 +1,23 @@
+name: Deploy Yard Docs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@477b21f02be01bcb8030d50f37cfec92bfa615b6
+        with:
+          ruby-version: 3.0.0
+      - name: Install Yard gem
+        run: gem install yard
+      - name: Build Yard Docs
+        run: yardoc lib/cm_admin/models/dsl_method.rb
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc
