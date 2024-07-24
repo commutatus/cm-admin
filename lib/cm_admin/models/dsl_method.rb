@@ -190,7 +190,7 @@ module CmAdmin
       # Get all columns for a model for index layout.
       # @param exclude [Array] the array of fields to exclude
       # @example Getting all columns
-      #  all_columns(exclude: ['id'])
+      #  all_db_columns(exclude: ['id'])
       def all_db_columns(options = {})
         field_names = instance_variable_get(:@ar_model)&.columns&.map { |x| x.name.to_sym }
         if options.include?(:exclude) && field_names
