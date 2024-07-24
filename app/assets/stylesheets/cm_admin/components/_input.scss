@@ -109,6 +109,18 @@
 }
 
 //checkbox-style
+
+.cm-checkbox-section {
+  width: 100%;
+  float: left;
+  .cm-checkbox-label {
+    float: left;
+    padding-left: 10px;
+  }
+  .cm-checkbox-tag {
+    float: left;
+  }
+}
 input.cm-checkbox[type="checkbox"] {
   position: relative;
   // display: block;
