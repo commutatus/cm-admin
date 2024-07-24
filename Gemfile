@@ -6,7 +6,6 @@ gem 'pundit'
 gem 'rake', '~> 12.0'
 gem 'rspec', '~> 3.0'
 gem 'slim'
-gem 'yard'
 
 group :development do
   gem 'rubocop', require: false
