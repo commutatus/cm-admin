@@ -89,7 +89,7 @@ module CmAdmin
     end
 
     def import
-      @model = Model.find_by({name: controller_name.titleize})
+      @model = Model.find_by({name: controller_name.classify})
       allowed_params = params.permit(file_import: [:associated_model_name, :import_file]).to_h
       file_import = ::FileImport.new(allowed_params[:file_import])
       file_import.added_by = Current.user
@@ -101,7 +101,7 @@ module CmAdmin
     end
 
     def import_form
-      @model = Model.find_by({name: controller_name.titleize})
+      @model = Model.find_by({name: controller_name.classify})
       respond_to do |format|
         format.html { render '/cm_admin/main/import_form' }
       end
