@@ -74,7 +74,11 @@ module CmAdmin
         rows.each do |row|
           concat(content_tag(:div, class: 'row') do
             row.row_fields.each do |field|
-              concat set_form_field(resource, form_obj, field)
+              if field.is_a?(CmAdmin::Models::Section)
+                concat set_nested_section_form_fields(resource, form_obj, Array(field))
+              else
+                concat set_form_field(resource, form_obj, field)
+              end
             end
           end)
         end
