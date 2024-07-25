@@ -41,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Deployment
 
-To deploy you can use github actions.
+To release a new version of the Gem you can use Github Actions.
 
 Go to Actions tab in your repository and click on `Bump Gem` workflow.
 You will see `Run workflow` button click on it and choose `Bump Type`, then click `Run Workflow` and it will bump the version of the gem and push the changes to the repository.
