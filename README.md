@@ -39,7 +39,7 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
-## Deployement
+## Deployment
 
 To deploy you can use github actions.
 
