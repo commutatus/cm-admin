@@ -148,3 +148,10 @@ var replaceAccordionTitle = function (element) {
       $(this).find(".accordion-collapse").attr("id", accordion_id);
     });
 };
+
+
+$(document).on('click', '.menu-item:has(.menu-sub-list)', function(event) {
+  event.stopPropagation();
+  const subMenu = this.querySelector('.menu-sub-list');
+  subMenu.classList.toggle('is-visible');
+});
