@@ -43,6 +43,12 @@ module CmAdmin
       def cm_show_section(section_name, col_size: nil, display_if: nil, html_attrs: nil, &block)
         cm_section(section_name, col_size: col_size, display_if: display_if, html_attrs: html_attrs, &block)
       end
+
+      def nested_form_section(section_name, display_if: nil, col_size: nil, html_attrs: nil, &block)
+        nested_section = CmAdmin::Models::Section.new(section_name, @current_action, @cm_model, display_if, html_attrs, col_size, &block)
+        nested_section.parent_section = self
+        @row_fields << nested_section
+      end
     end
   end
 end

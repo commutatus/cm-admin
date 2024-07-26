@@ -6,7 +6,8 @@ module CmAdmin
       # These list of fields are iterated and displayed on show/new/edit page.
       # It also contains rows, which contains sections and fields.
 
-      attr_accessor :section_name, :section_fields, :display_if, :current_action, :cm_model, :nested_table_fields, :rows, :col_size, :current_nested_field, :html_attrs
+      attr_accessor :section_name, :section_fields, :display_if, :current_action, :cm_model, :parent_section,
+                    :nested_table_fields, :rows, :col_size, :current_nested_field, :nested_sections, :html_attrs
 
       def initialize(section_name, current_action, cm_model, display_if, html_attrs, col_size, &block)
         @section_fields = []
@@ -19,6 +20,8 @@ module CmAdmin
         @html_attrs = html_attrs || {}
         @display_if = display_if || ->(arg) { true }
         @current_nested_field = nil
+        @nested_sections = []
+        @parent_section = nil
         instance_eval(&block)
       end
 
@@ -54,6 +57,13 @@ module CmAdmin
       def row(display_if: nil, html_attrs: nil, &block)
         @rows ||= []
         @rows << CmAdmin::Models::Row.new(@current_action, @model, display_if, html_attrs, &block)
+      end
+
+      def nested_form_section(section_name, display_if: nil, col_size: nil, html_attrs: nil, &block)
+        nested_section = CmAdmin::Models::Section.new(section_name, @current_action, @cm_model, display_if, html_attrs, col_size, &block)
+        nested_section.parent_section = self
+        @nested_sections ||= []
+        @nested_sections << nested_section
       end
     end
   end

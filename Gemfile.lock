@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cm-admin (1.5.35)
+    cm-admin (1.5.39)
       caxlsx_rails
       cocoon (~> 1.2.15)
       csv-importer (~> 0.8.2)
@@ -12,6 +12,7 @@ PATH
       rails (>= 6.0)
       slim (~> 4.1.0)
       webpacker (~> 5.4.3)
+      yard
 
 GEM
   remote: https://rubygems.org/
@@ -257,6 +258,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    yard (0.9.36)
     zeitwerk (2.6.15)
 
 PLATFORMS

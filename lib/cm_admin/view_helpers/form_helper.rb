@@ -65,7 +65,7 @@ module CmAdmin
 
       def create_sections(resource, form_obj, section)
         content_tag :div, class: 'col form-container' do
-          concat content_tag(:p, section.section_name, class: 'form-title')
+          concat content_tag(:p, section.section_name, class: 'form-title') unless section.parent_section.present?
           concat set_form_for_fields(resource, form_obj, section)
         end
       end
@@ -74,7 +74,11 @@ module CmAdmin
         rows.each do |row|
           concat(content_tag(:div, class: 'row') do
             row.row_fields.each do |field|
-              concat set_form_field(resource, form_obj, field)
+              if field.is_a?(CmAdmin::Models::Section)
+                concat set_nested_section_form_fields(resource, form_obj, Array(field))
+              else
+                concat set_form_field(resource, form_obj, field)
+              end
             end
           end)
         end
@@ -82,9 +86,11 @@ module CmAdmin
       end
 
       def set_form_for_fields(resource, form_obj, section)
-        content_tag(:div, class: 'form-container__inner') do
+        content_tag(:div, class: "form-container__inner #{section.parent_section.present? ? 'nested_section' : ''} #{section.html_attrs[:class]}", **section.html_attrs.except(:class)) do
+          concat content_tag(:h6, section.section_name, class: 'nested-form-title') if section.parent_section.present?
           concat create_row_inside_section(resource, form_obj, section.rows) if section.rows.present?
           concat set_form_fields(resource, form_obj, section.section_fields)
+          concat set_nested_section_form_fields(resource, form_obj, section.nested_sections)
           concat set_nested_form_fields(form_obj, section)
         end
       end
@@ -116,6 +122,17 @@ module CmAdmin
             end)
           end
         end
+      end
+
+      def set_nested_section_form_fields(resource, form_obj, nested_sections)
+        return if nested_sections.blank?
+
+        nested_sections.each do |nested_section|
+          next unless nested_section.display_if.call(form_obj.object)
+
+          concat create_sections(resource, form_obj, nested_section)
+        end
+        nil
       end
 
       def set_nested_form_fields(form_obj, section)

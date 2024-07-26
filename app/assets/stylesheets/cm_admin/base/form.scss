@@ -21,9 +21,16 @@
       @extend .h6, .fw-semibold;
       color: $primary-text-clr;
     }
+    .nested-form-title {
+      color: $nested-form-section-color;
+      margin-bottom: 16px;
+    }
     &__inner {
       @extend .card, .p-4;
       background-color: var(--bs-gray-100);
+      &.nested_section {
+        padding: 1rem !important;
+      }
     }
   }
 }
@@ -96,4 +103,10 @@
     appearance: auto;
     @extend .form-control;
   }
+}
+
+.nested-section {
+  padding: 1.5rem;
+  border: 1px solid $gray-300;
+  background-color: $gray-100;
 }
