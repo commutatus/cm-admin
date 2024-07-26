@@ -8,9 +8,15 @@ module CmAdmin
       # @param page_title [String] the title of page
       # @param page_description [String] the description of page
       # @param partial [String] the partial path of page
-      # @param view_type [Symbol] view type of page, `:table`, `:card` or `:kanban
+      # @param view_type [Symbol] view type of page +:table+, +:card+ or +:kanban+
       # @example Index page
-      #  cm_index(page_title: "Home", page_description: 'Home page', partial: 'pages/home', view_type: :table)
+      #  cm_index do
+      #    page_title 'Post'
+      #    column :title
+      #    column :created_at, field_type: :date, format: '%d %b, %Y'
+      #    column :updated_at, field_type: :date, format: '%d %b, %Y', header: 'Last Updated At'
+      #  end
+      # rdoc-image:/public/examples/cm_index.png
       def cm_index(page_title: nil, page_description: nil, partial: nil, view_type: :table)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'index')
         @current_action.set_values(page_title, page_description, partial, view_type)
@@ -19,12 +25,21 @@ module CmAdmin
 
       # Create a view for show page
       #
-      # @param page_title [String] or [Symbol] the title of page, if symbol passed, it will be a method name on model
+      # @param page_title [String | Symbol] the title of page, if symbol passed, it will be a method name on model
       # @param page_description [String] the description of page
       # @param partial [String] the partial path of page
       #
       # @example Showing page
-      #   cm_show(page_title: "Home", page_description: 'Home page', partial: 'pages/home')
+      #   cm_show page_title: :title do
+      #     tab :profile, '' do
+      #       cm_section 'Post Details' do
+      #         field :title
+      #         field :body, field_type: :rich_text
+      #         field :is_featured
+      #         field :status, field_type: :tag, tag_class: STATUS_TAG_COLOR
+      #       end
+      #     end
+      #   end
       def cm_show(page_title: nil, page_description: nil, partial: nil)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
         @current_action.set_values(page_title, page_description, partial)
@@ -39,7 +54,12 @@ module CmAdmin
       # @param redirect_to [Proc, nil] A lambda that takes the current object and redirect to path after update
       #
       # @example Editing page with a redirect
-      #   cm_edit(page_title: "Home", redirect_to: ->(current_object) { "/pages/#{current_object.id}" })
+      #   cm_edit(page_title: "Edit Post", page_description: 'Enter all details to edit Post', redirect_to: ->(current_object) { "/pages/#{current_object.id}" }) do
+      #     cm_section 'Details' do
+      #       form_field :title, input_type: :string
+      #       form_field :body, input_type: :rich_text
+      #     end
+      #   end
       def cm_edit(page_title: nil, page_description: nil, partial: nil, redirect_to: nil)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'edit')
         @current_action.set_values(page_title, page_description, partial, redirect_to)
@@ -54,7 +74,12 @@ module CmAdmin
       # @param redirect_to [Proc, nil] A lambda that takes the current object and redirect to path after create
       #
       # @example Creating a new page with a redirect
-      #   cm_new(page_title: "Home", redirect_to: ->(current_object) { "/pages/#{current_object.id}" })
+      #   cm_new(page_title: "Add Post", page_description: 'Enter all details to add Post', redirect_to: ->(current_object) { "/pages/#{current_object.id}" }) do
+      #     cm_section 'Details' do
+      #       form_field :title, input_type: :string
+      #       form_field :body, input_type: :rich_text
+      #     end
+      #   end
       def cm_new(page_title: nil, page_description: nil, partial: nil, redirect_to: nil)
         @current_action = CmAdmin::Models::Action.find_by(self, name: 'new')
         @current_action.set_values(page_title, page_description, partial, redirect_to)
@@ -102,13 +127,15 @@ module CmAdmin
       # @param tab_name [String] or [Symbol] the name of tab
       # @param custom_action [String] the name of custom action
       # @param associated_model [String] the name of associated model
-      # @param layout_type [String] the layout type of tab, `'cm_association_index'`, `'cm_association_show'`
+      # @param layout_type [String] the layout type of tab, +cm_association_index+, +cm_association_show+
       # @param layout [String] the layout of tab
       # @param partial [String] the partial path of tab
       # @param display_if [Proc] A lambda that takes the current object and return true or false
       #
       # @example Creating a tab
-      #  tab(:comments, 'comment', associated_model: 'comments', layout_type: 'cm_association_index')
+      #   tab :comments, 'comment', associated_model: 'comments', layout_type: 'cm_association_index' do
+      #     column :message
+      #   end
       def tab(tab_name, custom_action, associated_model: nil, layout_type: nil, layout: nil, partial: nil, display_if: nil, &block)
         if custom_action.to_s == ''
           @current_action = CmAdmin::Models::Action.find_by(self, name: 'show')
@@ -129,6 +156,10 @@ module CmAdmin
       # @param html_attrs [Hash] A hash that contains html attributes
       # @example Creating a row
       #  row(display_if: ->(current_object) { current_object.name == 'John' }, html_attrs: { class: 'row-class' }) do
+      #    cm_section 'Details' do
+      #      form_field :title, input_type: :string
+      #    end
+      #  end
       def row(display_if: nil, html_attrs: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Row.new(@current_action, @model, display_if, html_attrs, &block)
@@ -142,6 +173,8 @@ module CmAdmin
 
       # @example Creating a section
       #  cm_section('Basic Information', display_if: ->(current_object) { current_object.name == 'John' }, col_size: 6, html_attrs: { class: 'section-class' }) do
+      #    field :title, input_type: :string
+      #  end
       def cm_section(section_name, display_if: nil, col_size: nil, html_attrs: nil, &block)
         @available_fields[@current_action.name.to_sym] ||= []
         @available_fields[@current_action.name.to_sym] << CmAdmin::Models::Section.new(section_name, @current_action, @model, display_if, html_attrs, col_size, &block)
@@ -154,10 +187,10 @@ module CmAdmin
 
       # Create a new column on index layout.
       # @param field_name [String] the name of field
-      # @param field_type [Symbol] the type of field, :string, :text, :image, :date, :rich_text, :time, :integer, :decimal, :custom, :datetime, :money, :money_with_symbol, :link, :association, :enum, :tag, :attachment, :drawer
+      # @param field_type [Symbol] the type of field, +:string+, +:text+, +:image+, +:date+, +:rich_text+, +:time+, +:integer+, +:decimal+, +:custom+, +:datetime+, +:money+, +:money_with_symbol+, +:link+, +:association+, +:enum+, +:tag+, +:attachment+, +:drawer+
       # @param header [String] the header of field
       # @param format [String] the format of field for date field
-      # @param helper_method [Symbol] the helper method for field, should be defined in custom_helper.rb file, will take two arguments, `record` and `field_name`
+      # @param helper_method [Symbol] the helper method for field, should be defined in custom_helper.rb file, will take two arguments, +record+ and +field_name+
       # @param height [Integer] the height of field for image field
       # @param width [Integer] the width of field for image field
       # @params custom_link [String] the custom link for field
@@ -207,21 +240,29 @@ module CmAdmin
       # @param page_title [String] the title of page
       # @param page_description [String] the description of page
       # @param display_name [String] the display name of action
-      # @param verb [String] the verb of action, `get`, `post`, `put`, `patch` or `delete`
+      # @param verb [String] the verb of action, +get+, +post+, +put+, +patch+ or +delete+
       # @param layout [String] the layout of action
-      # @param layout_type [String] the layout type of action, `'cm_association_index'`, `'cm_association_show'`
+      # @param layout_type [String] the layout type of action, +cm_association_index+, +cm_association_show+
       # @param partial [String] the partial path of action
       # @param path [String] the path of action
-      # @param display_type [Symbol] the display type of action, `:button`, `:modal`
+      # @param display_type [Symbol] the display type of action, +:button+, +:modal+
       # @param modal_configuration [Hash] the configuration of modal
       # @param url_params [Hash] the url params of action
       # @param display_if [Proc] A lambda that takes the current object and return true or false
-      # @param route_type [String] the route type of action, `member`, `collection`
+      # @param route_type [String] the route type of action, +member+, +collection+
       # @param icon_name [String] the icon name of action, follow font-awesome icon name
       # @example Creating a custom action with modal
-      #  custom_action name: 'approve', route_type: 'member', verb: 'patch', icon_name: 'fa-regular fa-circle-check', path: ':id/approve', display_type: :modal, display_if: lambda(&:draft?), modal_configuration: { title: 'Approve Post', description: 'Are you sure you want approve this post', confirmation_text: 'Approve' }
+      #   custom_action name: 'approve', route_type: 'member', verb: 'patch', icon_name: 'fa-regular fa-circle-check', path: ':id/approve', display_type: :modal, display_if: lambda(&:draft?), modal_configuration: { title: 'Approve Post', description: 'Are you sure you want approve this post', confirmation_text: 'Approve' } do
+      #     post = ::Post.find(params[:id])
+      #     post.approved!
+      #     post
+      #   end
       # @example Creating a custom action with button
-      #  custom_action name: 'approve', route_type: 'member', verb: 'patch', icon_name: 'fa-regular fa-circle-check', path: ':id/approve', display_type: :button, display_if: lambda(&:draft?)
+      #   custom_action name: 'approve', route_type: 'member', verb: 'patch', icon_name: 'fa-regular fa-circle-check', path: ':id/approve', display_type: :button, display_if: lambda(&:draft?) do
+      #     post = ::Post.find(params[:id])
+      #     post.approved!
+      #     post
+      #   end
       def custom_action(name: nil, page_title: nil, page_description: nil, display_name: nil, verb: nil, layout: nil, layout_type: nil, partial: nil, path: nil, display_type: nil, modal_configuration: {}, url_params: {}, display_if: ->(_arg) { true }, route_type: nil, icon_name: 'fa fa-th-large', &block)
         action = CmAdmin::Models::CustomAction.new(
           page_title:, page_description:,
@@ -240,13 +281,17 @@ module CmAdmin
       # @param display_if [Proc] A lambda that takes the current object and return true or false
       # @param redirection_url [String] the redirection url of action
       # @param icon_name [String] the icon name of action, follow font-awesome icon name
-      # @param verb [String] the verb of action, `get`, `post`, `put`, `patch` or `delete`
-      # @param display_type [Symbol] the display type of action, `:page`, `:modal`
+      # @param verb [String] the verb of action, +get+, +post+, +put+, +patch+ or +delete+
+      # @param display_type [Symbol] the display type of action, +:page+, +:modal+
       # @param modal_configuration [Hash] the configuration of modal
-      # @param route_type [String] the route type of action, `member`, `collection`
+      # @param route_type [String] the route type of action, +member+, +collection+
       # @param partial [String] the partial path of action
       # @example Creating a bulk action
-      #  bulk_action name: 'approve', display_name: 'Approve', display_if: lambda { |arg| arg.draft? }, redirection_url: '/posts', icon_name: 'fa-regular fa-circle-check', verb: :patch, display_type: :modal, modal_configuration: { title: 'Approve Post', description: 'Are you sure you want approve this post', confirmation_text: 'Approve' }
+      #   bulk_action name: 'approve', display_name: 'Approve', display_if: lambda { |arg| arg.draft? }, redirection_url: '/posts', icon_name: 'fa-regular fa-circle-check', verb: :patch, display_type: :modal, modal_configuration: { title: 'Approve Post', description: 'Are you sure you want approve this post', confirmation_text: 'Approve' } do
+      #     posts = ::Post.where(id: params[:ids])
+      #     posts.each(&:approved!)
+      #     posts
+      #   end
       def bulk_action(name: nil, display_name: nil, display_if: ->(_arg) { true }, redirection_url: nil, icon_name: nil, verb: nil, display_type: nil, modal_configuration: {}, route_type: nil, partial: nil, &block)
         bulk_action = CmAdmin::Models::BulkAction.new(
           name:, display_name:, display_if:, modal_configuration:,
@@ -258,7 +303,7 @@ module CmAdmin
 
       # Create a new filter for model
       # @param db_column_name [String] the name of column
-      # @param filter_type [String] the type of filter, :date, :multi_select, :range, :search, :single_select
+      # @param filter_type [String] the type of filter, +:date+, +:multi_select+, +:range+, +:search+, +:single_select+
       # @param placeholder [String] the placeholder of filter
       # @param helper_method [String] the helper method for filter, should be defined in custom_helper.rb file
       # @param filter_with [Symbol] filter with scope name on model
@@ -268,12 +313,13 @@ module CmAdmin
       #  filter('created_at', :date)
       #  filter('status', :single_select, collection: ['draft', 'published'])
       #  filter('status', :multi_select,  helper_method: 'status_collection')
+      #  filter('age', :range)
       def filter(db_column_name, filter_type, options = {})
         @filters << CmAdmin::Models::Filter.new(db_column_name:, filter_type:, options:)
       end
 
       # Set sort direction for filters
-      # @param direction [Symbol] the direction of sort, `:asc`, `:desc`
+      # @param direction [Symbol] the direction of sort, +:asc+, +:desc+
       # @example Setting sort direction
       #  sort_direction(:asc)
       def sort_direction(direction = :desc)
