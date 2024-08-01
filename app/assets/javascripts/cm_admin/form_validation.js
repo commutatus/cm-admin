@@ -41,13 +41,3 @@ $(document).on("click", '[data-behaviour="form_submit"]', function (e) {
     return $('[data-behaviour="form_submit"]').button("loading");
   }
 });
-
-$(document).on("change", '[data-behaviour="multiple-checkbox"]', function (e) {
-  const inputField = e.target.previousElementSibling;
-
-  if (e.target.checked) {
-    inputField.setAttribute("disabled", "disabled");
-  } else {
-    inputField.removeAttribute("disabled");
-  }
-});

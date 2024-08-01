@@ -57,15 +57,15 @@ module CmAdmin
       def cm_switch_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)\
         content_tag :div, class: 'form-check form-switch' do
           concat form_obj.check_box cm_field.field_name,
-                             merge_wrapper_options(
-                               {
-                                 class: "field-control form-check-input #{required_class}",
-                                 disabled: cm_field.disabled.call(form_obj.object),
-                                 value:,
-                                 role: 'switch'
-                               }, cm_field.html_attrs
-                             )
-            concat content_tag(:div, cm_field.field_name.to_s.titleize, class: 'cm-switch-label')
+                                    merge_wrapper_options(
+                                      {
+                                        class: "field-control form-check-input #{required_class}",
+                                        disabled: cm_field.disabled.call(form_obj.object),
+                                        value:,
+                                        role: 'switch'
+                                      }, cm_field.html_attrs
+                                    )
+          concat content_tag(:div, cm_field.label, class: 'cm-switch-label')
         end
       end
 
@@ -239,12 +239,42 @@ module CmAdmin
         end
       end
 
-      def cm_check_box_field(form_obj, cm_field, value, required_class, target_action, _ajax_url)
-        format_check_box_options(value, form_obj, cm_field, required_class, target_action)
+      def cm_check_box_field(form_obj, cm_field, _value, required_class, target_action, _ajax_url)
+        content_tag :div, class: 'form-check' do
+          concat form_obj.check_box cm_field.field_name,
+                                    merge_wrapper_options(
+                                      {
+                                        class: "form-check-input #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
+                                        disabled: cm_field.disabled.call(form_obj.object),
+                                        data: {
+                                          field_name: cm_field.field_name,
+                                          target_action: target_action&.name,
+                                          target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
+                                        }
+                                      }, cm_field.html_attrs
+                                    )
+          concat content_tag(:div, cm_field.label, class: 'cm-checkbox-label')
+        end
       end
 
-      def cm_radio_button_field(form_obj, _cm_field, value, _required_class, _target_action, _ajax_url)
-        format_radio_button_options(value, form_obj)
+      def cm_multi_check_box_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
+        original_value = form_obj.object.send(cm_field.field_name)
+        content_tag :div do
+          concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
+                                                          value: nil, hidden: true
+          value.each do |key, val|
+            is_checked = original_value.include?(val)
+            concat format_check_box(val || key, key, form_obj, cm_field, required_class, is_checked)
+          end
+        end
+      end
+
+      def cm_radio_button_field(form_obj, cm_field, value, _required_class, _target_action, _ajax_url)
+        content_tag :div do
+          value.each do |key, val|
+            concat format_radio_option(val || key, key, cm_field, form_obj)
+          end
+        end
       end
 
       def cm_hidden_field(form_obj, cm_field, value, _required_class, _target_action, _ajax_url)
@@ -269,89 +299,23 @@ module CmAdmin
         end
       end
 
-      def format_check_box_options(value, form_obj, cm_field, required_class, target_action)
-        if value.instance_of?(Array)
-          format_check_box_array(value, form_obj, cm_field, required_class, target_action)
-        else
-          content_tag :div, class: 'cm-checkbox-section' do
-            concat single_checkbox_tag(value, form_obj, cm_field, required_class, target_action)
-            concat content_tag(:div, cm_field.field_name.to_s.titleize, class: 'cm-checkbox-label')
-          end
-        end
-      end
-
-      def format_check_box_array(options, form_obj, cm_field, required_class, target_action)
-        content_tag :div do
-          options.each do |key, val|
-            concat format_check_box(val, key, form_obj, cm_field, required_class, target_action)
-          end
-        end
-      end
-
-      def format_check_box(val, key, form_obj, cm_field, required_class, target_action)
-        content_tag :div, class: 'cm-checkbox-section' do
-          concat format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
+      def format_check_box(val, key, form_obj, cm_field, required_class, is_checked)
+        content_tag :div, class: 'form-check' do
+          concat check_box_tag "#{@model.name.underscore}[#{cm_field.field_name}][]", val, is_checked,
+                               merge_wrapper_options(
+                                 {
+                                   class: "form-check-input #{required_class}",
+                                   disabled: cm_field.disabled.call(form_obj.object)
+                                 }, cm_field.html_attrs
+                               )
           concat content_tag(:div, key, class: 'cm-checkbox-label')
         end
       end
 
-      def single_checkbox_tag(value, form_obj, cm_field, required_class, target_action)
-        content_tag :div, class: 'cm-checkbox-tag' do
-          concat form_obj.check_box cm_field.field_name,
-                         merge_wrapper_options(
-                           {
-                             class: "cm-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
-                             disabled: cm_field.disabled.call(form_obj.object),
-                             data: {
-                               field_name: cm_field.field_name,
-                               target_action: target_action&.name,
-                               target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path") : ''
-                             }
-                           }, cm_field.html_attrs
-                         )
-        end
-      end
-
-      def format_check_box_tag(val, form_obj, cm_field, required_class, target_action)
-        content_tag :div, class: 'cm-checkbox-tag' do
-          if val.present?
-            concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]", value: '0', hidden: true, disabled: 'disabled'
-          else
-            concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]", value: '0', hidden: true
-          end
-          concat check_box_tag "#{@model.name.underscore}[#{cm_field.field_name}][]", '1', val,
-                               merge_wrapper_options(
-                                 {
-                                   class: "cm-checkbox multiple-checkbox #{required_class} #{target_action.present? ? 'linked-field-request' : ''}",
-                                   disabled: cm_field.disabled.call(form_obj.object),
-                                   data: {
-                                     behaviour: 'multiple-checkbox',
-                                     target_action: target_action&.name,
-                                     target_url: target_action&.name ? cm_admin.send("#{@model.name.underscore}_#{target_action&.name}_path", ':param_1') : ''
-                                   }
-                                 }, cm_field.html_attrs
-                               )
-        end
-      end
-
-      def format_radio_button_options(options, form_obj)
-        content_tag :div do
-          options.each do |val, key|
-            concat format_radio_option(val, key, form_obj)
-          end
-        end
-      end
-
-      def format_radio_option(val, key, form_obj)
-        content_tag :div, class: 'cm-radio-section' do
-          concat format_radio_button(val, form_obj)
-          concat content_tag(:div, key, class: 'cm-radio-label')
-        end
-      end
-
-      def format_radio_button(val, form_obj)
-        content_tag :div, class: 'cm-radio-tag' do
-          concat form_obj.radio_button :level, val, class: 'field-control cm-radio'
+      def format_radio_option(val, key, cm_field, form_obj)
+        content_tag :div, class: 'form-check' do
+          concat form_obj.radio_button cm_field.field_name, val, merge_wrapper_options({ class: 'form-check-input' }, cm_field.html_attrs)
+          concat content_tag(:div, key, class: 'form-check-label')
         end
       end
 
