@@ -172,6 +172,17 @@ module CmAdmin
       end
     end
 
+    def cm_custom_action_modal(params)
+      scoped_model = "CmAdmin::#{@model.name}Policy::Scope".constantize.new(Current.user, @model.name.constantize).resolve
+      @ar_object = fetch_ar_object(scoped_model, params[:id])
+      if params[:action_name] == 'destroy'
+        render partial: '/layouts/destroy_action_modal', locals: { ar_object: @ar_object }
+      else
+        custom_action = @model.available_actions.select { |x| x.name == params[:action_name].to_s }.first
+        render partial: '/layouts/custom_action_modal', locals: { custom_action:, ar_object: @ar_object }
+      end
+    end
+
     def get_nested_table_fields(fields)
       nested_table_fields = []
       fields.each do |field|

@@ -1,21 +1,22 @@
 - custom_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :custom }
 - bulk_action_with_modals = @model.available_actions.select{ |act| act if act.display_type == :modal && act.action_type == :bulk_action }
 - destroy_action = @ar_object ? available_actions(@model, @ar_object, 'destroy') : nil
+
+div[data-behaviour="custom-action-modal-container"]
+
 - if @associated_model
   - custom_action_with_modals += @associated_model.available_actions.select{ |act| act if act.display_type == :modal }
+
 - if @current_action&.name == 'index'
   - bulk_action_with_modals.each do |bulk_action|
     = render partial: '/layouts/custom_action_modal', locals: { custom_action: bulk_action, ar_object: nil }
-  - @ar_object.data.each do |ar_object|
-    - custom_action_with_modals.each do |custom_action|
-      = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: ar_object }
-    - if destroy_action
-      = render partial: '/layouts/destroy_action_modal', locals: { ar_object: ar_object }
+
 - elsif @current_action&.name == 'show'
   - custom_action_with_modals.each do |custom_action|
-    = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object }
+    = render partial: '/layouts/custom_action_modal', locals: { custom_action: custom_action, ar_object: @ar_object  }
   - if destroy_action
       = render partial: '/layouts/destroy_action_modal', locals: { ar_object: @ar_object }
+
 - elsif @current_action&.action_type == :custom && @associated_ar_object&.data.present?
   - @associated_ar_object.data.each do |ar_object|
     - custom_action_with_modals.select{|custom_action| custom_action.model_name == @current_action.child_records.to_s.classify}.each do |custom_action|

@@ -27,7 +27,7 @@
                   i.fa.fa-trash
                 | Destroy
           - else
-            = link_to '', data: { bs_toggle: 'modal', bs_target: "##{@model.name.classify}DestroyModal-#{ar_object.id.to_s}" } do
+            div data={action: 'fetch-modal', model_name: "#{cm_model.name.underscore.pluralize}", action_name: "destroy", record_id: "#{ar_object.id.to_s}"}
               .popup-option
                 span
                   i.fa.fa-trash
@@ -42,7 +42,7 @@
                     i class="#{custom_action.icon_name}"
                   = custom_action_title(custom_action)
             - when :modal
-              = link_to '', data: { bs_toggle: 'modal', bs_target: "##{custom_action.name.classify}Modal-#{ar_object.id.to_s}" } do
+              div data={action: 'fetch-modal', model_name: "#{cm_model.name.underscore.pluralize}", action_name: "#{custom_action.name}", record_id: "#{ar_object.id.to_s}"}
                 .popup-option
                   span
                     i class="#{custom_action.icon_name}"

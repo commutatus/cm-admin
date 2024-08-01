@@ -16,7 +16,7 @@ CmAdmin::Engine.routes.draw do
         send(:post, 'import', to: "#{model.name.underscore}#import", as: "#{model.name.underscore}_import")
       end
     end
-    
+
     model.available_actions.sort_by {|act| act.name}.each do |act|
       scope model.name.tableize do
         # Define route only when action trail related field is present
