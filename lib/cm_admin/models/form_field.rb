@@ -9,7 +9,7 @@ module CmAdmin
                     :placeholder, :display_if, :html_attrs, :target, :col_size, :ajax_url, :helper_text
 
       VALID_INPUT_TYPES = %i[
-        integer decimal string single_select multi_select date date_time text switch custom_single_select
+        integer decimal string single_select multi_select date date_time text switch custom_single_select checkbox_group
         single_file_upload multi_file_upload hidden rich_text check_box radio_button custom_string custom_date
       ].freeze
 

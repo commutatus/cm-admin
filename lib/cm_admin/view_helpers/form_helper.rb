@@ -112,7 +112,7 @@ module CmAdmin
             concat input_field_for_column(form_obj, field)
           else
             concat(content_tag(:div, class: "form-field #{field.disabled ? 'disabled' : ''}") do
-              if field.label
+              if field.label && %i[check_box switch].exclude?(field.input_type)
                 concat form_obj.label field.label, field.label, class: 'field-label'
                 concat tag.br
               end
