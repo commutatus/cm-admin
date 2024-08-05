@@ -1,6 +1,11 @@
 name: Deploy Yard Docs
 
 on:
+  workflow_run:
+    workflows:
+      - Bump Gem
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
@@ -15,7 +20,7 @@ jobs:
       - name: Install Yard gem
         run: gem install yard
       - name: Build Yard Docs
-        run: yardoc lib/cm_admin/models/dsl_method.rb
+        run: yardoc
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
