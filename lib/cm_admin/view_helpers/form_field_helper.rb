@@ -257,7 +257,7 @@ module CmAdmin
         end
       end
 
-      def cm_multi_check_box_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
+      def cm_checkbox_group_field(form_obj, cm_field, value, required_class, _target_action, _ajax_url)
         original_value = form_obj.object.send(cm_field.field_name)
         content_tag :div do
           concat form_obj.text_field cm_field.field_name, name: "#{@model.name.underscore}[#{cm_field.field_name}][]",
