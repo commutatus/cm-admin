@@ -43,7 +43,7 @@ var getFilteredData = function(filterType, filterValue, filterColumn=null) {
   // searchParams that are already applied, if searchParams are present.
   var searchParams = window.location.search
   var searchParamsHash = getParamsAsObject(searchParams)
-  if (Object.keys(searchParamshash).length > 0) {
+  if (Object.keys(searchParamsHash).length > 0) {
     // Delete the previous applied value for multi_select filter from the
     // searchParams as altering the array with new and old value will create
     // more complicated logic. The new value is passed and structured in
