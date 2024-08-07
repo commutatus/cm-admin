@@ -1,7 +1,7 @@
 .import-page
   .import-page__header 
     h1.header-title #{@model.name} Import
-    p.header-description To import #{@model.name.underscore} data using the form below.
+    p.header-description To import #{@model.name.titleize.downcase} data using the form below.
   .import-page__body 
     h6.body-title Import data
     - if flash[:notice]
@@ -15,7 +15,7 @@
         a.btn-secondary href="#{cm_admin.send(:"#{@model.name.underscore}_import_path")}" Import new data
         / button.cta-btn.ms-2 Back to Page_Name
     - else
-      = simple_form_for(FileImport.new, url: "/admin/#{@model.ar_model.table_name}/import", method: :post, html: { class: "csv-import-form" }) do |f|
+      = simple_form_for(FileImport.new, url: "#{cm_admin.send(:"#{@model.name.underscore}_import_path")}", method: :post, html: { class: "csv-import-form" }) do |f|
         .form-card
           = f.input :associated_model_name, as: :hidden, placeholder: 'Enter product title', label: false, input_html: { value: @model.name }
           = f.input :import_file, as: :file, placeholder: 'Enter product title', label: false
