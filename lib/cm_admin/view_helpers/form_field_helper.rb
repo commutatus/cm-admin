@@ -1,7 +1,7 @@
 module CmAdmin
   module ViewHelpers
     module FormFieldHelper
-      def input_field_for_column(form_obj, cm_field)
+      def input_field_for_column(form_obj, cm_field, is_required: nil)
         return unless cm_field.display_if.call(form_obj.object)
 
         value = if cm_field.helper_method
@@ -12,7 +12,7 @@ module CmAdmin
                   form_obj.object.send(cm_field.field_name)
                 end
         # value = cm_field.helper_method ? send(cm_field.helper_method, form_obj.object, cm_field.field_name) : form_obj.object.send(cm_field.field_name)
-        is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence)
+        is_required = form_obj.object._validators[cm_field.field_name].map(&:kind).include?(:presence) if is_required.nil?
         required_class = is_required ? 'required' : ''
         target_action = @model.available_actions.select { |x| x.name == cm_field.target[:action_name].to_s }.first if cm_field.target.present?
         send("cm_#{cm_field.input_type}_field", form_obj, cm_field, value, required_class, target_action, cm_field.ajax_url)

@@ -106,17 +106,18 @@ module CmAdmin
 
       def set_form_field(resource, form_obj, field)
         return unless field.display_if.call(form_obj.object)
+        is_required = form_obj.object._validators[field.field_name].map(&:kind).include?(:presence)
 
         content_tag(:div, class: field.col_size ? "col-#{field.col_size}" : 'col') do
           if field.input_type.eql?(:hidden)
-            concat input_field_for_column(form_obj, field)
+            concat input_field_for_column(form_obj, field, is_required:)
           else
             concat(content_tag(:div, class: "form-field #{field.disabled ? 'disabled' : ''}") do
               if field.label && %i[check_box switch].exclude?(field.input_type)
-                concat form_obj.label field.label, field.label, class: 'field-label'
+                concat form_obj.label field.label, field.label, class: "field-label #{is_required ? 'required-label' : ''}"
                 concat tag.br
               end
-              concat input_field_for_column(form_obj, field)
+              concat input_field_for_column(form_obj, field, is_required:)
               concat tag.small field.helper_text, class: 'form-text text-muted' if field.helper_text.present?
               concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
             end)
