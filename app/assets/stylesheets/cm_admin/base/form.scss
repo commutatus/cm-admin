@@ -42,6 +42,10 @@
 
 .field-label {
   @extend .form-label;
+  &.required-label::after {
+    content: " *";
+    color: $red;
+  }
 }
 
 .field-control {
