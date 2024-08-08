@@ -10,13 +10,13 @@ module CmAdmin
   class Error < StandardError; end
 
   mattr_accessor :layout, :authorized_roles
-  mattr_accessor :included_models, :cm_admin_models
+  mattr_accessor :included_models, :cm_admin_models, :sidebar
   @@authorized_roles ||= []
   @@included_models ||= []
   @@cm_admin_models ||= []
+  @@sidebar ||= []
 
   class << self
-
     def webpacker
       @webpacker ||= ::Webpacker::Instance.new(
         root_path: CmAdmin::Engine.root,
@@ -38,11 +38,10 @@ module CmAdmin
     end
 
     def initialize_model(entity, &block)
-      if entity.is_a?(Class)
-        return if CmAdmin::Model.find_by({name: entity.name})
-        config.cm_admin_models << CmAdmin::Model.new(entity, &block)
-      end
+      return unless entity.is_a?(Class)
+      return if CmAdmin::Model.find_by({ name: entity.name })
+
+      config.cm_admin_models << CmAdmin::Model.new(entity, &block)
     end
   end
-
 end
