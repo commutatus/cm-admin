@@ -48,7 +48,7 @@ module CmAdmin
                     concat tag.i class: "#{model.icon_name}"
                   end +
                   model.model_name.titleize.pluralize +
-                  generate_sub_menu(model, sidebar_item)
+                  generate_sub_menu(sidebar_item)
                 end
               end
             elsif navigation_type == 'quick_links'
@@ -67,7 +67,7 @@ module CmAdmin
         end.join.html_safe
       end
 
-      def generate_sub_menu(model, sidebar_item)
+      def generate_sub_menu(sidebar_item)
         return ''.html_safe unless sidebar_item && sidebar_item[:include].present?
 
         sub_menu = sidebar_item[:include].map do |sub_item|
