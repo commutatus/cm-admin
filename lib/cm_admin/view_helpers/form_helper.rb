@@ -119,8 +119,11 @@ module CmAdmin
               end
               concat input_field_for_column(form_obj, field, is_required:)
               concat tag.small field.helper_text, class: 'form-text text-muted' if field.helper_text.present?
-              concat tag.p resource.errors[field.field_name].first if resource.errors[field.field_name].present?
-            end)
+              if resource.errors[field.field_name].present?
+                error_message = resource.errors[field.field_name].first
+                concat tag.p("#{field.label} #{error_message}".html_safe)
+              end
+      end)
           end
         end
       end

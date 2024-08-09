@@ -60,6 +60,7 @@
         margin-left: 8px;
         vertical-align: text-bottom;
       }
+
       &:hover {
         color: $white;
         background: rgba(255, 255, 255, 0.1);
@@ -67,20 +68,34 @@
     }
 
     .menu-sub-list {
+
+      display: none;
+
+      &.is-visible {
+        display: block; 
+      }
+      
+      .sub-menu-icon {
+        margin-right: 8px;
+      }
+
       .menu-sub-item {
         @include font($size: $t4-text, $color: $ink-lightest-clr);
-        padding: 8px 8px 8px 45px;
+        padding: 8px 24px;
         transition: all 0.2s linear;
         &:hover {
           color: $white;
           background: rgba(255, 255, 255, 0.1);
         }
       }
+
     }
     .menu-link {
       color: inherit;
       text-decoration: none;
     }
+
+
   }
 
   &__tabs-wrapper {
